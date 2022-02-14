@@ -4,24 +4,16 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsControlModule;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.TimedRobot;
-
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.InvertType;
-
-//import edu.wpi.first.wpilibj.DoubleSolenoid;
-//import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-//import edu.wpi.first.wpilibj.PneumaticsModuleType;
-
+import frc.robot.logging.Logger;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import frc.robot.OI;
-import frc.robot.Pneumatics.AirCompressor;
-import frc.robot.Pneumatics.Piston;
+import frc.robot.pneumatics.AirCompressor;
+import frc.robot.pneumatics.Piston;
 
 public class Robot extends TimedRobot {
   
@@ -34,6 +26,8 @@ public class Robot extends TimedRobot {
   private AirCompressor compressor = new AirCompressor(3, PneumaticsModuleType.CTREPCM);
   private Piston leftShifter = new Piston(3, PneumaticsModuleType.CTREPCM, 2, 5);
   private Piston rightShifter = new Piston(3, PneumaticsModuleType.CTREPCM, 1, 4);
+
+  public static final String kDate = "2022_14_14_";
 
   @Override
   public void robotInit() {
@@ -52,7 +46,8 @@ public class Robot extends TimedRobot {
     rightMaster.setInverted(true);
     leftSlave.setInverted(InvertType.FollowMaster);
     rightSlave.setInverted(InvertType.FollowMaster);
-  
+
+    Logger.startLog();
   }
   
   @Override
@@ -100,5 +95,13 @@ public class Robot extends TimedRobot {
     SmartDashboard.putBoolean(" Compressor Enabled ", enabled);
     SmartDashboard.putBoolean(" Pressure Switch ", pressureSwitch);
     SmartDashboard.putNumber(" Compressor Current ", current);
+
+    Logger.logDriveToCSV(leftMaster, rightMaster, leftSlave, rightSlave);
   }
+
+  @Override
+  public void disabledInit() {
+    Logger.stopLog();
+  }
+
 }
