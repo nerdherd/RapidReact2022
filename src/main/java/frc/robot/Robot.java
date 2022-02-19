@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.kinematics.DifferentialDriveKinematics;
 import edu.wpi.first.wpilibj.PneumaticsControlModule;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -11,9 +12,10 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import frc.robot.logging.Logger;
+import frc.robot.subsystems.pneumatics.AirCompressor;
+import frc.robot.subsystems.pneumatics.Piston;
+import frc.robot.constants.DriveConstants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.pneumatics.AirCompressor;
-import frc.robot.pneumatics.Piston;
 
 public class Robot extends TimedRobot {
   
@@ -28,10 +30,12 @@ public class Robot extends TimedRobot {
   private Piston rightShifter = new Piston(3, PneumaticsModuleType.CTREPCM, 1, 4);
 
   public static final String kDate = "2022_14_14_";
+  public DifferentialDriveKinematics kinematics;
 
   @Override
   public void robotInit() {
 
+    kinematics = new DifferentialDriveKinematics(DriveConstants.kTrackWidth);
     pcm = new PneumaticsControlModule(3);
 
     rightMaster = new TalonFX(30);

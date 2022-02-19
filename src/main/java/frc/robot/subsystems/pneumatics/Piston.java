@@ -1,4 +1,4 @@
-package frc.robot.pneumatics;
+package frc.robot.subsystems.pneumatics;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
