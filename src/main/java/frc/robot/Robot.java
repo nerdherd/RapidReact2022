@@ -9,11 +9,17 @@ import edu.wpi.first.wpilibj.PneumaticsControlModule;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.TimedRobot;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import frc.robot.logging.Logger;
+//import frc.robot.subsystems.Arm;
+//import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.pneumatics.AirCompressor;
 import frc.robot.subsystems.pneumatics.Piston;
+import frc.robot.commands.MoveArm;
+//import frc.robot.commands.MoveElevator;
+//import frc.robot.constants.ClimberConstants;
 import frc.robot.constants.DriveConstants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -23,11 +29,15 @@ public class Robot extends TimedRobot {
   private TalonFX leftMaster; // Channel 16 on CAN, 0 on PDP
   private TalonFX rightSlave; // Channel 31 on CAN, 15 on PDP
   private TalonFX leftSlave; // Channel 17 on CAN, 1 on PDP
+  private TalonFX elevator;
+  private TalonSRX arm;
   private PneumaticsControlModule pcm;
 
   private AirCompressor compressor = new AirCompressor(3, PneumaticsModuleType.CTREPCM);
   private Piston leftShifter = new Piston(3, PneumaticsModuleType.CTREPCM, 2, 5);
   private Piston rightShifter = new Piston(3, PneumaticsModuleType.CTREPCM, 1, 4);
+  //public static Elevator elevator = new Elevator();
+  //public static Arm arm = new Arm(); // Insert all ff values as params
 
   public static final String kDate = "2022_14_14_";
   public DifferentialDriveKinematics kinematics;
@@ -42,6 +52,8 @@ public class Robot extends TimedRobot {
     leftMaster = new TalonFX(16);
     rightSlave = new TalonFX(31);  
     leftSlave = new TalonFX(17);
+    arm = new TalonSRX(15);
+    elevator = new TalonFX(40);
 
     leftSlave.follow(leftMaster);
     rightSlave.follow(rightMaster);
@@ -57,6 +69,17 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() { 
     compressor.enableDigital();
+  }
+
+  @Override
+  public void robotPeriodic() {
+    //elevator.reportToSmartDashboard();
+
+    SmartDashboard.putNumber(" Arm Position ", arm.getSelectedSensorPosition());
+    SmartDashboard.putNumber(" Elevator Position ", elevator.getSelectedSensorPosition());
+    //SmartDashboard.putNumber(" Elevator Position ", Elevator.elevator.getSelectedSensorPosition());
+    //SmartDashboard.putData(" Move Elevator ", new MoveElevator());
+    //SmartDashboard.putData(" Move Arm ", new MoveArm());
   }
 
   @Override
