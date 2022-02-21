@@ -12,12 +12,12 @@ import edu.wpi.first.wpilibj2.command.TrapezoidProfileSubsystem;
 public class Arm extends TrapezoidProfileSubsystem {
     
     public static TalonSRX arm;
-    private final ArmFeedforward feedforward = new ArmFeedforward(ClimberConstants.kArmStaticGain, ClimberConstants.kArmGravityGain, ClimberConstants.kArmVelocityGain);
+    public final ArmFeedforward feedforward = new ArmFeedforward(ClimberConstants.kArmStaticGain, ClimberConstants.kArmGravityGain, ClimberConstants.kArmVelocityGain);
 
-    private double angleOffset = 0;
-    private double angleRatio = 0;
-    private double gravityFF = 0;
-    private double staticFF = 0;
+    public double angleOffset = ClimberConstants.kAngleOffset;
+    public double angleRatio = ClimberConstants.kAngleRatio;
+    public double gravityFF = ClimberConstants.kGravityFF;
+    public double staticFF = ClimberConstants.kStaticFF;
 
     public Arm(double angleOffset, double angleRatio, double gravityFF, double staticFF) {
         super(
@@ -64,6 +64,10 @@ public class Arm extends TrapezoidProfileSubsystem {
             arm.set(ControlMode.MotionMagic, angleToTicks(angle), DemandType.ArbitraryFeedForward, 
               getFFIfMoving());
         }
+    }
+
+    public double getMotorOutputVoltage() {
+        return arm.getMotorOutputVoltage();
     }
 
     public double getAngle() {

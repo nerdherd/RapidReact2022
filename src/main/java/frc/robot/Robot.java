@@ -13,13 +13,13 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import frc.robot.logging.Logger;
-//import frc.robot.subsystems.Arm;
-//import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Arm;
+import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.pneumatics.AirCompressor;
 import frc.robot.subsystems.pneumatics.Piston;
 import frc.robot.commands.MoveArm;
-//import frc.robot.commands.MoveElevator;
-//import frc.robot.constants.ClimberConstants;
+import frc.robot.commands.MoveElevator;
+import frc.robot.constants.ClimberConstants;
 import frc.robot.constants.DriveConstants;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -29,8 +29,8 @@ public class Robot extends TimedRobot {
   private TalonFX leftMaster; // Channel 16 on CAN, 0 on PDP
   private TalonFX rightSlave; // Channel 31 on CAN, 15 on PDP
   private TalonFX leftSlave; // Channel 17 on CAN, 1 on PDP
-  private TalonFX elevator;
-  private TalonSRX arm;
+  public TalonFX elevator;
+  public static TalonSRX arm;
   private PneumaticsControlModule pcm;
 
   private AirCompressor compressor = new AirCompressor(3, PneumaticsModuleType.CTREPCM);
@@ -77,9 +77,10 @@ public class Robot extends TimedRobot {
 
     SmartDashboard.putNumber(" Arm Position ", arm.getSelectedSensorPosition());
     SmartDashboard.putNumber(" Elevator Position ", elevator.getSelectedSensorPosition());
+
     //SmartDashboard.putNumber(" Elevator Position ", Elevator.elevator.getSelectedSensorPosition());
-    //SmartDashboard.putData(" Move Elevator ", new MoveElevator());
-    //SmartDashboard.putData(" Move Arm ", new MoveArm());
+    SmartDashboard.putData(" Move Elevator ", new MoveElevator());
+    SmartDashboard.putData(" Move Arm ", new MoveArm());
   }
 
   @Override
@@ -123,7 +124,12 @@ public class Robot extends TimedRobot {
     SmartDashboard.putBoolean(" Pressure Switch ", pressureSwitch);
     SmartDashboard.putNumber(" Compressor Current ", current);
 
-    Logger.logDriveToCSV(leftMaster, rightMaster, leftSlave, rightSlave);
+    SmartDashboard.putNumber(" Arm Voltage", arm.getMotorOutputVoltage());
+    SmartDashboard.putNumber(" Arm Current", arm.getStatorCurrent());
+    SmartDashboard.putNumber(" Elevator Voltage", elevator.getMotorOutputVoltage());
+    SmartDashboard.putNumber(" Elevator Current", elevator.getStatorCurrent());
+
+    Logger.logDriveToCSV(leftMaster, rightMaster, leftSlave, rightSlave, arm, elevator);
   }
 
   @Override

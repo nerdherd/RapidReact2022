@@ -14,6 +14,11 @@ public class ClimberConstants {
     public static final double kArmMaxVelocity = 0;
     public static final double kArmMaxAcceleration = 0;
 
+    public static final double kAngleOffset = 0;
+    public static final double kAngleRatio = 0;
+    public static final double kGravityFF = 0;
+    public static final double kStaticFF = 0;
+
     // static gravity velocity
     // set power for certain amount of time
     // public static final double kArmCurrent = 0;

@@ -8,10 +8,13 @@ import java.nio.file.Paths;
 import java.util.function.Supplier;
 
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.Timer;
+import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Arm;
 
 public class Logger {
     
@@ -51,7 +54,8 @@ public class Logger {
 			try {
 				m_writer = new FileWriter(m_file);
 				m_writer.append(
-						"Time, RightPosition, LeftPosition, RightVelocity, LeftVelocity, RightVoltage, LeftVoltage, RightMasterCurrent, LeftMasterCurrent\n");
+						"Time, RightPosition, LeftPosition, RightVelocity, LeftVelocity, RightVoltage, LeftVoltage, RightMasterCurrent, LeftMasterCurrent" 
+						+ "ArmPosition, ArmCurrent, ArmVoltage, ElevatorPosition, ElevatorCurrent, ElevatorVoltage\n");
 				m_writer.flush();
 				m_logStartTime = Timer.getFPGATimestamp();
 			} catch (IOException e) {
@@ -71,7 +75,7 @@ public class Logger {
 		}
 	}
 
-    public static void logDriveToCSV(TalonFX leftMaster, TalonFX rightMaster, TalonFX leftFollower, TalonFX rightFollower) {
+    public static void logDriveToCSV(TalonFX leftMaster, TalonFX rightMaster, TalonFX leftFollower, TalonFX rightFollower, TalonSRX arm, TalonFX elevator) {
         if (!writeException) {
 			try {
 				double timestamp = Timer.getFPGATimestamp() - m_logStartTime;
@@ -84,7 +88,13 @@ public class Logger {
 						+ String.valueOf(rightMaster.getBusVoltage()) + ","
 						+ String.valueOf(leftMaster.getBusVoltage()) + ","
 						+ String.valueOf(rightMaster.getSupplyCurrent()) + ","
-						+ String.valueOf(leftMaster.getSupplyCurrent()) + "\n");
+						+ String.valueOf(leftMaster.getSupplyCurrent()) + ","
+						+ String.valueOf(arm.getSelectedSensorPosition() + ","
+						+ String.valueOf(arm.getStatorCurrent()) + ",")
+						+ String.valueOf(arm.getMotorOutputVoltage()) + ","
+						+ String.valueOf(elevator.getSelectedSensorPosition()) + ","
+						+ String.valueOf(elevator.getStatorCurrent()) + ","
+						+ String.valueOf(elevator.getMotorOutputVoltage()) + "\n");
 				m_writer.flush();
 			} catch (IOException e) {
 				e.printStackTrace();
