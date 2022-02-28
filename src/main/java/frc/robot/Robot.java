@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
 import frc.robot.Pneumatics.AirCompressor;
 import frc.robot.Pneumatics.Piston;
+import frc.robot.drive.Drivetrain;
 
 public class Robot extends TimedRobot {
   
@@ -36,69 +37,19 @@ public class Robot extends TimedRobot {
   private Piston rightShifter = new Piston(3, PneumaticsModuleType.CTREPCM, 1, 4);
 
   @Override
-  public void robotInit() {
-
-    pcm = new PneumaticsControlModule(3);
-
-    rightMaster = new TalonFX(30);
-    leftMaster = new TalonFX(16);
-    rightSlave = new TalonFX(31);  
-    leftSlave = new TalonFX(17);
-
-    leftSlave.follow(leftMaster);
-    rightSlave.follow(rightMaster);
-
-    // Inverted the right side
-    rightMaster.setInverted(true);
-    leftSlave.setInverted(InvertType.FollowMaster);
-    rightSlave.setInverted(InvertType.FollowMaster);
+  public void robotInit() { 
+    Drivetrain.setupDrivetrain();
   
   }
   
   @Override
   public void teleopInit() { 
-    compressor.enableDigital();
+    Drivetrain.compressor.enableDigital();
   }
 
   @Override
   public void teleopPeriodic() { 
-
-    double leftInput = OI.xboxController.getLeftY();
-    double rightInput = OI.xboxController.getRightY();
-
-    rightMaster.set(ControlMode.PercentOutput, rightInput);
-    leftMaster.set(ControlMode.PercentOutput, leftInput);
-
-    // Pneumatics values
-    boolean enabled = compressor.enabled();
-    boolean pressureSwitch = compressor.getPressureSwitchValue();
-    double current = compressor.getCurrent();
-
-    // Gear shifting
-    if (OI.xboxController.getAButtonPressed()) {
-      // Shifts to high gear
-      leftShifter.setForwards();
-      rightShifter.setForwards();
-      SmartDashboard.putString(" Button State ", "A");
-      SmartDashboard.putBoolean(" Shifter ", leftShifter.isForwards());
-    }
-
-    if (OI.xboxController.getBButtonPressed()) {
-      // Shifts to low gear
-      leftShifter.setReverse();
-      rightShifter.setReverse();
-      SmartDashboard.putString(" Button State ", "B");
-      SmartDashboard.putBoolean(" Shifter ", leftShifter.isReverse());
-    }
-
-    // Updates SmartDashboard
-    SmartDashboard.putNumber(" Right Master Current ", rightMaster.getSupplyCurrent());
-    SmartDashboard.putNumber(" Right Slave Current ", rightSlave.getSupplyCurrent());
-    SmartDashboard.putNumber(" Left Master Current ", leftMaster.getSupplyCurrent());
-    SmartDashboard.putNumber(" Left Slave Current ", leftSlave.getSupplyCurrent());
-
-    SmartDashboard.putBoolean(" Compressor Enabled ", enabled);
-    SmartDashboard.putBoolean(" Pressure Switch ", pressureSwitch);
-    SmartDashboard.putNumber(" Compressor Current ", current);
+    Drivetrain.driveControllerMovement();
+    Drivetrain.updateSmartDashboardForDrivetrain();
   }
 }

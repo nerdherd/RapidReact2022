@@ -1,7 +1,7 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.PS4Controller;
 
 public class OI {
-    static XboxController xboxController = new XboxController(0);
+    public static PS4Controller ps4Controller = new PS4Controller(0);
 }
