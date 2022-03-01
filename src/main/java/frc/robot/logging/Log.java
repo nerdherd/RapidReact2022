@@ -33,10 +33,7 @@ public class Log {
     
     log = BadLog.init(getDesiredFile(directory, filename));
     createTopic("Time", () -> Timer.getFPGATimestamp());
-    // for (Loggable loggableItem : toLog) {
-    //   loggableItem.initLoggingData();
-    // }
-    // createTopic("Arm" + "/Position", () -> Robot.arm.getSelectedSensorPosition());
+
     createTopic("RightMaster" + "/Voltage", () -> Drivetrain.rightMaster.getMotorOutputVoltage());
     createTopic("LeftMaster" + "/Voltage", () -> Drivetrain.leftMaster.getMotorOutputVoltage());
     createTopic("RightFollower" + "/Voltage", () -> Drivetrain.rightSlave.getMotorOutputVoltage());
@@ -60,22 +57,28 @@ public class Log {
       if (!dir.isDirectory()) {
         dir.mkdir();
       }
+
       pathToUse = directory;
     } else {
       if (RobotBase.isReal()) {
         File defaultLogsFolder = new File(kDefaultPath);
+
         if (!(defaultLogsFolder.isDirectory())) {
           defaultLogsFolder.mkdir();
         }
+
         pathToUse = kDefaultPath;
+
       } else {
         pathToUse = System.getProperty("user.dir") + kDefaultSimPath;
       }
     }
 
     int fileNumber = 0;
+
     for (int i = 0; i < kMaxNumFiles; i++) {
       File file = (new File(pathToUse + filename + String.valueOf(i) + ".csv"));
+
       if (!file.exists() && !file.isDirectory()) {
         fileNumber = i;
         break;
@@ -96,5 +99,4 @@ public class Log {
   public static void createTopicStr(String name, Supplier<String> toLog) {
     BadLog.createTopicStr(name, "ul", toLog);
   }
-
 }
