@@ -7,6 +7,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.PneumaticsControlModule;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
 
@@ -83,7 +84,12 @@ public class Drivetrain {
     }
 
     // ====================== AUTONOMOUS FUNCTIONS ====================== //
-    public void drive(float leftSpeed, float rightSpeed, float waitTime) {
+    
+    // Speed in percentage, waitTime in seconds
+    public static void drive(float leftSpeed, float rightSpeed, float waitTime) {
+      leftMaster.set(ControlMode.PercentOutput, leftSpeed);
+      rightMaster.set(ControlMode.PercentOutput, rightSpeed);
 
+      Timer.delay(waitTime);
     }
 }

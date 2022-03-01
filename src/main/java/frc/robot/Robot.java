@@ -20,21 +20,9 @@ import com.ctre.phoenix.motorcontrol.InvertType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import frc.robot.OI;
-import frc.robot.Pneumatics.AirCompressor;
-import frc.robot.Pneumatics.Piston;
 import frc.robot.drive.Drivetrain;
 
 public class Robot extends TimedRobot {
-  
-  private TalonFX rightMaster; // Channel 30 on CAN, 14 on PDP
-  private TalonFX leftMaster; // Channel 16 on CAN, 0 on PDP
-  private TalonFX rightSlave; // Channel 31 on CAN, 15 on PDP
-  private TalonFX leftSlave; // Channel 17 on CAN, 1 on PDP
-  private PneumaticsControlModule pcm;
-
-  private AirCompressor compressor = new AirCompressor(3, PneumaticsModuleType.CTREPCM);
-  private Piston leftShifter = new Piston(3, PneumaticsModuleType.CTREPCM, 2, 5);
-  private Piston rightShifter = new Piston(3, PneumaticsModuleType.CTREPCM, 1, 4);
 
   @Override
   public void robotInit() { 
@@ -51,5 +39,15 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() { 
     Drivetrain.driveControllerMovement();
     Drivetrain.updateSmartDashboardForDrivetrain();
+  }
+
+  @Override
+  public void autonomousInit() {
+
+  }
+
+  @Override
+  public void autonomousPeriodic() {
+    Drivetrain.drive(50, 50, 10);
   }
 }
