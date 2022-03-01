@@ -5,11 +5,11 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+
 import frc.robot.drive.Drivetrain;
 import frc.robot.logging.NerdyBadlog;
 
 public class Robot extends TimedRobot {
-  
   @Override
   public void robotInit() { 
     Drivetrain.setupDrivetrain();
@@ -25,5 +25,15 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() { 
     Drivetrain.driveControllerMovement();
     Drivetrain.updateSmartDashboardForDrivetrain();
+  }
+
+  @Override
+  public void autonomousInit() {
+
+  }
+
+  @Override
+  public void autonomousPeriodic() {
+    Drivetrain.drive(50, 50, 10);
   }
 }
