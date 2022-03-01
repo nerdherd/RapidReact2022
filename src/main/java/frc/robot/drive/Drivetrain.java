@@ -11,11 +11,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.OI;
 
 public class Drivetrain {
-    private static TalonFX rightMaster; // Channel 30 on CAN, 14 on PDP
-    private static TalonFX leftMaster; // Channel 16 on CAN, 0 on PDP
-    private static TalonFX rightSlave; // Channel 31 on CAN, 15 on PDP
-    private static TalonFX leftSlave; // Channel 17 on CAN, 1 on PDP
-    private static PneumaticsControlModule pcm;
+    public static TalonFX rightMaster; // Channel 30 on CAN, 14 on PDP
+    public static TalonFX leftMaster; // Channel 16 on CAN, 0 on PDP
+    public static TalonFX rightSlave; // Channel 31 on CAN, 15 on PDP
+    public static TalonFX leftSlave; // Channel 17 on CAN, 1 on PDP
 
     public static Compressor compressor;
     private static Piston leftShifter;
@@ -37,7 +36,6 @@ public class Drivetrain {
         rightSlave.setInverted(InvertType.FollowMaster);
 
         // Pneumatics setup
-        pcm = new PneumaticsControlModule(3);
         compressor = new Compressor(3, PneumaticsModuleType.CTREPCM);
         leftShifter = new Piston(3, PneumaticsModuleType.CTREPCM, 2, 5);
         rightShifter = new Piston(3, PneumaticsModuleType.CTREPCM, 1, 4);
