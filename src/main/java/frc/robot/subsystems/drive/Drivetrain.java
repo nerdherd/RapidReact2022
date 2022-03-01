@@ -1,14 +1,14 @@
-package frc.robot.drive;
+package frc.robot.subsystems.drive;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 import edu.wpi.first.wpilibj.Compressor;
-import edu.wpi.first.wpilibj.PneumaticsControlModule;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 import frc.robot.OI;
 
 public class Drivetrain {
@@ -17,11 +17,12 @@ public class Drivetrain {
     public static TalonFX rightSlave; // Channel 31 on CAN, 15 on PDP
     public static TalonFX leftSlave; // Channel 17 on CAN, 1 on PDP
 
-    public static Compressor compressor;
-    private static Piston leftShifter;
-    private static Piston rightShifter;
+    public static Compressor compressor; // Channel 3 on CAN
+    private static Piston leftShifter; // Channels 2 and 5
+    private static Piston rightShifter; // Channels 1 and 4
     
     // ======================= TELEOP FUNCTIONS ======================= //
+    
     public static void setupDrivetrain() {
         rightMaster = new TalonFX(30);
         leftMaster = new TalonFX(16);

@@ -15,12 +15,12 @@ import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Robot;
-import frc.robot.drive.Drivetrain;
+import frc.robot.subsystems.drive.Drivetrain;
 
 /**
  * Add your docs here.
  */
-public class NerdyBadlog {
+public class Log {
 
   private static final int kMaxNumFiles = 971;
   private static final String kDefaultPath = "/home/lvuser/logs/";
@@ -47,7 +47,7 @@ public class NerdyBadlog {
   public static void initAndLog(String directory, String filename, double period) {
     init(directory, filename);
     logger = new Notifier(() -> {
-      NerdyBadlog.log();
+      Log.log();
     });
     logger.startPeriodic(period);
   }
