@@ -9,31 +9,45 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Arm {
     public static TalonSRX arm = new TalonSRX(15);
 
-    private static double armKp;
-    private static double armKd;
+    private static double armKp = 1.0;
+    private static double armKd = 0.0002;
 
-    public static void spinArm(double speed, double waitTime) {
+    public static void moveArm(double speed, double waitTime) {
         arm.set(ControlMode.PercentOutput, speed);
 
         Timer.delay(waitTime);
+
+        arm.set(ControlMode.PercentOutput, 0);
     }
 
     public static void rotateArmToAngle(double target, double errorThreshold) {
-        double error = 0;
-        double oldError = 0;
+        double error = Math.abs(target - arm.getSelectedSensorPosition());
+        double oldError = Math.abs(target - arm.getSelectedSensorPosition());
         double armSpeed = 0;
 
-        while (error > Math.abs(errorThreshold)) {
+        while (error > errorThreshold) {
             oldError = error;
-            error = arm.getSelectedSensorPosition();
-            armSpeed = (armKp * error) + (armKd * (oldError - error) * 0.001);
+            error = Math.abs(target - arm.getSelectedSensorPosition());
+            armSpeed = (armKp * error * 0.001) + (armKd * (oldError - error) * 0.001 / 0.01);
 
-            spinArm(armSpeed, 0.001);
+            if (arm.getSelectedSensorPosition() < target) {
+                moveArm(armSpeed, 0.01);
+            } else if (arm.getSelectedSensorPosition() > target) {
+                moveArm((armSpeed * -1), 0.01);
+            }
+            
         }
 
         // Updates SmartDashboard
+        SmartDashboard.putNumber(" Target ", target);
+        SmartDashboard.putNumber(" Error ", error);
         SmartDashboard.putNumber(" Arm Speed ", armSpeed);
         SmartDashboard.putNumber(" Old Error ", oldError);
-        SmartDashboard.putNumber(" Error ", error);
+        
+        if (error < errorThreshold) {
+            SmartDashboard.putString(" Pos ", " True ");
+        } else {
+            SmartDashboard.putString(" Pos ", " False ");
+        }
     }
 }
