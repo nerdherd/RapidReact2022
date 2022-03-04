@@ -7,12 +7,15 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 
 import frc.robot.subsystems.drive.Drivetrain;
+import frc.robot.everybot.Everybot;
 import frc.robot.logging.Log;
 
 public class Robot extends TimedRobot {
   @Override
   public void robotInit() { 
     Drivetrain.setupDrivetrain();
+    Everybot.setUpEverybot();
+
     Log.initAndLog("/home/lvuser/logs/", "Test", 0.02);
   }
   
@@ -25,6 +28,8 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() { 
     Drivetrain.driveControllerMovement();
     Drivetrain.updateSmartDashboardForDrivetrain();
+
+    Everybot.shooterControllerMovement();
   }
 
   @Override
@@ -34,6 +39,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousPeriodic() {
-    Drivetrain.drive(-50, -50, 10);
+    Drivetrain.drive(-50, -50, 1);
   }
 }
