@@ -67,7 +67,7 @@ public class EverybotHeight extends TrapezoidProfileSubsystem{
     public void reportToSmartDashboard() {
         SmartDashboard.putNumber(" EHeight Current ", arm.getSupplyCurrent());
         SmartDashboard.putNumber(" EHeight Voltage ", arm.getMotorOutputVoltage());
-        SmartDashboard.putNumber(" EArm Position ", arm.getSelectedSensorPosition());
+        SmartDashboard.putNumber(" EHeight Position ", arm.getSelectedSensorPosition());
     }
 
     public double angleToTicks(double angle) {
