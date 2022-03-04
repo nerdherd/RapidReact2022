@@ -1,7 +1,7 @@
 package frc.robot.everybot;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.controller.ArmFeedforward;
@@ -39,14 +39,14 @@ public class EverybotHeight extends TrapezoidProfileSubsystem{
         kArmGravityGain,
         kArmVelocityGain);
     
-    public static TalonSRX arm;
+    public static TalonFX arm;
 
     public EverybotHeight() {
         super(
             new TrapezoidProfile.Constraints(kArmMaxVelocity, kArmMaxAcceleration)
         );
 
-        arm = new TalonSRX(15);
+        arm = new TalonFX(15);
         arm.configMotionAcceleration(kArmMotionAccel);
         arm.configMotionCruiseVelocity(kArmMotionCruiseVel);
         arm.configNeutralDeadband(kArmDeadband);
@@ -100,6 +100,10 @@ public class EverybotHeight extends TrapezoidProfileSubsystem{
 
     public double degreesToRadians(double deg) {
 		return deg * Math.PI / 180;
+    }
+
+    public static void resetElevatorEncoder() {
+        arm.setSelectedSensorPosition(0);
     }
 
 }

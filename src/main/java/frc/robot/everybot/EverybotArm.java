@@ -1,13 +1,13 @@
 package frc.robot.everybot;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class EverybotArm {
-    public static TalonSRX arm = new TalonSRX(0);
+    public static TalonFX arm = new TalonFX(15);
 
     private static double armKp = 1.0;
     private static double armKd = 0.0002;

@@ -5,9 +5,10 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.drive.Drivetrain;
 import frc.robot.everybot.Everybot;
+import frc.robot.everybot.EverybotHeight;
 import frc.robot.logging.Log;
 
 public class Robot extends TimedRobot {
@@ -30,11 +31,14 @@ public class Robot extends TimedRobot {
     Drivetrain.updateSmartDashboardForDrivetrain();
 
     Everybot.shooterControllerMovement();
+
+    // SmartDashboard.putData(" Reset Elevator Encoder ", EverybotHeight.resetElevatorEncoder());
+    // SmartDashboard.putNumber(" Elevator Position ", Everybot.arm.arm.getSelectedSensorPosition());
   }
 
   @Override
   public void autonomousInit() {
-
+    Everybot.arm.arm.setSelectedSensorPosition(0);
   }
 
   @Override
