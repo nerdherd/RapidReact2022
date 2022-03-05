@@ -9,11 +9,11 @@ import frc.robot.everybot.EverybotIntake;
 
 public class Everybot {
     public static EverybotIntake intake;
-    public static EverybotHeight arm;
+    public static EverybotArm arm;
 
     public static void setUpEverybot() {
         intake = new EverybotIntake();
-        arm = new EverybotHeight();
+        arm = new EverybotArm();
     }
 
     public static void shooterControllerMovement() {
@@ -22,24 +22,24 @@ public class Everybot {
         double highAngle = 0;
         double lowAngle = 0;
 
-        if (OI.ps4Controller.getL1ButtonPressed()) {
-            intake.intakeIn(intakePower);
+        if (OI.ps4Controller2.getL1ButtonPressed()) {
+            EverybotIntake.intakeIn(intakePower);
             SmartDashboard.putString(" Button State ", "L1");
         }
         
-        if (OI.ps4Controller.getL2ButtonPressed()) {
-            intake.intakeOut(outtakePower);
+        if (OI.ps4Controller2.getL2ButtonPressed()) {
+            EverybotIntake.intakeOut(outtakePower);
             SmartDashboard.putString(" Button State ", "L2");
         }
 
-        if (OI.ps4Controller.getR1ButtonPressed()) {
-            arm.setPositionMotionMagic(highAngle);
+        if (OI.ps4Controller2.getR1ButtonPressed()) {
+            arm.rotateArmToAngle(highAngle, 5);
             SmartDashboard.putString(" Button State ", "R1");
             SmartDashboard.putNumber(" High Angle ", highAngle);
         }
 
-        if (OI.ps4Controller.getR2ButtonPressed()) {
-            arm.setPositionMotionMagic(lowAngle);
+        if (OI.ps4Controller2.getR2ButtonPressed()) {
+            arm.rotateArmToAngle(lowAngle, 5);
             SmartDashboard.putString(" Button State ", "R2");
             SmartDashboard.putNumber(" Low Angle ", lowAngle);
         }

@@ -57,8 +57,8 @@ public class Drivetrain {
     public static void driveControllerMovement() {
       double leftInput = OI.ps4Controller.getLeftY();
       double rightInput = OI.ps4Controller.getRightY();
-      double prevLeftOutput = leftMaster.getMotorOutputVoltage();
-      double prevRightOutput = rightMaster.getMotorOutputVoltage();
+      double prevLeftOutput = leftMaster.getMotorOutputPercent();
+      double prevRightOutput = rightMaster.getMotorOutputPercent();
 
       // Low pass filter, output = (alpha * intended value) + (1-alpha) * previous value
       double leftOutput = (0.11765 * leftInput) + (0.88235 * prevLeftOutput);
@@ -79,8 +79,8 @@ public class Drivetrain {
       //   leftMaster.set(ControlMode.PercentOutput, leftInput);
       // }
 
-      rightMaster.set(ControlMode.PercentOutput, leftOutput);
-      leftMaster.set(ControlMode.PercentOutput, rightOutput);
+      rightMaster.set(ControlMode.PercentOutput, rightOutput);
+      leftMaster.set(ControlMode.PercentOutput, leftOutput);
 
   
       // Gear shifting
