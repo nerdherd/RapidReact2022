@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.subsystems.drive.Drivetrain;
 import frc.robot.everybot.Everybot;
@@ -12,6 +13,10 @@ import frc.robot.everybot.EverybotHeight;
 import frc.robot.logging.Log;
 
 public class Robot extends TimedRobot {
+  private double startTimestamp;
+  // private double currentTimestamp;
+  private double timeoutTimestamp = 1;
+
   @Override
   public void robotInit() { 
     Drivetrain.setupDrivetrain();
@@ -39,10 +44,18 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     Everybot.arm.arm.setSelectedSensorPosition(0);
+    double startTimestamp = Timer.getFPGATimestamp();
+    // Drivetrain.drive(-50, -50, 1);
   }
 
   @Override
   public void autonomousPeriodic() {
-    Drivetrain.drive(-50, -50, 1);
+    // double currentTimestamp = Timer.getFPGATimestamp();
+    if (Timer.getFPGATimestamp() - startTimestamp < timeoutTimestamp) {
+      Drivetrain.drive(-0.5, -0.5, 0);
+    }
+    else {
+      Drivetrain.setPowerZero();
+    }
   }
 }

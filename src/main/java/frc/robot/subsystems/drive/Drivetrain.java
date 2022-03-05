@@ -22,6 +22,10 @@ public class Drivetrain {
     public static Compressor compressor; // Channel 3 on CAN
     private static DoubleSolenoid leftShifter; // Channels 2 and 5
     private static DoubleSolenoid rightShifter; // Channels 1 and 4
+
+    private double modLeftInput;
+    private double modRightInput;
+    private static boolean highGear;
     
     // ======================= TELEOP FUNCTIONS ======================= //
     
@@ -45,10 +49,30 @@ public class Drivetrain {
       rightShifter = new DoubleSolenoid(3, PneumaticsModuleType.CTREPCM, 1, 4);
     }
 
+    public static double gainInput(double input) {
+      input = Math.pow(input, 3);
+      return input;
+    }
+
     public static void driveControllerMovement() {
       double leftInput = OI.ps4Controller.getLeftY();
       double rightInput = OI.ps4Controller.getRightY();
-  
+
+      // double modLeftInput = gainInput(leftInput);
+      // double modRightInput = gainInput(rightInput);
+
+      // double modScale = 0.05;
+      
+      // if (highGear == true) {
+      //   rightMaster.set(ControlMode.PercentOutput, modLeftInput * modScale);
+      //   leftMaster.set(ControlMode.PercentOutput, modRightInput * modScale);
+      // }
+
+      // if (highGear == false) {
+      //   rightMaster.set(ControlMode.PercentOutput, rightInput);
+      //   leftMaster.set(ControlMode.PercentOutput, leftInput);
+      // }
+
       rightMaster.set(ControlMode.PercentOutput, rightInput);
       leftMaster.set(ControlMode.PercentOutput, leftInput);
   
@@ -59,6 +83,7 @@ public class Drivetrain {
         leftShifter.set(Value.kForward);
         rightShifter.set(Value.kForward);
         SmartDashboard.putString(" Button State ", "A");
+        // highGear = true;
       }
 
       // Actually square button
@@ -67,7 +92,13 @@ public class Drivetrain {
         leftShifter.set(Value.kReverse);
         rightShifter.set(Value.kReverse);
         SmartDashboard.putString(" Button State ", "B");
+        // highGear = false;
       }
+    }
+
+    public static void setPowerZero() {
+      rightMaster.set(ControlMode.PercentOutput, 0);
+      leftMaster.set(ControlMode.PercentOutput, 0);
     }
 
     public static void updateSmartDashboardForDrivetrain() {
@@ -79,12 +110,16 @@ public class Drivetrain {
       SmartDashboard.putBoolean(" Compressor Enabled ", compressor.enabled());
       SmartDashboard.putBoolean(" Pressure Switch ", compressor.getPressureSwitchValue());
       SmartDashboard.putNumber(" Compressor Current ", compressor.getCurrent());
+
+      SmartDashboard.putNumber( " Left Axis ", OI.ps4Controller.getLeftY());
+      SmartDashboard.putNumber( " Right Axis ", OI.ps4Controller.getRightY());
+      // SmartDashboard.putNumber( " Modified Left Axis", leftmod)
     }
 
     // ====================== AUTONOMOUS FUNCTIONS ====================== //
     
     // Speed in percentage, waitTime in seconds
-    public static void drive(float leftSpeed, float rightSpeed, float waitTime) {
+    public static void drive(double leftSpeed, double rightSpeed, float waitTime) {
       leftMaster.set(ControlMode.PercentOutput, leftSpeed);
       rightMaster.set(ControlMode.PercentOutput, rightSpeed);
 
