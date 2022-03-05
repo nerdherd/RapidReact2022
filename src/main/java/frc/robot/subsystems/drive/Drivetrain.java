@@ -57,6 +57,12 @@ public class Drivetrain {
     public static void driveControllerMovement() {
       double leftInput = OI.ps4Controller.getLeftY();
       double rightInput = OI.ps4Controller.getRightY();
+      double prevLeftOutput = leftMaster.getMotorOutputVoltage();
+      double prevRightOutput = rightMaster.getMotorOutputVoltage();
+
+      // Low pass filter, output = (alpha * intended value) + (1-alpha) * previous value
+      double leftOutput = (0.11765 * leftInput) + (0.88235 * prevLeftOutput);
+      double rightOutput = (0.11765 * rightInput) + (0.88235 * prevRightOutput);
 
       // double modLeftInput = gainInput(leftInput);
       // double modRightInput = gainInput(rightInput);
@@ -73,8 +79,9 @@ public class Drivetrain {
       //   leftMaster.set(ControlMode.PercentOutput, leftInput);
       // }
 
-      rightMaster.set(ControlMode.PercentOutput, rightInput);
-      leftMaster.set(ControlMode.PercentOutput, leftInput);
+      rightMaster.set(ControlMode.PercentOutput, leftOutput);
+      leftMaster.set(ControlMode.PercentOutput, rightOutput);
+
   
       // Gear shifting
       // Actually triangle button
@@ -119,7 +126,7 @@ public class Drivetrain {
     // ====================== AUTONOMOUS FUNCTIONS ====================== //
     
     // Speed in percentage, waitTime in seconds
-    public static void drive(double leftSpeed, double rightSpeed, float waitTime) {
+    public static void drive(double leftSpeed, double rightSpeed, double waitTime) {
       leftMaster.set(ControlMode.PercentOutput, leftSpeed);
       rightMaster.set(ControlMode.PercentOutput, rightSpeed);
 

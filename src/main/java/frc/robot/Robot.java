@@ -52,7 +52,7 @@ public class Robot extends TimedRobot {
   public void autonomousPeriodic() {
     // double currentTimestamp = Timer.getFPGATimestamp();
     if (Timer.getFPGATimestamp() - startTimestamp < timeoutTimestamp) {
-      Drivetrain.drive(-0.5, -0.5, 0);
+      Drivetrain.drive(-0.5, -0.5, 0.5);
     }
     else {
       Drivetrain.setPowerZero();
