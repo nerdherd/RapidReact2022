@@ -16,9 +16,9 @@ import frc.robot.logging.Log;
 
 
 public class Robot extends TimedRobot {
-  private double startTimestamp;
+  private double m_startTimestamp;
   // private double currentTimestamp;
-  private double timeoutTimestamp = 3;
+  private double m_timeoutTimestamp = 3;
   public static TalonFX intakeArm = new TalonFX(15);
 
   @Override
@@ -33,9 +33,8 @@ public class Robot extends TimedRobot {
   public void teleopInit() { 
     Drivetrain.compressor.enableDigital();
     EverybotArm.resetElevatorEncoder();
-    System.out.println(" t init");
 
-    if (Timer.getFPGATimestamp() - startTimestamp < timeoutTimestamp) {
+    if (Timer.getFPGATimestamp() - m_startTimestamp < m_timeoutTimestamp) {
       Drivetrain.drive(-0.5, -0.5, 1);
     }
     else {
@@ -50,8 +49,6 @@ public class Robot extends TimedRobot {
 
     Everybot.shooterControllerMovement();
     Everybot.updateSmartDashboardForEverybot();
-
-    System.out.println("t period");
 
     /*if (OI.ps4Controller2.getR1ButtonPressed()) {
       startTimestamp = Timer.getFPGATimestamp();
@@ -75,19 +72,17 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousInit() {
     EverybotArm.resetElevatorEncoder();
-    startTimestamp = Timer.getFPGATimestamp();
+    m_startTimestamp = Timer.getFPGATimestamp();
     // Drivetrain.drive(-50, -50, 1);
-    System.out.println("a init");
   }
 
   @Override
   public void autonomousPeriodic() {
-    if (Timer.getFPGATimestamp() - startTimestamp < timeoutTimestamp) {
+    if (Timer.getFPGATimestamp() - m_startTimestamp < m_timeoutTimestamp) {
       Drivetrain.drive(-0.5, -0.5, 1);
     }
     else {
       Drivetrain.setPowerZero();
     }
-    System.out.println("a period");
   }
 }

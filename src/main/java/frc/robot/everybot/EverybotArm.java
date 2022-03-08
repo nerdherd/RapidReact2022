@@ -6,13 +6,11 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import frc.robot.RobotMap;
+import frc.robot.constants.EverybotConstants;
+
 public class EverybotArm {
-    public static TalonFX arm = new TalonFX(15);
-
-    private static double armKp = 1.0;
-    private static double armKd = 0.0002;
-    private static double armFF = 0.0;
-
+    public static TalonFX arm = new TalonFX(RobotMap.kEverybotArm);
 
     public static void moveArm(double speed, double waitTime) {
         arm.set(ControlMode.PercentOutput, speed);
@@ -35,7 +33,7 @@ public class EverybotArm {
         while (error > errorThreshold) {
             oldError = error;
             error = Math.abs(target - arm.getSelectedSensorPosition());
-            armSpeed = (armKp * error * 0.001) + (armKd * (oldError - error) * 0.001 / 0.01);// + (armFF * Math.cos(ticksToAngle(4096, 90.8) * 0.001));
+            armSpeed = (EverybotConstants.kEverybotArmkP * error * 0.001) + (EverybotConstants.kEverybotArmkD * (oldError - error) * 0.001 / 0.01) + (EverybotConstants.kEverybotArmFF * Math.cos(ticksToAngle(4096, 90.8) * 0.001));
 
             if (arm.getSelectedSensorPosition() < target) {
                 moveArm(armSpeed, 0.01);

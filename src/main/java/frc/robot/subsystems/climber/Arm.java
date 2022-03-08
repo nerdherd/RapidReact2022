@@ -6,8 +6,10 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+import frc.robot.RobotMap;
+
 public class Arm {
-    public static TalonSRX arm = new TalonSRX(15);
+    public static TalonSRX arm = new TalonSRX(RobotMap.kEverybotArm);
 
     private static double armKp = 1.0;
     private static double armKd = 0.0002;

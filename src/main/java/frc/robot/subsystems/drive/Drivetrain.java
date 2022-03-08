@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import frc.robot.OI;
+import frc.robot.RobotMap;
+import frc.robot.constants.DriveConstants;
 
 public class Drivetrain {
     public static TalonFX rightMaster; // Channel 30 on CAN, 14 on PDP
@@ -30,10 +32,10 @@ public class Drivetrain {
     // ======================= TELEOP FUNCTIONS ======================= //
     
     public static void setupDrivetrain() {
-      rightMaster = new TalonFX(30);
-      leftMaster = new TalonFX(16);
-      rightSlave = new TalonFX(31);  
-      leftSlave = new TalonFX(17);
+      rightMaster = new TalonFX(RobotMap.kRightMasterTalonID);
+      leftMaster = new TalonFX(RobotMap.kLeftMasterTalonID);
+      rightSlave = new TalonFX(RobotMap.kRightSlaveTalonID);  
+      leftSlave = new TalonFX(RobotMap.kLeftSlaveTalonID);
 
       leftSlave.follow(leftMaster);
       rightSlave.follow(rightMaster);
@@ -61,8 +63,8 @@ public class Drivetrain {
       double prevRightOutput = rightMaster.getMotorOutputPercent();
 
       // Low pass filter, output = (alpha * intended value) + (1-alpha) * previous value
-      double leftOutput = (0.11765 * leftInput) + (0.88235 * prevLeftOutput);
-      double rightOutput = (0.11765 * rightInput) + (0.88235 * prevRightOutput);
+      double leftOutput = (DriveConstants.kDriveAlpha * leftInput) + (DriveConstants.kDriveOneMinusAlpha * prevLeftOutput);
+      double rightOutput = (DriveConstants.kDriveAlpha * rightInput) + (DriveConstants.kDriveOneMinusAlpha * prevRightOutput);
 
       // double modLeftInput = gainInput(leftInput);
       // double modRightInput = gainInput(rightInput);
