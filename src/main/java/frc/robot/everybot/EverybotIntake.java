@@ -6,7 +6,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class EverybotIntake {
-    public static TalonSRX everybotIntake = new TalonSRX(0);
+    public static TalonSRX everybotIntake = new TalonSRX(14);
 
     public static double ticksToAngle(double ticksMotor, double ticksAngle) {
         double angle = ticksAngle * ticksMotor / 360 * (Math.PI / 180);

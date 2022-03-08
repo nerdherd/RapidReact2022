@@ -1,5 +1,8 @@
 package frc.robot.everybot;
 
+import java.util.ResourceBundle.Control;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -17,31 +20,46 @@ public class Everybot {
     }
 
     public static void shooterControllerMovement() {
-        double intakePower = 0.5;
-        double outtakePower = 0.5;
-        double highAngle = 0;
-        double lowAngle = 0;
+        
+        final double lowAngle = 0;
+        final double highAngle = -20073.00;
 
         if (OI.ps4Controller2.getL1ButtonPressed()) {
-            EverybotIntake.intakeIn(intakePower);
+            EverybotIntake.intakeIn(0.6);
             SmartDashboard.putString(" Button State ", "L1");
+            SmartDashboard.putNumber(" Stator Current ", intake.everybotIntake.getStatorCurrent());
+            SmartDashboard.putNumber(" Supply Current ", intake.everybotIntake.getSupplyCurrent());
+
         }
         
-        if (OI.ps4Controller2.getL2ButtonPressed()) {
-            EverybotIntake.intakeOut(outtakePower);
-            SmartDashboard.putString(" Button State ", "L2");
-        }
-
         if (OI.ps4Controller2.getR1ButtonPressed()) {
-            arm.rotateArmToAngle(highAngle, 5);
-            SmartDashboard.putString(" Button State ", "R1");
-            SmartDashboard.putNumber(" High Angle ", highAngle);
+            EverybotIntake.intakeOut(0.5);
+            SmartDashboard.putString(" Button State ", "L2");
+            SmartDashboard.putNumber(" Stator Current ", intake.everybotIntake.getStatorCurrent());
+            SmartDashboard.putNumber(" Supply Current ", intake.everybotIntake.getSupplyCurrent());
+
         }
 
-        if (OI.ps4Controller2.getR2ButtonPressed()) {
-            arm.rotateArmToAngle(lowAngle, 5);
-            SmartDashboard.putString(" Button State ", "R2");
-            SmartDashboard.putNumber(" Low Angle ", lowAngle);
+        if (OI.ps4Controller2.getTriangleButtonPressed()) {
+            EverybotIntake.intakeIn(0);
+            SmartDashboard.putString(" Button State ", "Triangle");
         }
+
+        if (OI.ps4Controller2.getSquareButtonPressed()) {
+            // EverybotArm.rotateArmToAngle(highAngle, 10);
+            EverybotArm.arm.set(ControlMode.PercentOutput, -0.16);
+            SmartDashboard.putString(" Button State ", "Square");
+        }
+
+        if (OI.ps4Controller2.getCircleButtonPressed()) {
+            // EverybotArm.rotateArmToAngle(lowAngle, 10);
+            EverybotArm.arm.set(ControlMode.PercentOutput, 0.16);
+            SmartDashboard.putString(" Button State " , "Circle");
+        }
+
+    }
+
+    public static void updateSmartDashboardForEverybot() {
+        SmartDashboard.putNumber(" Arm Position ", arm.arm.getSelectedSensorPosition());
     }
 }

@@ -11,6 +11,8 @@ public class EverybotArm {
 
     private static double armKp = 1.0;
     private static double armKd = 0.0002;
+    private static double armFF = 0.0;
+
 
     public static void moveArm(double speed, double waitTime) {
         arm.set(ControlMode.PercentOutput, speed);
@@ -18,6 +20,11 @@ public class EverybotArm {
         Timer.delay(waitTime);
 
         arm.set(ControlMode.PercentOutput, 0);
+    }
+
+    public static double ticksToAngle(double ticks, double ticksAngle) {
+        double angle = ticksAngle * ticks / 360 * (Math.PI / 180);
+        return angle;
     }
 
     public static void rotateArmToAngle(double target, double errorThreshold) {
@@ -28,7 +35,7 @@ public class EverybotArm {
         while (error > errorThreshold) {
             oldError = error;
             error = Math.abs(target - arm.getSelectedSensorPosition());
-            armSpeed = (armKp * error * 0.001) + (armKd * (oldError - error) * 0.001 / 0.01);
+            armSpeed = (armKp * error * 0.001) + (armKd * (oldError - error) * 0.001 / 0.01);// + (armFF * Math.cos(ticksToAngle(4096, 90.8) * 0.001));
 
             if (arm.getSelectedSensorPosition() < target) {
                 moveArm(armSpeed, 0.01);
@@ -50,4 +57,8 @@ public class EverybotArm {
             SmartDashboard.putString(" Pos ", " False ");
         }
     } 
+
+    public static void resetElevatorEncoder(){
+        arm.setSelectedSensorPosition(0);
+    }
 }
