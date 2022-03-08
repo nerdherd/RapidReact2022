@@ -8,9 +8,9 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Elevator {
-    public static TalonSRX elevator = new TalonSRX(8);
+    public static TalonSRX elevator = new TalonSRX(7);
 
-    private static double elevatorKp = 10;
+    private static double elevatorKp = 1.0;
     private static double elevatorKd = 0.0002;
     private static double elevatorFF = 0;
     
@@ -31,6 +31,12 @@ public class Elevator {
             oldError = error;
             error = Math.abs(target - elevator.getSelectedSensorPosition());
             elevatorSpeed = (elevatorKp * error * 0.001) + (elevatorKd * (oldError - error) * 0.001 / 0.01) + (elevatorFF * 0.001);
+
+            if (elevator.getSelectedSensorPosition() < target) {
+                moveElevator(elevatorSpeed, 0.01);
+            } else if (elevator.getSelectedSensorPosition() > target) {
+                moveElevator((elevatorSpeed * -1), 0.01);
+            }
         }
 
         SmartDashboard.putNumber(" Elevator Target ", target);
