@@ -4,9 +4,11 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 import frc.robot.RobotMap;
 
-public class EverybotIntake {
+public class EverybotIntake extends SubsystemBase {
     public static TalonSRX everybotIntake = new TalonSRX(RobotMap.kEverybotIntake);
 
     public static double ticksToAngle(double ticksMotor, double ticksAngle) {
@@ -23,5 +25,4 @@ public class EverybotIntake {
         everybotIntake.set(ControlMode.PercentOutput, -power);
         SmartDashboard.putNumber(" Voltage ", power);
     }
-
 }

@@ -10,12 +10,13 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.OI;
 import frc.robot.RobotMap;
 import frc.robot.constants.DriveConstants;
 
-public class Drivetrain {
+public class Drivetrain extends SubsystemBase {
     public static TalonFX rightMaster; // Channel 30 on CAN, 14 on PDP
     public static TalonFX leftMaster; // Channel 16 on CAN, 0 on PDP
     public static TalonFX rightSlave; // Channel 31 on CAN, 15 on PDP

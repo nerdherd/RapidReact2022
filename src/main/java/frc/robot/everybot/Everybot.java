@@ -6,13 +6,14 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.OI;
 import frc.robot.everybot.EverybotHeight;
 import frc.robot.everybot.EverybotIntake;
 import frc.robot.constants.EverybotConstants;
 
-public class Everybot {
+public class Everybot extends SubsystemBase {
     public static EverybotIntake intake;
     public static EverybotArm arm;
 

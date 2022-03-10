@@ -5,10 +5,10 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
 
-public class Arm {
+public class Arm extends SubsystemBase {
     public static TalonSRX arm = new TalonSRX(RobotMap.kEverybotArm);
 
     private static double armKp = 1.0;
