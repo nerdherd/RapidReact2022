@@ -1,15 +1,16 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.drive.Drivetrain;
+import frc.robot.subsystems.drive.AbstractDrivetrain;
 
-public class OpenLoopDrive extends CommandBase {
-    private Drivetrain m_drivetrain = new Drivetrain();
+public class AbstractOpenLoopDrive extends CommandBase {
+    private AbstractDrivetrain m_drive;
     private static double m_power;
 
-    public OpenLoopDrive(double power) {
+    public AbstractOpenLoopDrive(double power){
         m_power = power;
-        addRequirements(m_drivetrain);
+        // m_drive = drive;
+        addRequirements(m_drive);
     }
 
     // Called just before this Command runs the first time
@@ -20,7 +21,7 @@ public class OpenLoopDrive extends CommandBase {
     // Called repeatedly when this Command is scheduled to run
     @Override
     public void execute() {
-      Drivetrain.setPower(m_power, m_power);
+      m_drive.setPower(m_power, m_power);
     }
 
     // Make this return true when this Command no longer needs to run execute()

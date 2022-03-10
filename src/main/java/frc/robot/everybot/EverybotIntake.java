@@ -11,6 +11,10 @@ import frc.robot.RobotMap;
 public class EverybotIntake extends SubsystemBase {
     public static TalonSRX everybotIntake = new TalonSRX(RobotMap.kEverybotIntake);
 
+    public EverybotIntake() {
+        everybotIntake.setInverted(true);
+    }
+
     public static double ticksToAngle(double ticksMotor, double ticksAngle) {
         double angle = ticksAngle * ticksMotor / 360 * (Math.PI / 180);
         return angle;
@@ -24,5 +28,9 @@ public class EverybotIntake extends SubsystemBase {
     public static void intakeOut(double power) {
         everybotIntake.set(ControlMode.PercentOutput, -power);
         SmartDashboard.putNumber(" Voltage ", power);
+    }
+
+    public static void setPowerZero() {
+        everybotIntake.set(ControlMode.PercentOutput, 0);
     }
 }

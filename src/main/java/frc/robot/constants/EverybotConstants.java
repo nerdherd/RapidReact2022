@@ -11,4 +11,5 @@ public class EverybotConstants {
 
     public static final double kEverybotIntake = 0.5;
     public static final double kEverybotOuttake = 0.6;
+    public static final double kEverybotAutoOuttake = 0.3;
 }

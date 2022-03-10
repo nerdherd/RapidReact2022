@@ -9,16 +9,22 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.subsystems.drive.Drivetrain;
+import frc.robot.autos.AbstractBasicAuto;
+import frc.robot.constants.EverybotConstants;
 import frc.robot.everybot.Everybot;
 import frc.robot.everybot.EverybotArm;
 import frc.robot.everybot.EverybotHeight;
+import frc.robot.everybot.EverybotIntake;
 import frc.robot.logging.Log;
 
 
 public class Robot extends TimedRobot {
   private double m_startTimestamp;
   // private double currentTimestamp;
-  private double m_timeoutTimestamp = 3;
+  private double m_timeoutTimestamp = 5;
+  private double m_intakeTimestamp = 2;
+  private double m_currentTimestamp;
+  private double m_timeElapsed;
   public static TalonFX intakeArm = new TalonFX(15);
 
   @Override
@@ -79,11 +85,21 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousPeriodic() {
-    if (Timer.getFPGATimestamp() - m_startTimestamp < m_timeoutTimestamp) {
-      Drivetrain.drive(-0.5, -0.5, 1);
+    m_currentTimestamp = Timer.getFPGATimestamp();
+    m_timeElapsed = m_currentTimestamp - m_startTimestamp;
+
+    if ((m_timeElapsed < m_timeoutTimestamp) && (m_timeElapsed < m_intakeTimestamp)) {
+      EverybotIntake.intakeOut(EverybotConstants.kEverybotAutoOuttake);
+    }
+    else if (m_timeElapsed < m_timeoutTimestamp && m_timeElapsed > m_intakeTimestamp) {
+      Drivetrain.drive(0.5, 0.5, 1);
     }
     else {
       Drivetrain.setPowerZero();
+      EverybotIntake.setPowerZero();
     }
+
+    // new AbstractBasicAuto();
+    // new BasicAuto();
   }
 }

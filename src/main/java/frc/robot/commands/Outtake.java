@@ -8,9 +8,9 @@ public class Outtake extends CommandBase {
     private static double m_power;
     private EverybotIntake m_intake;
 
-    public Outtake(EverybotIntake intake, double power) {
+    public Outtake(double power) {
         m_power = power;
-        m_intake = intake;
+        // m_intake = intake;
         addRequirements(m_intake);
     }
 

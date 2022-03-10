@@ -111,6 +111,11 @@ public class Drivetrain extends SubsystemBase {
       leftMaster.set(ControlMode.PercentOutput, 0);
     }
 
+    public static void setPower(double rightPower, double leftPower) {
+      rightMaster.set(ControlMode.PercentOutput, rightPower);
+      leftMaster.set(ControlMode.PercentOutput, leftPower);
+    }
+
     public static void updateSmartDashboardForDrivetrain() {
       SmartDashboard.putNumber(" Right Master Current ", rightMaster.getSupplyCurrent());
       SmartDashboard.putNumber(" Right Slave Current ", rightSlave.getSupplyCurrent());

@@ -6,13 +6,15 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 import frc.robot.constants.EverybotConstants;
 
-import frc.robot.commands.OpenLoopDrive;
+import frc.robot.commands.AbstractOpenLoopDrive;
 import frc.robot.commands.Outtake;
 
-public class BasicAuto extends SequentialCommandGroup {
-    public BasicAuto() {
+public class AbstractBasicAuto extends SequentialCommandGroup {
+    public AbstractBasicAuto() {
         addCommands(
-            
+            new Outtake(EverybotConstants.kEverybotOuttake),
+            new ParallelRaceGroup(new AbstractOpenLoopDrive(0.5), new WaitCommand(1))
+
         );
     }
 }
