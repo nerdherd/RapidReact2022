@@ -31,20 +31,21 @@ public class Robot extends TimedRobot {
   
   @Override
   public void teleopInit() { 
-    Drivetrain.compressor.enableDigital();
+    Drivetrain.setupDrivetrain();
+    // Drivetrain.compressor.enableDigital();
     EverybotArm.resetElevatorEncoder();
 
-    if (Timer.getFPGATimestamp() - m_startTimestamp < m_timeoutTimestamp) {
-      Drivetrain.drive(-0.5, -0.5, 1);
-    }
-    else {
-      Drivetrain.setPowerZero();
-    }
+    // if (Timer.getFPGATimestamp() - m_startTimestamp < m_timeoutTimestamp) {
+    //   Drivetrain.drive(-0.5, -0.5, 1);
+    // }
+    // else {
+    //   Drivetrain.setPowerZero();
+    // }
   }
 
   @Override
   public void teleopPeriodic() { 
-    //Drivetrain.driveControllerMovement();
+    Drivetrain.driveControllerMovement();
     Drivetrain.updateSmartDashboardForDrivetrain();
 
     Everybot.shooterControllerMovement();

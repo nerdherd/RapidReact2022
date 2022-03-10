@@ -22,7 +22,7 @@ public class Drivetrain extends SubsystemBase {
     public static TalonFX rightSlave; // Channel 31 on CAN, 15 on PDP
     public static TalonFX leftSlave; // Channel 17 on CAN, 1 on PDP
 
-    public static Compressor compressor; // Channel 3 on CAN
+    // public static Compressor compressor; // Channel 3 on CAN
     private static DoubleSolenoid leftShifter; // Channels 2 and 5
     private static DoubleSolenoid rightShifter; // Channels 1 and 4
 
@@ -47,9 +47,9 @@ public class Drivetrain extends SubsystemBase {
       rightSlave.setInverted(InvertType.FollowMaster);
 
       // Pneumatics setup
-      compressor = new Compressor(3, PneumaticsModuleType.CTREPCM);
-      leftShifter = new DoubleSolenoid(3, PneumaticsModuleType.CTREPCM, 2, 5);
-      rightShifter = new DoubleSolenoid(3, PneumaticsModuleType.CTREPCM, 1, 4);
+      // compressor = new Compressor(3, PneumaticsModuleType.CTREPCM);
+      // leftShifter = new DoubleSolenoid(3, PneumaticsModuleType.CTREPCM, 2, 5);
+      // rightShifter = new DoubleSolenoid(3, PneumaticsModuleType.CTREPCM, 1, 4);
     }
 
     public static double gainInput(double input) {
@@ -117,9 +117,9 @@ public class Drivetrain extends SubsystemBase {
       SmartDashboard.putNumber(" Left Master Current ", leftMaster.getSupplyCurrent());
       SmartDashboard.putNumber(" Left Slave Current ", leftSlave.getSupplyCurrent());
         
-      SmartDashboard.putBoolean(" Compressor Enabled ", compressor.enabled());
-      SmartDashboard.putBoolean(" Pressure Switch ", compressor.getPressureSwitchValue());
-      SmartDashboard.putNumber(" Compressor Current ", compressor.getCurrent());
+      // SmartDashboard.putBoolean(" Compressor Enabled ", compressor.enabled());
+      // SmartDashboard.putBoolean(" Pressure Switch ", compressor.getPressureSwitchValue());
+      // SmartDashboard.putNumber(" Compressor Current ", compressor.getCurrent());
 
       SmartDashboard.putNumber( " Left Axis ", OI.ps4Controller.getLeftY());
       SmartDashboard.putNumber( " Right Axis ", OI.ps4Controller.getRightY());
