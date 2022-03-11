@@ -4,35 +4,60 @@
 
 package frc.robot;
 
+import javax.lang.model.util.ElementScanner6;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.drive.Drivetrain;
-import frc.robot.autos.AbstractBasicAuto;
+// import frc.robot.autos.AbstractBasicAuto;
+import frc.robot.autos.Auto;
+import frc.robot.autos.BasicAuto;
 import frc.robot.constants.EverybotConstants;
 import frc.robot.everybot.Everybot;
 import frc.robot.everybot.EverybotArm;
+import frc.robot.everybot.EverybotArm2;
+import frc.robot.everybot.EverybotClimber;
 import frc.robot.everybot.EverybotHeight;
 import frc.robot.everybot.EverybotIntake;
 import frc.robot.logging.Log;
+import frc.robot.misc.AutoChooser;
 
 
 public class Robot extends TimedRobot {
-  private double m_startTimestamp;
+  public static double m_startTimestamp;
   // private double currentTimestamp;
   private double m_timeoutTimestamp = 5;
-  private double m_intakeTimestamp = 2;
-  private double m_currentTimestamp;
-  private double m_timeElapsed;
+  private double m_intakeTimestamp = 1;
+  public static double m_currentTimestamp;
+  public static double m_timeElapsed;
   public static TalonFX intakeArm = new TalonFX(15);
+
+  public static EverybotIntake everybotIntake;
+  public static EverybotClimber everybotClimber;
+
+  public static SendableChooser<Command> autoChooser;
+  public static Command m_autonomousCommand;
 
   @Override
   public void robotInit() { 
     Drivetrain.setupDrivetrain();
     Everybot.setUpEverybot();
+    EverybotArm2.setUpEArm();
+
+    everybotIntake = new EverybotIntake();
 
     Log.initAndLog("/home/lvuser/logs/", "Test", 0.02);
+
+    // autoChooser = new SendableChooser<Command>();
+    // autoChooser.addOption("Abstract Basic Auto", new AbstractBasicAuto());
+    // autoChooser.addOption("Basic Auto", new BasicAuto());
+    // autoChooser.addOption("Auto", new Auto());
   }
   
   @Override
@@ -40,6 +65,7 @@ public class Robot extends TimedRobot {
     Drivetrain.setupDrivetrain();
     // Drivetrain.compressor.enableDigital();
     EverybotArm.resetElevatorEncoder();
+    EverybotClimber.setUpClimber();
 
     // if (Timer.getFPGATimestamp() - m_startTimestamp < m_timeoutTimestamp) {
     //   Drivetrain.drive(-0.5, -0.5, 1);
@@ -74,13 +100,28 @@ public class Robot extends TimedRobot {
       
       intakeArm.set(ControlMode.PercentOutput, 0.05);
     }*/
+
+    // if (OI.ps4Controller2.getL1ButtonPressed()) {
+    //   EverybotClimber.climberMaster.set(ControlMode.PercentOutput, 0.02);
+    // }
+    // else if(OI.ps4Controller2.getL2ButtonPressed()) {
+    //   EverybotClimber.climberMaster.set(ControlMode.PercentOutput, -0.02);
+    // }
+    // else {
+    //   EverybotClimber.climberMaster.set(ControlMode.PercentOutput, 0.0);
+    // }
+
   }
 
   @Override
   public void autonomousInit() {
     EverybotArm.resetElevatorEncoder();
     m_startTimestamp = Timer.getFPGATimestamp();
-    // Drivetrain.drive(-50, -50, 1);
+
+    // m_autonomousCommand = autoChooser.getSelected();
+    // if (m_autonomousCommand != null) { 
+    //   m_autonomousCommand.schedule();
+    // }
   }
 
   @Override
@@ -98,8 +139,12 @@ public class Robot extends TimedRobot {
       Drivetrain.setPowerZero();
       EverybotIntake.setPowerZero();
     }
-
+    
     // new AbstractBasicAuto();
     // new BasicAuto();
+
+    // new Auto();
+
+    // CommandScheduler.getInstance().run();
   }
 }

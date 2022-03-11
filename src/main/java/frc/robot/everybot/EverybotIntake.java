@@ -3,12 +3,13 @@ package frc.robot.everybot;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.RobotMap;
 
-public class EverybotIntake extends SubsystemBase {
+public class EverybotIntake extends SubsystemBase implements Sendable {
     public static TalonSRX everybotIntake = new TalonSRX(RobotMap.kEverybotIntake);
 
     public EverybotIntake() {
@@ -33,4 +34,8 @@ public class EverybotIntake extends SubsystemBase {
     public static void setPowerZero() {
         everybotIntake.set(ControlMode.PercentOutput, 0);
     }
+
+    // public static void reportToSmartDashboard() {
+    //     SmartDashboard.putData(" Time ", );
+    // }
 }

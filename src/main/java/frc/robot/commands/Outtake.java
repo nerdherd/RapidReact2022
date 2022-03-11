@@ -8,9 +8,9 @@ public class Outtake extends CommandBase {
     private static double m_power;
     private EverybotIntake m_intake;
 
-    public Outtake(double power) {
+    public Outtake(double power, EverybotIntake intake) {
         m_power = power;
-        // m_intake = intake;
+        m_intake = intake;
         addRequirements(m_intake);
     }
 
@@ -21,7 +21,7 @@ public class Outtake extends CommandBase {
   // Called repeatedly when this Command is scheduled to run
   @Override
   public void execute() {
-    EverybotIntake.intakeOut(m_power);
+    m_intake.intakeOut(m_power);
   }
 
   // Make this return true when this Command no longer needs to run execute()

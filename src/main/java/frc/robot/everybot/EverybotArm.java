@@ -12,6 +12,10 @@ import frc.robot.constants.EverybotConstants;
 public class EverybotArm extends SubsystemBase {
     public static TalonFX arm = new TalonFX(RobotMap.kEverybotArm);
 
+    public EverybotArm() {
+        
+    }
+
     public static void moveArm(double speed, double waitTime) {
         arm.set(ControlMode.PercentOutput, speed);
 

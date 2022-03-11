@@ -16,10 +16,13 @@ import frc.robot.constants.EverybotConstants;
 public class Everybot extends SubsystemBase {
     public static EverybotIntake intake;
     public static EverybotArm arm;
+    public static EverybotClimber climber;
+    public static EverybotArm2 arm2;
 
     public static void setUpEverybot() {
         intake = new EverybotIntake();
         arm = new EverybotArm();
+        climber = new EverybotClimber();
     }
 
     public static void shooterControllerMovement() {
@@ -27,17 +30,24 @@ public class Everybot extends SubsystemBase {
         if (OI.ps4Controller2.getL1ButtonPressed()) {
             EverybotIntake.intakeIn(EverybotConstants.kEverybotIntake);
             SmartDashboard.putString(" Button State ", "L1");
-            SmartDashboard.putNumber(" Stator Current ", intake.everybotIntake.getStatorCurrent());
-            SmartDashboard.putNumber(" Supply Current ", intake.everybotIntake.getSupplyCurrent());
 
         }
         
         if (OI.ps4Controller2.getR1ButtonPressed()) {
             EverybotIntake.intakeOut(EverybotConstants.kEverybotOuttake);
             SmartDashboard.putString(" Button State ", "L2");
-            SmartDashboard.putNumber(" Stator Current ", intake.everybotIntake.getStatorCurrent());
-            SmartDashboard.putNumber(" Supply Current ", intake.everybotIntake.getSupplyCurrent());
 
+        }
+
+        if (OI.ps4Controller2.getL2ButtonPressed()) {
+            // EverybotClimber.setPower(EverybotConstants.kEverybotClimberUp);
+            EverybotClimber.climberUp();
+            
+        }
+
+        if (OI.ps4Controller2.getR2ButtonPressed()) {
+            // EverybotClimber.setPower(EverybotConstants.kEverybotClimberDown);
+            EverybotClimber.climberDown();
         }
 
         if (OI.ps4Controller2.getTriangleButtonPressed()) {
@@ -46,14 +56,16 @@ public class Everybot extends SubsystemBase {
         }
 
         if (OI.ps4Controller2.getSquareButtonPressed()) {
-            EverybotArm.rotateArmToAngle(EverybotConstants.kHighAngle, EverybotConstants.kHighAngleThreshold);
-            EverybotArm.arm.set(ControlMode.PercentOutput, -0.16);
+            // EverybotArm.rotateArmToAngle(EverybotConstants.kHighAngle, EverybotConstants.kHighAngleThreshold);
+            // EverybotArm.arm.set(ControlMode.PercentOutput, -0.16);
+            EverybotArm2.Arm2Up();
             SmartDashboard.putString(" Button State ", "Square");
         }
 
         if (OI.ps4Controller2.getCircleButtonPressed()) {
-            EverybotArm.rotateArmToAngle(EverybotConstants.kLowAngle, EverybotConstants.kLowAngleThreshold);
-            EverybotArm.arm.set(ControlMode.PercentOutput, 0.16);
+            // EverybotArm.rotateArmToAngle(EverybotConstants.kLowAngle, EverybotConstants.kLowAngleThreshold);
+            // EverybotArm.arm.set(ControlMode.PercentOutput, 0.16);
+            EverybotArm2.Arm2Down();
             SmartDashboard.putString(" Button State " , "Circle");
         }
 
@@ -61,5 +73,8 @@ public class Everybot extends SubsystemBase {
 
     public static void updateSmartDashboardForEverybot() {
         SmartDashboard.putNumber(" Arm Position ", arm.arm.getSelectedSensorPosition());
+        SmartDashboard.putNumber(" Climber Position", climber.climberMaster.getSelectedSensorPosition());
+        SmartDashboard.putNumber(" Intake Stator Current ", intake.everybotIntake.getStatorCurrent());
+        SmartDashboard.putNumber(" Intake Supply Current ", intake.everybotIntake.getSupplyCurrent());
     }
 }
