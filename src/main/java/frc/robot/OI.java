@@ -14,9 +14,11 @@ public class OI {
     public static PS4Controller ps4Controller = new PS4Controller(0);
     public static PS4Controller ps4Controller2 = new PS4Controller(1);
     
+    public SendableChooser<CommandGroupBase> autoChooser;
+
     public OI(RobotContainer robotContainer) {
         
-        SendableChooser<CommandGroupBase> autoChooser = new SendableChooser<CommandGroupBase>();
+        autoChooser = new SendableChooser<CommandGroupBase>();
 
         autoChooser.setDefaultOption("leave tarmac :)", 
             new SequentialCommandGroup(

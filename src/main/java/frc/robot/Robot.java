@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandGroupBase;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.Constants.EverybotConstants;
 
@@ -90,7 +91,12 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     robotContainer.everybotArm.resetElevatorEncoder();
     m_startTimestamp = Timer.getFPGATimestamp();
+    
+    CommandGroupBase command = robotContainer.oi.autoChooser.getSelected();
 
+    if (command != null) {
+      command.schedule();
+    }
     // m_autonomousCommand = autoChooser.getSelected();
     // if (m_autonomousCommand != null) { 
     //   m_autonomousCommand.schedule();
