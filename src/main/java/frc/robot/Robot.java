@@ -23,10 +23,6 @@ public class Robot extends TimedRobot {
   private double m_intakeTimestamp = 1;
   public static double m_currentTimestamp;
   public static double m_timeElapsed;
-  public static TalonFX intakeArm = new TalonFX(15);
-
-  public static EverybotIntake everybotIntake;
-  public static EverybotClimber everybotClimber;
 
   public static SendableChooser<Command> autoChooser;
   public static Command m_autonomousCommand;
@@ -37,10 +33,6 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() { 
     robotContainer = new RobotContainer();
-
-    drivetrain = new Drivetrain();
-
-    everybotIntake = new EverybotIntake();
 
     Log.initAndLog("/home/lvuser/logs/", "Test", 0.02);
 

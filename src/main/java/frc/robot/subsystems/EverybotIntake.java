@@ -1,4 +1,4 @@
-package frc.robot.everybot;
+package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -9,28 +9,28 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 
 public class EverybotIntake extends SubsystemBase {
-    public static TalonSRX everybotIntake = new TalonSRX(DriveConstants.kEverybotIntake);
+    public TalonSRX everybotIntake = new TalonSRX(DriveConstants.kEverybotIntake);
 
     public EverybotIntake() {
         everybotIntake.setInverted(true);
     }
 
-    public static double ticksToAngle(double ticksMotor, double ticksAngle) {
+    public double ticksToAngle(double ticksMotor, double ticksAngle) {
         double angle = ticksAngle * ticksMotor / 360 * (Math.PI / 180);
         return angle;
     }
 
-    public static void intakeIn(double power) {
+    public void intakeIn(double power) {
         everybotIntake.set(ControlMode.PercentOutput, power);
         SmartDashboard.putNumber(" Voltage ", power);
     }
 
-    public static void intakeOut(double power) {
+    public void intakeOut(double power) {
         everybotIntake.set(ControlMode.PercentOutput, -power);
         SmartDashboard.putNumber(" Voltage ", power);
     }
 
-    public static void setPowerZero() {
+    public void setPowerZero() {
         everybotIntake.set(ControlMode.PercentOutput, 0);
     }
 

@@ -14,7 +14,6 @@ import badlog.lib.BadLog;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.Timer;
-import frc.robot.subsystems.Drivetrain;
 
 /**
  * Add your docs here.
@@ -32,10 +31,10 @@ public class Log {
     log = BadLog.init(getDesiredFile(directory, filename));
     createTopic("Time", () -> Timer.getFPGATimestamp());
 
-    createTopic("RightMaster" + "/Voltage", () -> Drivetrain.rightMaster.getMotorOutputVoltage());
-    createTopic("LeftMaster" + "/Voltage", () -> Drivetrain.leftMaster.getMotorOutputVoltage());
-    createTopic("RightFollower" + "/Voltage", () -> Drivetrain.rightSlave.getMotorOutputVoltage());
-    createTopic("LeftFollower" + "/Voltage", () -> Drivetrain.leftSlave.getMotorOutputVoltage());
+    createTopic("RightMaster" + "/Voltage", () -> robotContainer.drivetrain.rightMaster.getMotorOutputVoltage());
+    createTopic("LeftMaster" + "/Voltage", () -> robotContainer.drivetrain.leftMaster.getMotorOutputVoltage());
+    createTopic("RightFollower" + "/Voltage", () -> robotContainer.drivetrain.rightSlave.getMotorOutputVoltage());
+    createTopic("LeftFollower" + "/Voltage", () -> robotContainer.drivetrain.leftSlave.getMotorOutputVoltage());
     createTopic("IntakeVoltage" + "/Voltage", () -> robotContainer.everybotIntake.everybotIntake.getMotorOutputVoltage());
     createTopic("IntakeArmAngle" + "/Angle", () -> robotContainer.everybotArmMotionMagic.arm.getSelectedSensorPosition());
     log.finishInitialization();
