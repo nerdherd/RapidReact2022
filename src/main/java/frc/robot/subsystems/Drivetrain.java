@@ -14,22 +14,22 @@ import frc.robot.OI;
 import frc.robot.Constants.DriveConstants;
 
 public class Drivetrain extends SubsystemBase {
-    public static TalonFX rightMaster; // Channel 30 on CAN, 14 on PDP
-    public static TalonFX leftMaster; // Channel 16 on CAN, 0 on PDP
-    public static TalonFX rightSlave; // Channel 31 on CAN, 15 on PDP
-    public static TalonFX leftSlave; // Channel 17 on CAN, 1 on PDP
+    public TalonFX rightMaster; // Channel 30 on CAN, 14 on PDP
+    public TalonFX leftMaster; // Channel 16 on CAN, 0 on PDP
+    public TalonFX rightSlave; // Channel 31 on CAN, 15 on PDP
+    public TalonFX leftSlave; // Channel 17 on CAN, 1 on PDP
 
-    // public static Compressor compressor; // Channel 3 on CAN
-    private static DoubleSolenoid leftShifter; // Channels 2 and 5
-    private static DoubleSolenoid rightShifter; // Channels 1 and 4
+    // public Compressor compressor; // Channel 3 on CAN
+    private DoubleSolenoid leftShifter; // Channels 2 and 5
+    private DoubleSolenoid rightShifter; // Channels 1 and 4
 
-    private double modLeftInput;
-    private double modRightInput;
-    private static boolean highGear;
+    // private double modLeftInput;
+    // private double modRightInput;
+    // private boolean highGear;
     
     // ======================= TELEOP FUNCTIONS ======================= //
     
-    public static void setupDrivetrain() {
+    public Drivetrain() {
       rightMaster = new TalonFX(DriveConstants.kRightMasterTalonID);
       leftMaster = new TalonFX(DriveConstants.kLeftMasterTalonID);
       rightSlave = new TalonFX(DriveConstants.kRightSlaveTalonID);  
@@ -54,7 +54,7 @@ public class Drivetrain extends SubsystemBase {
       return input;
     }
 
-    public static void driveControllerMovement() {
+    public void driveControllerMovement() {
       double leftInput = OI.ps4Controller.getLeftY();
       double rightInput = OI.ps4Controller.getRightY();
       double prevLeftOutput = leftMaster.getMotorOutputPercent();
@@ -103,17 +103,17 @@ public class Drivetrain extends SubsystemBase {
       }
     }
 
-    public static void setPowerZero() {
+    public void setPowerZero() {
       rightMaster.set(ControlMode.PercentOutput, 0);
       leftMaster.set(ControlMode.PercentOutput, 0);
     }
 
-    public static void setPower(double rightPower, double leftPower) {
+    public void setPower(double rightPower, double leftPower) {
       rightMaster.set(ControlMode.PercentOutput, rightPower);
       leftMaster.set(ControlMode.PercentOutput, leftPower);
     }
 
-    public static void updateSmartDashboardForDrivetrain() {
+    public void reportToSmartDashboard() {
       SmartDashboard.putNumber(" Right Master Current ", rightMaster.getSupplyCurrent());
       SmartDashboard.putNumber(" Right Slave Current ", rightSlave.getSupplyCurrent());
       SmartDashboard.putNumber(" Left Master Current ", leftMaster.getSupplyCurrent());
@@ -131,7 +131,7 @@ public class Drivetrain extends SubsystemBase {
     // ====================== AUTONOMOUS FUNCTIONS ====================== //
     
     // Speed in percentage, waitTime in seconds
-    public static void drive(double leftSpeed, double rightSpeed, double waitTime) {
+    public void drive(double leftSpeed, double rightSpeed, double waitTime) {
       leftMaster.set(ControlMode.PercentOutput, leftSpeed);
       rightMaster.set(ControlMode.PercentOutput, rightSpeed);
 

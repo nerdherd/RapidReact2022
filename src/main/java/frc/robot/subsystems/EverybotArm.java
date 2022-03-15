@@ -1,4 +1,4 @@
-package frc.robot.everybot;
+package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
@@ -10,26 +10,20 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.EverybotConstants;
 
 public class EverybotArm extends SubsystemBase {
-    public static TalonFX arm = new TalonFX(DriveConstants.kEverybotArm);
+    public TalonFX arm = new TalonFX(DriveConstants.kEverybotArm);
 
-    public EverybotArm() {
-        
-    }
-
-    public static void moveArm(double speed, double waitTime) {
+    public void moveArm(double speed, double waitTime) {
         arm.set(ControlMode.PercentOutput, speed);
-
         Timer.delay(waitTime);
-
         arm.set(ControlMode.PercentOutput, 0);
     }
 
-    public static double ticksToAngle(double ticks, double ticksAngle) {
-        double angle = ticksAngle * ticks / 360 * (Math.PI / 180);
-        return angle;
+    public double ticksToAngle(double ticks, double ticksAngle) {
+        return ticksAngle * ticks / 360 * (Math.PI / 180);
     }
 
-    public static void rotateArmToAngle(double target, double errorThreshold) {
+    public void rotateArmToAngle(double target, double errorThreshold) {
+        // PID Loop to rotate arm (not tuned yet)
         double error = Math.abs(target - arm.getSelectedSensorPosition());
         double oldError = Math.abs(target - arm.getSelectedSensorPosition());
         double armSpeed = 0;
@@ -60,7 +54,7 @@ public class EverybotArm extends SubsystemBase {
         }
     } 
 
-    public static void resetElevatorEncoder(){
+    public void resetElevatorEncoder(){
         arm.setSelectedSensorPosition(0);
     }
 }

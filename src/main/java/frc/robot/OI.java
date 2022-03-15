@@ -9,25 +9,23 @@ import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.EverybotConstants;
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.EverybotIntake;
 
 public class OI {
     public static PS4Controller ps4Controller = new PS4Controller(0);
     public static PS4Controller ps4Controller2 = new PS4Controller(1);
-
-    public OI() {
+    
+    public OI(RobotContainer robotContainer) {
         
         SendableChooser<CommandGroupBase> autoChooser = new SendableChooser<CommandGroupBase>();
 
-        autoChooser.addOption("leave tarmac :)", 
+        autoChooser.setDefaultOption("leave tarmac :)", 
             new SequentialCommandGroup(
                 // drive for 1 second with power 0.5, then set power zero
                 new ParallelDeadlineGroup(
                     new WaitCommand(1), 
-                    new InstantCommand(() -> Drivetrain.setPower(0.5, 0.5))
+                    new InstantCommand(() -> robotContainer.drivetrain.setPower(0.5, 0.5))
                 ), 
-                new InstantCommand(() -> Drivetrain.setPowerZero())
+                new InstantCommand(() -> robotContainer.drivetrain.setPowerZero())
             )
         );
         
@@ -36,23 +34,19 @@ public class OI {
                 // outtake for 1 second and then set power zero
                 new ParallelDeadlineGroup(
                     new WaitCommand(1), 
-                    new InstantCommand(() -> EverybotIntake.intakeOut(EverybotConstants.kEverybotAutoOuttake))
+                    new InstantCommand(() -> robotContainer.everybotIntake.intakeOut(EverybotConstants.kEverybotAutoOuttake))
                 ), 
-                new InstantCommand(() -> EverybotIntake.setPowerZero()),
+                new InstantCommand(() -> robotContainer.everybotIntake.setPowerZero()),
 
                 // drive for 1 second with power 0.5, then set power zero
                 new ParallelDeadlineGroup(
                     new WaitCommand(1), 
-                    new InstantCommand(() -> Drivetrain.setPower(0.5, 0.5))
+                    new InstantCommand(() -> robotContainer.drivetrain.setPower(0.5, 0.5))
                 ), 
-                new InstantCommand(() -> Drivetrain.setPowerZero())
+                new InstantCommand(() -> robotContainer.drivetrain.setPowerZero())
             )
         );
 
         SmartDashboard.putData(autoChooser);
-    }
-
-    public void configureButtonBindings() {
-
     }
 }

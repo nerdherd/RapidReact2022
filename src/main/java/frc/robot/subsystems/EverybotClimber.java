@@ -1,17 +1,18 @@
-package frc.robot.everybot;
+package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.EverybotConstants;
 
-public class EverybotClimber {
-    public static VictorSPX climberMaster;
-    public static VictorSPX climberSlave;
+public class EverybotClimber extends SubsystemBase {
+    public VictorSPX climberMaster;
+    public VictorSPX climberSlave;
 
-    public static void setUpClimber() {
+    public EverybotClimber() {
         climberMaster = new VictorSPX(DriveConstants.kClimbMasterTalonID);
         climberSlave = new VictorSPX(DriveConstants.kClimbSlaveTalonID);
 
@@ -20,11 +21,11 @@ public class EverybotClimber {
         climberSlave.setInverted(InvertType.FollowMaster);
     }
 
-    public static void setPower(double power) {
+    public void setPower(double power) {
         climberMaster.set(ControlMode.PercentOutput, power);
     }
 
-    public static void climberUp() {
+    public void climberUp() {
         if (climberMaster.getSelectedSensorPosition() < EverybotConstants.kEverybotClimberHigh) {
             climberMaster.set(ControlMode.PercentOutput, EverybotConstants.kEverybotClimberUp);
         }
@@ -33,7 +34,7 @@ public class EverybotClimber {
         }
     }
 
-    public static void climberDown() {
+    public void climberDown() {
         if (climberMaster.getSelectedSensorPosition() > EverybotConstants.kEverybotClimberLow) {
             climberMaster.set(ControlMode.PercentOutput, EverybotConstants.kEverybotClimberDown);
         }

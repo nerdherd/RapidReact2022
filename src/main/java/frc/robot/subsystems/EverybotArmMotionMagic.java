@@ -1,4 +1,4 @@
-package frc.robot.everybot;
+package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
@@ -8,50 +8,29 @@ import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.TrapezoidProfileSubsystem;
 
+import frc.robot.Constants.EverybotMotionMagicConstants;
+
 public class EverybotArmMotionMagic extends TrapezoidProfileSubsystem {
-    
-    public static final double kArmGoalAngle = 1.572; // Radians
-    public static final double kArmVelocityToGoal = 0;
-    public static final double kArmStaticFrictionDeadband = 5; // In ticks/decisecond, pulled from NerdyLib
-    public static final double kArmDeadband = 0.004;
-    public static final double kArmAngleRatio = 1./4096. * 360 * 12. / 22.; // (pulled from DeepSpace2019)
-    public static final double kArmAngleOffset = 0; // Degrees (-15)
-    
-    // Feedforward Constants
-    public static final double kArmStaticGain = 0;
-    public static final double kArmGravityGain = 0; // https://www.chiefdelphi.com/t/motion-magic-with-an-arm/348667 (how to calculate cos gain)
-    public static final double kArmVelocityGain = 0;
-    public static final double kArmMaxVelocity = 540; // Max vel and max accel copied from motion magic vals
-    public static final double kArmMaxAcceleration = 540;
-    public static final double kArmStaticFF = 0.52;
-    public static final double kArmGravityFF = 1.83;
-
-    // Motion Constants (in sensor units per 100 ms)
-    public static final double kArmMotionCruiseVel = 540; // Cruise velocity = slightly smaller than max velocity
-    public static final double kArmMotionAccel = 540; // Run mechanism at 12 volts, take slope of velocity curve in talon units
-
-    // PID
-    public static final double kArmP = 4;
-    public static final double kArmD = 0;    
-    
     private final ArmFeedforward feedforward = new ArmFeedforward(
-        kArmStaticGain, 
-        kArmGravityGain,
-        kArmVelocityGain);
-    
-    public static TalonFX arm;
+        EverybotMotionMagicConstants.kArmStaticGain, 
+        EverybotMotionMagicConstants.kArmGravityGain,
+        EverybotMotionMagicConstants.kArmVelocityGain);
+
+    public TalonFX arm;
 
     public EverybotArmMotionMagic() {
         super(
-            new TrapezoidProfile.Constraints(kArmMaxVelocity, kArmMaxAcceleration)
+            new TrapezoidProfile.Constraints(
+                EverybotMotionMagicConstants.kArmMaxVelocity, 
+                EverybotMotionMagicConstants.kArmMaxAcceleration)
         );
 
         arm = new TalonFX(15);
-        arm.configMotionAcceleration(kArmMotionAccel);
-        arm.configMotionCruiseVelocity(kArmMotionCruiseVel);
-        arm.configNeutralDeadband(kArmDeadband);
-        arm.config_kP(0, kArmP);
-        arm.config_kD(0, kArmD);
+        arm.configMotionAcceleration(EverybotMotionMagicConstants.kArmMotionAccel);
+        arm.configMotionCruiseVelocity(EverybotMotionMagicConstants.kArmMotionCruiseVel);
+        arm.configNeutralDeadband(EverybotMotionMagicConstants.kArmDeadband);
+        arm.config_kP(0, EverybotMotionMagicConstants.kArmP);
+        arm.config_kD(0, EverybotMotionMagicConstants.kArmD);
     }
 
     public double getPosition() {
@@ -71,11 +50,12 @@ public class EverybotArmMotionMagic extends TrapezoidProfileSubsystem {
     }
 
     public double angleToTicks(double angle) {
-        return (angle - kArmAngleOffset) / kArmAngleRatio;
+        return (angle - EverybotMotionMagicConstants.kArmAngleOffset) 
+            / EverybotMotionMagicConstants.kArmAngleRatio;
     }
 
     public void setPositionMotionMagic(double angle) {
-        if (Math.abs(arm.getSelectedSensorVelocity()) <= kArmStaticFrictionDeadband) {
+        if (Math.abs(arm.getSelectedSensorVelocity()) <= EverybotMotionMagicConstants.kArmStaticFrictionDeadband) {
             arm.set(ControlMode.MotionMagic, angleToTicks(angle), DemandType.ArbitraryFeedForward, 
               getFFIfNotMoving(angle - getAngle()));
           } else {
@@ -85,24 +65,25 @@ public class EverybotArmMotionMagic extends TrapezoidProfileSubsystem {
     }
 
     public double getAngle() {
-        return (kArmAngleRatio * arm.getSelectedSensorPosition()) + kArmAngleRatio;
+        return (EverybotMotionMagicConstants.kArmAngleRatio * arm.getSelectedSensorPosition()) 
+        + EverybotMotionMagicConstants.kArmAngleRatio;
     }
 
     public double getFFIfNotMoving(double error) {
         double sign = Math.signum(error);
-        return kArmGravityFF * Math.cos(degreesToRadians(getAngle())) + 
-          sign * kArmStaticFF;
+        return EverybotMotionMagicConstants.kArmGravityFF * Math.cos(degreesToRadians(getAngle())) + 
+          sign * EverybotMotionMagicConstants.kArmStaticFF;
     }
 
     public double getFFIfMoving() {
-        return kArmGravityFF * Math.cos(degreesToRadians(getAngle()));
+        return EverybotMotionMagicConstants.kArmGravityFF * Math.cos(degreesToRadians(getAngle()));
     }
 
     public double degreesToRadians(double deg) {
 		return deg * Math.PI / 180;
     }
 
-    public static void resetElevatorEncoder() {
+    public void resetElevatorEncoder() {
         arm.setSelectedSensorPosition(0);
     }
 

@@ -10,13 +10,10 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.drive.Drivetrain;
+import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.EverybotClimber;
+import frc.robot.subsystems.EverybotIntake;
 import frc.robot.Constants.EverybotConstants;
-import frc.robot.everybot.Everybot;
-import frc.robot.everybot.EverybotArm;
-import frc.robot.everybot.EverybotClimber;
-import frc.robot.everybot.EverybotIntake;
-import frc.robot.logging.Log;
 
 
 public class Robot extends TimedRobot {
@@ -34,11 +31,14 @@ public class Robot extends TimedRobot {
   public static SendableChooser<Command> autoChooser;
   public static Command m_autonomousCommand;
 
+  public RobotContainer robotContainer;
+  public Drivetrain drivetrain;
+
   @Override
   public void robotInit() { 
-    Drivetrain.setupDrivetrain();
-    Everybot.setUpEverybot();
-    //EverybotArm2.setUpEArm();
+    robotContainer = new RobotContainer();
+
+    drivetrain = new Drivetrain();
 
     everybotIntake = new EverybotIntake();
 
@@ -52,10 +52,8 @@ public class Robot extends TimedRobot {
   
   @Override
   public void teleopInit() { 
-    Drivetrain.setupDrivetrain();
     // Drivetrain.compressor.enableDigital();
-    EverybotArm.resetElevatorEncoder();
-    EverybotClimber.setUpClimber();
+    robotContainer.everybotArm.resetElevatorEncoder();
 
     // if (Timer.getFPGATimestamp() - m_startTimestamp < m_timeoutTimestamp) {
     //   Drivetrain.drive(-0.5, -0.5, 1);
@@ -67,11 +65,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() { 
-    Drivetrain.driveControllerMovement();
-    Drivetrain.updateSmartDashboardForDrivetrain();
-
-    Everybot.shooterControllerMovement();
-    Everybot.updateSmartDashboardForEverybot();
+    robotContainer.drivetrain.driveControllerMovement();
+    robotContainer.reportToSmartDashboard();
 
     /*if (OI.ps4Controller2.getR1ButtonPressed()) {
       startTimestamp = Timer.getFPGATimestamp();
@@ -105,7 +100,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-    EverybotArm.resetElevatorEncoder();
+    robotContainer.everybotArm.resetElevatorEncoder();
     m_startTimestamp = Timer.getFPGATimestamp();
 
     // m_autonomousCommand = autoChooser.getSelected();
@@ -120,14 +115,14 @@ public class Robot extends TimedRobot {
     m_timeElapsed = m_currentTimestamp - m_startTimestamp;
 
     if ((m_timeElapsed < m_timeoutTimestamp) && (m_timeElapsed < m_intakeTimestamp)) {
-      EverybotIntake.intakeOut(EverybotConstants.kEverybotAutoOuttake);
+      robotContainer.everybotIntake.intakeOut(EverybotConstants.kEverybotAutoOuttake);
     }
     else if (m_timeElapsed < m_timeoutTimestamp && m_timeElapsed > m_intakeTimestamp) {
-      Drivetrain.drive(0.5, 0.5, 1);
+      robotContainer.drivetrain.drive(0.5, 0.5, 1);
     }
     else {
-      Drivetrain.setPowerZero();
-      EverybotIntake.setPowerZero();
+      robotContainer.drivetrain.setPowerZero();
+      robotContainer.everybotIntake.setPowerZero();
     }
     
     // new AbstractBasicAuto();

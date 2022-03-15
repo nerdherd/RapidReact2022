@@ -5,7 +5,7 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.logging;
+package frc.robot;
 
 import java.io.File;
 import java.util.function.Supplier;
@@ -14,9 +14,7 @@ import badlog.lib.BadLog;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.Timer;
-import frc.robot.everybot.EverybotArmMotionMagic;
-import frc.robot.everybot.EverybotIntake;
-import frc.robot.subsystems.drive.Drivetrain;
+import frc.robot.subsystems.Drivetrain;
 
 /**
  * Add your docs here.
@@ -30,8 +28,7 @@ public class Log {
   public static BadLog log;
   private static Notifier logger;
 
-  public static void init(String directory, String filename) {
-    
+  public Log(String directory, String filename, RobotContainer robotContainer) {
     log = BadLog.init(getDesiredFile(directory, filename));
     createTopic("Time", () -> Timer.getFPGATimestamp());
 
@@ -39,13 +36,12 @@ public class Log {
     createTopic("LeftMaster" + "/Voltage", () -> Drivetrain.leftMaster.getMotorOutputVoltage());
     createTopic("RightFollower" + "/Voltage", () -> Drivetrain.rightSlave.getMotorOutputVoltage());
     createTopic("LeftFollower" + "/Voltage", () -> Drivetrain.leftSlave.getMotorOutputVoltage());
-    createTopic("IntakeVoltage" + "/Voltage", () -> EverybotIntake.everybotIntake.getMotorOutputVoltage());
-    createTopic("IntakeArmAngle" + "/Angle", () -> EverybotArmMotionMagic.arm.getSelectedSensorPosition());
+    createTopic("IntakeVoltage" + "/Voltage", () -> robotContainer.everybotIntake.everybotIntake.getMotorOutputVoltage());
+    createTopic("IntakeArmAngle" + "/Angle", () -> robotContainer.everybotArmMotionMagic.arm.getSelectedSensorPosition());
     log.finishInitialization();
   }
 
   public static void initAndLog(String directory, String filename, double period) {
-    init(directory, filename);
     logger = new Notifier(() -> {
       Log.log();
     });
