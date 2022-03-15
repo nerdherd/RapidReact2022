@@ -62,4 +62,8 @@ public final class Constants {
         public static final double kArmP = 4;
         public static final double kArmD = 0;  
     }  
+    public static final class ArmConstants {
+        public static double armKp = 1.0;
+        public static double armKd = 0.0002;
+    }
 }
