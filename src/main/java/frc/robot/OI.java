@@ -1,9 +1,5 @@
 package frc.robot;
 
-import com.ctre.phoenix.platform.can.AutocacheState;
-
-import org.ejml.equation.Sequence;
-
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -11,8 +7,12 @@ import edu.wpi.first.wpilibj2.command.CommandGroupBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.subsystems.drive.Drivetrain;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+
+import frc.robot.everybot.EverybotIntake;
+import frc.robot.constants.EverybotConstants;
+import frc.robot.subsystems.drive.Drivetrain;
+
 
 
 public class OI {
@@ -25,10 +25,30 @@ public class OI {
 
         autoChooser.addOption("leave tarmac :)", 
             new SequentialCommandGroup(
-                new ParallelDeadlineGroup(new WaitCommand(1), 
-                new InstantCommand(() -> Drivetrain.setPower(0.5, 0.5))
-            ), 
-            new InstantCommand(() -> Drivetrain.setPowerZero())
+                // drive for 1 second with power 0.5, then set power zero
+                new ParallelDeadlineGroup(
+                    new WaitCommand(1), 
+                    new InstantCommand(() -> Drivetrain.setPower(0.5, 0.5))
+                ), 
+                new InstantCommand(() -> Drivetrain.setPowerZero())
+            )
+        );
+        
+        autoChooser.addOption("shoot ball and leave tarmac :)", 
+            new SequentialCommandGroup(
+                // outtake for 1 second and then set power zero
+                new ParallelDeadlineGroup(
+                    new WaitCommand(1), 
+                    new InstantCommand(() -> EverybotIntake.intakeOut(EverybotConstants.kEverybotAutoOuttake))
+                ), 
+                new InstantCommand(() -> EverybotIntake.setPowerZero()),
+
+                // drive for 1 second with power 0.5, then set power zero
+                new ParallelDeadlineGroup(
+                    new WaitCommand(1), 
+                    new InstantCommand(() -> Drivetrain.setPower(0.5, 0.5))
+                ), 
+                new InstantCommand(() -> Drivetrain.setPowerZero())
             )
         );
 
