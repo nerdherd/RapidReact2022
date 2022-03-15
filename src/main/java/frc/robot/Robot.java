@@ -4,101 +4,132 @@
 
 package frc.robot;
 
-import edu.wpi.first.wpilibj.DoubleSolenoid;
-import edu.wpi.first.wpilibj.PneumaticsControlModule;
-import edu.wpi.first.wpilibj.PneumaticsModuleType;
-import edu.wpi.first.wpilibj.TimedRobot;
-
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.InvertType;
 
-//import edu.wpi.first.wpilibj.DoubleSolenoid;
-//import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
-//import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.EverybotClimber;
+import frc.robot.subsystems.EverybotIntake;
+import frc.robot.Constants.EverybotConstants;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
-import frc.robot.OI;
-import frc.robot.Pneumatics.AirCompressor;
-import frc.robot.Pneumatics.Piston;
 
 public class Robot extends TimedRobot {
-  
-  private TalonFX rightMaster; // Channel 30 on CAN, 14 on PDP
-  private TalonFX leftMaster; // Channel 16 on CAN, 0 on PDP
-  private TalonFX rightSlave; // Channel 31 on CAN, 15 on PDP
-  private TalonFX leftSlave; // Channel 17 on CAN, 1 on PDP
-  private PneumaticsControlModule pcm;
+  public static double m_startTimestamp;
+  // private double currentTimestamp;
+  private double m_timeoutTimestamp = 5;
+  private double m_intakeTimestamp = 1;
+  public static double m_currentTimestamp;
+  public static double m_timeElapsed;
+  public static TalonFX intakeArm = new TalonFX(15);
 
-  private AirCompressor compressor = new AirCompressor(3, PneumaticsModuleType.CTREPCM);
-  private Piston leftShifter = new Piston(3, PneumaticsModuleType.CTREPCM, 2, 5);
-  private Piston rightShifter = new Piston(3, PneumaticsModuleType.CTREPCM, 1, 4);
+  public static EverybotIntake everybotIntake;
+  public static EverybotClimber everybotClimber;
+
+  public static SendableChooser<Command> autoChooser;
+  public static Command m_autonomousCommand;
+
+  public RobotContainer robotContainer;
+  public Drivetrain drivetrain;
 
   @Override
-  public void robotInit() {
+  public void robotInit() { 
+    robotContainer = new RobotContainer();
 
-    pcm = new PneumaticsControlModule(3);
+    drivetrain = new Drivetrain();
 
-    rightMaster = new TalonFX(30);
-    leftMaster = new TalonFX(16);
-    rightSlave = new TalonFX(31);  
-    leftSlave = new TalonFX(17);
+    everybotIntake = new EverybotIntake();
 
-    leftSlave.follow(leftMaster);
-    rightSlave.follow(rightMaster);
+    Log.initAndLog("/home/lvuser/logs/", "Test", 0.02);
 
-    // Inverted the right side
-    rightMaster.setInverted(true);
-    leftSlave.setInverted(InvertType.FollowMaster);
-    rightSlave.setInverted(InvertType.FollowMaster);
-  
+    // autoChooser = new SendableChooser<Command>();
+    // autoChooser.addOption("Abstract Basic Auto", new AbstractBasicAuto());
+    // autoChooser.addOption("Basic Auto", new BasicAuto());
+    // autoChooser.addOption("Auto", new Auto());
   }
   
   @Override
   public void teleopInit() { 
-    compressor.enableDigital();
+    // Drivetrain.compressor.enableDigital();
+    robotContainer.everybotArm.resetElevatorEncoder();
+
+    // if (Timer.getFPGATimestamp() - m_startTimestamp < m_timeoutTimestamp) {
+    //   Drivetrain.drive(-0.5, -0.5, 1);
+    // }
+    // else {
+    //   Drivetrain.setPowerZero();
+    // }
   }
 
   @Override
   public void teleopPeriodic() { 
+    robotContainer.drivetrain.driveControllerMovement();
+    robotContainer.reportToSmartDashboard();
 
-    double leftInput = OI.xboxController.getLeftY();
-    double rightInput = OI.xboxController.getRightY();
-
-    rightMaster.set(ControlMode.PercentOutput, rightInput);
-    leftMaster.set(ControlMode.PercentOutput, leftInput);
-
-    // Pneumatics values
-    boolean enabled = compressor.enabled();
-    boolean pressureSwitch = compressor.getPressureSwitchValue();
-    double current = compressor.getCurrent();
-
-    // Gear shifting
-    if (OI.xboxController.getAButtonPressed()) {
-      // Shifts to high gear
-      leftShifter.setForwards();
-      rightShifter.setForwards();
-      SmartDashboard.putString(" Button State ", "A");
-      SmartDashboard.putBoolean(" Shifter ", leftShifter.isForwards());
+    /*if (OI.ps4Controller2.getR1ButtonPressed()) {
+      startTimestamp = Timer.getFPGATimestamp();
+      SmartDashboard.putString(" Button State ", "R1");
+      
+      if (Timer.getFPGATimestamp() - startTimestamp < 0.25) {
+        intakeArm.set(ControlMode.PercentOutput, -0.25);
+      } else {
+        intakeArm.set(ControlMode.PercentOutput, -0.08);
+      }
     }
 
-    if (OI.xboxController.getBButtonPressed()) {
-      // Shifts to low gear
-      leftShifter.setReverse();
-      rightShifter.setReverse();
-      SmartDashboard.putString(" Button State ", "B");
-      SmartDashboard.putBoolean(" Shifter ", leftShifter.isReverse());
+    if (OI.ps4Controller2.getR2ButtonPressed()) {
+      startTimestamp = Timer.getFPGATimestamp();
+      SmartDashboard.putString(" Button State ", "R2");
+      
+      intakeArm.set(ControlMode.PercentOutput, 0.05);
+    }*/
+
+    // if (OI.ps4Controller2.getL1ButtonPressed()) {
+    //   EverybotClimber.climberMaster.set(ControlMode.PercentOutput, 0.02);
+    // }
+    // else if(OI.ps4Controller2.getL2ButtonPressed()) {
+    //   EverybotClimber.climberMaster.set(ControlMode.PercentOutput, -0.02);
+    // }
+    // else {
+    //   EverybotClimber.climberMaster.set(ControlMode.PercentOutput, 0.0);
+    // }
+
+  }
+
+  @Override
+  public void autonomousInit() {
+    robotContainer.everybotArm.resetElevatorEncoder();
+    m_startTimestamp = Timer.getFPGATimestamp();
+
+    // m_autonomousCommand = autoChooser.getSelected();
+    // if (m_autonomousCommand != null) { 
+    //   m_autonomousCommand.schedule();
+    // }
+  }
+
+  @Override
+  public void autonomousPeriodic() {
+    m_currentTimestamp = Timer.getFPGATimestamp();
+    m_timeElapsed = m_currentTimestamp - m_startTimestamp;
+
+    if ((m_timeElapsed < m_timeoutTimestamp) && (m_timeElapsed < m_intakeTimestamp)) {
+      robotContainer.everybotIntake.intakeOut(EverybotConstants.kEverybotAutoOuttake);
     }
+    else if (m_timeElapsed < m_timeoutTimestamp && m_timeElapsed > m_intakeTimestamp) {
+      robotContainer.drivetrain.drive(0.5, 0.5, 1);
+    }
+    else {
+      robotContainer.drivetrain.setPowerZero();
+      robotContainer.everybotIntake.setPowerZero();
+    }
+    
+    // new AbstractBasicAuto();
+    // new BasicAuto();
 
-    // Updates SmartDashboard
-    SmartDashboard.putNumber(" Right Master Current ", rightMaster.getSupplyCurrent());
-    SmartDashboard.putNumber(" Right Slave Current ", rightSlave.getSupplyCurrent());
-    SmartDashboard.putNumber(" Left Master Current ", leftMaster.getSupplyCurrent());
-    SmartDashboard.putNumber(" Left Slave Current ", leftSlave.getSupplyCurrent());
+    // new Auto();
 
-    SmartDashboard.putBoolean(" Compressor Enabled ", enabled);
-    SmartDashboard.putBoolean(" Pressure Switch ", pressureSwitch);
-    SmartDashboard.putNumber(" Compressor Current ", current);
+    // CommandScheduler.getInstance().run();
   }
 }
