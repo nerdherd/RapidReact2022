@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.OI;
-import frc.robot.RobotMap;
 import frc.robot.Constants.DriveConstants;
 
 public class Drivetrain extends SubsystemBase {
@@ -33,10 +32,10 @@ public class Drivetrain extends SubsystemBase {
     // ======================= TELEOP FUNCTIONS ======================= //
     
     public static void setupDrivetrain() {
-      rightMaster = new TalonFX(RobotMap.kRightMasterTalonID);
-      leftMaster = new TalonFX(RobotMap.kLeftMasterTalonID);
-      rightSlave = new TalonFX(RobotMap.kRightSlaveTalonID);  
-      leftSlave = new TalonFX(RobotMap.kLeftSlaveTalonID);
+      rightMaster = new TalonFX(DriveConstants.kRightMasterTalonID);
+      leftMaster = new TalonFX(DriveConstants.kLeftMasterTalonID);
+      rightSlave = new TalonFX(DriveConstants.kRightSlaveTalonID);  
+      leftSlave = new TalonFX(DriveConstants.kLeftSlaveTalonID);
 
       leftSlave.follow(leftMaster);
       rightSlave.follow(rightMaster);

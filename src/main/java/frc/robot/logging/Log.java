@@ -14,7 +14,6 @@ import badlog.lib.BadLog;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.Timer;
-import frc.robot.Robot;
 import frc.robot.everybot.EverybotArmMotionMagic;
 import frc.robot.everybot.EverybotIntake;
 import frc.robot.subsystems.drive.Drivetrain;

@@ -3,14 +3,13 @@ package frc.robot.everybot;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
-import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import frc.robot.RobotMap;
+import frc.robot.Constants.DriveConstants;
 
-public class EverybotIntake extends SubsystemBase implements Sendable {
-    public static TalonSRX everybotIntake = new TalonSRX(RobotMap.kEverybotIntake);
+public class EverybotIntake extends SubsystemBase {
+    public static TalonSRX everybotIntake = new TalonSRX(DriveConstants.kEverybotIntake);
 
     public EverybotIntake() {
         everybotIntake.setInverted(true);

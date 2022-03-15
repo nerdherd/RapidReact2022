@@ -1,16 +1,9 @@
 package frc.robot.everybot;
 
-import java.util.ResourceBundle.Control;
-
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.OI;
-import frc.robot.everybot.EverybotArmMotionMagic;
-import frc.robot.everybot.EverybotIntake;
 import frc.robot.Constants.EverybotConstants;
 
 public class Everybot extends SubsystemBase {

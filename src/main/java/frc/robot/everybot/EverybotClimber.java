@@ -2,10 +2,9 @@ package frc.robot.everybot;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.InvertType;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
-import frc.robot.RobotMap;
+import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.EverybotConstants;
 
 public class EverybotClimber {
@@ -13,8 +12,8 @@ public class EverybotClimber {
     public static VictorSPX climberSlave;
 
     public static void setUpClimber() {
-        climberMaster = new VictorSPX(RobotMap.kClimbMasterTalonID);
-        climberSlave = new VictorSPX(RobotMap.kClimbSlaveTalonID);
+        climberMaster = new VictorSPX(DriveConstants.kClimbMasterTalonID);
+        climberSlave = new VictorSPX(DriveConstants.kClimbSlaveTalonID);
 
         climberSlave.follow(climberMaster);
 

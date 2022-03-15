@@ -1,23 +1,17 @@
 package frc.robot;
 
-import javax.swing.JToggleButton;
-
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandGroupBase;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import frc.robot.everybot.EverybotIntake;
 import frc.robot.Constants.EverybotConstants;
 import frc.robot.subsystems.drive.Drivetrain;
-
-import edu.wpi.first.wpilibj.PS4Controller.Button;
 
 public class OI {
     public static PS4Controller ps4Controller = new PS4Controller(0);
