@@ -8,10 +8,9 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-
-import frc.robot.everybot.EverybotIntake;
 import frc.robot.Constants.EverybotConstants;
-import frc.robot.subsystems.drive.Drivetrain;
+import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.EverybotIntake;
 
 public class OI {
     public static PS4Controller ps4Controller = new PS4Controller(0);

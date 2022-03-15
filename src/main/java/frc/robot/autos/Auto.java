@@ -7,8 +7,8 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Robot;
 import frc.robot.Constants.EverybotConstants;
-import frc.robot.everybot.EverybotIntake;
-import frc.robot.subsystems.drive.Drivetrain;
+import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.EverybotIntake;
 
 public class Auto extends SequentialCommandGroup {
   public Auto() {
