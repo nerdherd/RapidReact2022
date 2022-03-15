@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Robot;
-import frc.robot.everybot.EverybotHeight;
+import frc.robot.everybot.EverybotArmMotionMagic;
 import frc.robot.everybot.EverybotIntake;
 import frc.robot.subsystems.drive.Drivetrain;
 
@@ -41,7 +41,7 @@ public class Log {
     createTopic("RightFollower" + "/Voltage", () -> Drivetrain.rightSlave.getMotorOutputVoltage());
     createTopic("LeftFollower" + "/Voltage", () -> Drivetrain.leftSlave.getMotorOutputVoltage());
     createTopic("IntakeVoltage" + "/Voltage", () -> EverybotIntake.everybotIntake.getMotorOutputVoltage());
-    createTopic("IntakeArmAngle" + "/Angle", () -> EverybotHeight.arm.getSelectedSensorPosition());
+    createTopic("IntakeArmAngle" + "/Angle", () -> EverybotArmMotionMagic.arm.getSelectedSensorPosition());
     log.finishInitialization();
   }
 

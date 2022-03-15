@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.OI;
-import frc.robot.everybot.EverybotHeight;
+import frc.robot.everybot.EverybotArmMotionMagic;
 import frc.robot.everybot.EverybotIntake;
 import frc.robot.constants.EverybotConstants;
 
@@ -17,7 +17,7 @@ public class Everybot extends SubsystemBase {
     public static EverybotIntake intake;
     public static EverybotArm arm;
     public static EverybotClimber climber;
-    public static EverybotArm2 arm2;
+    // public static EverybotArm2 arm2;
 
     public static void setUpEverybot() {
         intake = new EverybotIntake();
@@ -58,14 +58,14 @@ public class Everybot extends SubsystemBase {
         if (OI.ps4Controller2.getSquareButtonPressed()) {
             // EverybotArm.rotateArmToAngle(EverybotConstants.kHighAngle, EverybotConstants.kHighAngleThreshold);
             // EverybotArm.arm.set(ControlMode.PercentOutput, -0.16);
-            EverybotArm2.Arm2Up();
+            // EverybotArm2.Arm2Up();
             SmartDashboard.putString(" Button State ", "Square");
         }
 
         if (OI.ps4Controller2.getCircleButtonPressed()) {
             // EverybotArm.rotateArmToAngle(EverybotConstants.kLowAngle, EverybotConstants.kLowAngleThreshold);
             // EverybotArm.arm.set(ControlMode.PercentOutput, 0.16);
-            EverybotArm2.Arm2Down();
+            // EverybotArm2.Arm2Down();
             SmartDashboard.putString(" Button State " , "Circle");
         }
 

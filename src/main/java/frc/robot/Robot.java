@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.drive.Drivetrain;
@@ -21,9 +22,9 @@ import frc.robot.autos.BasicAuto;
 import frc.robot.constants.EverybotConstants;
 import frc.robot.everybot.Everybot;
 import frc.robot.everybot.EverybotArm;
-import frc.robot.everybot.EverybotArm2;
+//import frc.robot.everybot.EverybotArm2;
 import frc.robot.everybot.EverybotClimber;
-import frc.robot.everybot.EverybotHeight;
+import frc.robot.everybot.EverybotArmMotionMagic;
 import frc.robot.everybot.EverybotIntake;
 import frc.robot.logging.Log;
 import frc.robot.misc.AutoChooser;
@@ -48,7 +49,7 @@ public class Robot extends TimedRobot {
   public void robotInit() { 
     Drivetrain.setupDrivetrain();
     Everybot.setUpEverybot();
-    EverybotArm2.setUpEArm();
+    //EverybotArm2.setUpEArm();
 
     everybotIntake = new EverybotIntake();
 

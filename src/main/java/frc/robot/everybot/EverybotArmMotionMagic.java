@@ -8,7 +8,7 @@ import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.TrapezoidProfileSubsystem;
 
-public class EverybotHeight extends TrapezoidProfileSubsystem {
+public class EverybotArmMotionMagic extends TrapezoidProfileSubsystem {
     
     public static final double kArmGoalAngle = 1.572; // Radians
     public static final double kArmVelocityToGoal = 0;
@@ -41,7 +41,7 @@ public class EverybotHeight extends TrapezoidProfileSubsystem {
     
     public static TalonFX arm;
 
-    public EverybotHeight() {
+    public EverybotArmMotionMagic() {
         super(
             new TrapezoidProfile.Constraints(kArmMaxVelocity, kArmMaxAcceleration)
         );
