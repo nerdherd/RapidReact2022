@@ -6,7 +6,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.VictorSPX;
 
 import frc.robot.RobotMap;
-import frc.robot.constants.EverybotConstants;
+import frc.robot.Constants.EverybotConstants;
 
 public class EverybotClimber {
     public static VictorSPX climberMaster;

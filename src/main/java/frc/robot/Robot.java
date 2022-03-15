@@ -19,7 +19,7 @@ import frc.robot.subsystems.drive.Drivetrain;
 // import frc.robot.autos.AbstractBasicAuto;
 import frc.robot.autos.Auto;
 import frc.robot.autos.BasicAuto;
-import frc.robot.constants.EverybotConstants;
+import frc.robot.Constants.EverybotConstants;
 import frc.robot.everybot.Everybot;
 import frc.robot.everybot.EverybotArm;
 //import frc.robot.everybot.EverybotArm2;

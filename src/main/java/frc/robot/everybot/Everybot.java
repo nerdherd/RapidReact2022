@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.OI;
 import frc.robot.everybot.EverybotArmMotionMagic;
 import frc.robot.everybot.EverybotIntake;
-import frc.robot.constants.EverybotConstants;
+import frc.robot.Constants.EverybotConstants;
 
 public class Everybot extends SubsystemBase {
     public static EverybotIntake intake;
@@ -23,6 +23,10 @@ public class Everybot extends SubsystemBase {
         intake = new EverybotIntake();
         arm = new EverybotArm();
         climber = new EverybotClimber();
+    }
+
+    public void intakeIn() {
+        
     }
 
     public static void shooterControllerMovement() {

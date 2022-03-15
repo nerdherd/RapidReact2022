@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 
-import frc.robot.constants.EverybotConstants;
+import frc.robot.Constants.EverybotConstants;
 import frc.robot.everybot.EverybotIntake;
 import frc.robot.Robot;
 import frc.robot.commands.OpenLoopDrive;

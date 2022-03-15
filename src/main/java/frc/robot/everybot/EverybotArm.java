@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.RobotMap;
-import frc.robot.constants.EverybotConstants;
+import frc.robot.Constants.EverybotConstants;
 
 public class EverybotArm extends SubsystemBase {
     public static TalonFX arm = new TalonFX(RobotMap.kEverybotArm);

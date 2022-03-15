@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.OI;
 import frc.robot.RobotMap;
-import frc.robot.constants.DriveConstants;
+import frc.robot.Constants.DriveConstants;
 
 public class Drivetrain extends SubsystemBase {
     public static TalonFX rightMaster; // Channel 30 on CAN, 14 on PDP
