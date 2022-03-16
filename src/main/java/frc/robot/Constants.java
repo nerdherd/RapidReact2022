@@ -7,13 +7,15 @@ public final class Constants {
 
         public static final int kRightMasterTalonID = 30;
         public static final int kLeftMasterTalonID = 16;
-        public static final int kClimbMasterTalonID = 24;
     
         public static final int kRightSlaveTalonID = 31;
         public static final int kLeftSlaveTalonID = 17;
+
+        public static final int kClimbMasterTalonID = 24;
         public static final int kClimbSlaveTalonID = 25;
         
         public static final int kEverybotArm = 15;
+
         public static final int kEverybotIntake = 14;
     }
     public static final class EverybotConstants {
@@ -22,9 +24,11 @@ public final class Constants {
         public static final double kGravityAngle = -19500.00;
         public static final double kHighAngleThreshold = 0;
         public static final double kLowAngleThreshold = 0;
+
         public static final double kEverybotArmkP = 1.0;
         public static final double kEverybotArmkD = 0.0002;
         public static final double kEverybotArmFF = 0.0;
+
         public static final double kEverybotUpVoltage = 0.7;
         public static final double kEverybotDownVoltage = 0.2;
     
@@ -36,6 +40,15 @@ public final class Constants {
         public static final double kEverybotClimberDown = 0.5;
         public static final double kEverybotClimberHigh = 0;
         public static final double kEverybotClimberLow = 0;
+
+        public static final double kEverybotClimberkP = 0.01;
+        public static final double kEverybotClimberkI = 0;
+        public static final double kEverybotClimberkD = 0;
+        public static final double kEverybotClimberkF = 0;
+        
+        public static final double kTicksToLowRung = -81361;
+        public static final double kTicksToMidRung = 37604;
+        public static final double kTicksToHome = 43757;
     }
     public static final class EverybotMotionMagicConstants {
         public static final double kArmGoalAngle = 1.572; // Radians

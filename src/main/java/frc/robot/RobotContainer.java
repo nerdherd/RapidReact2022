@@ -1,9 +1,11 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PS4Controller.Button;
 
 import frc.robot.Constants.EverybotConstants;
@@ -25,6 +27,7 @@ public class RobotContainer {
     public RobotContainer() {
         oi = new OI(this);
         configureButtonBindings();
+        SmartDashboard.putBoolean("arm moving", false);
     }
 
     private void configureButtonBindings() {
@@ -62,7 +65,27 @@ public class RobotContainer {
         .whenPressed(new InstantCommand(() -> { 
             everybotIntake.intakeIn(0);
         }, everybotIntake));
+
+        new JoystickButton(OI.ps4Controller2, Button.kCross.value)
+        .whenPressed(new InstantCommand(() -> {
+            everybotClimber.moveClimber(EverybotConstants.kTicksToLowRung);
+            SmartDashboard.putBoolean("arm moving", true);
+        }));
         
+        SmartDashboard.putData("move arm to first rung", new InstantCommand(() -> {
+            everybotClimber.moveClimber(EverybotConstants.kTicksToLowRung);
+            SmartDashboard.putBoolean("arm moving", true);
+        }));
+
+        new JoystickButton(OI.ps4Controller2, Button.kCircle.value)
+        .whenPressed(new SequentialCommandGroup(
+            new InstantCommand(() -> {
+                everybotClimber.moveClimber(EverybotConstants.kTicksToMidRung);
+            }),
+            new InstantCommand(() -> {
+                everybotClimber.moveClimber(EverybotConstants.kTicksToHome);
+            })
+        ));
         // These commands are disabled for now, as the arm is mechanically unstable
         
         // Bind arm up command to square button
