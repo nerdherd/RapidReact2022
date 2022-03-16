@@ -14,12 +14,8 @@ public class Elevator {
     private static double elevatorKd = 0.0002;
     private static double elevatorFF = 0;
     
-    public static void moveElevator(double speed, double waitTime) {
+    public static void moveElevator(double speed) {
         elevator.set(ControlMode.PercentOutput, speed);
-
-        Timer.delay(waitTime);
-
-        elevator.set(ControlMode.PercentOutput, 0);
     }
 
     public static void moveElevatortoPos(double target, double errorThreshold) {
@@ -33,9 +29,9 @@ public class Elevator {
             elevatorSpeed = (elevatorKp * error * 0.001) + (elevatorKd * (oldError - error) * 0.001 / 0.01) + (elevatorFF * 0.001);
 
             if (elevator.getSelectedSensorPosition() < target) {
-                moveElevator(elevatorSpeed, 0.01);
+                moveElevator(elevatorSpeed);
             } else if (elevator.getSelectedSensorPosition() > target) {
-                moveElevator((elevatorSpeed * -1), 0.01);
+                moveElevator((elevatorSpeed * -1));
             }
         }
 

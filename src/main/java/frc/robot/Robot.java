@@ -20,12 +20,14 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() { 
     Drivetrain.setupDrivetrain();
+    Elevator.elevator.setSelectedSensorPosition(0);
     Log.initAndLog("/home/lvuser/logs/", "Test", 0.02);
   }
 
   @Override
   public void robotPeriodic() {
     SmartDashboard.putNumber(" Arm ", Arm.arm.getSelectedSensorPosition());///4096*360));
+    SmartDashboard.putNumber(" Arm Vel ", Arm.arm.getSelectedSensorVelocity());
   }
   
   @Override
@@ -36,8 +38,10 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() { 
-    Drivetrain.driveControllerMovement();
-    Drivetrain.updateSmartDashboardForDrivetrain();
+    // Drivetrain.driveControllerMovement();
+    // Drivetrain.updateSmartDashboardForDrivetrain();
+    SmartDashboard.putData("Move Elevator", new InstantCommand(() -> Elevator.moveElevatortoPos(-21560, 20)));
+    SmartDashboard.putNumber(" Elevator Position ", Elevator.elevator.getSelectedSensorPosition());
   }
 
   @Override
