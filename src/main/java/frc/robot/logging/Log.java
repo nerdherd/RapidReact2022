@@ -16,7 +16,7 @@ import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Robot;
 import frc.robot.subsystems.drive.Drivetrain;
-import frc.robot.subsystems.climber.ArmMotionMagic;
+// import frc.robot.subsystems.climber.ArmMotionMagic;
 
 /**
  * Add your docs here.
@@ -39,8 +39,8 @@ public class Log {
     createTopic("LeftMaster" + "/Voltage", () -> Drivetrain.leftMaster.getMotorOutputVoltage());
     createTopic("RightFollower" + "/Voltage", () -> Drivetrain.rightSlave.getMotorOutputVoltage());
     createTopic("LeftFollower" + "/Voltage", () -> Drivetrain.leftSlave.getMotorOutputVoltage());
-    createTopic(" ArmPos " + "/Position", () -> ArmMotionMagic.armMM.getSelectedSensorPosition());
-    createTopic(" ArmVel " + "/Velocity", () -> ArmMotionMagic.armMM.getSelectedSensorVelocity());
+    // createTopic(" ArmPos " + "/Position", () -> ArmMotionMagic.armMM.getSelectedSensorPosition());
+    // createTopic(" ArmVel " + "/Velocity", () -> ArmMotionMagic.armMM.getSelectedSensorVelocity());
     log.finishInitialization();
   }
 

@@ -4,24 +4,25 @@
 
 package frc.robot;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.climber.Arm;
 import frc.robot.subsystems.climber.Elevator;
 import frc.robot.subsystems.drive.Drivetrain;
 import frc.robot.logging.Log;
 
 public class Robot extends TimedRobot {
+  public RobotContainer robotContainer;
+
   @Override
   public void robotInit() { 
     Drivetrain.setupDrivetrain();
     Elevator.elevator.setSelectedSensorPosition(0);
+    Arm.arm.setSelectedSensorPosition(0);
     Log.initAndLog("/home/lvuser/logs/", "Test", 0.02);
+
+    robotContainer = new RobotContainer();
   }
 
   @Override
