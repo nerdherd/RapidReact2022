@@ -8,8 +8,10 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.climber.Arm;
+import frc.robot.subsystems.climber.ArmMotionMagic;
 import frc.robot.subsystems.climber.Elevator;
 import frc.robot.subsystems.drive.Drivetrain;
+import frc.robot.RobotContainer;
 import frc.robot.logging.Log;
 
 public class Robot extends TimedRobot {
@@ -18,9 +20,7 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() { 
     Drivetrain.setupDrivetrain();
-    Elevator.elevator.setSelectedSensorPosition(0);
-    Arm.arm.setSelectedSensorPosition(0);
-    Log.initAndLog("/home/lvuser/logs/", "Test", 0.02);
+    Log.initAndLog("/home/lvuser/logs/", "Test", 0.02, robotContainer);
 
     robotContainer = new RobotContainer();
   }
@@ -43,6 +43,7 @@ public class Robot extends TimedRobot {
     // Drivetrain.updateSmartDashboardForDrivetrain();
     SmartDashboard.putData("Move Elevator", new InstantCommand(() -> Elevator.moveElevatortoPos(-21560, 20)));
     SmartDashboard.putNumber(" Elevator Position ", Elevator.elevator.getSelectedSensorPosition());
+    robotContainer.smartDashboardButtons();
   }
 
   @Override

@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.Robot;
+import frc.robot.RobotContainer;
 import frc.robot.subsystems.drive.Drivetrain;
 // import frc.robot.subsystems.climber.ArmMotionMagic;
 
@@ -30,7 +31,7 @@ public class Log {
   public static BadLog log;
   private static Notifier logger;
 
-  public static void init(String directory, String filename) {
+  public static void init(String directory, String filename, RobotContainer robotContainer) {
     
     log = BadLog.init(getDesiredFile(directory, filename));
     createTopic("Time", () -> Timer.getFPGATimestamp());
@@ -39,13 +40,16 @@ public class Log {
     createTopic("LeftMaster" + "/Voltage", () -> Drivetrain.leftMaster.getMotorOutputVoltage());
     createTopic("RightFollower" + "/Voltage", () -> Drivetrain.rightSlave.getMotorOutputVoltage());
     createTopic("LeftFollower" + "/Voltage", () -> Drivetrain.leftSlave.getMotorOutputVoltage());
-    // createTopic(" ArmPos " + "/Position", () -> ArmMotionMagic.armMM.getSelectedSensorPosition());
-    // createTopic(" ArmVel " + "/Velocity", () -> ArmMotionMagic.armMM.getSelectedSensorVelocity());
+    createTopic(" Climber Position (sensor) " + "/Position", () -> robotContainer.armTrapezoid.arm.getSelectedSensorPosition());
+    createTopic(" Climber Velocity (sensor) " + " /Velocity ", () -> robotContainer.armTrapezoid.arm.getSelectedSensorVelocity());
+    createTopic(" Climber Position (trajectory) " + " /Position ", () -> robotContainer.armTrapezoid.arm.getActiveTrajectoryPosition());
+    createTopic(" Climber Velocity (trajectory) " + " /Velocity ", () -> robotContainer.armTrapezoid.arm.getActiveTrajectoryVelocity());
+
     log.finishInitialization();
   }
 
-  public static void initAndLog(String directory, String filename, double period) {
-    init(directory, filename);
+  public static void initAndLog(String directory, String filename, double period, RobotContainer robotContainer) {
+    init(directory, filename, robotContainer);
     logger = new Notifier(() -> {
       Log.log();
     });
