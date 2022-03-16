@@ -86,6 +86,16 @@ public class RobotContainer {
                 everybotClimber.moveClimber(EverybotConstants.kTicksToHome);
             })
         ));
+
+        SmartDashboard.putData("climb part 2",
+            new InstantCommand(() -> {
+                everybotClimber.moveClimber(EverybotConstants.kTicksToMidRung);
+            })
+        );
+
+        SmartDashboard.putData("home", new InstantCommand(
+            () -> everybotClimber.moveClimber(EverybotConstants.kTicksToHome)
+        ));
         // These commands are disabled for now, as the arm is mechanically unstable
         
         // Bind arm up command to square button
