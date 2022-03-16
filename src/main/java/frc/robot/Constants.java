@@ -44,7 +44,7 @@ public final class Constants {
         public static final double kEverybotClimberkP = 0.01;
         public static final double kEverybotClimberkI = 0;
         public static final double kEverybotClimberkD = 0;
-        public static final double kEverybotClimberkF = 0.188;
+        public static final double kEverybotClimberkF = 0.094;
         
         public static final double kTicksToLowRung = -83361;
         public static final double kTicksToMidRung = 40604;
