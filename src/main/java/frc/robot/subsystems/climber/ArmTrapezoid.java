@@ -74,7 +74,8 @@ public class ArmTrapezoid extends TrapezoidProfileSubsystem {
     }
     
     public double ticksToAngle() {
-        return (arm.getSelectedSensorPosition() - ClimberConstants.kArmAngleOffset) * 360 / 1024;
+        return 90 - ((arm.getSelectedSensorPosition() - ClimberConstants.kArmAngleOffset)
+             * 360 / 4096);
     }
 
     public double degreesToRadians(double deg) {

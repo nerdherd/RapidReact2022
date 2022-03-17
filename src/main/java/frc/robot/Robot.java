@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.climber.Arm;
-import frc.robot.subsystems.climber.ArmMotionMagic;
 import frc.robot.subsystems.climber.Elevator;
 import frc.robot.subsystems.drive.Drivetrain;
 import frc.robot.RobotContainer;
@@ -27,8 +26,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotPeriodic() {
-    SmartDashboard.putNumber(" Arm ", Arm.arm.getSelectedSensorPosition());///4096*360));
-    SmartDashboard.putNumber(" Arm Vel ", Arm.arm.getSelectedSensorVelocity());
+    SmartDashboard.putNumber(" Arm ", robotContainer.armTrapezoid.arm.getSelectedSensorPosition());///4096*360));
+    SmartDashboard.putNumber(" Arm Vel ", robotContainer.armTrapezoid.arm.getSelectedSensorVelocity());
   }
   
   @Override
@@ -44,6 +43,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Move Elevator", new InstantCommand(() -> Elevator.moveElevatortoPos(-21560, 20)));
     SmartDashboard.putNumber(" Elevator Position ", Elevator.elevator.getSelectedSensorPosition());
     robotContainer.smartDashboardButtons();
+    robotContainer.reportToSmartDashboard();
   }
 
   @Override
