@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.TrapezoidProfileSubsystem;
 import frc.robot.Constants.ClimberConstants;
 
-public class ArmTrapezoid extends TrapezoidProfileSubsystem {
+public class ArmTrapezoid {
     private final ArmFeedforward feedforward = new ArmFeedforward(
         ClimberConstants.kArmStaticGain, 
         ClimberConstants.kArmGravityGain, 
@@ -20,11 +20,11 @@ public class ArmTrapezoid extends TrapezoidProfileSubsystem {
     public TalonSRX arm;
 
     public ArmTrapezoid() {
-        super(
-            new TrapezoidProfile.Constraints(
-                ClimberConstants.kArmMaxVelocity,
-                ClimberConstants.kArmMaxAcceleration)
-        );
+        // super(
+        //     new TrapezoidProfile.Constraints(
+        //         ClimberConstants.kArmMaxVelocity,
+        //         ClimberConstants.kArmMaxAcceleration)
+        // );
 
         arm = new TalonSRX(15);
         arm.setInverted(true);
@@ -35,11 +35,6 @@ public class ArmTrapezoid extends TrapezoidProfileSubsystem {
         arm.config_kD(0, ClimberConstants.kArmkD);
     }
 
-    @Override
-    public void useState(TrapezoidProfile.State setpoint) {
-        double ff = feedforward.calculate(setpoint.position, setpoint.velocity);
-        arm.config_kF(0, ff);
-    }
 
     // public void setPositionMotionMagic(double angle) {
     //     if (Math.abs(arm.getSelectedSensorVelocity()) <= ClimberConstants.kArmStaticFrictionDeadband) {
@@ -50,8 +45,8 @@ public class ArmTrapezoid extends TrapezoidProfileSubsystem {
     //     }
     // }
 
-    public void setPositionMotionMagic(double angle) {
-        arm.set(ControlMode.MotionMagic, angle, 
+    public void setPositionMotionMagic(double ticks) {
+        arm.set(ControlMode.MotionMagic, ticks, 
             DemandType.ArbitraryFeedForward, FF());
     }
 
