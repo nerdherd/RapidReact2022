@@ -6,6 +6,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.OI;
 import frc.robot.Constants.EverybotConstants;
 
+// TODO: Confirm if this file is needed, remove if not. 
+
 public class Everybot extends SubsystemBase {
     public EverybotIntake intake;
     public EverybotArm arm;
@@ -30,17 +32,6 @@ public class Everybot extends SubsystemBase {
             intake.intakeOut(EverybotConstants.kEverybotOuttake);
             SmartDashboard.putString(" Button State ", "L2");
 
-        }
-
-        if (OI.ps4Controller2.getL2ButtonPressed()) {
-            // climber.setPower(EverybotConstants.kEverybotClimberUp);
-            climber.climberUp();
-            
-        }
-
-        if (OI.ps4Controller2.getR2ButtonPressed()) {
-            // climber.setPower(EverybotConstants.kEverybotClimberDown);
-            climber.climberDown();
         }
 
         if (OI.ps4Controller2.getTriangleButtonPressed()) {

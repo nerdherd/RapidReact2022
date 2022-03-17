@@ -10,6 +10,8 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.EverybotConstants;
 
+// TODO: move the stuff in this file over to robotcontainer
+
 public class OI {
     public static PS4Controller ps4Controller = new PS4Controller(0);
     public static PS4Controller ps4Controller2 = new PS4Controller(1);
@@ -17,7 +19,9 @@ public class OI {
     public SendableChooser<CommandGroupBase> autoChooser;
 
     public OI(RobotContainer robotContainer) {
-        
+
+        // TODO: Make sure that the autochooser is working. 
+
         autoChooser = new SendableChooser<CommandGroupBase>();
 
         autoChooser.setDefaultOption("leave tarmac :)", 

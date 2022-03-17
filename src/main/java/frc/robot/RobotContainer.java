@@ -46,19 +46,9 @@ public class RobotContainer {
             everybotIntake.intakeOut(EverybotConstants.kEverybotOuttake);
             SmartDashboard.putString(" Button State ", "L2");
         }, everybotIntake));
-
-        // Bind climber up to L2 trigger
-        new JoystickButton(OI.ps4Controller2, Button.kL2.value)
-        .whenPressed(new InstantCommand(() -> { 
-            everybotClimber.climberUp();
-        }, everybotClimber));
-
-        // Bind climber down to R2 trigger
-        new JoystickButton(OI.ps4Controller2, Button.kR2.value)
-        .whenPressed(new InstantCommand(() -> { 
-            everybotClimber.climberDown();
-        }, everybotIntake));
         
+        // TODO: doublecheck that these buttons are working, and also make sure that the commands end when the robot is disabled.
+
         // Bind intake in to triangle button
         new JoystickButton(OI.ps4Controller2, Button.kTriangle.value)
         .whenPressed(new InstantCommand(() -> { 
@@ -71,20 +61,25 @@ public class RobotContainer {
             SmartDashboard.putBoolean("arm moving", true);
         }));
         
-        SmartDashboard.putData("move arm to first rung", new InstantCommand(() -> {
-            everybotClimber.moveClimber(EverybotConstants.kTicksToLowRung);
-            SmartDashboard.putBoolean("arm moving", true);
-        }));
-
         new JoystickButton(OI.ps4Controller2, Button.kCircle.value)
         .whenPressed(new SequentialCommandGroup(
             new InstantCommand(() -> {
                 everybotClimber.moveClimber(EverybotConstants.kTicksToMidRung);
-            }),
-            new InstantCommand(() -> {
-                everybotClimber.moveClimber(EverybotConstants.kTicksToHome);
             })
+
+            // TODO: find new values to completely hook onto the mid rung after we align with mid.
+
+            // ,new InstantCommand(() -> {
+            //     everybotClimber.moveClimber(EverybotConstants.kTicksToHome);
+            // })
         ));
+        
+        // Smartdashboard buttons for testing the climber
+
+        SmartDashboard.putData("move arm to first rung", new InstantCommand(() -> {
+            everybotClimber.moveClimber(EverybotConstants.kTicksToLowRung);
+            SmartDashboard.putBoolean("arm moving", true);
+        }));
 
         SmartDashboard.putData("climb part 2",
             new InstantCommand(() -> {
@@ -95,6 +90,7 @@ public class RobotContainer {
         SmartDashboard.putData("home", new InstantCommand(
             () -> everybotClimber.moveClimber(EverybotConstants.kTicksToHome)
         ));
+
         // These commands are disabled for now, as the arm is mechanically unstable
         
         // Bind arm up command to square button

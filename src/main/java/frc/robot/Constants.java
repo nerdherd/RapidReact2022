@@ -41,6 +41,8 @@ public final class Constants {
         public static final double kEverybotClimberHigh = 0;
         public static final double kEverybotClimberLow = 0;
 
+        // TODO: tune these parameters
+
         public static final double kEverybotClimberkP = 0.01;
         public static final double kEverybotClimberkI = 0;
         public static final double kEverybotClimberkD = 0;

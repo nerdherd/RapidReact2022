@@ -9,6 +9,7 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.EverybotConstants;
 
 public class EverybotClimber extends SubsystemBase {
+    
     public TalonFX climberMaster;
     public TalonFX climberSlave;
 
@@ -40,39 +41,7 @@ public class EverybotClimber extends SubsystemBase {
         */
     }
 
-    public void setPower(double power) {
-        climberMaster.set(ControlMode.PercentOutput, power);
-    }
-
-    public void climberUp() {
-        if (climberMaster.getSelectedSensorPosition() < EverybotConstants.kEverybotClimberHigh) {
-            climberMaster.set(ControlMode.PercentOutput, EverybotConstants.kEverybotClimberUp);
-        }
-        else {
-            climberMaster.set(ControlMode.PercentOutput, 0.05);
-        }
-    }
-
-    public void climberUpMotionMagic() {
-        double home = climberMaster.getSelectedSensorPosition();
-
-        climberMaster.configMotionCruiseVelocity(4000);
-        climberMaster.configMotionAcceleration(2000);
-        climberMaster.set(ControlMode.MotionMagic, (home + EverybotConstants.kTicksToLowRung));
-        climberMaster.set(ControlMode.MotionMagic, (home + EverybotConstants.kTicksToLowRung));
-        climberMaster.set(ControlMode.MotionMagic, (home + EverybotConstants.kTicksToLowRung));
-    }
-
     public void moveClimber(double ticksToTarget) {
         climberMaster.set(ControlMode.MotionMagic, climberMaster.getSelectedSensorPosition() + ticksToTarget);
     } 
-
-    public void climberDown() {
-        if (climberMaster.getSelectedSensorPosition() > EverybotConstants.kEverybotClimberLow) {
-            climberMaster.set(ControlMode.PercentOutput, EverybotConstants.kEverybotClimberDown);
-        }
-        else {
-            climberMaster.set(ControlMode.PercentOutput, -0.05);
-        }
-    }
 }
