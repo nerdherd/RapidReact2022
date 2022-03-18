@@ -19,9 +19,11 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() { 
     Drivetrain.setupDrivetrain();
-    Log.initAndLog("/home/lvuser/logs/", "Test", 0.02, robotContainer);
-    
+
     robotContainer = new RobotContainer();
+    Log.initAndLog("/home/lvuser/logs/", "Test", 0.02, robotContainer);
+
+   
   }
 
   @Override
