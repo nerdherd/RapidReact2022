@@ -30,15 +30,6 @@ public class EverybotClimber extends SubsystemBase {
         climberMaster.configMotionAcceleration(400);
 
         climberSlave.follow(climberMaster);
-        /*
-        climberSlave.config_kP(0, EverybotConstants.kEverybotClimberkP);
-        climberSlave.config_kI(0, EverybotConstants.kEverybotClimberkI);
-        climberSlave.config_kD(0, EverybotConstants.kEverybotClimberkD);
-        climberSlave.config_kF(0, EverybotConstants.kEverybotClimberkF);
-
-        climberSlave.configMotionCruiseVelocity(100);
-        climberSlave.configMotionAcceleration(50);
-        */
     }
 
     public void moveClimber(double ticksToTarget) {

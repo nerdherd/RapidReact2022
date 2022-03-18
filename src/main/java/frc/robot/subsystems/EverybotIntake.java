@@ -33,8 +33,4 @@ public class EverybotIntake extends SubsystemBase {
     public void setPowerZero() {
         everybotIntake.set(ControlMode.PercentOutput, 0);
     }
-
-    // public static void reportToSmartDashboard() {
-    //     SmartDashboard.putData(" Time ", );
-    // }
 }

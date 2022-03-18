@@ -63,21 +63,6 @@ public class Drivetrain extends SubsystemBase {
       double leftOutput = (DriveConstants.kDriveAlpha * leftInput) + (DriveConstants.kDriveOneMinusAlpha * prevLeftOutput);
       double rightOutput = (DriveConstants.kDriveAlpha * rightInput) + (DriveConstants.kDriveOneMinusAlpha * prevRightOutput);
 
-      // double modLeftInput = gainInput(leftInput);
-      // double modRightInput = gainInput(rightInput);
-
-      // double modScale = 0.05;
-      
-      // if (highGear == true) {
-      //   rightMaster.set(ControlMode.PercentOutput, modLeftInput * modScale);
-      //   leftMaster.set(ControlMode.PercentOutput, modRightInput * modScale);
-      // }
-
-      // if (highGear == false) {
-      //   rightMaster.set(ControlMode.PercentOutput, rightInput);
-      //   leftMaster.set(ControlMode.PercentOutput, leftInput);
-      // }
-
       rightMaster.set(ControlMode.PercentOutput, rightOutput);
       leftMaster.set(ControlMode.PercentOutput, leftOutput);
 
