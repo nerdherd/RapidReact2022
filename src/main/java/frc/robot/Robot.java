@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandGroupBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.subsystems.Drivetrain;
 import frc.robot.Constants.EverybotConstants;
 
 
@@ -25,8 +24,7 @@ public class Robot extends TimedRobot {
   public static SendableChooser<Command> autoChooser;
   public static Command m_autonomousCommand;
 
-  public RobotContainer robotContainer;
-  public Drivetrain drivetrain;
+  public static RobotContainer robotContainer;
 
   @Override
   public void robotInit() { 
@@ -94,7 +92,7 @@ public class Robot extends TimedRobot {
     robotContainer.everybotArm.resetElevatorEncoder();
     m_startTimestamp = Timer.getFPGATimestamp();
     
-    CommandGroupBase command = robotContainer.oi.autoChooser.getSelected();
+    CommandGroupBase command = robotContainer.autoChooser.getSelected();
 
     if (command != null) {
       command.schedule();
@@ -127,5 +125,11 @@ public class Robot extends TimedRobot {
     // new Auto();
 
     // CommandScheduler.getInstance().run();
+  }
+
+  // cancel all commands on disable
+  @Override
+  public void disabledInit() {
+    CommandScheduler.getInstance().cancelAll();
   }
 }

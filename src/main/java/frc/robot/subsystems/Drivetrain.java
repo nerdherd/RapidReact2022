@@ -9,8 +9,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
-import frc.robot.OI;
+import frc.robot.Robot;
 import frc.robot.Constants.DriveConstants;
 
 public class Drivetrain extends SubsystemBase {
@@ -55,8 +54,8 @@ public class Drivetrain extends SubsystemBase {
     }
 
     public void driveControllerMovement() {
-      double leftInput = OI.ps4Controller.getLeftY();
-      double rightInput = OI.ps4Controller.getRightY();
+      double leftInput = Robot.robotContainer.ps4Controller.getLeftY();
+      double rightInput = Robot.robotContainer.ps4Controller.getRightY();
       double prevLeftOutput = leftMaster.getMotorOutputPercent();
       double prevRightOutput = rightMaster.getMotorOutputPercent();
 
@@ -82,10 +81,11 @@ public class Drivetrain extends SubsystemBase {
       rightMaster.set(ControlMode.PercentOutput, rightOutput);
       leftMaster.set(ControlMode.PercentOutput, leftOutput);
 
-  
+      // TODO: fix this thing that doesn't use joystickbuttonpressed commandbased thing!
+
       // Gear shifting
       // Actually triangle button
-      if (OI.ps4Controller.getTriangleButtonPressed()) {
+      if (Robot.robotContainer.ps4Controller.getTriangleButtonPressed()) {
         // Shifts to high gear
         leftShifter.set(Value.kForward);
         rightShifter.set(Value.kForward);
@@ -94,7 +94,7 @@ public class Drivetrain extends SubsystemBase {
       }
 
       // Actually square button
-      if (OI.ps4Controller.getCircleButtonPressed()) {
+      if (Robot.robotContainer.ps4Controller.getCircleButtonPressed()) {
         // Shifts to low gear
         leftShifter.set(Value.kReverse);
         rightShifter.set(Value.kReverse);
@@ -123,8 +123,8 @@ public class Drivetrain extends SubsystemBase {
       // SmartDashboard.putBoolean(" Pressure Switch ", compressor.getPressureSwitchValue());
       // SmartDashboard.putNumber(" Compressor Current ", compressor.getCurrent());
 
-      SmartDashboard.putNumber( " Left Axis ", OI.ps4Controller.getLeftY());
-      SmartDashboard.putNumber( " Right Axis ", OI.ps4Controller.getRightY());
+      SmartDashboard.putNumber( " Left Axis ", Robot.robotContainer.ps4Controller.getLeftY());
+      SmartDashboard.putNumber( " Right Axis ", Robot.robotContainer.ps4Controller.getRightY());
       // SmartDashboard.putNumber( " Modified Left Axis", leftmod)
     }
 
