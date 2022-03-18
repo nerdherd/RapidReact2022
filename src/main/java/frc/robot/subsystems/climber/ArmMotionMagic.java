@@ -10,7 +10,7 @@
 //     public TalonSRX arm;
 
 //     public ArmMotionMagic() {
-//         arm = new TalonSRX(1);
+//         arm = new TalonSRX(15);
 //         arm.setInverted(true);
 
 //         // negative goes up, positive goes down when the climber is homed at hardstop
@@ -21,8 +21,8 @@
 //         arm.config_kD(0, ClimberConstants.kArmkD);
 //         arm.config_kF(0, ClimberConstants.kArmkF);
 
-//         arm.configMotionCruiseVelocity(80);
-//         arm.configMotionAcceleration(40);
+//         arm.configMotionCruiseVelocity(ClimberConstants.kArmCruiseVelocity);
+//         arm.configMotionAcceleration(ClimberConstants.kArmMotionAcceleration);
 
 //     }
 
@@ -33,8 +33,8 @@
 //     public void climberToAngle() {
 //         double home = arm.getSelectedSensorPosition();
 
-//         arm.configMotionCruiseVelocity(4000);
-//         arm.configMotionAcceleration(2000);
+//         arm.configMotionCruiseVelocity(ClimberConstants.kArmCruiseVelocity);
+//         arm.configMotionAcceleration(ClimberConstants.kArmMotionAcceleration);
 //         arm.set(ControlMode.MotionMagic, (home + ClimberConstants.kTicksToRungAngle));
 
 //     }
@@ -42,8 +42,8 @@
 //     public void climberToVertical() {
 //         double home = arm.getSelectedSensorPosition();
 
-//         arm.configMotionCruiseVelocity(4000);
-//         arm.configMotionAcceleration(2000);
+//         arm.configMotionCruiseVelocity(ClimberConstants.kArmCruiseVelocity);
+//         arm.configMotionAcceleration(ClimberConstants.kArmMotionAcceleration);
 //         arm.set(ControlMode.MotionMagic, (home + ClimberConstants.kTicksToVertical));
 //     }
 

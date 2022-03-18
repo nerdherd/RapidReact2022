@@ -10,7 +10,8 @@ package frc.robot.logging;
 import java.io.File;
 import java.util.function.Supplier;
 
-import badlog.lib.BadLog;
+// import badlog.lib.BadLog;
+import frc.robot.logging.badlog.lib.*;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.Timer;
@@ -44,6 +45,12 @@ public class Log {
     createTopic(" Climber Velocity (sensor) " + " /Velocity ", () -> robotContainer.armTrapezoid.arm.getSelectedSensorVelocity());
     createTopic(" Climber Position (trajectory) " + " /Position ", () -> robotContainer.armTrapezoid.arm.getActiveTrajectoryPosition());
     createTopic(" Climber Velocity (trajectory) " + " /Velocity ", () -> robotContainer.armTrapezoid.arm.getActiveTrajectoryVelocity());
+    // createTopic(" Climber Position (sensor) " + "/Position", () -> robotContainer.armMotionMagic.arm.getSelectedSensorPosition());
+    // createTopic(" Climber Position (sensor) " + "/Velocity", () -> robotContainer.armMotionMagic.arm.getSelectedSensorVelocity());
+    // createTopic(" Climber Position (trajectory) " + "/Position", () -> robotContainer.armMotionMagic.arm.getActiveTrajectoryPosition());
+    // createTopic(" Climber Position (trajectory) " + "/Velocity", () -> robotContainer.armMotionMagic.arm.getActiveTrajectoryVelocity());
+    
+    
 
     log.finishInitialization();
   }
@@ -97,6 +104,7 @@ public class Log {
   public static void log() {
     log.updateTopics();
     log.log();
+    log.flush();
   }
 
   public static void createTopic(String name, Supplier<Double> toLog) {

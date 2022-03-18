@@ -22,7 +22,7 @@ public class RobotContainer {
         SmartDashboard.putBoolean("arm moving", false);
     }
 
-    private void configureButtonBindings() {
+    public void configureButtonBindings() {
         // Assign instantcommands to each PS4 button
         // Could move to OI later
 
@@ -39,11 +39,24 @@ public class RobotContainer {
         //     SmartDashboard.putString(" Button State ", "L2");
         // }));
 
-        new JoystickButton(OI.ps4Controller2, Button.kR1.value)
-        .whenPressed(new InstantCommand(() -> {
-            armTrapezoid.setPositionMotionMagic(ClimberConstants.kTicksToRungAngle);
-            SmartDashboard.putString(" Button State ", "R1");
-        }));
+        // new JoystickButton(OI.ps4Controller2, Button.kR1.value)
+        // .whenPressed(new InstantCommand(() -> {
+        //     armTrapezoid.setPositionMotionMagic(ClimberConstants.kTicksToRungAngle);
+        //     SmartDashboard.putString(" Button State ", "R1");
+        // }));
+
+        // new JoystickButton(OI.ps4Controller2, Button.kR2.value)
+        // .whenPressed(new InstantCommand(() -> {
+        //     armTrapezoid.setPositionMotionMagic(ClimberConstants.kTicksToClearRung);
+        //     SmartDashboard.putString(" Button State ", "R2");
+        // }));
+
+        // new JoystickButton(OI.ps4Controller2, Button.kL1.value)
+        // .whenPressed(new InstantCommand(() -> {
+        //     armTrapezoid.setPositionMotionMagic(ClimberConstants.kTicksToVertical);
+        //     SmartDashboard.putString(" Button State ", "L1");
+        // }));
+
         
     }
 
@@ -60,8 +73,12 @@ public class RobotContainer {
         SmartDashboard.putData( " Move ArmTrapezoid Vertical ", new InstantCommand(() ->
             armTrapezoid.setPositionMotionMagic(ClimberConstants.kTicksToVertical)));
 
+        SmartDashboard.putData( "Move ArmTrapezoid Clear Rung ", new InstantCommand(() ->
+            armTrapezoid.setPositionMotionMagic(ClimberConstants.kTicksToClearRung)));
+
         SmartDashboard.putData( "Reset Arm Encoder ", new InstantCommand(() -> 
             armTrapezoid.resetClimbEncoder()));
+            
     }
 
 
@@ -70,5 +87,8 @@ public class RobotContainer {
         SmartDashboard.putNumber(" Arm Velocity ", armTrapezoid.arm.getSelectedSensorVelocity());
         SmartDashboard.putNumber(" Arm Voltage ", armTrapezoid.arm.getMotorOutputVoltage());
         SmartDashboard.putNumber(" Arm Angle Conversion ", armTrapezoid.ticksToAngle());
+        // SmartDashboard.putNumber(" ArmMM Position ", armMotionMagic.arm.getSelectedSensorPosition());
+        // SmartDashboard.putNumber(" ArmMM Velocity", armMotionMagic.arm.getSelectedSensorVelocity());
+        // SmartDashboard.putNumber(" ArmMM Voltage ", armMotionMagic.arm.getMotorOutputVoltage());
     }
 }

@@ -12,10 +12,6 @@ import edu.wpi.first.wpilibj2.command.TrapezoidProfileSubsystem;
 import frc.robot.Constants.ClimberConstants;
 
 public class ArmTrapezoid {
-    private final ArmFeedforward feedforward = new ArmFeedforward(
-        ClimberConstants.kArmStaticGain, 
-        ClimberConstants.kArmGravityGain, 
-        ClimberConstants.kArmVelocityGain);
 
     public TalonSRX arm;
 
@@ -33,6 +29,7 @@ public class ArmTrapezoid {
         arm.configNeutralDeadband(ClimberConstants.kArmDeadband);
         arm.config_kP(0, ClimberConstants.kArmkP);
         arm.config_kD(0, ClimberConstants.kArmkD);
+        arm.config_kF(0, ClimberConstants.kArmkF);
     }
 
 

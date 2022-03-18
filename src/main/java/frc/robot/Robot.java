@@ -26,8 +26,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotPeriodic() {
-    SmartDashboard.putNumber(" Arm ", robotContainer.armTrapezoid.arm.getSelectedSensorPosition());///4096*360));
-    SmartDashboard.putNumber(" Arm Vel ", robotContainer.armTrapezoid.arm.getSelectedSensorVelocity());
+    // SmartDashboard.putNumber(" Arm ", robotContainer.armTrapezoid.arm.getSelectedSensorPosition());///4096*360));
+    // SmartDashboard.putNumber(" Arm Vel ", robotContainer.armTrapezoid.arm.getSelectedSensorVelocity());
   }
   
   @Override
@@ -44,6 +44,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber(" Elevator Position ", Elevator.elevator.getSelectedSensorPosition());
     robotContainer.smartDashboardButtons();
     robotContainer.reportToSmartDashboard();
+    robotContainer.configureButtonBindings();
   }
 
   @Override
