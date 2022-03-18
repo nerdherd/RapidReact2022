@@ -5,6 +5,7 @@ import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -44,8 +45,8 @@ public class Drivetrain extends SubsystemBase {
 
       // Pneumatics setup
       // compressor = new Compressor(3, PneumaticsModuleType.CTREPCM);
-      // leftShifter = new DoubleSolenoid(3, PneumaticsModuleType.CTREPCM, 2, 5);
-      // rightShifter = new DoubleSolenoid(3, PneumaticsModuleType.CTREPCM, 1, 4);
+      leftShifter = new DoubleSolenoid(3, PneumaticsModuleType.CTREPCM, 2, 5);
+      rightShifter = new DoubleSolenoid(3, PneumaticsModuleType.CTREPCM, 1, 4);
     }
 
     public static double gainInput(double input) {
