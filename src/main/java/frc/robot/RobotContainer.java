@@ -1,5 +1,6 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -10,6 +11,7 @@ import edu.wpi.first.wpilibj.PS4Controller.Button;
 import frc.robot.subsystems.climber.ArmTrapezoid;
 import frc.robot.Constants.ClimberConstants;
 // import frc.robot.subsystems.climber.ArmMotionMagic;
+import frc.robot.logging.Log;
 
 public class RobotContainer {
     public OI oi;
@@ -57,6 +59,20 @@ public class RobotContainer {
         //     SmartDashboard.putString(" Button State ", "L1");
         // }));
 
+        if (OI.ps4Controller2.getL1ButtonPressed()) {
+            armTrapezoid.setPositionMotionMagic(ClimberConstants.kTicksToRungAngle);
+            SmartDashboard.putString(" Button State ", "L1");
+        }
+
+        if (OI.ps4Controller2.getL2ButtonPressed()) {
+            armTrapezoid.setPositionMotionMagic(ClimberConstants.kTicksToClearRung);
+            SmartDashboard.putString(" Button State ", "L2");
+        }
+
+        if (OI.ps4Controller2.getR1ButtonPressed()) {
+            armTrapezoid.setPositionMotionMagic(ClimberConstants.kTicksToVertical);
+            SmartDashboard.putString(" Button State ", "R1");
+        }
         
     }
 
@@ -78,6 +94,12 @@ public class RobotContainer {
 
         SmartDashboard.putData( "Reset Arm Encoder ", new InstantCommand(() -> 
             armTrapezoid.resetClimbEncoder()));
+
+        SmartDashboard.putData(" Command Scheduler Disable ", new InstantCommand(() -> 
+            CommandScheduler.getInstance().disable()));
+
+        SmartDashboard.putData(" Write Logs ", new InstantCommand(() ->
+            Log.log()));
             
     }
 

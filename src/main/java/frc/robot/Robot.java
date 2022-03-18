@@ -20,7 +20,7 @@ public class Robot extends TimedRobot {
   public void robotInit() { 
     Drivetrain.setupDrivetrain();
     Log.initAndLog("/home/lvuser/logs/", "Test", 0.02, robotContainer);
-
+    
     robotContainer = new RobotContainer();
   }
 

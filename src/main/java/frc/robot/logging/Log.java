@@ -41,17 +41,14 @@ public class Log {
     createTopic("LeftMaster" + "/Voltage", () -> Drivetrain.leftMaster.getMotorOutputVoltage());
     createTopic("RightFollower" + "/Voltage", () -> Drivetrain.rightSlave.getMotorOutputVoltage());
     createTopic("LeftFollower" + "/Voltage", () -> Drivetrain.leftSlave.getMotorOutputVoltage());
-    createTopic(" Climber Position (sensor) " + "/Position", () -> robotContainer.armTrapezoid.arm.getSelectedSensorPosition());
-    createTopic(" Climber Velocity (sensor) " + " /Velocity ", () -> robotContainer.armTrapezoid.arm.getSelectedSensorVelocity());
-    createTopic(" Climber Position (trajectory) " + " /Position ", () -> robotContainer.armTrapezoid.arm.getActiveTrajectoryPosition());
-    createTopic(" Climber Velocity (trajectory) " + " /Velocity ", () -> robotContainer.armTrapezoid.arm.getActiveTrajectoryVelocity());
+    createTopic(" Climber Position sensor " + "/Position", () -> robotContainer.armTrapezoid.arm.getSelectedSensorPosition());
+    createTopic(" Climber Velocity sensor " + "/Velocity", () -> robotContainer.armTrapezoid.arm.getSelectedSensorVelocity());
+    createTopic(" Climber Position trajectory " + "/Position", () -> robotContainer.armTrapezoid.arm.getActiveTrajectoryPosition());
+    createTopic(" Climber Velocity trajectory " + "/Velocity", () -> robotContainer.armTrapezoid.arm.getActiveTrajectoryVelocity());
     // createTopic(" Climber Position (sensor) " + "/Position", () -> robotContainer.armMotionMagic.arm.getSelectedSensorPosition());
     // createTopic(" Climber Position (sensor) " + "/Velocity", () -> robotContainer.armMotionMagic.arm.getSelectedSensorVelocity());
     // createTopic(" Climber Position (trajectory) " + "/Position", () -> robotContainer.armMotionMagic.arm.getActiveTrajectoryPosition());
     // createTopic(" Climber Position (trajectory) " + "/Velocity", () -> robotContainer.armMotionMagic.arm.getActiveTrajectoryVelocity());
-    
-    
-
     log.finishInitialization();
   }
 
@@ -104,7 +101,7 @@ public class Log {
   public static void log() {
     log.updateTopics();
     log.log();
-    log.flush();
+    // log.flush();
   }
 
   public static void createTopic(String name, Supplier<Double> toLog) {

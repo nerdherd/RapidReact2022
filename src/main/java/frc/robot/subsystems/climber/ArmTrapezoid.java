@@ -65,6 +65,7 @@ public class ArmTrapezoid {
         return arm.getSelectedSensorPosition();
     }
     
+    
     public double ticksToAngle() {
         return 90 - ((arm.getSelectedSensorPosition() - ClimberConstants.kArmAngleOffset)
              * 360 / 4096);
