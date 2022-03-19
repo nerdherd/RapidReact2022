@@ -35,6 +35,7 @@ public class RobotContainer {
     public RobotContainer() {
         configureButtonBindings();
         SmartDashboard.putBoolean("arm moving", false);
+        initSmartDashboard();
     }
 
     private void configureButtonBindings() {
@@ -116,14 +117,7 @@ public class RobotContainer {
         // }, everybotIntake));
     }
 
-    public void reportToSmartDashboard() {
-        drivetrain.reportToSmartDashboard();
-
-        SmartDashboard.putNumber(" Arm Position ", everybotArm.arm.getSelectedSensorPosition());
-        SmartDashboard.putNumber(" Climber Position", everybotClimber.climberMaster.getSelectedSensorPosition());
-        SmartDashboard.putNumber(" Intake Stator Current ", everybotIntake.everybotIntake.getStatorCurrent());
-        SmartDashboard.putNumber(" Intake Supply Current ", everybotIntake.everybotIntake.getSupplyCurrent());
-
+    public void initSmartDashboard() {
         // auto selector stuff
         // TODO: Make sure that the autochooser is working. 
 
@@ -210,5 +204,14 @@ public class RobotContainer {
         
 
         SmartDashboard.putData(autoChooser);
+    }
+
+    public void reportToSmartDashboard() {
+        drivetrain.reportToSmartDashboard();
+
+        SmartDashboard.putNumber(" Arm Position ", everybotArm.arm.getSelectedSensorPosition());
+        SmartDashboard.putNumber(" Climber Position", everybotClimber.climberMaster.getSelectedSensorPosition());
+        SmartDashboard.putNumber(" Intake Stator Current ", everybotIntake.everybotIntake.getStatorCurrent());
+        SmartDashboard.putNumber(" Intake Supply Current ", everybotIntake.everybotIntake.getSupplyCurrent());
     }
 }
