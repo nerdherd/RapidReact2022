@@ -52,7 +52,7 @@ public class Robot extends TimedRobot {
     robotContainer.smartDashboardButtons();
     robotContainer.reportToSmartDashboard();
     robotContainer.configureButtonBindings();
-    robotContainer.armTrapezoid.arm.set(ControlMode.PercentOutput, 0, DemandType.ArbitraryFeedForward, robotContainer.armTrapezoid.FF());
+    // robotContainer.armTrapezoid.arm.set(ControlMode.PercentOutput, 0, DemandType.ArbitraryFeedForward, -1 * robotContainer.armTrapezoid.FF());
   }
 
   @Override

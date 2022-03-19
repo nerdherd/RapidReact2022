@@ -85,11 +85,13 @@ public class RobotContainer {
         double armInput = -OI.ps4Controller2.getRightY();
         
         if (elevator.elevator.getSelectedSensorPosition() <= ClimberConstants.kSoftLimitTicks) {     
-            elevator.elevator.set(ControlMode.PercentOutput, elevatorInput * 0.1); 
+            elevator.elevator.set(ControlMode.PercentOutput, elevatorInput * 0.2); 
             armTrapezoid.arm.set(ControlMode.PercentOutput, -0.02);      
         } else {
             elevator.elevator.set(ControlMode.PercentOutput, -0.08);
         }
+
+        armTrapezoid.arm.set(ControlMode.PercentOutput, armInput * 0.06, DemandType.ArbitraryFeedForward, -1 * armTrapezoid.FF());
 
         // if (armTrapezoid.arm.getSelectedSensorPosition() <= ClimberConstants.kArmTicksDownSoftLimit
         //     && armTrapezoid.arm.getSelectedSensorPosition() >= ClimberConstants.kArmTicksUpSoftLimit) {

@@ -7,7 +7,7 @@ public class Constants {
         public static final double kArmkD = 0.6; //0.6 
         public static final double kArmkF = 2.82; // 2.82
 
-        public static final double kArmGravityFF = 0.11; //0.11
+        public static final double kArmGravityFF = 0.21; //0.11 voltage calc, 0.41 phys calc
         public static final double kArmStaticFF = 0.0;
 
         public static final double kArmCruiseVelocity = 250;
@@ -27,5 +27,8 @@ public class Constants {
         public static final double kArmTicksUpSoftLimit = 0;
 
         public static final double kSoftLimitTicks = 20000;
+
+        public static final double kOperatorAlpha = 0.11765;
+        public static final double kOperatorOneMinusAlpha = 0.88235;
     }
 }

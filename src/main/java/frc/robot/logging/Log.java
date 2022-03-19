@@ -41,10 +41,14 @@ public class Log {
     createTopic("LeftMaster" + "/Voltage", () -> Drivetrain.leftMaster.getMotorOutputVoltage());
     createTopic("RightFollower" + "/Voltage", () -> Drivetrain.rightSlave.getMotorOutputVoltage());
     createTopic("LeftFollower" + "/Voltage", () -> Drivetrain.leftSlave.getMotorOutputVoltage());
-    createTopic(" Climber Position sensor " + "/Position", () -> robotContainer.armTrapezoid.arm.getSelectedSensorPosition());
-    createTopic(" Climber Velocity sensor " + "/Velocity", () -> robotContainer.armTrapezoid.arm.getSelectedSensorVelocity());
-    createTopic(" Climber Position trajectory " + "/Position", () -> robotContainer.armTrapezoid.arm.getActiveTrajectoryPosition());
-    createTopic(" Climber Velocity trajectory " + "/Velocity", () -> robotContainer.armTrapezoid.arm.getActiveTrajectoryVelocity());
+    createTopic(" Arm Position sensor " + "/Position", () -> robotContainer.armTrapezoid.arm.getSelectedSensorPosition());
+    createTopic(" Arm Velocity sensor " + "/Velocity", () -> robotContainer.armTrapezoid.arm.getSelectedSensorVelocity());
+    createTopic(" Arm Position trajectory " + "/Position", () -> robotContainer.armTrapezoid.arm.getActiveTrajectoryPosition());
+    createTopic(" Arm Velocity trajectory " + "/Velocity", () -> robotContainer.armTrapezoid.arm.getActiveTrajectoryVelocity());
+    createTopic(" Elevator Position sensor " + "/Position", () -> robotContainer.elevator.elevator.getSelectedSensorPosition());
+    createTopic(" Elevator Velocity sensor " + "/Velocity", () -> robotContainer.elevator.elevator.getSelectedSensorVelocity());
+    createTopic(" Elevator Position trajectory " + "/Position", () -> robotContainer.elevator.elevator.getActiveTrajectoryPosition());
+    createTopic(" Elevator Velocity trajectory " + "/Velocity", () -> robotContainer.elevator.elevator.getActiveTrajectoryVelocity());
     // createTopic(" Climber Position (sensor) " + "/Position", () -> robotContainer.armMotionMagic.arm.getSelectedSensorPosition());
     // createTopic(" Climber Position (sensor) " + "/Velocity", () -> robotContainer.armMotionMagic.arm.getSelectedSensorVelocity());
     // createTopic(" Climber Position (trajectory) " + "/Position", () -> robotContainer.armMotionMagic.arm.getActiveTrajectoryPosition());
