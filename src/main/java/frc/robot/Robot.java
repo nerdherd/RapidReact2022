@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -36,6 +39,10 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() { 
     robotContainer.drivetrain.driveControllerMovement();
     robotContainer.reportToSmartDashboard();
+    robotContainer.drivetrain.rightMaster.setNeutralMode(NeutralMode.Coast);
+    robotContainer.drivetrain.rightSlave.setNeutralMode(NeutralMode.Coast);
+    robotContainer.drivetrain.leftMaster.setNeutralMode(NeutralMode.Coast);
+    robotContainer.drivetrain.leftSlave.setNeutralMode(NeutralMode.Coast);
   }
 
   @Override

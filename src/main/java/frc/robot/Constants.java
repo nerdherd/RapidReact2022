@@ -43,13 +43,13 @@ public final class Constants {
 
         // TODO: tune these parameters
 
-        public static final double kEverybotClimberkP = 0.01;
+        public static final double kEverybotClimberkP = 0.02; //0.01
         public static final double kEverybotClimberkI = 0;
         public static final double kEverybotClimberkD = 0;
         public static final double kEverybotClimberkF = 0.094;
         
-        public static final double kTicksToLowRung = -83361;
-        public static final double kTicksToMidRung = 40604;
+        public static final double kTicksToLowRung = -102862; // 32645;
+        public static final double kTicksToMidRung = 52035;
         public static final double kTicksToHome = 43757;
     }
     public static final class EverybotMotionMagicConstants {

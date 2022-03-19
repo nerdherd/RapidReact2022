@@ -26,8 +26,8 @@ public class EverybotClimber extends SubsystemBase {
         climberMaster.config_kD(0, EverybotConstants.kEverybotClimberkD);
         climberMaster.config_kF(0, EverybotConstants.kEverybotClimberkF);
 
-        climberMaster.configMotionCruiseVelocity(800);
-        climberMaster.configMotionAcceleration(400);
+        climberMaster.configMotionCruiseVelocity(1000); //800
+        climberMaster.configMotionAcceleration(500); //400
 
         climberSlave.follow(climberMaster);
     }

@@ -204,6 +204,7 @@ public class RobotContainer {
         
 
         SmartDashboard.putData(autoChooser);
+        SmartDashboard.putData(" Reset Climber Encoders ", new InstantCommand(() -> everybotClimber.climberMaster.setSelectedSensorPosition(0)));
     }
 
     public void reportToSmartDashboard() {
