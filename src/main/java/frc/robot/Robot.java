@@ -4,6 +4,10 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -21,9 +25,12 @@ public class Robot extends TimedRobot {
     Drivetrain.setupDrivetrain();
 
     robotContainer = new RobotContainer();
-    Log.initAndLog("/home/lvuser/logs/", "Test", 0.02, robotContainer);
+    Log.initAndLog("/home/lvuser/logs/", "Test", 0.04, robotContainer);
 
-   
+    robotContainer.elevator.elevator.setSelectedSensorPosition(0);
+    robotContainer.elevator.elevator.setNeutralMode(NeutralMode.Coast);
+    robotContainer.armTrapezoid.arm.setNeutralMode(NeutralMode.Brake);
+    // robotContainer.armTrapezoid.arm.set(ControlMode.PercentOutput, 0.09);
   }
 
   @Override
@@ -42,28 +49,23 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() { 
     // Drivetrain.driveControllerMovement();
     // Drivetrain.updateSmartDashboardForDrivetrain();
-    SmartDashboard.putData("Move Elevator", new InstantCommand(() -> Elevator.moveElevatortoPos(-21560, 20)));
-    SmartDashboard.putNumber(" Elevator Position ", Elevator.elevator.getSelectedSensorPosition());
     robotContainer.smartDashboardButtons();
     robotContainer.reportToSmartDashboard();
     robotContainer.configureButtonBindings();
+    robotContainer.armTrapezoid.arm.set(ControlMode.PercentOutput, 0, DemandType.ArbitraryFeedForward, robotContainer.armTrapezoid.FF());
   }
 
   @Override
   public void autonomousInit() {
     //Drivetrain.drive(-50, -50, 10);
     Arm.arm.setSelectedSensorPosition(0);
-    Elevator.elevator.setSelectedSensorPosition(0);
   }
 
   @Override
   public void autonomousPeriodic() {
     // Arm.rotateArmToAngle(64, 5);
     SmartDashboard.putNumber(" Arm Position ", Arm.arm.getSelectedSensorPosition());
-    SmartDashboard.putNumber(" Elevator Position ", Elevator.elevator.getSelectedSensorPosition());
-    SmartDashboard.putData(" Reset Elevator ", new InstantCommand(() -> Elevator.elevator.setSelectedSensorPosition(0)));
-    SmartDashboard.putData(" Reset Arm ", new InstantCommand(() -> Arm.arm.setSelectedSensorPosition(0)));
-    SmartDashboard.putData(" Move Elevator ", new InstantCommand(() -> Elevator.moveElevatortoPos(-21560, 10)));
+    
     // -21560 to reach mid 
     // -2675 to go down & latch
   }

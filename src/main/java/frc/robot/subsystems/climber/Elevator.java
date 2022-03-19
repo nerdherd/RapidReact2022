@@ -8,17 +8,21 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Elevator {
-    public static TalonSRX elevator = new TalonSRX(7);
+    public TalonSRX elevator = new TalonSRX(7);
 
     private static double elevatorKp = 1.0;
     private static double elevatorKd = 0.0002;
     private static double elevatorFF = 0;
+
+    public Elevator() {
+        elevator.setInverted(true);
+    }
     
-    public static void moveElevator(double speed) {
+    public void moveElevator(double speed) {
         elevator.set(ControlMode.PercentOutput, speed);
     }
 
-    public static void moveElevatortoPos(double target, double errorThreshold) {
+    public void moveElevatortoPos(double target, double errorThreshold) {
         double error = Math.abs(target - elevator.getSelectedSensorPosition());
         double oldError = Math.abs(target - elevator.getSelectedSensorPosition());
         double elevatorSpeed = 0;
@@ -45,5 +49,9 @@ public class Elevator {
         } else {
             SmartDashboard.putString(" Pos ", " False ");
         }
-    }   
+    }
+    
+    public void resetElevatorEncoder() {
+        elevator.setSelectedSensorPosition(0);
+    }
 }

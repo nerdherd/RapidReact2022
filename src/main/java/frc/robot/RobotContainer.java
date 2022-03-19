@@ -6,9 +6,15 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
+
 import edu.wpi.first.wpilibj.PS4Controller.Button;
 
 import frc.robot.subsystems.climber.ArmTrapezoid;
+import frc.robot.subsystems.climber.Elevator;
 import frc.robot.Constants.ClimberConstants;
 // import frc.robot.subsystems.climber.ArmMotionMagic;
 import frc.robot.logging.Log;
@@ -16,6 +22,7 @@ import frc.robot.logging.Log;
 public class RobotContainer {
     public OI oi;
     public ArmTrapezoid armTrapezoid = new ArmTrapezoid();
+    public Elevator elevator = new Elevator();
     // public ArmMotionMagic armMotionMagic = new ArmMotionMagic();
 
     public RobotContainer() {
@@ -73,6 +80,28 @@ public class RobotContainer {
             armTrapezoid.setPositionMotionMagic(ClimberConstants.kTicksToVertical);
             SmartDashboard.putString(" Button State ", "R1");
         }
+
+        double elevatorInput = -OI.ps4Controller2.getLeftY();
+        double armInput = -OI.ps4Controller2.getRightY();
+        
+        if (elevator.elevator.getSelectedSensorPosition() <= ClimberConstants.kSoftLimitTicks) {     
+            elevator.elevator.set(ControlMode.PercentOutput, elevatorInput * 0.1); 
+            armTrapezoid.arm.set(ControlMode.PercentOutput, -0.02);      
+        } else {
+            elevator.elevator.set(ControlMode.PercentOutput, -0.08);
+        }
+
+        // if (armTrapezoid.arm.getSelectedSensorPosition() <= ClimberConstants.kArmTicksDownSoftLimit
+        //     && armTrapezoid.arm.getSelectedSensorPosition() >= ClimberConstants.kArmTicksUpSoftLimit) {
+        //     armTrapezoid.arm.set(ControlMode.PercentOutput, armInput * 0.12);
+        // } else if (armTrapezoid.arm.getSelectedSensorPosition() > ClimberConstants.kArmTicksDownSoftLimit) {
+        //     armTrapezoid.arm.setNeutralMode(NeutralMode.Brake);
+        //     armTrapezoid.arm.set(ControlMode.PercentOutput, -0.16);
+        // } else if (armTrapezoid.arm.getSelectedSensorPosition() < ClimberConstants.kArmTicksUpSoftLimit) {
+        //     armTrapezoid.arm.setNeutralMode(NeutralMode.Brake);
+        //     armTrapezoid.arm.set(ControlMode.PercentOutput, 0.16);
+            // armTrapezoid.arm.set(ControlMode.PercentOutput, 0.08);
+        // }
         
     }
 
@@ -94,12 +123,12 @@ public class RobotContainer {
 
         SmartDashboard.putData( "Reset Arm Encoder ", new InstantCommand(() -> 
             armTrapezoid.resetClimbEncoder()));
+        
+        SmartDashboard.putData(" Reset Elevator Encoder ", new InstantCommand(() ->
+            elevator.resetElevatorEncoder()));
 
         SmartDashboard.putData(" Command Scheduler Disable ", new InstantCommand(() -> 
             CommandScheduler.getInstance().disable()));
-
-        SmartDashboard.putData(" Write Logs ", new InstantCommand(() ->
-            Log.log()));
             
     }
 
@@ -109,6 +138,8 @@ public class RobotContainer {
         SmartDashboard.putNumber(" Arm Velocity ", armTrapezoid.arm.getSelectedSensorVelocity());
         SmartDashboard.putNumber(" Arm Voltage ", armTrapezoid.arm.getMotorOutputVoltage());
         SmartDashboard.putNumber(" Arm Angle Conversion ", armTrapezoid.ticksToAngle());
+        SmartDashboard.putNumber(" Elevator Position ", elevator.elevator.getSelectedSensorPosition());
+        SmartDashboard.putNumber(" Elevator Voltage ", elevator.elevator.getMotorOutputVoltage());
         // SmartDashboard.putNumber(" ArmMM Position ", armMotionMagic.arm.getSelectedSensorPosition());
         // SmartDashboard.putNumber(" ArmMM Velocity", armMotionMagic.arm.getSelectedSensorVelocity());
         // SmartDashboard.putNumber(" ArmMM Voltage ", armMotionMagic.arm.getMotorOutputVoltage());
