@@ -36,54 +36,12 @@ public class RobotContainer {
         configureButtonBindings();
         SmartDashboard.putBoolean("arm moving", false);
         initSmartDashboard();
+        drivetrain.compressor.enableDigital();
     }
 
     private void configureButtonBindings() {
         // Assign instantcommands to each PS4 button
         // Could move to OI later
-
-        // Bind everybot intake to L1 bumper
-        new JoystickButton(ps4Controller2, Button.kL1.value)
-        .whenPressed(new InstantCommand(() -> { 
-            everybotIntake.intakeIn(EverybotConstants.kEverybotIntake);
-            SmartDashboard.putString(" Button State ", "L1");
-        }, everybotIntake));
-        
-        // Bind everybot outtake to R1 bumper
-        new JoystickButton(ps4Controller2, Button.kR1.value)
-        .whenPressed(new InstantCommand(() -> { 
-            everybotIntake.intakeOut(EverybotConstants.kEverybotOuttake);
-            SmartDashboard.putString(" Button State ", "L2");
-        }, everybotIntake));
-        
-        // TODO: doublecheck that these buttons are working, and also make sure that the commands end when the robot is disabled.
-
-        // Bind intake in to triangle button
-        new JoystickButton(ps4Controller2, Button.kTriangle.value)
-        .whenPressed(new InstantCommand(() -> { 
-            everybotIntake.intakeIn(0);
-        }, everybotIntake));
-
-        new JoystickButton(ps4Controller2, Button.kCross.value)
-        .whenPressed(new InstantCommand(() -> {
-            everybotClimber.moveClimber(EverybotConstants.kTicksToLowRung);
-            SmartDashboard.putBoolean("arm moving", true);
-        }));
-        
-        new JoystickButton(ps4Controller2, Button.kCircle.value)
-        .whenPressed(new SequentialCommandGroup(
-            new InstantCommand(() -> {
-                everybotClimber.moveClimber(EverybotConstants.kTicksToMidRung);
-            })
-
-            // TODO: find new values to completely hook onto the mid rung after we align with mid.
-
-            // ,new InstantCommand(() -> {
-            //     everybotClimber.moveClimber(EverybotConstants.kTicksToHome);
-            // })
-        ));
-        
-        // Smartdashboard buttons for testing the climber
 
         SmartDashboard.putData("move arm to first rung", new InstantCommand(() -> {
             everybotClimber.moveClimber(EverybotConstants.kTicksToLowRung);
@@ -92,34 +50,16 @@ public class RobotContainer {
 
         SmartDashboard.putData("climb part 2",
             new InstantCommand(() -> {
-                everybotClimber.moveClimber(EverybotConstants.kTicksToMidRung);
+                everybotClimber.moveClimber(EverybotConstants.kTicksToClimbLowRung);
             })
         );
-
-        SmartDashboard.putData("home", new InstantCommand(
-            () -> everybotClimber.moveClimber(EverybotConstants.kTicksToHome)
-        ));
-
-        // These commands are disabled for now, as the arm is mechanically unstable
-        
-        // Bind arm up command to square button
-        // new JoystickButton(OI.ps4Controller2, Button.kSquare.value)
-        // .whenPressed(new InstantCommand(() -> { 
-        //    everybotArm.rotateArmToAngle(EverybotConstants.kHighAngle, EverybotConstants.kHighAngleThreshold);
-        //    everybotArm.arm.set(ControlMode.PercentOutput, -0.16);
-        // }, everybotIntake));
-
-        // Bind arm down command to circle button
-        // new JoystickButton(OI.ps4Controller2, Button.kSquare.value)
-        // .whenPressed(new InstantCommand(() -> { 
-        //    everybotArm.rotateArmToAngle(EverybotConstants.kLowAngle, EverybotConstants.kLowAngleThreshold);
-        //    everybotArm.arm.set(ControlMode.PercentOutput, 0.16);
-        // }, everybotIntake));
     }
 
     public void initSmartDashboard() {
         // auto selector stuff
         // TODO: Make sure that the autochooser is working. 
+
+        SmartDashboard.putBoolean("taxied", false);
 
         autoChooser = new SendableChooser<CommandGroupBase>();
 
@@ -201,7 +141,9 @@ public class RobotContainer {
             )
         );
 
-        
+        autoChooser.addOption("test", new SequentialCommandGroup(
+            new InstantCommand(() -> SmartDashboard.putBoolean("taxied", true)
+        )));
 
         SmartDashboard.putData(autoChooser);
         SmartDashboard.putData(" Reset Climber Encoders ", new InstantCommand(() -> everybotClimber.climberMaster.setSelectedSensorPosition(0)));
@@ -214,5 +156,6 @@ public class RobotContainer {
         SmartDashboard.putNumber(" Climber Position", everybotClimber.climberMaster.getSelectedSensorPosition());
         SmartDashboard.putNumber(" Intake Stator Current ", everybotIntake.everybotIntake.getStatorCurrent());
         SmartDashboard.putNumber(" Intake Supply Current ", everybotIntake.everybotIntake.getSupplyCurrent());
+
     }
 }

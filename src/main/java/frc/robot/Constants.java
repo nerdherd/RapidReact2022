@@ -49,7 +49,7 @@ public final class Constants {
         public static final double kEverybotClimberkF = 0.094;
         
         public static final double kTicksToLowRung = -102862; // 32645;
-        public static final double kTicksToMidRung = 52035;
+        public static final double kTicksToClimbLowRung = 52035;
         public static final double kTicksToHome = 43757;
     }
     public static final class EverybotMotionMagicConstants {

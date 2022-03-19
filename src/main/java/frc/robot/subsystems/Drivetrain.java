@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Timer;
@@ -19,9 +20,9 @@ public class Drivetrain extends SubsystemBase {
     public TalonFX rightSlave; // Channel 31 on CAN, 15 on PDP
     public TalonFX leftSlave; // Channel 17 on CAN, 1 on PDP
 
-    // public Compressor compressor; // Channel 3 on CAN
-    private DoubleSolenoid leftShifter; // Channels 2 and 5
-    private DoubleSolenoid rightShifter; // Channels 1 and 4
+    public Compressor compressor; // Channel 3 on CAN
+    private DoubleSolenoid leftShifter; // Channels 0 and 6
+    private DoubleSolenoid rightShifter; // Channels 1 and 7
 
     // private double modLeftInput;
     // private double modRightInput;
@@ -44,9 +45,10 @@ public class Drivetrain extends SubsystemBase {
       rightSlave.setInverted(InvertType.FollowMaster);
 
       // Pneumatics setup
-      // compressor = new Compressor(3, PneumaticsModuleType.CTREPCM);
-      leftShifter = new DoubleSolenoid(3, PneumaticsModuleType.CTREPCM, 2, 5);
-      rightShifter = new DoubleSolenoid(3, PneumaticsModuleType.CTREPCM, 1, 4);
+      compressor = new Compressor(3, PneumaticsModuleType.CTREPCM);
+
+      leftShifter = new DoubleSolenoid(3, PneumaticsModuleType.CTREPCM, 0, 6);
+      rightShifter = new DoubleSolenoid(3, PneumaticsModuleType.CTREPCM, 1, 7);
     }
 
     public static double gainInput(double input) {
@@ -104,7 +106,7 @@ public class Drivetrain extends SubsystemBase {
       SmartDashboard.putNumber(" Right Slave Current ", rightSlave.getSupplyCurrent());
       SmartDashboard.putNumber(" Left Master Current ", leftMaster.getSupplyCurrent());
       SmartDashboard.putNumber(" Left Slave Current ", leftSlave.getSupplyCurrent());
-        
+      
       // SmartDashboard.putBoolean(" Compressor Enabled ", compressor.enabled());
       // SmartDashboard.putBoolean(" Pressure Switch ", compressor.getPressureSwitchValue());
       // SmartDashboard.putNumber(" Compressor Current ", compressor.getCurrent());

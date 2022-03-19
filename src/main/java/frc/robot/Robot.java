@@ -43,6 +43,7 @@ public class Robot extends TimedRobot {
     robotContainer.drivetrain.rightSlave.setNeutralMode(NeutralMode.Coast);
     robotContainer.drivetrain.leftMaster.setNeutralMode(NeutralMode.Coast);
     robotContainer.drivetrain.leftSlave.setNeutralMode(NeutralMode.Coast);
+    robotContainer.everybotClimber.climberMovement();
   }
 
   @Override

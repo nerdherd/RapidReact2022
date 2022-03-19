@@ -4,7 +4,9 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Robot;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.EverybotConstants;
 
@@ -30,6 +32,23 @@ public class EverybotClimber extends SubsystemBase {
         climberMaster.configMotionAcceleration(500); //400
 
         climberSlave.follow(climberMaster);
+
+        SmartDashboard.putBoolean("Moving to low rung", false);
+        SmartDashboard.putBoolean("Climbing onto low rung", false);
+    }
+
+    public void climberMovement() {
+        if (Robot.robotContainer.ps4Controller2.getCircleButtonPressed()) {
+            moveClimber(EverybotConstants.kTicksToLowRung);
+            SmartDashboard.putBoolean("Moving to low rung", true);
+        }
+
+        if (Robot.robotContainer.ps4Controller2.getTriangleButtonPressed()) {
+            moveClimber(EverybotConstants.kTicksToClimbLowRung);
+            SmartDashboard.putBoolean("Climbing onto low rung", true);
+        }
+        
+        climberMaster.set(ControlMode.PercentOutput, Robot.robotContainer.ps4Controller2.getLeftY() * 0.24);
     }
 
     public void moveClimber(double ticksToTarget) {
