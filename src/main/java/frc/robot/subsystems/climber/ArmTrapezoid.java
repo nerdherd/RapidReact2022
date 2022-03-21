@@ -14,7 +14,7 @@ import frc.robot.Constants.ClimberConstants;
 public class ArmTrapezoid {
 
     public TalonSRX arm;
-
+    
     public ArmTrapezoid() {
         // super(
         //     new TrapezoidProfile.Constraints(

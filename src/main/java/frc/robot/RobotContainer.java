@@ -2,7 +2,9 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -81,17 +83,35 @@ public class RobotContainer {
             SmartDashboard.putString(" Button State ", "R1");
         }
 
+        if (OI.ps4Controller2.getR2ButtonPressed()) {
+            elevator.elevator.setNeutralMode(NeutralMode.Brake);
+            SmartDashboard.putString(" Button State ", "R2 ");
+        }
+
+        if (OI.ps4Controller2.getSquareButton()) {
+            if (elevator.elevator.getSelectedSensorPosition() > ClimberConstants.kElevatorTicksDown ){
+                elevator.elevator.set(ControlMode.PercentOutput, -0.4);
+                SmartDashboard.putString(" Running Command ", "Elevator Down ");
+            } 
+            SmartDashboard.putString( "Button State ", "Square ");
+        }
+        
+        if (OI.ps4Controller2.getTriangleButton()) {
+            if (elevator.elevator.getSelectedSensorPosition() < ClimberConstants.kElevatorTicksUp) {
+                elevator.elevator.set(ControlMode.PercentOutput, 0.32);
+                SmartDashboard.putString(" Running Command ", "Elevator Up ");
+            } else if (elevator.elevator.getSelectedSensorPosition() > ClimberConstants.kElevatorTicksUp) {
+                elevator.elevator.set(ControlMode.PercentOutput, 0);
+            }
+            SmartDashboard.putString( "Button State ", " Triangle ");
+        }
+
         double elevatorInput = -OI.ps4Controller2.getLeftY();
         double armInput = -OI.ps4Controller2.getRightY();
         
-        if (elevator.elevator.getSelectedSensorPosition() <= ClimberConstants.kSoftLimitTicks) {     
-            elevator.elevator.set(ControlMode.PercentOutput, elevatorInput * 0.2); 
-            armTrapezoid.arm.set(ControlMode.PercentOutput, -0.02);      
-        } else {
-            elevator.elevator.set(ControlMode.PercentOutput, -0.08);
-        }
+        // elevator.elevator.set(ControlMode.PercentOutput, elevatorInput * 0.1);
 
-        armTrapezoid.arm.set(ControlMode.PercentOutput, armInput * 0.06, DemandType.ArbitraryFeedForward, -1 * armTrapezoid.FF());
+        armTrapezoid.arm.set(ControlMode.PercentOutput, armInput * 0.25, DemandType.ArbitraryFeedForward, -1 * armTrapezoid.FF());
 
         // if (armTrapezoid.arm.getSelectedSensorPosition() <= ClimberConstants.kArmTicksDownSoftLimit
         //     && armTrapezoid.arm.getSelectedSensorPosition() >= ClimberConstants.kArmTicksUpSoftLimit) {
@@ -131,6 +151,12 @@ public class RobotContainer {
 
         SmartDashboard.putData(" Command Scheduler Disable ", new InstantCommand(() -> 
             CommandScheduler.getInstance().disable()));
+
+        SmartDashboard.putData(" Elevator Coast Mode ", new InstantCommand(() ->
+            elevator.elevator.setNeutralMode(NeutralMode.Coast)));
+        
+        SmartDashboard.putData(" Elevator Brake Mode ", new InstantCommand(() ->
+            elevator.elevator.setNeutralMode(NeutralMode.Brake)));
             
     }
 
@@ -142,6 +168,7 @@ public class RobotContainer {
         SmartDashboard.putNumber(" Arm Angle Conversion ", armTrapezoid.ticksToAngle());
         SmartDashboard.putNumber(" Elevator Position ", elevator.elevator.getSelectedSensorPosition());
         SmartDashboard.putNumber(" Elevator Voltage ", elevator.elevator.getMotorOutputVoltage());
+        SmartDashboard.putBoolean(" Triangle Button Held ", OI.ps4Controller2.getTriangleButton());
         // SmartDashboard.putNumber(" ArmMM Position ", armMotionMagic.arm.getSelectedSensorPosition());
         // SmartDashboard.putNumber(" ArmMM Velocity", armMotionMagic.arm.getSelectedSensorVelocity());
         // SmartDashboard.putNumber(" ArmMM Voltage ", armMotionMagic.arm.getMotorOutputVoltage());

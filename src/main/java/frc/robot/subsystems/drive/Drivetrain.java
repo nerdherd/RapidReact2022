@@ -22,6 +22,7 @@ public class Drivetrain {
     public static Compressor compressor; // Channel 3 on CAN
     private static DoubleSolenoid leftShifter; // Channels 2 and 5
     private static DoubleSolenoid rightShifter; // Channels 1 and 4
+    private static DoubleSolenoid climberShifter;
     
     // ======================= TELEOP FUNCTIONS ======================= //
     
@@ -43,6 +44,7 @@ public class Drivetrain {
       compressor = new Compressor(3, PneumaticsModuleType.CTREPCM);
       leftShifter = new DoubleSolenoid(3, PneumaticsModuleType.CTREPCM, 2, 5);
       rightShifter = new DoubleSolenoid(3, PneumaticsModuleType.CTREPCM, 1, 4);
+      climberShifter = new DoubleSolenoid(3, PneumaticsModuleType.CTREPCM, 6, 7);
     }
 
     public static void driveControllerMovement() {
@@ -68,6 +70,22 @@ public class Drivetrain {
         rightShifter.set(Value.kReverse);
         SmartDashboard.putString(" Button State ", "B");
       }
+
+      // Actually Circle button
+      if (OI.ps4Controller2.getCrossButtonPressed()) {
+        // Extend climber piston
+        climberShifter.set(Value.kForward);
+        SmartDashboard.putString(" Button State ", "C");
+      }
+
+      // Actually Square button
+      if (OI.ps4Controller2.getCircleButtonPressed()) {
+        // Extend climber piston
+        climberShifter.set(Value.kReverse);
+        SmartDashboard.putString(" Button State ", "C");
+      }
+
+      
     }
 
     public static void updateSmartDashboardForDrivetrain() {
