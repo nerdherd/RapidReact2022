@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Robot;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.EverybotConstants;
+import frc.robot.RobotContainer.Climber;
 
 public class EverybotClimber extends SubsystemBase {
     
@@ -37,18 +38,20 @@ public class EverybotClimber extends SubsystemBase {
         SmartDashboard.putBoolean("Climbing onto low rung", false);
     }
 
-    public void climberMovement() {
-        if (Robot.robotContainer.ps4Controller2.getCircleButtonPressed()) {
-            moveClimber(EverybotConstants.kTicksToLowRung);
-            SmartDashboard.putBoolean("Moving to low rung", true);
-        }
+    // TODO: test if this works.
 
-        if (Robot.robotContainer.ps4Controller2.getTriangleButtonPressed()) {
-            moveClimber(EverybotConstants.kTicksToClimbLowRung);
-            SmartDashboard.putBoolean("Climbing onto low rung", true);
+    public void climberMovement() {
+        if (Robot.robotContainer.climberChooser.getSelected() == Climber.LOW) {
+            if (Robot.robotContainer.ps4Controller2.getCircleButtonPressed()) {
+                moveClimber(EverybotConstants.kTicksToLowRung);
+                SmartDashboard.putBoolean("Moving to low rung", true);
+            }
+    
+            if (Robot.robotContainer.ps4Controller2.getTriangleButtonPressed()) {
+                moveClimber(EverybotConstants.kTicksToClimbLowRung);
+                SmartDashboard.putBoolean("Climbing onto low rung", true);
+            }
         }
-        
-        climberMaster.set(ControlMode.PercentOutput, Robot.robotContainer.ps4Controller2.getLeftY() * 0.24);
     }
 
     public void moveClimber(double ticksToTarget) {

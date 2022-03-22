@@ -69,8 +69,6 @@ public class Drivetrain extends SubsystemBase {
       rightMaster.set(ControlMode.PercentOutput, rightOutput);
       leftMaster.set(ControlMode.PercentOutput, leftOutput);
 
-      // TODO: fix this thing that doesn't use joystickbuttonpressed commandbased thing!
-
       // Gear shifting
       // Actually triangle button
       if (Robot.robotContainer.ps4Controller.getTriangleButtonPressed()) {

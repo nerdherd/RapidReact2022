@@ -21,6 +21,12 @@ import frc.robot.subsystems.EverybotClimber;
 import frc.robot.subsystems.EverybotIntake;
 
 public class RobotContainer {
+
+    public enum Climber {
+        LOW,
+        TRAVERSAL;
+    }
+
     public Drivetrain drivetrain = new Drivetrain();
     public EverybotArm everybotArm = new EverybotArm();
     public EverybotClimber everybotClimber = new EverybotClimber();
@@ -31,6 +37,9 @@ public class RobotContainer {
     public PS4Controller ps4Controller2 = new PS4Controller(1);
     
     public SendableChooser<CommandGroupBase> autoChooser;
+    public SendableChooser<Climber> climberChooser;
+
+    public Climber climber;
 
     public RobotContainer() {
         configureButtonBindings();
@@ -56,11 +65,6 @@ public class RobotContainer {
     }
 
     public void initSmartDashboard() {
-        // auto selector stuff
-        // TODO: Make sure that the autochooser is working. 
-
-        SmartDashboard.putBoolean("taxied", false);
-
         autoChooser = new SendableChooser<CommandGroupBase>();
 
         autoChooser.setDefaultOption("leave tarmac :)", 
@@ -141,11 +145,15 @@ public class RobotContainer {
             
         );
 
-        autoChooser.addOption("test", new SequentialCommandGroup(
-            new InstantCommand(() -> SmartDashboard.putBoolean("taxied", true)
-        )));
-
         SmartDashboard.putData(autoChooser);
+
+        // TODO: implement chaning operator control based on which climb is chosen.
+
+        climberChooser = new SendableChooser<Climber>();
+
+        climberChooser.addOption("Select Low climb", Climber.LOW);
+        climberChooser.setDefaultOption("Select Traversal climb", Climber.TRAVERSAL);
+        
         SmartDashboard.putData(" Reset Climber Encoders ", new InstantCommand(() -> everybotClimber.climberMaster.setSelectedSensorPosition(0)));
     }
 
