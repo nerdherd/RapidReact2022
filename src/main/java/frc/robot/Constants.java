@@ -1,6 +1,7 @@
 package frc.robot;
 
 public final class Constants {
+    
     public static final class DriveConstants {
         public static final double kDriveAlpha = 0.11765;
         public static final double kDriveOneMinusAlpha = 0.88235;
@@ -18,16 +19,13 @@ public final class Constants {
 
         public static final int kEverybotIntake = 14;
     }
+
     public static final class EverybotConstants {
         public static final double kHighAngle = -20073.00;
         public static final double kLowAngle = 0;
         public static final double kGravityAngle = -19500.00;
         public static final double kHighAngleThreshold = 0;
         public static final double kLowAngleThreshold = 0;
-
-        public static final double kEverybotArmkP = 1.0;
-        public static final double kEverybotArmkD = 0.0002;
-        public static final double kEverybotArmFF = 0.0;
 
         public static final double kEverybotUpVoltage = 0.7;
         public static final double kEverybotDownVoltage = 0.2;
@@ -50,33 +48,31 @@ public final class Constants {
         public static final double kTicksToClimbLowRung = 52035;
         public static final double kTicksToHome = 43757;
     }
-    public static final class EverybotMotionMagicConstants {
-        public static final double kArmGoalAngle = 1.572; // Radians
-        public static final double kArmVelocityToGoal = 0;
-        public static final double kArmStaticFrictionDeadband = 5; // In ticks/decisecond, pulled from NerdyLib
-        public static final double kArmDeadband = 0.004;
-        public static final double kArmAngleRatio = 1./4096. * 360 * 12. / 22.; // (pulled from DeepSpace2019)
-        public static final double kArmAngleOffset = 0; // Degrees (-15)
-        
-        // Feedforward Constants
-        public static final double kArmStaticGain = 0;
-        public static final double kArmGravityGain = 0; // https://www.chiefdelphi.com/t/motion-magic-with-an-arm/348667 (how to calculate cos gain)
+    
+    public static final class ClimberConstants {
+        public static final double kArmkP = 0.04;
+        public static final double kArmkI = 0;
+        public static final double kArmkD = 0;
+        public static final double kArmkF = 0; 
+
+        public static final double kArmStaticGain = 0.0;
+        public static final double kArmGravityGain = 0.11;
         public static final double kArmVelocityGain = 0;
-        public static final double kArmMaxVelocity = 540; // Max vel and max accel copied from motion magic vals
-        public static final double kArmMaxAcceleration = 540;
-        public static final double kArmStaticFF = 0.52;
-        public static final double kArmGravityFF = 1.83;
 
-        // Motion Constants (in sensor units per 100 ms)
-        public static final double kArmMotionCruiseVel = 540; // Cruise velocity = slightly smaller than max velocity
-        public static final double kArmMotionAccel = 540; // Run mechanism at 12 volts, take slope of velocity curve in talon units
+        public static final double kArmGravityFF = 0.11;
+        public static final double kArmStaticFF = 0.0;
 
-        // PID
-        public static final double kArmP = 4;
-        public static final double kArmD = 0;  
-    }  
-    public static final class ArmConstants {
-        public static double armKp = 1.0;
-        public static double armKd = 0.0002;
+        public static final double kArmCruiseVelocity = 40;
+        public static final double kArmMotionAcceleration = 20;
+        public static final double kArmMaxVelocity = 54.0;
+        public static final double kArmMaxAcceleration = 54.0;
+        public static final double kArmDeadband = 0.0004;
+        public static final double kArmStaticFrictionDeadband = 5.0;
+
+        public static final double kArmAngleOffset = 60;
+        public static final double kArmAngleLength = 1.0 / 4096 * 360 * 29;
+
+        public static final double kTicksToRungAngle = -200; //Actual ticks 620, not resetting encoder position properly
+        public static final double kTicksToVertical = -60;
     }
 }

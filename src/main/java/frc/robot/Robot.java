@@ -32,7 +32,6 @@ public class Robot extends TimedRobot {
   
   @Override
   public void teleopInit() { 
-    robotContainer.everybotArm.resetElevatorEncoder();
   }
 
   @Override
@@ -48,8 +47,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousInit() {
-    robotContainer.everybotArm.resetElevatorEncoder();
-    
     CommandGroupBase command = robotContainer.autoChooser.getSelected();
 
     if (command != null) {

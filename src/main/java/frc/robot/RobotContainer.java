@@ -8,15 +8,11 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj.PS4Controller;
-import edu.wpi.first.wpilibj.PS4Controller.Button;
 
 import frc.robot.Constants.EverybotConstants;
 
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.EverybotArm;
-import frc.robot.subsystems.EverybotArmMotionMagic;
 import frc.robot.subsystems.EverybotClimber;
 import frc.robot.subsystems.EverybotIntake;
 
@@ -28,10 +24,8 @@ public class RobotContainer {
     }
 
     public Drivetrain drivetrain = new Drivetrain();
-    public EverybotArm everybotArm = new EverybotArm();
     public EverybotClimber everybotClimber = new EverybotClimber();
     public EverybotIntake everybotIntake = new EverybotIntake();
-    public EverybotArmMotionMagic everybotArmMotionMagic = new EverybotArmMotionMagic();
 
     public PS4Controller ps4Controller = new PS4Controller(0);
     public PS4Controller ps4Controller2 = new PS4Controller(1);
@@ -160,7 +154,6 @@ public class RobotContainer {
     public void reportToSmartDashboard() {
         drivetrain.reportToSmartDashboard();
 
-        SmartDashboard.putNumber(" Arm Position ", everybotArm.arm.getSelectedSensorPosition());
         SmartDashboard.putNumber(" Climber Position", everybotClimber.climberMaster.getSelectedSensorPosition());
         SmartDashboard.putNumber(" Intake Stator Current ", everybotIntake.everybotIntake.getStatorCurrent());
         SmartDashboard.putNumber(" Intake Supply Current ", everybotIntake.everybotIntake.getSupplyCurrent());
