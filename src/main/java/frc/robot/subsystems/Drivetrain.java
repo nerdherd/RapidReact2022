@@ -4,13 +4,14 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
-import frc.robot.OI;
+import frc.robot.Robot;
 import frc.robot.Constants.DriveConstants;
 
 public class Drivetrain extends SubsystemBase {
@@ -19,9 +20,9 @@ public class Drivetrain extends SubsystemBase {
     public TalonFX rightSlave; // Channel 31 on CAN, 15 on PDP
     public TalonFX leftSlave; // Channel 17 on CAN, 1 on PDP
 
-    // public Compressor compressor; // Channel 3 on CAN
-    private DoubleSolenoid leftShifter; // Channels 2 and 5
-    private DoubleSolenoid rightShifter; // Channels 1 and 4
+    public Compressor compressor; // Channel 3 on CAN
+    private DoubleSolenoid leftShifter; // Channels 0 and 6
+    private DoubleSolenoid rightShifter; // Channels 1 and 7
 
     // private double modLeftInput;
     // private double modRightInput;
@@ -44,9 +45,10 @@ public class Drivetrain extends SubsystemBase {
       rightSlave.setInverted(InvertType.FollowMaster);
 
       // Pneumatics setup
-      // compressor = new Compressor(3, PneumaticsModuleType.CTREPCM);
-      // leftShifter = new DoubleSolenoid(3, PneumaticsModuleType.CTREPCM, 2, 5);
-      // rightShifter = new DoubleSolenoid(3, PneumaticsModuleType.CTREPCM, 1, 4);
+      compressor = new Compressor(3, PneumaticsModuleType.CTREPCM);
+
+      leftShifter = new DoubleSolenoid(3, PneumaticsModuleType.CTREPCM, 0, 6);
+      rightShifter = new DoubleSolenoid(3, PneumaticsModuleType.CTREPCM, 1, 7);
     }
 
     public static double gainInput(double input) {
@@ -55,8 +57,8 @@ public class Drivetrain extends SubsystemBase {
     }
 
     public void driveControllerMovement() {
-      double leftInput = OI.ps4Controller.getLeftY();
-      double rightInput = OI.ps4Controller.getRightY();
+      double leftInput = Robot.robotContainer.ps4Controller.getLeftY();
+      double rightInput = Robot.robotContainer.ps4Controller.getRightY();
       double prevLeftOutput = leftMaster.getMotorOutputPercent();
       double prevRightOutput = rightMaster.getMotorOutputPercent();
 
@@ -64,28 +66,12 @@ public class Drivetrain extends SubsystemBase {
       double leftOutput = (DriveConstants.kDriveAlpha * leftInput) + (DriveConstants.kDriveOneMinusAlpha * prevLeftOutput);
       double rightOutput = (DriveConstants.kDriveAlpha * rightInput) + (DriveConstants.kDriveOneMinusAlpha * prevRightOutput);
 
-      // double modLeftInput = gainInput(leftInput);
-      // double modRightInput = gainInput(rightInput);
-
-      // double modScale = 0.05;
-      
-      // if (highGear == true) {
-      //   rightMaster.set(ControlMode.PercentOutput, modLeftInput * modScale);
-      //   leftMaster.set(ControlMode.PercentOutput, modRightInput * modScale);
-      // }
-
-      // if (highGear == false) {
-      //   rightMaster.set(ControlMode.PercentOutput, rightInput);
-      //   leftMaster.set(ControlMode.PercentOutput, leftInput);
-      // }
-
       rightMaster.set(ControlMode.PercentOutput, rightOutput);
       leftMaster.set(ControlMode.PercentOutput, leftOutput);
 
-  
       // Gear shifting
       // Actually triangle button
-      if (OI.ps4Controller.getTriangleButtonPressed()) {
+      if (Robot.robotContainer.ps4Controller.getTriangleButtonPressed()) {
         // Shifts to high gear
         leftShifter.set(Value.kForward);
         rightShifter.set(Value.kForward);
@@ -94,7 +80,7 @@ public class Drivetrain extends SubsystemBase {
       }
 
       // Actually square button
-      if (OI.ps4Controller.getCircleButtonPressed()) {
+      if (Robot.robotContainer.ps4Controller.getCircleButtonPressed()) {
         // Shifts to low gear
         leftShifter.set(Value.kReverse);
         rightShifter.set(Value.kReverse);
@@ -118,13 +104,13 @@ public class Drivetrain extends SubsystemBase {
       SmartDashboard.putNumber(" Right Slave Current ", rightSlave.getSupplyCurrent());
       SmartDashboard.putNumber(" Left Master Current ", leftMaster.getSupplyCurrent());
       SmartDashboard.putNumber(" Left Slave Current ", leftSlave.getSupplyCurrent());
-        
+      
       // SmartDashboard.putBoolean(" Compressor Enabled ", compressor.enabled());
       // SmartDashboard.putBoolean(" Pressure Switch ", compressor.getPressureSwitchValue());
       // SmartDashboard.putNumber(" Compressor Current ", compressor.getCurrent());
 
-      SmartDashboard.putNumber( " Left Axis ", OI.ps4Controller.getLeftY());
-      SmartDashboard.putNumber( " Right Axis ", OI.ps4Controller.getRightY());
+      SmartDashboard.putNumber( " Left Axis ", Robot.robotContainer.ps4Controller.getLeftY());
+      SmartDashboard.putNumber( " Right Axis ", Robot.robotContainer.ps4Controller.getRightY());
       // SmartDashboard.putNumber( " Modified Left Axis", leftmod)
     }
 

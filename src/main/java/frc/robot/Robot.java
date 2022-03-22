@@ -4,132 +4,75 @@
 
 package frc.robot;
 
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.EverybotClimber;
-import frc.robot.subsystems.EverybotIntake;
-import frc.robot.Constants.EverybotConstants;
+import edu.wpi.first.wpilibj2.command.CommandGroupBase;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.climber.Arm;
 
 
 public class Robot extends TimedRobot {
-  public static double m_startTimestamp;
-  // private double currentTimestamp;
-  private double m_timeoutTimestamp = 5;
-  private double m_intakeTimestamp = 1;
-  public static double m_currentTimestamp;
-  public static double m_timeElapsed;
-  public static TalonFX intakeArm = new TalonFX(15);
-
-  public static EverybotIntake everybotIntake;
-  public static EverybotClimber everybotClimber;
-
   public static SendableChooser<Command> autoChooser;
   public static Command m_autonomousCommand;
 
-  public RobotContainer robotContainer;
-  public Drivetrain drivetrain;
+  // TODO: refractor code so that this doesn't have to be public static, and follows the intended use of robotContainer
+  public static RobotContainer robotContainer;
 
   @Override
   public void robotInit() { 
     robotContainer = new RobotContainer();
 
-    drivetrain = new Drivetrain();
+    Log.initAndLog("/home/lvuser/logs/", "Test", 0.02, robotContainer);
 
-    everybotIntake = new EverybotIntake();
+    CommandScheduler.getInstance().cancelAll();
 
-    Log.initAndLog("/home/lvuser/logs/", "Test", 0.02);
-
-    // autoChooser = new SendableChooser<Command>();
-    // autoChooser.addOption("Abstract Basic Auto", new AbstractBasicAuto());
-    // autoChooser.addOption("Basic Auto", new BasicAuto());
-    // autoChooser.addOption("Auto", new Auto());
+    
+    robotContainer.elevator.elevator.setSelectedSensorPosition(0);
+    robotContainer.elevator.elevator.setNeutralMode(NeutralMode.Brake);
+    robotContainer.armTrapezoid.arm.setNeutralMode(NeutralMode.Brake);
   }
   
   @Override
   public void teleopInit() { 
-    // Drivetrain.compressor.enableDigital();
-    robotContainer.everybotArm.resetElevatorEncoder();
-
-    // if (Timer.getFPGATimestamp() - m_startTimestamp < m_timeoutTimestamp) {
-    //   Drivetrain.drive(-0.5, -0.5, 1);
-    // }
-    // else {
-    //   Drivetrain.setPowerZero();
-    // }
+    robotContainer.drivetrain.compressor.enableDigital();
+    robotContainer.elevator.elevator.setSelectedSensorPosition(0);
   }
 
   @Override
   public void teleopPeriodic() { 
     robotContainer.drivetrain.driveControllerMovement();
     robotContainer.reportToSmartDashboard();
-
-    /*if (OI.ps4Controller2.getR1ButtonPressed()) {
-      startTimestamp = Timer.getFPGATimestamp();
-      SmartDashboard.putString(" Button State ", "R1");
-      
-      if (Timer.getFPGATimestamp() - startTimestamp < 0.25) {
-        intakeArm.set(ControlMode.PercentOutput, -0.25);
-      } else {
-        intakeArm.set(ControlMode.PercentOutput, -0.08);
-      }
-    }
-
-    if (OI.ps4Controller2.getR2ButtonPressed()) {
-      startTimestamp = Timer.getFPGATimestamp();
-      SmartDashboard.putString(" Button State ", "R2");
-      
-      intakeArm.set(ControlMode.PercentOutput, 0.05);
-    }*/
-
-    // if (OI.ps4Controller2.getL1ButtonPressed()) {
-    //   EverybotClimber.climberMaster.set(ControlMode.PercentOutput, 0.02);
-    // }
-    // else if(OI.ps4Controller2.getL2ButtonPressed()) {
-    //   EverybotClimber.climberMaster.set(ControlMode.PercentOutput, -0.02);
-    // }
-    // else {
-    //   EverybotClimber.climberMaster.set(ControlMode.PercentOutput, 0.0);
-    // }
-
+    robotContainer.drivetrain.rightMaster.setNeutralMode(NeutralMode.Coast);
+    robotContainer.drivetrain.rightSlave.setNeutralMode(NeutralMode.Coast);
+    robotContainer.drivetrain.leftMaster.setNeutralMode(NeutralMode.Coast);
+    robotContainer.drivetrain.leftSlave.setNeutralMode(NeutralMode.Coast);
+    robotContainer.configureButtonBindings();
   }
 
   @Override
   public void autonomousInit() {
-    robotContainer.everybotArm.resetElevatorEncoder();
-    m_startTimestamp = Timer.getFPGATimestamp();
+    CommandGroupBase command = robotContainer.autoChooser.getSelected();
 
-    // m_autonomousCommand = autoChooser.getSelected();
-    // if (m_autonomousCommand != null) { 
-    //   m_autonomousCommand.schedule();
-    // }
+    if (command != null) {
+      command.schedule();
+    }
+    
+    Arm.arm.setSelectedSensorPosition(0);
   }
 
   @Override
   public void autonomousPeriodic() {
-    m_currentTimestamp = Timer.getFPGATimestamp();
-    m_timeElapsed = m_currentTimestamp - m_startTimestamp;
-
-    if ((m_timeElapsed < m_timeoutTimestamp) && (m_timeElapsed < m_intakeTimestamp)) {
-      robotContainer.everybotIntake.intakeOut(EverybotConstants.kEverybotAutoOuttake);
-    }
-    else if (m_timeElapsed < m_timeoutTimestamp && m_timeElapsed > m_intakeTimestamp) {
-      robotContainer.drivetrain.drive(0.5, 0.5, 1);
-    }
-    else {
-      robotContainer.drivetrain.setPowerZero();
-      robotContainer.everybotIntake.setPowerZero();
-    }
+    CommandScheduler.getInstance().run();
+  }
     
-    // new AbstractBasicAuto();
-    // new BasicAuto();
 
-    // new Auto();
-
-    // CommandScheduler.getInstance().run();
+  // cancel all commands on disable
+  @Override
+  public void disabledInit() {
+    CommandScheduler.getInstance().cancelAll();
+    robotContainer.elevator.elevator.setNeutralMode(NeutralMode.Brake);
   }
 }

@@ -14,7 +14,6 @@ import badlog.lib.BadLog;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.Timer;
-import frc.robot.subsystems.Drivetrain;
 
 /**
  * Add your docs here.
@@ -28,20 +27,26 @@ public class Log {
   public static BadLog log;
   private static Notifier logger;
 
-  public Log(String directory, String filename, RobotContainer robotContainer) {
+  public static void init(String directory, String filename, RobotContainer robotContainer) {
+    
     log = BadLog.init(getDesiredFile(directory, filename));
     createTopic("Time", () -> Timer.getFPGATimestamp());
 
-    createTopic("RightMaster" + "/Voltage", () -> Drivetrain.rightMaster.getMotorOutputVoltage());
-    createTopic("LeftMaster" + "/Voltage", () -> Drivetrain.leftMaster.getMotorOutputVoltage());
-    createTopic("RightFollower" + "/Voltage", () -> Drivetrain.rightSlave.getMotorOutputVoltage());
-    createTopic("LeftFollower" + "/Voltage", () -> Drivetrain.leftSlave.getMotorOutputVoltage());
-    createTopic("IntakeVoltage" + "/Voltage", () -> robotContainer.everybotIntake.everybotIntake.getMotorOutputVoltage());
-    createTopic("IntakeArmAngle" + "/Angle", () -> robotContainer.everybotArmMotionMagic.arm.getSelectedSensorPosition());
+    createTopic("RightMaster" + "/Voltage", () -> robotContainer.drivetrain.rightMaster.getMotorOutputVoltage());
+    createTopic("LeftMaster" + "/Voltage", () -> robotContainer.drivetrain.leftMaster.getMotorOutputVoltage());
+    createTopic("RightFollower" + "/Voltage", () -> robotContainer.drivetrain.rightSlave.getMotorOutputVoltage());
+    createTopic("LeftFollower" + "/Voltage", () -> robotContainer.drivetrain.leftSlave.getMotorOutputVoltage());
+    createTopic("Climber Velocity (sensor)", () -> robotContainer.everybotClimber.climberMaster.getSelectedSensorVelocity());
+    createTopic("Climber Velocity (trajectory)", () -> robotContainer.everybotClimber.climberMaster.getActiveTrajectoryVelocity());
+    createTopic("Climber position (sensor)", () -> robotContainer.everybotClimber.climberMaster.getSelectedSensorPosition());
+    createTopic("Climber position (trajectory)", () -> robotContainer.everybotClimber.climberMaster.getActiveTrajectoryPosition());
+    createTopic("Climber output voltage", () -> robotContainer.everybotClimber.climberMaster.getMotorOutputVoltage());
+    
     log.finishInitialization();
   }
 
-  public static void initAndLog(String directory, String filename, double period) {
+  public static void initAndLog(String directory, String filename, double period, RobotContainer robotContainer) {
+    init(directory, filename, robotContainer);
     logger = new Notifier(() -> {
       Log.log();
     });
