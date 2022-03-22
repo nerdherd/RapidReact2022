@@ -38,22 +38,6 @@ public class EverybotClimber extends SubsystemBase {
         SmartDashboard.putBoolean("Climbing onto low rung", false);
     }
 
-    // TODO: test if this works.
-
-    public void climberMovement() {
-        if (Robot.robotContainer.climberChooser.getSelected() == Climber.LOW) {
-            if (Robot.robotContainer.ps4Controller2.getCircleButtonPressed()) {
-                moveClimber(EverybotConstants.kTicksToLowRung);
-                SmartDashboard.putBoolean("Moving to low rung", true);
-            }
-    
-            if (Robot.robotContainer.ps4Controller2.getTriangleButtonPressed()) {
-                moveClimber(EverybotConstants.kTicksToClimbLowRung);
-                SmartDashboard.putBoolean("Climbing onto low rung", true);
-            }
-        }
-    }
-
     public void moveClimber(double ticksToTarget) {
         climberMaster.set(ControlMode.MotionMagic, climberMaster.getSelectedSensorPosition() + ticksToTarget);
     } 

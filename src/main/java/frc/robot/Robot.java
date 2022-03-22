@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -12,6 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandGroupBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.climber.Arm;
 
 
 public class Robot extends TimedRobot {
@@ -28,10 +28,17 @@ public class Robot extends TimedRobot {
     Log.initAndLog("/home/lvuser/logs/", "Test", 0.02, robotContainer);
 
     CommandScheduler.getInstance().cancelAll();
+
+    
+    robotContainer.elevator.elevator.setSelectedSensorPosition(0);
+    robotContainer.elevator.elevator.setNeutralMode(NeutralMode.Brake);
+    robotContainer.armTrapezoid.arm.setNeutralMode(NeutralMode.Brake);
   }
   
   @Override
   public void teleopInit() { 
+    robotContainer.drivetrain.compressor.enableDigital();
+    robotContainer.elevator.elevator.setSelectedSensorPosition(0);
   }
 
   @Override
@@ -42,7 +49,7 @@ public class Robot extends TimedRobot {
     robotContainer.drivetrain.rightSlave.setNeutralMode(NeutralMode.Coast);
     robotContainer.drivetrain.leftMaster.setNeutralMode(NeutralMode.Coast);
     robotContainer.drivetrain.leftSlave.setNeutralMode(NeutralMode.Coast);
-    robotContainer.everybotClimber.climberMovement();
+    robotContainer.configureButtonBindings();
   }
 
   @Override
@@ -52,6 +59,8 @@ public class Robot extends TimedRobot {
     if (command != null) {
       command.schedule();
     }
+    
+    Arm.arm.setSelectedSensorPosition(0);
   }
 
   @Override
@@ -64,5 +73,6 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit() {
     CommandScheduler.getInstance().cancelAll();
+    robotContainer.elevator.elevator.setNeutralMode(NeutralMode.Brake);
   }
 }
