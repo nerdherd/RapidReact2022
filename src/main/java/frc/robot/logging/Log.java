@@ -49,6 +49,7 @@ public class Log {
     createTopic(" Elevator Velocity sensor " + "/Velocity", () -> robotContainer.elevator.elevator.getSelectedSensorVelocity());
     createTopic(" Elevator Position trajectory " + "/Position", () -> robotContainer.elevator.elevator.getActiveTrajectoryPosition());
     createTopic(" Elevator Velocity trajectory " + "/Velocity", () -> robotContainer.elevator.elevator.getActiveTrajectoryVelocity());
+    createTopic(" Arm Angle " + "/Angle", () -> robotContainer.armTrapezoid.ticksToAngle());
     // createTopic(" Climber Position (sensor) " + "/Position", () -> robotContainer.armMotionMagic.arm.getSelectedSensorPosition());
     // createTopic(" Climber Position (sensor) " + "/Velocity", () -> robotContainer.armMotionMagic.arm.getSelectedSensorVelocity());
     // createTopic(" Climber Position (trajectory) " + "/Position", () -> robotContainer.armMotionMagic.arm.getActiveTrajectoryPosition());

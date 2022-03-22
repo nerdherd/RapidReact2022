@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.OI;
 
 public class Drivetrain {
@@ -23,6 +23,7 @@ public class Drivetrain {
     private static DoubleSolenoid leftShifter; // Channels 2 and 5
     private static DoubleSolenoid rightShifter; // Channels 1 and 4
     private static DoubleSolenoid climberShifter;
+    private static DoubleSolenoid hookShifter;
     
     // ======================= TELEOP FUNCTIONS ======================= //
     
@@ -42,9 +43,11 @@ public class Drivetrain {
 
       // Pneumatics setup
       compressor = new Compressor(3, PneumaticsModuleType.CTREPCM);
-      leftShifter = new DoubleSolenoid(3, PneumaticsModuleType.CTREPCM, 2, 5);
-      rightShifter = new DoubleSolenoid(3, PneumaticsModuleType.CTREPCM, 1, 4);
-      climberShifter = new DoubleSolenoid(3, PneumaticsModuleType.CTREPCM, 6, 7);
+      // leftShifter = new DoubleSolenoid(3, PneumaticsModuleType.CTREPCM, 1, 6);
+      // rightShifter = new DoubleSolenoid(3, PneumaticsModuleType.CTREPCM, 1, 4);
+      climberShifter = new DoubleSolenoid(3, PneumaticsModuleType.CTREPCM, 7, 6);
+      hookShifter = new DoubleSolenoid(3, PneumaticsModuleType.CTREPCM, 2, 5);
+
     }
 
     public static void driveControllerMovement() {
@@ -59,7 +62,7 @@ public class Drivetrain {
       if (OI.ps4Controller.getTriangleButtonPressed()) {
         // Shifts to high gear
         leftShifter.set(Value.kForward);
-        rightShifter.set(Value.kForward);
+        // rightShifter.set(Value.kForward);
         SmartDashboard.putString(" Button State ", "A");
       }
 
@@ -75,16 +78,35 @@ public class Drivetrain {
       if (OI.ps4Controller2.getCrossButtonPressed()) {
         // Extend climber piston
         climberShifter.set(Value.kForward);
-        SmartDashboard.putString(" Button State ", "C");
+        SmartDashboard.putString(" Button State ", "Cr");
       }
 
-      // Actually Square button
+      // // Actually Square button
       if (OI.ps4Controller2.getCircleButtonPressed()) {
         // Extend climber piston
         climberShifter.set(Value.kReverse);
-        SmartDashboard.putString(" Button State ", "C");
+        SmartDashboard.putString(" Button State ", "Ci");
       }
 
+      // if (OI.ps4Controller2.getCrossButtonPressed()) {
+      //   hookShifter.set(Value.kForward);
+      //   SmartDashboard.putString(" Button State ", "L1");
+      // }
+
+      // if (OI.ps4Controller2.getCircleButtonPressed()) {
+      //   hookShifter.set(Value.kReverse);
+      //   SmartDashboard.putString("Button State ", "R1");
+      // }
+
+      if (OI.ps4Controller2.getLeftY() > 0.007874) {
+        hookShifter.set(Value.kForward);
+        SmartDashboard.putNumber(" Left Axis ", OI.ps4Controller2.getLeftY());
+      }
+
+      if (OI.ps4Controller2.getLeftY() < 0.007874) {
+        hookShifter.set(Value.kReverse);
+        SmartDashboard.putNumber(" Left Axis ", OI.ps4Controller2.getLeftY());
+      }
       
     }
 
@@ -97,6 +119,11 @@ public class Drivetrain {
       SmartDashboard.putBoolean(" Compressor Enabled ", compressor.enabled());
       SmartDashboard.putBoolean(" Pressure Switch ", compressor.getPressureSwitchValue());
       SmartDashboard.putNumber(" Compressor Current ", compressor.getCurrent());
+    }
+
+    public static void driverstationButtons() {
+      SmartDashboard.putData(" Arm Piston Up ", new InstantCommand(() -> climberShifter.set(Value.kForward)));
+      SmartDashboard.putData(" Arm Piston Down ", new InstantCommand(() -> climberShifter.set(Value.kForward)));
     }
 
     // ====================== AUTONOMOUS FUNCTIONS ====================== //

@@ -29,7 +29,7 @@ public class Robot extends TimedRobot {
     Log.initAndLog("/home/lvuser/logs/", "Test", 0.04, robotContainer);
 
     robotContainer.elevator.elevator.setSelectedSensorPosition(0);
-    robotContainer.elevator.elevator.setNeutralMode(NeutralMode.Brake);
+    robotContainer.elevator.elevator.setNeutralMode(NeutralMode.Coast);
     robotContainer.armTrapezoid.arm.setNeutralMode(NeutralMode.Brake);
     // robotContainer.armTrapezoid.arm.set(ControlMode.PercentOutput, 0.09);
   }
@@ -44,6 +44,7 @@ public class Robot extends TimedRobot {
   public void teleopInit() { 
     Drivetrain.compressor.enableDigital();
     robotContainer.elevator.elevator.setSelectedSensorPosition(0);
+    robotContainer.elevator.elevator.setNeutralMode(NeutralMode.Brake);
   }
 
 

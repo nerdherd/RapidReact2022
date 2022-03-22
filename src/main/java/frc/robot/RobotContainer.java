@@ -68,20 +68,20 @@ public class RobotContainer {
         //     SmartDashboard.putString(" Button State ", "L1");
         // }));
 
-        if (OI.ps4Controller2.getL1ButtonPressed()) {
-            armTrapezoid.setPositionMotionMagic(ClimberConstants.kTicksToRungAngle);
-            SmartDashboard.putString(" Button State ", "L1");
-        }
+        // if (OI.ps4Controller2.getL1ButtonPressed()) {
+        //     armTrapezoid.setPositionMotionMagic(ClimberConstants.kTicksToRungAngle);
+        //     SmartDashboard.putString(" Button State ", "L1");
+        // }
 
-        if (OI.ps4Controller2.getL2ButtonPressed()) {
-            armTrapezoid.setPositionMotionMagic(ClimberConstants.kTicksToClearRung);
-            SmartDashboard.putString(" Button State ", "L2");
-        }
+        // if (OI.ps4Controller2.getL2ButtonPressed()) {
+        //     armTrapezoid.setPositionMotionMagic(ClimberConstants.kTicksToClearRung);
+        //     SmartDashboard.putString(" Button State ", "L2");
+        // }
 
-        if (OI.ps4Controller2.getR1ButtonPressed()) {
-            armTrapezoid.setPositionMotionMagic(ClimberConstants.kTicksToVertical);
-            SmartDashboard.putString(" Button State ", "R1");
-        }
+        // if (OI.ps4Controller2.getR1ButtonPressed()) {
+        //     armTrapezoid.setPositionMotionMagic(ClimberConstants.kTicksToVertical);
+        //     SmartDashboard.putString(" Button State ", "R1");
+        // }
 
         if (OI.ps4Controller2.getR2ButtonPressed()) {
             elevator.elevator.setNeutralMode(NeutralMode.Brake);
@@ -92,7 +92,9 @@ public class RobotContainer {
             if (elevator.elevator.getSelectedSensorPosition() > ClimberConstants.kElevatorTicksDown ){
                 elevator.elevator.set(ControlMode.PercentOutput, -0.4);
                 SmartDashboard.putString(" Running Command ", "Elevator Down ");
-            } 
+            } else if (OI.ps4Controller2.getSquareButton() == false) {
+                elevator.elevator.set(ControlMode.PercentOutput, 0);
+            }
             SmartDashboard.putString( "Button State ", "Square ");
         }
         
@@ -111,7 +113,7 @@ public class RobotContainer {
         
         // elevator.elevator.set(ControlMode.PercentOutput, elevatorInput * 0.1);
 
-        armTrapezoid.arm.set(ControlMode.PercentOutput, armInput * 0.25, DemandType.ArbitraryFeedForward, -1 * armTrapezoid.FF());
+        armTrapezoid.arm.set(ControlMode.PercentOutput, armInput * 0.3, DemandType.ArbitraryFeedForward, -1 * armTrapezoid.FF());
 
         // if (armTrapezoid.arm.getSelectedSensorPosition() <= ClimberConstants.kArmTicksDownSoftLimit
         //     && armTrapezoid.arm.getSelectedSensorPosition() >= ClimberConstants.kArmTicksUpSoftLimit) {
@@ -169,6 +171,7 @@ public class RobotContainer {
         SmartDashboard.putNumber(" Elevator Position ", elevator.elevator.getSelectedSensorPosition());
         SmartDashboard.putNumber(" Elevator Voltage ", elevator.elevator.getMotorOutputVoltage());
         SmartDashboard.putBoolean(" Triangle Button Held ", OI.ps4Controller2.getTriangleButton());
+        SmartDashboard.putNumber(" Right Operator Axis ", OI.ps4Controller2.getRightY());
         // SmartDashboard.putNumber(" ArmMM Position ", armMotionMagic.arm.getSelectedSensorPosition());
         // SmartDashboard.putNumber(" ArmMM Velocity", armMotionMagic.arm.getSelectedSensorVelocity());
         // SmartDashboard.putNumber(" ArmMM Voltage ", armMotionMagic.arm.getMotorOutputVoltage());
