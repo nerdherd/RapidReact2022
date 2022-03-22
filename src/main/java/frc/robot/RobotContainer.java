@@ -10,11 +10,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import edu.wpi.first.wpilibj.PS4Controller;
 
-import frc.robot.Constants.EverybotConstants;
-
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.EverybotClimber;
-import frc.robot.subsystems.EverybotIntake;
 
 public class RobotContainer {
 
@@ -25,7 +22,6 @@ public class RobotContainer {
 
     public Drivetrain drivetrain = new Drivetrain();
     public EverybotClimber everybotClimber = new EverybotClimber();
-    public EverybotIntake everybotIntake = new EverybotIntake();
 
     public PS4Controller ps4Controller = new PS4Controller(0);
     public PS4Controller ps4Controller2 = new PS4Controller(1);
@@ -36,26 +32,9 @@ public class RobotContainer {
     public Climber climber;
 
     public RobotContainer() {
-        configureButtonBindings();
         SmartDashboard.putBoolean("arm moving", false);
         initSmartDashboard();
         drivetrain.compressor.enableDigital();
-    }
-
-    private void configureButtonBindings() {
-        // Assign instantcommands to each PS4 button
-        // Could move to OI later
-
-        SmartDashboard.putData("move arm to first rung", new InstantCommand(() -> {
-            everybotClimber.moveClimber(EverybotConstants.kTicksToLowRung);
-            SmartDashboard.putBoolean("arm moving", true);
-        }));
-
-        SmartDashboard.putData("climb part 2",
-            new InstantCommand(() -> {
-                everybotClimber.moveClimber(EverybotConstants.kTicksToClimbLowRung);
-            })
-        );
     }
 
     public void initSmartDashboard() {
@@ -72,65 +51,9 @@ public class RobotContainer {
             )
         );
         
-        // autoChooser.addOption("shoot ball and leave tarmac :)", 
-        //     new SequentialCommandGroup(
-        //         // outtake for 1 second and then set power zero
-        //         new ParallelDeadlineGroup(
-        //             new WaitCommand(1), 
-        //             new InstantCommand(() -> everybotIntake.intakeOut(EverybotConstants.kEverybotAutoOuttake))
-        //         ), 
-        //         new InstantCommand(() -> everybotIntake.setPowerZero()),
-
-        //         // drive for 1 second with power 0.5, then set power zero
-        //         new ParallelDeadlineGroup(
-        //             new WaitCommand(1), 
-        //             new InstantCommand(() -> drivetrain.setPower(0.5, 0.5))
-        //         ), 
-        //         new InstantCommand(() -> drivetrain.setPowerZero())
-        //     )
-        // );
-
-        
-        autoChooser.addOption("move forward, shoot ball, and leave tarmac ",
-            new SequentialCommandGroup(
-                // outtake for 1 second and then set power zero
-                new ParallelDeadlineGroup(
-                    new WaitCommand(3), 
-                    new InstantCommand(() -> drivetrain.setPower(-0.5, -0.5))
-                ),
-
-                new ParallelDeadlineGroup(
-                    new WaitCommand(1), 
-                    new InstantCommand(() -> everybotIntake.intakeOut(EverybotConstants.kEverybotAutoOuttake))
-                ), 
-                new InstantCommand(() -> everybotIntake.setPowerZero()),
-
-                // drive for 1 second with power 0.5, then set power zero
-                new ParallelDeadlineGroup(
-                    new WaitCommand(3), 
-                    new InstantCommand(() -> drivetrain.setPower(0.5, 0.5))
-                ), 
-                new InstantCommand(() -> drivetrain.setPowerZero())
-            )
-        );
-        
-        
         autoChooser.addOption("delay 5s then taxi",
             new SequentialCommandGroup(
                 new WaitCommand(5),
-                // outtake for 1 second and then set power zero
-                // new ParallelDeadlineGroup(
-                //     new WaitCommand(3), 
-                //     new InstantCommand(() -> drivetrain.setPower(-0.4, -0.5))
-                // ),
-
-                // new ParallelDeadlineGroup(
-                //     new WaitCommand(1), 
-                //     new InstantCommand(() -> everybotIntake.intakeOut(EverybotConstants.kEverybotAutoOuttake))
-                // ), 
-                // new InstantCommand(() -> everybotIntake.setPowerZero()),
-
-                // drive for 1 second with power 0.5, then set power zero
                 new ParallelDeadlineGroup(
                     new WaitCommand(1), 
                     new InstantCommand(() -> drivetrain.setPower(0.5, 0.5)),
@@ -155,8 +78,5 @@ public class RobotContainer {
         drivetrain.reportToSmartDashboard();
 
         SmartDashboard.putNumber(" Climber Position", everybotClimber.climberMaster.getSelectedSensorPosition());
-        SmartDashboard.putNumber(" Intake Stator Current ", everybotIntake.everybotIntake.getStatorCurrent());
-        SmartDashboard.putNumber(" Intake Supply Current ", everybotIntake.everybotIntake.getSupplyCurrent());
-
     }
 }

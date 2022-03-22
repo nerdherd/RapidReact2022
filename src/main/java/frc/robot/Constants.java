@@ -1,7 +1,7 @@
 package frc.robot;
 
 public final class Constants {
-    
+
     public static final class DriveConstants {
         public static final double kDriveAlpha = 0.11765;
         public static final double kDriveOneMinusAlpha = 0.88235;
@@ -75,4 +75,5 @@ public final class Constants {
         public static final double kTicksToRungAngle = -200; //Actual ticks 620, not resetting encoder position properly
         public static final double kTicksToVertical = -60;
     }
+    
 }
