@@ -58,7 +58,10 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+    CommandScheduler.getInstance().run();
+  }
+    
 
   // cancel all commands on disable
   @Override

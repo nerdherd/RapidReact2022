@@ -117,28 +117,28 @@ public class RobotContainer {
         );
         
         
-        autoChooser.addOption("delay 5s, move forward, shoot ball, and leave tarmac ",
+        autoChooser.addOption("delay",
             new SequentialCommandGroup(
                 new WaitCommand(5),
                 // outtake for 1 second and then set power zero
-                new ParallelDeadlineGroup(
-                    new WaitCommand(3), 
-                    new InstantCommand(() -> drivetrain.setPower(-0.5, -0.5))
-                ),
+                // new ParallelDeadlineGroup(
+                //     new WaitCommand(3), 
+                //     new InstantCommand(() -> drivetrain.setPower(-0.4, -0.5))
+                // ),
 
-                new ParallelDeadlineGroup(
-                    new WaitCommand(1), 
-                    new InstantCommand(() -> everybotIntake.intakeOut(EverybotConstants.kEverybotAutoOuttake))
-                ), 
-                new InstantCommand(() -> everybotIntake.setPowerZero()),
+                // new ParallelDeadlineGroup(
+                //     new WaitCommand(1), 
+                //     new InstantCommand(() -> everybotIntake.intakeOut(EverybotConstants.kEverybotAutoOuttake))
+                // ), 
+                // new InstantCommand(() -> everybotIntake.setPowerZero()),
 
                 // drive for 1 second with power 0.5, then set power zero
                 new ParallelDeadlineGroup(
                     new WaitCommand(1), 
-                    new InstantCommand(() -> drivetrain.setPower(0.5, 0.5))
-                ), 
-                new InstantCommand(() -> drivetrain.setPowerZero())
-            )
+                    new InstantCommand(() -> drivetrain.setPower(0.5, 0.5)),
+                
+                new InstantCommand(() -> drivetrain.setPowerZero()))
+            
         );
 
         autoChooser.addOption("test", new SequentialCommandGroup(
