@@ -7,7 +7,10 @@ public class Constants {
         public static final double kArmkD = 0.6; //0.6 
         public static final double kArmkF = 2.82; // 2.82
 
-        public static final double kArmGravityFF = 0.5; //0.11 voltage calc, 0.41 phys calc
+        public static final double kArmGravityFF = 0.41
+        
+        
+        +; //0.11 voltage calc, 0.41 phys calc
         public static final double kArmStaticFF = 0.0;
 
         public static final double kArmCruiseVelocity = 250;
