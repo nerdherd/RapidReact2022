@@ -4,14 +4,22 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandGroupBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.climber.Arm;
+import frc.robot.subsystems.climber.Elevator;
+import frc.robot.subsystems.Drivetrain;
+import frc.robot.RobotContainer;
+import frc.robot.Constants.ClimberConstants;
 
 
 public class Robot extends TimedRobot {
@@ -37,9 +45,13 @@ public class Robot extends TimedRobot {
   
   @Override
   public void teleopInit() { 
+    Drivetrain.compressor.enableDigital();
+    robotContainer.elevator.elevator.setSelectedSensorPosition(0);
+    robotContainer.elevator.elevator.setNeutralMode(NeutralMode.Brake);
     robotContainer.drivetrain.compressor.enableDigital();
     robotContainer.elevator.elevator.setSelectedSensorPosition(0);
   }
+
 
   @Override
   public void teleopPeriodic() { 
@@ -51,6 +63,7 @@ public class Robot extends TimedRobot {
     robotContainer.drivetrain.leftSlave.setNeutralMode(NeutralMode.Coast);
     robotContainer.configureButtonBindings();
   }
+
 
   @Override
   public void autonomousInit() {
@@ -65,14 +78,16 @@ public class Robot extends TimedRobot {
 
   @Override
   public void autonomousPeriodic() {
-    CommandScheduler.getInstance().run();
-  }
+    // Arm.rotateArmToAngle(64, 5);
+    SmartDashboard.putNumber(" Arm Position ", Arm.arm.getSelectedSensorPosition());
     
+    // -21560 to reach mid 
+    // -2675 to go down & latch
+  }
 
-  // cancel all commands on disable
   @Override
   public void disabledInit() {
     CommandScheduler.getInstance().cancelAll();
-    robotContainer.elevator.elevator.setNeutralMode(NeutralMode.Brake);
   }
+    
 }
