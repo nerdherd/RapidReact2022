@@ -16,8 +16,6 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
-import edu.wpi.first.wpilibj.PS4Controller;
-import edu.wpi.first.wpilibj.PS4Controller.Button;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.EverybotClimber;
 import frc.robot.subsystems.climber.ArmTrapezoid;
@@ -57,27 +55,27 @@ public class RobotContainer {
     public void configureButtonBindings() {
         // Assign instantcommands to each PS4 button
         if (climberChooser.getSelected() == Climber.TRAVERSAL) {
-            if (OI.ps4Controller2.getL1ButtonPressed()) {
-                armTrapezoid.setPositionMotionMagic(ClimberConstants.kTicksToRungAngle);
-                SmartDashboard.putString(" Button State ", "L1");
-            }
+            // if (OI.xboxController2.getLeftBumperPressed()) {
+            //     armTrapezoid.setPositionMotionMagic(ClimberConstants.kTicksToRungAngle);
+            //     SmartDashboard.putString(" Button State ", "L1");
+            // }
     
-            if (OI.ps4Controller2.getL2ButtonPressed()) {
-                armTrapezoid.setPositionMotionMagic(ClimberConstants.kTicksToClearRung);
-                SmartDashboard.putString(" Button State ", "L2");
-            }
+            // if (OI.xboxController2.getLeft()) {
+            //     armTrapezoid.setPositionMotionMagic(ClimberConstants.kTicksToClearRung);
+            //     SmartDashboard.putString(" Button State ", "L2");
+            // }
     
-            if (OI.ps4Controller2.getR1ButtonPressed()) {
-                armTrapezoid.setPositionMotionMagic(ClimberConstants.kTicksToVertical);
-                SmartDashboard.putString(" Button State ", "R1");
-            }
+            // if (OI.xboxController2.getR1ButtonPressed()) {
+            //     armTrapezoid.setPositionMotionMagic(ClimberConstants.kTicksToVertical);
+            //     SmartDashboard.putString(" Button State ", "R1");
+            // }
     
-            if (OI.ps4Controller2.getR2ButtonPressed()) {
-                elevator.elevator.setNeutralMode(NeutralMode.Brake);
-                SmartDashboard.putString(" Button State ", "R2 ");
-            }
+            // if (OI.xboxController2.getR2ButtonPressed()) {
+            //     elevator.elevator.setNeutralMode(NeutralMode.Brake);
+            //     SmartDashboard.putString(" Button State ", "R2 ");
+            // }
     
-            if (OI.ps4Controller2.getSquareButton()) {
+            if (OI.xboxController2.getAButton()) {
                 if (elevator.elevator.getSelectedSensorPosition() > ClimberConstants.kElevatorTicksDown ){
                     elevator.elevator.set(ControlMode.PercentOutput, -0.4);
                     SmartDashboard.putString(" Running Command ", "Elevator Down ");
@@ -87,7 +85,7 @@ public class RobotContainer {
                 SmartDashboard.putString( "Button State ", "Square ");
             }
             
-            if (OI.ps4Controller2.getTriangleButton()) {
+            if (OI.xboxController2.getBButton()) {
                 if (elevator.elevator.getSelectedSensorPosition() < ClimberConstants.kElevatorTicksUp) {
                     elevator.elevator.set(ControlMode.PercentOutput, 0.32);
                     SmartDashboard.putString(" Running Command ", "Elevator Up ");
@@ -97,7 +95,7 @@ public class RobotContainer {
                 SmartDashboard.putString( "Button State ", " Triangle ");
             }
 
-            if (OI.ps4Controller2.getCircleButton()) {
+            if (OI.xboxController2.getXButton()) {
                 if (elevator.elevator.getSelectedSensorPosition() < ClimberConstants.kElevatorTicksExtend) {
                     elevator.elevator.set(ControlMode.PercentOutput, 0.32);
                     SmartDashboard.putString(" Running Command ", "Elevator Up Extend ");
@@ -107,17 +105,17 @@ public class RobotContainer {
                 SmartDashboard.putString(" Button State ", " Circle ");
             }
     
-            double armInput = -OI.ps4Controller2.getRightY();
+            double armInput = -OI.xboxController2.getRightY();
             armTrapezoid.arm.set(ControlMode.PercentOutput, armInput * 0.25, DemandType.ArbitraryFeedForward, -1 * armTrapezoid.FF());
         } 
         
         else if (climberChooser.getSelected() == Climber.LOW) {
-            if (OI.ps4Controller2.getCircleButtonPressed()) {
+            if (OI.xboxController2.getAButtonPressed()) {
                 everybotClimber.moveClimber(EverybotConstants.kTicksToLowRung);
                 SmartDashboard.putBoolean("Moving to low rung", true);
             }
     
-            if (OI.ps4Controller2.getTriangleButtonPressed()) {
+            if (OI.xboxController2.getBButtonPressed()) {
                 everybotClimber.moveClimber(EverybotConstants.kTicksToClimbLowRung);
                 SmartDashboard.putBoolean("Climbing onto low rung", true);
             }
@@ -232,11 +230,10 @@ public class RobotContainer {
         SmartDashboard.putNumber(" Arm Angle Conversion ", armTrapezoid.ticksToAngle());
         SmartDashboard.putNumber(" Elevator Position ", elevator.elevator.getSelectedSensorPosition());
         SmartDashboard.putNumber(" Elevator Voltage ", elevator.elevator.getMotorOutputVoltage());
-        SmartDashboard.putBoolean(" Triangle Button Held ", OI.ps4Controller2.getTriangleButton());
-        SmartDashboard.putNumber(" Right Operator Axis ", OI.ps4Controller2.getRightY());
+        SmartDashboard.putBoolean(" A Button Held ", OI.xboxController2.getAButton());
+        SmartDashboard.putNumber(" Right Operator Axis ", OI.xboxController2.getRightY());
         // SmartDashboard.putNumber(" ArmMM Position ", armMotionMagic.arm.getSelectedSensorPosition());
         // SmartDashboard.putNumber(" ArmMM Velocity", armMotionMagic.arm.getSelectedSensorVelocity());
         // SmartDashboard.putNumber(" ArmMM Voltage ", armMotionMagic.arm.getMotorOutputVoltage());
-        SmartDashboard.putBoolean(" Triangle Button Held ", OI.ps4Controller2.getTriangleButton());
     }
 }

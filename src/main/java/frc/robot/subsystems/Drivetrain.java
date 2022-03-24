@@ -72,8 +72,8 @@ public class Drivetrain extends SubsystemBase {
     }
 
     public void driveControllerMovement() {
-      double leftInput = robotContainer.OI.ps4Controller.getLeftY();
-      double rightInput = robotContainer.OI.ps4Controller.getRightY();
+      double leftInput = robotContainer.OI.xboxController.getLeftY();
+      double rightInput = robotContainer.OI.xboxController.getRightY();
       double prevLeftOutput = leftMaster.getMotorOutputPercent();
       double prevRightOutput = rightMaster.getMotorOutputPercent();
 
@@ -87,7 +87,7 @@ public class Drivetrain extends SubsystemBase {
 
       // Gear shifting
       // Actually triangle button
-      if (robotContainer.OI.ps4Controller.getTriangleButtonPressed()) {
+      if (robotContainer.OI.xboxController.getXButtonPressed()) {
         // Shifts to high gear
         leftShifter.set(Value.kForward);
         rightShifter.set(Value.kForward);
@@ -96,7 +96,7 @@ public class Drivetrain extends SubsystemBase {
       }
 
       // Actually square button
-      if (robotContainer.OI.ps4Controller.getCircleButtonPressed()) {
+      if (robotContainer.OI.xboxController.getAButtonPressed()) {
         // Shifts to low gear
         leftShifter.set(Value.kReverse);
         rightShifter.set(Value.kReverse);
@@ -104,7 +104,7 @@ public class Drivetrain extends SubsystemBase {
         // highGear = false;
       }
 
-      if (robotContainer.OI.ps4Controller2.getCrossButtonPressed()) {
+      if (robotContainer.OI.xboxController2.getBButtonPressed()) {
         if (m_climberShifter == true) {
           climberShifter.set(Value.kReverse);
           m_climberShifter = false;
@@ -116,12 +116,12 @@ public class Drivetrain extends SubsystemBase {
         SmartDashboard.putBoolean(" Climber Piston ", m_climberShifter);
       }
 
-      if (robotContainer.OI.ps4Controller2.getLeftY() > ClimberConstants.kOperatorDeadband) {
+      if (robotContainer.OI.xboxController2.getLeftY() > ClimberConstants.kOperatorDeadband) {
         hookShifter.set(Value.kForward);
-      } else if (robotContainer.OI.ps4Controller2.getLeftY() < ClimberConstants.kOperatorDeadband) {
+      } else if (robotContainer.OI.xboxController2.getLeftY() < ClimberConstants.kOperatorDeadband) {
         hookShifter.set(Value.kReverse);
       }
-      SmartDashboard.putNumber(" Left Operator Y Axis ", robotContainer.OI.ps4Controller2.getLeftY());
+      SmartDashboard.putNumber(" Left Operator Y Axis ", robotContainer.OI.xboxController2.getLeftY());
     }
 
     public void setPowerZero() {
@@ -144,8 +144,8 @@ public class Drivetrain extends SubsystemBase {
       // SmartDashboard.putBoolean(" Pressure Switch ", compressor.getPressureSwitchValue());
       // SmartDashboard.putNumber(" Compressor Current ", compressor.getCurrent());
 
-      SmartDashboard.putNumber( " Left Axis ", robotContainer.OI.ps4Controller.getLeftY());
-      SmartDashboard.putNumber( " Right Axis ", robotContainer.OI.ps4Controller.getRightY());
+      SmartDashboard.putNumber( " Left Axis ", robotContainer.OI.xboxController.getLeftY());
+      SmartDashboard.putNumber( " Right Axis ", robotContainer.OI.xboxController.getRightY());
       // SmartDashboard.putNumber( " Modified Left Axis", leftmod)
     }
 
