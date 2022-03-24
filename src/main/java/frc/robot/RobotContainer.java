@@ -81,7 +81,9 @@ public class RobotContainer {
                 if (elevator.elevator.getSelectedSensorPosition() > ClimberConstants.kElevatorTicksDown ){
                     elevator.elevator.set(ControlMode.PercentOutput, -0.4);
                     SmartDashboard.putString(" Running Command ", "Elevator Down ");
-                } 
+                } else if (elevator.elevator.getSelectedSensorPosition() <= ClimberConstants.kElevatorTicksDown) {
+                    elevator.elevator.set(ControlMode.PercentOutput, 0);
+                }
                 SmartDashboard.putString( "Button State ", "Square ");
             }
             
@@ -93,6 +95,16 @@ public class RobotContainer {
                     elevator.elevator.set(ControlMode.PercentOutput, 0);
                 }
                 SmartDashboard.putString( "Button State ", " Triangle ");
+            }
+
+            if (OI.ps4Controller2.getCircleButton()) {
+                if (elevator.elevator.getSelectedSensorPosition() < ClimberConstants.kElevatorTicksExtend) {
+                    elevator.elevator.set(ControlMode.PercentOutput, 0.32);
+                    SmartDashboard.putString(" Running Command ", "Elevator Up Extend ");
+                } else if (elevator.elevator.getSelectedSensorPosition() > ClimberConstants.kElevatorTicksExtend) {
+                    elevator.elevator.set(ControlMode.PercentOutput, 0);
+                }
+                SmartDashboard.putString(" Button State ", " Circle ");
             }
     
             double armInput = -OI.ps4Controller2.getRightY();

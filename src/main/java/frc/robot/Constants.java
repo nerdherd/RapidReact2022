@@ -50,6 +50,9 @@ public final class Constants {
     }
     
     public static final class ClimberConstants {
+        public static final int kArmTalonID = 15;
+        public static final int kElevatorTalonID = 7;
+
         public static final double kArmkP = 2.0; //0.5
         public static final double kArmkI = 0;
         public static final double kArmkD = 0.6; //0.6 
@@ -75,10 +78,12 @@ public final class Constants {
         public static final double kArmTicksDownSoftLimit = 330;
         public static final double kArmTicksUpSoftLimit = 0;
         public static final double kElevatorTicksUp = 22000;
+        public static final double kElevatorTicksExtend = 23000;
         public static final double kElevatorTicksDown = 2000;
 
         public static final double kSoftLimitTicks = 20000;
 
+        public static final double kOperatorDeadband = 0.007874;
         public static final double kOperatorAlpha = 0.11765;
         public static final double kOperatorOneMinusAlpha = 0.88235;
     }
