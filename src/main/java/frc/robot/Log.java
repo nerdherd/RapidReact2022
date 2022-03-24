@@ -5,20 +5,16 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.logging;
+package frc.robot;
 
 import java.io.File;
 import java.util.function.Supplier;
 
 // import badlog.lib.BadLog;
-import frc.robot.logging.badlog.lib.*;
+import frc.robot.badlog.lib.*;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.Timer;
-import frc.robot.Robot;
-import frc.robot.RobotContainer;
-import frc.robot.subsystems.drive.Drivetrain;
-// import frc.robot.subsystems.climber.ArmMotionMagic;
 
 /**
  * Add your docs here.
@@ -37,10 +33,6 @@ public class Log {
     log = BadLog.init(getDesiredFile(directory, filename));
     createTopic("Time", () -> Timer.getFPGATimestamp());
 
-    createTopic("RightMaster" + "/Voltage", () -> Drivetrain.rightMaster.getMotorOutputVoltage());
-    createTopic("LeftMaster" + "/Voltage", () -> Drivetrain.leftMaster.getMotorOutputVoltage());
-    createTopic("RightFollower" + "/Voltage", () -> Drivetrain.rightSlave.getMotorOutputVoltage());
-    createTopic("LeftFollower" + "/Voltage", () -> Drivetrain.leftSlave.getMotorOutputVoltage());
     createTopic(" Arm Position sensor " + "/Position", () -> robotContainer.armTrapezoid.arm.getSelectedSensorPosition());
     createTopic(" Arm Velocity sensor " + "/Velocity", () -> robotContainer.armTrapezoid.arm.getSelectedSensorVelocity());
     createTopic(" Arm Position trajectory " + "/Position", () -> robotContainer.armTrapezoid.arm.getActiveTrajectoryPosition());
@@ -54,6 +46,16 @@ public class Log {
     // createTopic(" Climber Position (sensor) " + "/Velocity", () -> robotContainer.armMotionMagic.arm.getSelectedSensorVelocity());
     // createTopic(" Climber Position (trajectory) " + "/Position", () -> robotContainer.armMotionMagic.arm.getActiveTrajectoryPosition());
     // createTopic(" Climber Position (trajectory) " + "/Velocity", () -> robotContainer.armMotionMagic.arm.getActiveTrajectoryVelocity());
+    createTopic("RightMaster" + "/Voltage", () -> robotContainer.drivetrain.rightMaster.getMotorOutputVoltage());
+    createTopic("LeftMaster" + "/Voltage", () -> robotContainer.drivetrain.leftMaster.getMotorOutputVoltage());
+    createTopic("RightFollower" + "/Voltage", () -> robotContainer.drivetrain.rightSlave.getMotorOutputVoltage());
+    createTopic("LeftFollower" + "/Voltage", () -> robotContainer.drivetrain.leftSlave.getMotorOutputVoltage());
+    createTopic("Climber Velocity (sensor)", () -> robotContainer.everybotClimber.climberMaster.getSelectedSensorVelocity());
+    createTopic("Climber Velocity (trajectory)", () -> robotContainer.everybotClimber.climberMaster.getActiveTrajectoryVelocity());
+    createTopic("Climber position (sensor)", () -> robotContainer.everybotClimber.climberMaster.getSelectedSensorPosition());
+    createTopic("Climber position (trajectory)", () -> robotContainer.everybotClimber.climberMaster.getActiveTrajectoryPosition());
+    createTopic("Climber output voltage", () -> robotContainer.everybotClimber.climberMaster.getMotorOutputVoltage());
+    
     log.finishInitialization();
   }
 

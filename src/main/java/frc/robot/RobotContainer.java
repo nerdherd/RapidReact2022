@@ -1,10 +1,13 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj2.command.CommandGroupBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -13,124 +16,168 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
+import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.PS4Controller.Button;
-
+import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.EverybotClimber;
 import frc.robot.subsystems.climber.ArmTrapezoid;
 import frc.robot.subsystems.climber.Elevator;
 import frc.robot.Constants.ClimberConstants;
-// import frc.robot.subsystems.climber.ArmMotionMagic;
-import frc.robot.logging.Log;
+import frc.robot.Constants.EverybotConstants;
 
+// import frc.robot.subsystems.climber.ArmMotionMagic;
 public class RobotContainer {
-    public OI oi;
+
+    public enum Climber {
+        LOW,
+        TRAVERSAL;
+    }
+
+    public Drivetrain drivetrain = new Drivetrain();
+    public EverybotClimber everybotClimber = new EverybotClimber();
+
+    public OI OI;
+    
+    public SendableChooser<CommandGroupBase> autoChooser;
+    public SendableChooser<Climber> climberChooser;
+
+    public Climber climber;
+
     public ArmTrapezoid armTrapezoid = new ArmTrapezoid();
     public Elevator elevator = new Elevator();
-    // public ArmMotionMagic armMotionMagic = new ArmMotionMagic();
 
     public RobotContainer() {
-        oi = new OI(this);
-        configureButtonBindings();
         SmartDashboard.putBoolean("arm moving", false);
+        initSmartDashboard();
+        drivetrain.compressor.enableDigital();
     }
+
+    // test if this works.
 
     public void configureButtonBindings() {
         // Assign instantcommands to each PS4 button
-        // Could move to OI later
-
-        // Bind climber to rung angle to L1 bumper
-        // new JoystickButton(OI.ps4Controller2, Button.kL1.value)
-        // .whenPressed(new InstantCommand(() -> { 
-        //    armMotionMagic.climberToAngle();
-        //    SmartDashboard.putString(" Button State ", "L1");
-        // }));
-
-        // new JoystickButton(OI.ps4Controller2, Button.kL2.value)
-        // .whenPressed(new InstantCommand(() -> {
-        //     armMotionMagic.climberToVertical();
-        //     SmartDashboard.putString(" Button State ", "L2");
-        // }));
-
-        // new JoystickButton(OI.ps4Controller2, Button.kR1.value)
-        // .whenPressed(new InstantCommand(() -> {
-        //     armTrapezoid.setPositionMotionMagic(ClimberConstants.kTicksToRungAngle);
-        //     SmartDashboard.putString(" Button State ", "R1");
-        // }));
-
-        // new JoystickButton(OI.ps4Controller2, Button.kR2.value)
-        // .whenPressed(new InstantCommand(() -> {
-        //     armTrapezoid.setPositionMotionMagic(ClimberConstants.kTicksToClearRung);
-        //     SmartDashboard.putString(" Button State ", "R2");
-        // }));
-
-        // new JoystickButton(OI.ps4Controller2, Button.kL1.value)
-        // .whenPressed(new InstantCommand(() -> {
-        //     armTrapezoid.setPositionMotionMagic(ClimberConstants.kTicksToVertical);
-        //     SmartDashboard.putString(" Button State ", "L1");
-        // }));
-
-        // if (OI.ps4Controller2.getL1ButtonPressed()) {
-        //     armTrapezoid.setPositionMotionMagic(ClimberConstants.kTicksToRungAngle);
-        //     SmartDashboard.putString(" Button State ", "L1");
-        // }
-
-        // if (OI.ps4Controller2.getL2ButtonPressed()) {
-        //     armTrapezoid.setPositionMotionMagic(ClimberConstants.kTicksToClearRung);
-        //     SmartDashboard.putString(" Button State ", "L2");
-        // }
-
-        // if (OI.ps4Controller2.getR1ButtonPressed()) {
-        //     armTrapezoid.setPositionMotionMagic(ClimberConstants.kTicksToVertical);
-        //     SmartDashboard.putString(" Button State ", "R1");
-        // }
-
-        if (OI.ps4Controller2.getR2ButtonPressed()) {
-            elevator.elevator.setNeutralMode(NeutralMode.Brake);
-            SmartDashboard.putString(" Button State ", "R2 ");
-        }
-
-        if (OI.ps4Controller2.getSquareButton()) {
-            if (elevator.elevator.getSelectedSensorPosition() > ClimberConstants.kElevatorTicksDown ){
-                elevator.elevator.set(ControlMode.PercentOutput, -0.4);
-                SmartDashboard.putString(" Running Command ", "Elevator Down ");
-            } else if (OI.ps4Controller2.getSquareButton() == false) {
-                elevator.elevator.set(ControlMode.PercentOutput, 0);
+        if (climberChooser.getSelected() == Climber.TRAVERSAL) {
+            if (OI.ps4Controller2.getL1ButtonPressed()) {
+                armTrapezoid.setPositionMotionMagic(ClimberConstants.kTicksToRungAngle);
+                SmartDashboard.putString(" Button State ", "L1");
             }
-            SmartDashboard.putString( "Button State ", "Square ");
-        }
-        
-        if (OI.ps4Controller2.getTriangleButton()) {
-            if (elevator.elevator.getSelectedSensorPosition() < ClimberConstants.kElevatorTicksUp) {
-                elevator.elevator.set(ControlMode.PercentOutput, 0.32);
-                SmartDashboard.putString(" Running Command ", "Elevator Up ");
-            } else if (elevator.elevator.getSelectedSensorPosition() > ClimberConstants.kElevatorTicksUp) {
-                elevator.elevator.set(ControlMode.PercentOutput, 0);
+    
+            if (OI.ps4Controller2.getL2ButtonPressed()) {
+                armTrapezoid.setPositionMotionMagic(ClimberConstants.kTicksToClearRung);
+                SmartDashboard.putString(" Button State ", "L2");
             }
-            SmartDashboard.putString( "Button State ", " Triangle ");
+    
+            if (OI.ps4Controller2.getR1ButtonPressed()) {
+                armTrapezoid.setPositionMotionMagic(ClimberConstants.kTicksToVertical);
+                SmartDashboard.putString(" Button State ", "R1");
+            }
+    
+            if (OI.ps4Controller2.getR2ButtonPressed()) {
+                elevator.elevator.setNeutralMode(NeutralMode.Brake);
+                SmartDashboard.putString(" Button State ", "R2 ");
+            }
+    
+            if (OI.ps4Controller2.getSquareButton()) {
+                if (elevator.elevator.getSelectedSensorPosition() > ClimberConstants.kElevatorTicksDown ){
+                    elevator.elevator.set(ControlMode.PercentOutput, -0.4);
+                    SmartDashboard.putString(" Running Command ", "Elevator Down ");
+                } 
+                SmartDashboard.putString( "Button State ", "Square ");
+            }
+            
+            if (OI.ps4Controller2.getTriangleButton()) {
+                if (elevator.elevator.getSelectedSensorPosition() < ClimberConstants.kElevatorTicksUp) {
+                    elevator.elevator.set(ControlMode.PercentOutput, 0.32);
+                    SmartDashboard.putString(" Running Command ", "Elevator Up ");
+                } else if (elevator.elevator.getSelectedSensorPosition() > ClimberConstants.kElevatorTicksUp) {
+                    elevator.elevator.set(ControlMode.PercentOutput, 0);
+                }
+                SmartDashboard.putString( "Button State ", " Triangle ");
+            }
+    
+            double armInput = -OI.ps4Controller2.getRightY();
+            armTrapezoid.arm.set(ControlMode.PercentOutput, armInput * 0.25, DemandType.ArbitraryFeedForward, -1 * armTrapezoid.FF());
+        } 
+        
+        else if (climberChooser.getSelected() == Climber.LOW) {
+            if (OI.ps4Controller2.getCircleButtonPressed()) {
+                everybotClimber.moveClimber(EverybotConstants.kTicksToLowRung);
+                SmartDashboard.putBoolean("Moving to low rung", true);
+            }
+    
+            if (OI.ps4Controller2.getTriangleButtonPressed()) {
+                everybotClimber.moveClimber(EverybotConstants.kTicksToClimbLowRung);
+                SmartDashboard.putBoolean("Climbing onto low rung", true);
+            }
         }
+                
+    }
 
-        double elevatorInput = -OI.ps4Controller2.getLeftY();
-        double armInput = -OI.ps4Controller2.getRightY();
+    
+    public void initSmartDashboard() {
+        autoChooser = new SendableChooser<CommandGroupBase>();
+
+        autoChooser.setDefaultOption("leave tarmac :)", 
+            new SequentialCommandGroup(
+                // drive for 1 second with power 0.5, then set power zero
+                new ParallelDeadlineGroup(
+                    new WaitCommand(1), 
+                    new InstantCommand(() -> drivetrain.setPower(0.5, 0.5))
+                ), 
+                new InstantCommand(() -> drivetrain.setPowerZero())
+            )
+        );
         
-        // elevator.elevator.set(ControlMode.PercentOutput, elevatorInput * 0.1);
+        autoChooser.addOption("delay 5s then taxi",
+            new SequentialCommandGroup(
+                new WaitCommand(5),
+                new ParallelDeadlineGroup(
+                    new WaitCommand(1), 
+                    new InstantCommand(() -> drivetrain.setPower(0.5, 0.5)),
+                
+                new InstantCommand(() -> drivetrain.setPowerZero())))
+            
+        );
 
-        armTrapezoid.arm.set(ControlMode.PercentOutput, armInput * 0.3, DemandType.ArbitraryFeedForward, -1 * armTrapezoid.FF());
+        SmartDashboard.putData(autoChooser);
 
-        // if (armTrapezoid.arm.getSelectedSensorPosition() <= ClimberConstants.kArmTicksDownSoftLimit
-        //     && armTrapezoid.arm.getSelectedSensorPosition() >= ClimberConstants.kArmTicksUpSoftLimit) {
-        //     armTrapezoid.arm.set(ControlMode.PercentOutput, armInput * 0.12);
-        // } else if (armTrapezoid.arm.getSelectedSensorPosition() > ClimberConstants.kArmTicksDownSoftLimit) {
-        //     armTrapezoid.arm.setNeutralMode(NeutralMode.Brake);
-        //     armTrapezoid.arm.set(ControlMode.PercentOutput, -0.16);
-        // } else if (armTrapezoid.arm.getSelectedSensorPosition() < ClimberConstants.kArmTicksUpSoftLimit) {
-        //     armTrapezoid.arm.setNeutralMode(NeutralMode.Brake);
-        //     armTrapezoid.arm.set(ControlMode.PercentOutput, 0.16);
-            // armTrapezoid.arm.set(ControlMode.PercentOutput, 0.08);
-        // }
+        // TODO: implement chaning operator control based on which climb is chosen.
+
+        climberChooser = new SendableChooser<Climber>();
+
+        climberChooser.addOption("Select Low climb", Climber.LOW);
+        climberChooser.setDefaultOption("Select Traversal climb", Climber.TRAVERSAL);
         
+        SmartDashboard.putData(" Reset Climber Encoders ", new InstantCommand(() -> everybotClimber.climberMaster.setSelectedSensorPosition(0)));
+        
+        SmartDashboard.putData(" Move ArmTrapezoid Angle ", new InstantCommand(() -> 
+            armTrapezoid.setPositionMotionMagic(ClimberConstants.kTicksToRungAngle)));
+
+        SmartDashboard.putData( " Move ArmTrapezoid Vertical ", new InstantCommand(() ->
+            armTrapezoid.setPositionMotionMagic(ClimberConstants.kTicksToVertical)));
+
+        SmartDashboard.putData( "Move ArmTrapezoid Clear Rung ", new InstantCommand(() ->
+            armTrapezoid.setPositionMotionMagic(ClimberConstants.kTicksToClearRung)));
+
+        SmartDashboard.putData( "Reset Arm Encoder ", new InstantCommand(() -> 
+            armTrapezoid.resetClimbEncoder()));
+        
+        SmartDashboard.putData(" Reset Elevator Encoder ", new InstantCommand(() ->
+            elevator.resetElevatorEncoder()));
+
+        SmartDashboard.putData(" Command Scheduler Disable ", new InstantCommand(() -> 
+            CommandScheduler.getInstance().disable()));
+
+        SmartDashboard.putData(" Elevator Coast Mode ", new InstantCommand(() ->
+            elevator.elevator.setNeutralMode(NeutralMode.Coast)));
+        
+        SmartDashboard.putData(" Elevator Brake Mode ", new InstantCommand(() ->
+            elevator.elevator.setNeutralMode(NeutralMode.Brake)));
+            
     }
 
     public void smartDashboardButtons() {
-        // SmartDashboard.putData(" Move ArmMM to Angle ", new InstantCommand(() -> 
+    // SmartDashboard.putData(" Move ArmMM to Angle ", new InstantCommand(() -> 
         //     armMotionMagic.climberToAngle()));
 
         // SmartDashboard.putData(" Move ArmMM to Vertical ", new InstantCommand(() ->
@@ -164,6 +211,9 @@ public class RobotContainer {
 
 
     public void reportToSmartDashboard() {
+        drivetrain.reportToSmartDashboard();
+
+        SmartDashboard.putNumber(" Climber Position", everybotClimber.climberMaster.getSelectedSensorPosition());
         SmartDashboard.putNumber(" Arm Position ", armTrapezoid.arm.getSelectedSensorPosition());
         SmartDashboard.putNumber(" Arm Velocity ", armTrapezoid.arm.getSelectedSensorVelocity());
         SmartDashboard.putNumber(" Arm Voltage ", armTrapezoid.arm.getMotorOutputVoltage());
@@ -175,5 +225,6 @@ public class RobotContainer {
         // SmartDashboard.putNumber(" ArmMM Position ", armMotionMagic.arm.getSelectedSensorPosition());
         // SmartDashboard.putNumber(" ArmMM Velocity", armMotionMagic.arm.getSelectedSensorVelocity());
         // SmartDashboard.putNumber(" ArmMM Voltage ", armMotionMagic.arm.getMotorOutputVoltage());
+        SmartDashboard.putBoolean(" Triangle Button Held ", OI.ps4Controller2.getTriangleButton());
     }
 }

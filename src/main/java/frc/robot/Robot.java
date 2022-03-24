@@ -9,35 +9,38 @@ import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandGroupBase;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.climber.Arm;
 import frc.robot.subsystems.climber.Elevator;
 import frc.robot.subsystems.drive.Drivetrain;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.ClimberConstants;
-import frc.robot.logging.Log;
+
 
 public class Robot extends TimedRobot {
-  public RobotContainer robotContainer;
+  public static SendableChooser<Command> autoChooser;
+  public static Command m_autonomousCommand;
+
+  // TODO: refractor code so that this doesn't have to be public static, and follows the intended use of robotContainer
+  public static RobotContainer robotContainer;
 
   @Override
   public void robotInit() { 
-    Drivetrain.setupDrivetrain();
-
     robotContainer = new RobotContainer();
-    Log.initAndLog("/home/lvuser/logs/", "Test", 0.04, robotContainer);
 
+    Log.initAndLog("/home/lvuser/logs/", "Test", 0.02, robotContainer);
+
+    CommandScheduler.getInstance().cancelAll();
+
+    
     robotContainer.elevator.elevator.setSelectedSensorPosition(0);
-    robotContainer.elevator.elevator.setNeutralMode(NeutralMode.Coast);
+    robotContainer.elevator.elevator.setNeutralMode(NeutralMode.Brake);
     robotContainer.armTrapezoid.arm.setNeutralMode(NeutralMode.Brake);
-    // robotContainer.armTrapezoid.arm.set(ControlMode.PercentOutput, 0.09);
-  }
-
-  @Override
-  public void robotPeriodic() {
-    // SmartDashboard.putNumber(" Arm ", robotContainer.armTrapezoid.arm.getSelectedSensorPosition());///4096*360));
-    // SmartDashboard.putNumber(" Arm Vel ", robotContainer.armTrapezoid.arm.getSelectedSensorVelocity());
   }
   
   @Override
@@ -45,6 +48,8 @@ public class Robot extends TimedRobot {
     Drivetrain.compressor.enableDigital();
     robotContainer.elevator.elevator.setSelectedSensorPosition(0);
     robotContainer.elevator.elevator.setNeutralMode(NeutralMode.Brake);
+    robotContainer.drivetrain.compressor.enableDigital();
+    robotContainer.elevator.elevator.setSelectedSensorPosition(0);
   }
 
 
@@ -64,12 +69,25 @@ public class Robot extends TimedRobot {
       //     robotContainer.elevator.elevator.set(ControlMode.PercentOutput, 0);
       // }
       // SmartDashboard.putString( "Button State ", " Triangle ");
+    robotContainer.drivetrain.driveControllerMovement();
+    robotContainer.reportToSmartDashboard();
+    robotContainer.drivetrain.rightMaster.setNeutralMode(NeutralMode.Coast);
+    robotContainer.drivetrain.rightSlave.setNeutralMode(NeutralMode.Coast);
+    robotContainer.drivetrain.leftMaster.setNeutralMode(NeutralMode.Coast);
+    robotContainer.drivetrain.leftSlave.setNeutralMode(NeutralMode.Coast);
+    robotContainer.configureButtonBindings();
   }
 
 
   @Override
   public void autonomousInit() {
     //Drivetrain.drive(-50, -50, 10);
+    CommandGroupBase command = robotContainer.autoChooser.getSelected();
+
+    if (command != null) {
+      command.schedule();
+    }
+    
     Arm.arm.setSelectedSensorPosition(0);
   }
 
@@ -82,8 +100,9 @@ public class Robot extends TimedRobot {
     // -2675 to go down & latch
   }
 
-  // @Override
+  @Override
   public void disabledInit() {
-    robotContainer.elevator.elevator.setNeutralMode(NeutralMode.Brake);
+    CommandScheduler.getInstance().cancelAll();
   }
+    
 }
