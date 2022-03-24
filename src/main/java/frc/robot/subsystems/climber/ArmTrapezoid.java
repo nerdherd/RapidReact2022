@@ -22,7 +22,7 @@ public class ArmTrapezoid {
         //         ClimberConstants.kArmMaxAcceleration)
         // );
 
-        arm = new TalonSRX(15);
+        arm = new TalonSRX(ClimberConstants.kArmTalonID);
         arm.setInverted(true);
         arm.configMotionAcceleration(ClimberConstants.kArmMotionAcceleration);
         arm.configMotionCruiseVelocity(ClimberConstants.kArmCruiseVelocity);

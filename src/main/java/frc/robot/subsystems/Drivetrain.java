@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
+import frc.robot.Constants.ClimberConstants;
 import frc.robot.Constants.DriveConstants;
 
 public class Drivetrain extends SubsystemBase {
@@ -28,6 +29,8 @@ public class Drivetrain extends SubsystemBase {
     private DoubleSolenoid hookShifter; // Channels 2 and 5
 
     private RobotContainer robotContainer;
+
+    private boolean m_climberShifter;
 
     // private double modLeftInput;
     // private double modRightInput;
@@ -59,6 +62,8 @@ public class Drivetrain extends SubsystemBase {
       hookShifter = new DoubleSolenoid(3, PneumaticsModuleType.CTREPCM, 2, 5);
 
       robotContainer = new RobotContainer();
+
+      m_climberShifter = true;
     }
 
     public static double gainInput(double input) {
@@ -98,6 +103,25 @@ public class Drivetrain extends SubsystemBase {
         SmartDashboard.putString(" Button State ", "B");
         // highGear = false;
       }
+
+      if (robotContainer.OI.ps4Controller2.getCrossButtonPressed()) {
+        if (m_climberShifter == true) {
+          climberShifter.set(Value.kReverse);
+          m_climberShifter = false;
+        } else if (m_climberShifter == false) {
+          climberShifter.set(Value.kForward);
+          m_climberShifter = true;
+        }
+        SmartDashboard.putString(" Button State ", "Cr");
+        SmartDashboard.putBoolean(" Climber Piston ", m_climberShifter);
+      }
+
+      if (robotContainer.OI.ps4Controller2.getLeftY() > ClimberConstants.kOperatorDeadband) {
+        hookShifter.set(Value.kForward);
+      } else if (robotContainer.OI.ps4Controller2.getLeftY() < ClimberConstants.kOperatorDeadband) {
+        hookShifter.set(Value.kReverse);
+      }
+      SmartDashboard.putNumber(" Left Operator Y Axis ", robotContainer.OI.ps4Controller2.getLeftY());
     }
 
     public void setPowerZero() {

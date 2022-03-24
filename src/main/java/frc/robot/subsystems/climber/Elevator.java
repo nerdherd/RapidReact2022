@@ -6,9 +6,10 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import frc.robot.Constants.ClimberConstants;
 
 public class Elevator {
-    public TalonSRX elevator = new TalonSRX(7);
+    public TalonSRX elevator = new TalonSRX(ClimberConstants.kElevatorTalonID);
 
     private static double elevatorKp = 1.0;
     private static double elevatorKd = 0.0002;
