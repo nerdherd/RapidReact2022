@@ -36,10 +36,10 @@ public class Log {
     createTopic("LeftMaster" + "/Voltage", () -> robotContainer.drivetrain.leftMaster.getMotorOutputVoltage());
     createTopic("RightFollower" + "/Voltage", () -> robotContainer.drivetrain.rightSlave.getMotorOutputVoltage());
     createTopic("LeftFollower" + "/Voltage", () -> robotContainer.drivetrain.leftSlave.getMotorOutputVoltage());
-    createTopic("Climber Velocity (sensor)", () -> robotContainer.everybotClimber.climberMaster.getSelectedSensorVelocity());
-    createTopic("Climber Velocity (trajectory)", () -> robotContainer.everybotClimber.climberMaster.getActiveTrajectoryVelocity());
-    createTopic("Climber position (sensor)", () -> robotContainer.everybotClimber.climberMaster.getSelectedSensorPosition());
-    createTopic("Climber position (trajectory)", () -> robotContainer.everybotClimber.climberMaster.getActiveTrajectoryPosition());
+    createTopic("Climber Velocity", () -> robotContainer.everybotClimber.climberMaster.getSelectedSensorVelocity());
+    createTopic("Climber 1Velocity", () -> robotContainer.everybotClimber.climberMaster.getActiveTrajectoryVelocity());
+    createTopic("Climber position", () -> robotContainer.everybotClimber.climberMaster.getSelectedSensorPosition());
+    createTopic("Climber 1position", () -> robotContainer.everybotClimber.climberMaster.getActiveTrajectoryPosition());
     createTopic("Climber output voltage", () -> robotContainer.everybotClimber.climberMaster.getMotorOutputVoltage());
     
     log.finishInitialization();

@@ -22,15 +22,11 @@ public class Drivetrain extends SubsystemBase {
     public TalonFX rightSlave; // Channel 31 on CAN, 15 on PDP
     public TalonFX leftSlave; // Channel 17 on CAN, 1 on PDP
 
-    public static Compressor compressor; // Channel 3 on CAN
-    private DoubleSolenoid leftShifter; // Channels 0 and 6
-    private DoubleSolenoid rightShifter; // Channels 1 and 7
-    private DoubleSolenoid climberShifter; // Channels 7 and 6
-    private DoubleSolenoid hookShifter; // Channels 2 and 5
+    public Compressor compressor; // Channel 3 on CAN
+    public DoubleSolenoid driveShifter; // Channels 0 and 6
+    public DoubleSolenoid climberShifter; // Channels 7 and 6
+    public DoubleSolenoid hookShifter; // Channels 2 and 5
 
-    private RobotContainer robotContainer;
-
-    private boolean m_climberShifter;
 
     // private double modLeftInput;
     // private double modRightInput;
@@ -55,15 +51,11 @@ public class Drivetrain extends SubsystemBase {
       // Pneumatics setup
       compressor = new Compressor(3, PneumaticsModuleType.CTREPCM);
 
-      leftShifter = new DoubleSolenoid(3, PneumaticsModuleType.CTREPCM, 0, 6);
-      rightShifter = new DoubleSolenoid(3, PneumaticsModuleType.CTREPCM, 1, 7);
+      driveShifter = new DoubleSolenoid(3, PneumaticsModuleType.CTREPCM, DriveConstants.kDriveShifterForwardID, DriveConstants.kDriveShifterReverseID);
       // MIGHT NEED TO BE CHANGED
-      climberShifter = new DoubleSolenoid(3, PneumaticsModuleType.CTREPCM, 7, 6);
-      hookShifter = new DoubleSolenoid(3, PneumaticsModuleType.CTREPCM, 2, 5);
+      climberShifter = new DoubleSolenoid(3, PneumaticsModuleType.CTREPCM, DriveConstants.kClimberShifterForwardID, DriveConstants.kClimberShifterReverseID);
+      hookShifter = new DoubleSolenoid(3, PneumaticsModuleType.CTREPCM, DriveConstants.kHookShifterForwardID, DriveConstants.kHookShifterReverseID);
 
-      robotContainer = new RobotContainer();
-
-      m_climberShifter = true;
     }
 
     public static double gainInput(double input) {
@@ -72,57 +64,8 @@ public class Drivetrain extends SubsystemBase {
     }
 
     public void driveControllerMovement() {
-      double leftInput = robotContainer.OI.ps4Controller.getLeftY();
-      double rightInput = robotContainer.OI.ps4Controller.getRightY();
-      double prevLeftOutput = leftMaster.getMotorOutputPercent();
-      double prevRightOutput = rightMaster.getMotorOutputPercent();
-
-
-      // Low pass filter, output = (alpha * intended value) + (1-alpha) * previous value
-      double leftOutput = (DriveConstants.kDriveAlpha * leftInput) + (DriveConstants.kDriveOneMinusAlpha * prevLeftOutput);
-      double rightOutput = (DriveConstants.kDriveAlpha * rightInput) + (DriveConstants.kDriveOneMinusAlpha * prevRightOutput);
-
-      rightMaster.set(ControlMode.PercentOutput, rightOutput);
-      leftMaster.set(ControlMode.PercentOutput, leftOutput);
-
-      // Gear shifting
-      // Actually triangle button
-      if (robotContainer.OI.ps4Controller.getTriangleButtonPressed()) {
-        // Shifts to high gear
-        leftShifter.set(Value.kForward);
-        rightShifter.set(Value.kForward);
-        SmartDashboard.putString(" Button State ", "A");
-        // highGear = true;
-      }
-
-      // Actually square button
-      if (robotContainer.OI.ps4Controller.getCircleButtonPressed()) {
-        // Shifts to low gear
-        leftShifter.set(Value.kReverse);
-        rightShifter.set(Value.kReverse);
-        SmartDashboard.putString(" Button State ", "B");
-        // highGear = false;
-      }
-
-      if (robotContainer.OI.ps4Controller2.getCrossButtonPressed()) {
-        if (m_climberShifter == true) {
-          climberShifter.set(Value.kReverse);
-          m_climberShifter = false;
-        } else if (m_climberShifter == false) {
-          climberShifter.set(Value.kForward);
-          m_climberShifter = true;
-        }
-        SmartDashboard.putString(" Button State ", "Cr");
-        SmartDashboard.putBoolean(" Climber Piston ", m_climberShifter);
-      }
-
-      if (robotContainer.OI.ps4Controller2.getLeftY() > ClimberConstants.kOperatorDeadband) {
-        hookShifter.set(Value.kForward);
-      } else if (robotContainer.OI.ps4Controller2.getLeftY() < ClimberConstants.kOperatorDeadband) {
-        hookShifter.set(Value.kReverse);
-      }
-      SmartDashboard.putNumber(" Left Operator Y Axis ", robotContainer.OI.ps4Controller2.getLeftY());
     }
+      
 
     public void setPowerZero() {
       rightMaster.set(ControlMode.PercentOutput, 0);
@@ -144,8 +87,8 @@ public class Drivetrain extends SubsystemBase {
       // SmartDashboard.putBoolean(" Pressure Switch ", compressor.getPressureSwitchValue());
       // SmartDashboard.putNumber(" Compressor Current ", compressor.getCurrent());
 
-      SmartDashboard.putNumber( " Left Axis ", robotContainer.OI.ps4Controller.getLeftY());
-      SmartDashboard.putNumber( " Right Axis ", robotContainer.OI.ps4Controller.getRightY());
+      // SmartDashboard.putNumber( " Left Axis ", robotContainer.OI.ps4Controller.getLeftY());
+      // SmartDashboard.putNumber( " Right Axis ", robotContainer.OI.ps4Controller.getRightY());
       // SmartDashboard.putNumber( " Modified Left Axis", leftmod)
     }
 

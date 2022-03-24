@@ -45,10 +45,9 @@ public class Robot extends TimedRobot {
   
   @Override
   public void teleopInit() { 
-    Drivetrain.compressor.enableDigital();
     robotContainer.elevator.elevator.setSelectedSensorPosition(0);
     robotContainer.elevator.elevator.setNeutralMode(NeutralMode.Brake);
-    robotContainer.drivetrain.compressor.enableDigital();
+    //robotContainer.drivetrain.compressor.enableDigital();
     robotContainer.elevator.elevator.setSelectedSensorPosition(0);
   }
 

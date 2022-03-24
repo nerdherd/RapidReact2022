@@ -18,6 +18,14 @@ public final class Constants {
         public static final int kEverybotArm = 15;
 
         public static final int kEverybotIntake = 14;
+
+        public static final int kDriveShifterForwardID = 0;
+        public static final int kDriveShifterReverseID = 7;
+        public static final int kClimberShifterForwardID = 3;
+        public static final int kClimberShifterReverseID = 4;
+        public static final int kHookShifterForwardID = 5;
+        public static final int kHookShifterReverseID = 1;
+
     }
 
     public static final class EverybotConstants {
