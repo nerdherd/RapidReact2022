@@ -1,4 +1,4 @@
-package frc.robot.logging.badlog.lib;
+package frc.robot.badlog.lib;
 
 import java.io.*;
 import java.util.ArrayList;
