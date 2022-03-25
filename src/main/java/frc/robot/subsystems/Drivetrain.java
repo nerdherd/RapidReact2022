@@ -41,20 +41,20 @@ public class Drivetrain extends SubsystemBase {
       leftMaster = new TalonFX(DriveConstants.kLeftMasterTalonID);
       rightSlave = new TalonFX(DriveConstants.kRightSlaveTalonID);  
       leftSlave = new TalonFX(DriveConstants.kLeftSlaveTalonID);
-      rightSlave2 = new TalonFX(DriveConstants.kRightSlave2TalonID);
-      leftSlave2 = new TalonFX(DriveConstants.kLeftSlave2TalonID);
+      // rightSlave2 = new TalonFX(DriveConstants.kRightSlave2TalonID);
+      // leftSlave2 = new TalonFX(DriveConstants.kLeftSlave2TalonID);
 
       leftSlave.follow(leftMaster);
-      leftSlave2.follow(leftMaster);
+      // leftSlave2.follow(leftMaster);
       rightSlave.follow(rightMaster);
-      rightSlave2.follow(rightMaster);
+      // rightSlave2.follow(rightMaster);
 
       // Inverted the right side
       rightMaster.setInverted(true);
       leftSlave.setInverted(InvertType.FollowMaster);
-      leftSlave2.setInverted(InvertType.FollowMaster);
+      // leftSlave2.setInverted(InvertType.FollowMaster);
       rightSlave.setInverted(InvertType.FollowMaster);
-      rightSlave2.setInverted(InvertType.FollowMaster);
+      // rightSlave2.setInverted(InvertType.FollowMaster);
 
       // Pneumatics setup
       compressor = new Compressor(3, PneumaticsModuleType.CTREPCM);

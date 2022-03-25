@@ -89,6 +89,7 @@ public class RobotContainer {
                 SmartDashboard.putString(" Button State ", "R2 ");
             }
     
+            // Actually Cross
             if (ps4Controller2.getSquareButton()) {
                 if (elevator.elevator.getSelectedSensorPosition() > ClimberConstants.kElevatorTicksDown ){
                     elevator.elevator.set(ControlMode.PercentOutput, -0.4);
@@ -97,10 +98,11 @@ public class RobotContainer {
                     elevator.elevator.set(ControlMode.PercentOutput, 0);
                 }
                 SmartDashboard.putString( "Button State ", "Square ");
-            } else if (ps4Controller2.getSquareButton() == false) {
-                elevator.elevator.set(ControlMode.PercentOutput, 0);
+            // } else if (ps4Controller2.getSquareButton() == false) {
+            //     elevator.elevator.set(ControlMode.PercentOutput, 0);
             }
             
+            // Actually triangle
             if (ps4Controller2.getTriangleButton()) {
                 if (elevator.elevator.getSelectedSensorPosition() < ClimberConstants.kElevatorTicksUp) {
                     elevator.elevator.set(ControlMode.PercentOutput, 0.32);
@@ -109,10 +111,11 @@ public class RobotContainer {
                     elevator.elevator.set(ControlMode.PercentOutput, 0);
                 } 
                 SmartDashboard.putString( "Button State ", " Triangle ");
-            } else if (ps4Controller2.getTriangleButton() == false) {
-                    elevator.elevator.set(ControlMode.PercentOutput, 0);
+            // } else if (ps4Controller2.getTriangleButton() == false) {
+            //         elevator.elevator.set(ControlMode.PercentOutput, 0);
             }
 
+            // Actually square button
             if (ps4Controller2.getCircleButton()) {
                 if (elevator.elevator.getSelectedSensorPosition() < ClimberConstants.kElevatorTicksExtend) {
                     elevator.elevator.set(ControlMode.PercentOutput, 0.32);
@@ -121,8 +124,8 @@ public class RobotContainer {
                     elevator.elevator.set(ControlMode.PercentOutput, 0);
                 }
                 SmartDashboard.putString(" Button State ", " Circle ");
-            } else if (ps4Controller2.getCircleButton() ==  false) {
-                elevator.elevator.set(ControlMode.PercentOutput, 0);
+            // } else if (ps4Controller2.getCircleButton() ==  false) {
+            //     elevator.elevator.set(ControlMode.PercentOutput, 0);
             }
     
             double armInput = -ps4Controller2.getRightY();
@@ -145,6 +148,7 @@ public class RobotContainer {
                 // highGear = false;
             }
 
+            // Actually circle button
             if (ps4Controller2.getCrossButtonPressed()) {
                 if (m_climberShifter == true) {
                     drivetrain.climberShifter.set(Value.kReverse);
@@ -166,7 +170,7 @@ public class RobotContainer {
         } 
         
         else if (climberChooser.getSelected() == Climber.LOW) {
-            // Actually Cross
+            //  Cross
             if (ps4Controller2.getSquareButtonPressed()) {
                 everybotClimber.moveClimber(1 * EverybotConstants.kTicksToLowRung);
                 SmartDashboard.putBoolean("Moving to low rung", true);
@@ -190,21 +194,21 @@ public class RobotContainer {
         double leftOutput = (DriveConstants.kDriveAlpha * leftInput) + (DriveConstants.kDriveOneMinusAlpha * prevLeftOutput);
         double rightOutput = (DriveConstants.kDriveAlpha * rightInput) + (DriveConstants.kDriveOneMinusAlpha * prevRightOutput);
 
-        double combSpeed = (Math.abs(drivetrain.leftMaster.getSelectedSensorVelocity()) 
-                         + Math.abs(drivetrain.rightMaster.getSelectedSensorVelocity()));
+        // double combSpeed = (Math.abs(drivetrain.leftMaster.getSelectedSensorVelocity()) 
+        //                  + Math.abs(drivetrain.rightMaster.getSelectedSensorVelocity()));
         
-        m_combinedSpeed = (DriveConstants.kDriveAlpha * combSpeed) + (DriveConstants.kDriveOneMinusAlpha * m_combinedSpeed);
-        //6000rpm * 4096 ticks/rev / 60secs/min / 10decisecs/sec * 2gearboxes = 81920
-        //shift low when < 10% motor speed
-        //shift high when > 90% motor speed
+        // m_combinedSpeed = (DriveConstants.kDriveAlpha * combSpeed) + (DriveConstants.kDriveOneMinusAlpha * m_combinedSpeed);
+        // //6000rpm * 4096 ticks/rev / 60secs/min / 10decisecs/sec * 2gearboxes = 81920
+        // //shift low when < 10% motor speed
+        // //shift high when > 90% motor speed
 
-        if(m_combinedSpeed < 8192) {
-            drivetrain.driveShifter.set(Value.kReverse);
-        } else if(m_combinedSpeed > 73728) {
-            drivetrain.driveShifter.set(Value.kForward);
-        } else {
-            /*do nothing*/
-        }
+        // if(m_combinedSpeed < 8192) {
+        //     drivetrain.driveShifter.set(Value.kReverse);
+        // } else if(m_combinedSpeed > 73728) {
+        //     drivetrain.driveShifter.set(Value.kForward);
+        // } else {
+        //     /*do nothing*/
+        // }
 
         drivetrain.rightMaster.set(ControlMode.PercentOutput, rightOutput);
         drivetrain.leftMaster.set(ControlMode.PercentOutput, leftOutput);
@@ -217,9 +221,9 @@ public class RobotContainer {
 
         autoChooser.setDefaultOption("leave tarmac :)", 
             new SequentialCommandGroup(
-                // drive for 1 second with power 0.5, then set power zero
+                // drive for 3 seconds backwards with power 0.5, then set power zero
                 new ParallelDeadlineGroup(
-                    new WaitCommand(1), 
+                    new WaitCommand(3), 
                     new InstantCommand(() -> drivetrain.setPower(0.5, 0.5))
                 ), 
                 new InstantCommand(() -> drivetrain.setPowerZero())
@@ -230,7 +234,7 @@ public class RobotContainer {
             new SequentialCommandGroup(
                 new WaitCommand(5),
                 new ParallelDeadlineGroup(
-                    new WaitCommand(1), 
+                    new WaitCommand(3), 
                     new InstantCommand(() -> drivetrain.setPower(0.5, 0.5))
                 ),
                 new InstantCommand(() -> drivetrain.setPowerZero())

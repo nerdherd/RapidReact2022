@@ -6,15 +6,15 @@ public final class Constants {
         public static final double kDriveAlpha = 0.11765;
         public static final double kDriveOneMinusAlpha = 0.88235;
 
-        public static final int kRightMasterTalonID = 16;
+        public static final int kRightMasterTalonID = 28;
         public static final int kRightSlaveTalonID = 17;
-        public static final int kRightSlave2TalonID = 18; //new
+        // public static final int kRightSlave2TalonID = 28; //new
         public static final int kLeftMasterTalonID = 31;
         public static final int kLeftSlaveTalonID = 30;
-        public static final int kLeftSlave2TalonID = 32; //new
+        // public static final int kLeftSlave2TalonID = 19; //new
 
         public static final int kHooksMasterTalonID = 20; //new
-        public static final int kHooksSlaveTalonID = 21; //new
+        public static final int kHooksSlaveTalonID = 27; //new
         
         // public static final int kEverybotArm = 15;
         // public static final int kEverybotIntake = 14;
@@ -85,9 +85,9 @@ public final class Constants {
         public static final double kTicksToVertical = 60;
         public static final double kArmTicksDownSoftLimit = 330;
         public static final double kArmTicksUpSoftLimit = 0;
-        public static final double kElevatorTicksUp = 22000;
-        public static final double kElevatorTicksExtend = 23000;
-        public static final double kElevatorTicksDown = 2000;
+        public static final double kElevatorTicksUp = 20600;
+        public static final double kElevatorTicksExtend = 20600;
+        public static final double kElevatorTicksDown = 100;
 
         public static final double kSoftLimitTicks = 20000;
 
@@ -96,3 +96,4 @@ public final class Constants {
         public static final double kOperatorOneMinusAlpha = 0.88235;
     }
 }
+;
