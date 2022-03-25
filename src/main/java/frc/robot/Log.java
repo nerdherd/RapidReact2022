@@ -34,8 +34,8 @@ public class Log {
 
     createTopic("RightMaster" + "/Voltage", () -> robotContainer.drivetrain.rightMaster.getMotorOutputVoltage());
     createTopic("LeftMaster" + "/Voltage", () -> robotContainer.drivetrain.leftMaster.getMotorOutputVoltage());
-    createTopic("RightFollower" + "/Voltage", () -> robotContainer.drivetrain.rightSlave.getMotorOutputVoltage());
-    createTopic("LeftFollower" + "/Voltage", () -> robotContainer.drivetrain.leftSlave.getMotorOutputVoltage());
+    createTopic("RightFollowerB" + "/Voltage", () -> robotContainer.drivetrain.rightSlaveB.getMotorOutputVoltage());
+    createTopic("LeftFollowerB" + "/Voltage", () -> robotContainer.drivetrain.leftSlaveB.getMotorOutputVoltage());
     createTopic("RightMaster" + "/Velocity", () -> robotContainer.drivetrain.rightMaster.getSelectedSensorVelocity());
     createTopic("LeftMaster" + "/Velocity", () -> robotContainer.drivetrain.leftMaster.getSelectedSensorVelocity());
     createTopic("ClimberSensorVelocity" + "/Velocity", () -> robotContainer.everybotClimber.climberMaster.getSelectedSensorVelocity());

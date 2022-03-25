@@ -57,9 +57,12 @@ public class Robot extends TimedRobot {
     
     robotContainer.reportToSmartDashboard();
     robotContainer.drivetrain.rightMaster.setNeutralMode(NeutralMode.Coast);
-    robotContainer.drivetrain.rightSlave.setNeutralMode(NeutralMode.Coast);
+    robotContainer.drivetrain.rightSlaveB.setNeutralMode(NeutralMode.Coast);
+    robotContainer.drivetrain.rightSlaveT.setNeutralMode(NeutralMode.Coast);
     robotContainer.drivetrain.leftMaster.setNeutralMode(NeutralMode.Coast);
-    robotContainer.drivetrain.leftSlave.setNeutralMode(NeutralMode.Coast);
+    robotContainer.drivetrain.leftSlaveB.setNeutralMode(NeutralMode.Coast);
+    robotContainer.drivetrain.leftSlaveT.setNeutralMode(NeutralMode.Coast);
+
     robotContainer.configureButtonBindings();
     
   }

@@ -136,7 +136,7 @@ public class RobotContainer {
             if (ps4Controller.getTriangleButtonPressed()) {
                 // Shifts to high gear
                 drivetrain.driveShifter.set(Value.kForward);
-                SmartDashboard.putString(" Button State ", "A");
+                SmartDashboard.putString(" Button State ", "PS1 Triangle");
                 // highGear = true;
             }
 
@@ -144,7 +144,7 @@ public class RobotContainer {
             if (ps4Controller.getCircleButtonPressed()) {
                 // Shifts to low gear
                 drivetrain.driveShifter.set(Value.kReverse);
-                SmartDashboard.putString(" Button State ", "B");
+                SmartDashboard.putString(" Button State ", "PS1 Circle");
                 // highGear = false;
             }
 
@@ -193,6 +193,8 @@ public class RobotContainer {
         // Low pass filter, output = (alpha * intended value) + (1-alpha) * previous value
         double leftOutput = (DriveConstants.kDriveAlpha * leftInput) + (DriveConstants.kDriveOneMinusAlpha * prevLeftOutput);
         double rightOutput = (DriveConstants.kDriveAlpha * rightInput) + (DriveConstants.kDriveOneMinusAlpha * prevRightOutput);
+
+    
 
         // double combSpeed = (Math.abs(drivetrain.leftMaster.getSelectedSensorVelocity()) 
         //                  + Math.abs(drivetrain.rightMaster.getSelectedSensorVelocity()));

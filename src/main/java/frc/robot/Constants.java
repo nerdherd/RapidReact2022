@@ -6,12 +6,12 @@ public final class Constants {
         public static final double kDriveAlpha = 0.11765;
         public static final double kDriveOneMinusAlpha = 0.88235;
 
-        public static final int kRightMasterTalonID = 28;
-        public static final int kRightSlaveTalonID = 17;
-        // public static final int kRightSlave2TalonID = 28; //new
+        public static final int kRightMasterTalonID = 16;
+        public static final int kRightSlaveBTalonID = 17;
+        public static final int kRightSlaveTTalonID = 18; //new
         public static final int kLeftMasterTalonID = 31;
-        public static final int kLeftSlaveTalonID = 30;
-        // public static final int kLeftSlave2TalonID = 19; //new
+        public static final int kLeftSlaveBTalonID = 30;
+        public static final int kLeftSlaveTTalonID = 29; //new
 
         public static final int kHooksMasterTalonID = 20; //new
         public static final int kHooksSlaveTalonID = 27; //new
@@ -58,8 +58,8 @@ public final class Constants {
     }
     
     public static final class ClimberConstants {
-        public static final int kArmTalonID = 15;
-        public static final int kElevatorTalonID = 7;
+        public static final int kArmTalonID = 28;
+        public static final int kElevatorTalonID = 19;
 
         public static final double kArmkP = 2.0; //0.5
         public static final double kArmkI = 0;

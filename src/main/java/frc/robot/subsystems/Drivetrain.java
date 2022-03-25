@@ -19,10 +19,10 @@ import frc.robot.Constants.DriveConstants;
 public class Drivetrain extends SubsystemBase {
     public TalonFX rightMaster; // Channel 30 on CAN, 14 on PDP
     public TalonFX leftMaster; // Channel 16 on CAN, 0 on PDP
-    public TalonFX rightSlave; // Channel 31 on CAN, 15 on PDP
-    public TalonFX leftSlave; // Channel 17 on CAN, 1 on PDP
-    public TalonFX rightSlave2;
-    public TalonFX leftSlave2;
+    public TalonFX rightSlaveB; // Channel 31 on CAN, 15 on PDP
+    public TalonFX leftSlaveB; // Channel 17 on CAN, 1 on PDP
+    public TalonFX rightSlaveT;
+    public TalonFX leftSlaveT;
 
     public Compressor compressor; // Channel 3 on CAN
     public DoubleSolenoid driveShifter; // Channels 0 and 6
@@ -39,22 +39,22 @@ public class Drivetrain extends SubsystemBase {
     public Drivetrain() {
       rightMaster = new TalonFX(DriveConstants.kRightMasterTalonID);
       leftMaster = new TalonFX(DriveConstants.kLeftMasterTalonID);
-      rightSlave = new TalonFX(DriveConstants.kRightSlaveTalonID);  
-      leftSlave = new TalonFX(DriveConstants.kLeftSlaveTalonID);
-      // rightSlave2 = new TalonFX(DriveConstants.kRightSlave2TalonID);
-      // leftSlave2 = new TalonFX(DriveConstants.kLeftSlave2TalonID);
+      rightSlaveB = new TalonFX(DriveConstants.kRightSlaveBTalonID);  
+      leftSlaveB = new TalonFX(DriveConstants.kLeftSlaveBTalonID);
+      rightSlaveT = new TalonFX(DriveConstants.kRightSlaveTTalonID);
+      leftSlaveT = new TalonFX(DriveConstants.kLeftSlaveTTalonID);
 
-      leftSlave.follow(leftMaster);
-      // leftSlave2.follow(leftMaster);
-      rightSlave.follow(rightMaster);
-      // rightSlave2.follow(rightMaster);
+      leftSlaveB.follow(leftMaster);
+      leftSlaveT.follow(leftMaster);
+      rightSlaveB.follow(rightMaster);
+      rightSlaveT.follow(rightMaster);
 
       // Inverted the right side
       rightMaster.setInverted(true);
-      leftSlave.setInverted(InvertType.FollowMaster);
-      // leftSlave2.setInverted(InvertType.FollowMaster);
-      rightSlave.setInverted(InvertType.FollowMaster);
-      // rightSlave2.setInverted(InvertType.FollowMaster);
+      leftSlaveB.setInverted(InvertType.FollowMaster);
+      leftSlaveT.setInverted(InvertType.FollowMaster);
+      rightSlaveB.setInverted(InvertType.FollowMaster);
+      rightSlaveT.setInverted(InvertType.FollowMaster);
 
       // Pneumatics setup
       compressor = new Compressor(3, PneumaticsModuleType.CTREPCM);
@@ -85,9 +85,9 @@ public class Drivetrain extends SubsystemBase {
 
     public void reportToSmartDashboard() {
       SmartDashboard.putNumber(" Right Master Current ", rightMaster.getSupplyCurrent());
-      SmartDashboard.putNumber(" Right Slave Current ", rightSlave.getSupplyCurrent());
+      SmartDashboard.putNumber(" Right Slave Current ", rightSlaveB.getSupplyCurrent());
       SmartDashboard.putNumber(" Left Master Current ", leftMaster.getSupplyCurrent());
-      SmartDashboard.putNumber(" Left Slave Current ", leftSlave.getSupplyCurrent());
+      SmartDashboard.putNumber(" Left Slave Current ", leftSlaveB.getSupplyCurrent());
       
       // SmartDashboard.putBoolean(" Compressor Enabled ", compressor.enabled());
       // SmartDashboard.putBoolean(" Pressure Switch ", compressor.getPressureSwitchValue());
