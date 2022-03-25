@@ -6,25 +6,25 @@ public final class Constants {
         public static final double kDriveAlpha = 0.11765;
         public static final double kDriveOneMinusAlpha = 0.88235;
 
-        public static final int kRightMasterTalonID = 30;
-        public static final int kLeftMasterTalonID = 16;
-    
-        public static final int kRightSlaveTalonID = 31;
-        public static final int kLeftSlaveTalonID = 17;
+        public static final int kRightMasterTalonID = 16;
+        public static final int kRightSlaveTalonID = 17;
+        public static final int kRightSlave2TalonID = 28; //new
+        public static final int kLeftMasterTalonID = 31;
+        public static final int kLeftSlaveTalonID = 30;
+        public static final int kLeftSlave2TalonID = 19; //new
 
-        public static final int kClimbMasterTalonID = 24;
-        public static final int kClimbSlaveTalonID = 25;
+        public static final int kHooksMasterTalonID = 20; //new
+        public static final int kHooksSlaveTalonID = 27; //new
         
-        public static final int kEverybotArm = 15;
-
-        public static final int kEverybotIntake = 14;
+        // public static final int kEverybotArm = 15;
+        // public static final int kEverybotIntake = 14;
 
         public static final int kDriveShifterForwardID = 0;
         public static final int kDriveShifterReverseID = 7;
-        public static final int kClimberShifterForwardID = 3;
-        public static final int kClimberShifterReverseID = 4;
-        public static final int kHookShifterForwardID = 5;
-        public static final int kHookShifterReverseID = 1;
+        public static final int kClimberShifterForwardID = 2;
+        public static final int kClimberShifterReverseID = 3;
+        public static final int kHookShifterForwardID = 1;
+        public static final int kHookShifterReverseID = 6;
 
     }
 
@@ -52,8 +52,8 @@ public final class Constants {
         public static final double kEverybotClimberkD = 0;
         public static final double kEverybotClimberkF = 0.094;
         
-        public static final double kTicksToLowRung = -102862; // 32645;
-        public static final double kTicksToClimbLowRung = 52035;
+        public static final double kTicksToLowRung = 17826; //-102862 // 32645;
+        public static final double kTicksToClimbLowRung = 41525 + 4000  - kTicksToLowRung;
         public static final double kTicksToHome = 43757;
     }
     

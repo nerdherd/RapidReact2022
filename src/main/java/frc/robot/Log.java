@@ -36,11 +36,15 @@ public class Log {
     createTopic("LeftMaster" + "/Voltage", () -> robotContainer.drivetrain.leftMaster.getMotorOutputVoltage());
     createTopic("RightFollower" + "/Voltage", () -> robotContainer.drivetrain.rightSlave.getMotorOutputVoltage());
     createTopic("LeftFollower" + "/Voltage", () -> robotContainer.drivetrain.leftSlave.getMotorOutputVoltage());
-    createTopic("Climber Velocity", () -> robotContainer.everybotClimber.climberMaster.getSelectedSensorVelocity());
-    createTopic("Climber 1Velocity", () -> robotContainer.everybotClimber.climberMaster.getActiveTrajectoryVelocity());
-    createTopic("Climber position", () -> robotContainer.everybotClimber.climberMaster.getSelectedSensorPosition());
-    createTopic("Climber 1position", () -> robotContainer.everybotClimber.climberMaster.getActiveTrajectoryPosition());
-    createTopic("Climber output voltage", () -> robotContainer.everybotClimber.climberMaster.getMotorOutputVoltage());
+    createTopic("ClimberSensorVelocity" + "/Velocity", () -> robotContainer.everybotClimber.climberMaster.getSelectedSensorVelocity());
+    createTopic("ClimberTrajVelocity" + "/Velocity", () -> robotContainer.everybotClimber.climberMaster.getActiveTrajectoryVelocity());
+    createTopic("ClimberSensorPosition" + "/Position", () -> robotContainer.everybotClimber.climberMaster.getSelectedSensorPosition());
+    createTopic("ClimberTrajPosition" + "/Position", () -> robotContainer.everybotClimber.climberMaster.getActiveTrajectoryPosition());
+    createTopic("ClimberOutputVoltage" + "/Voltage", () -> robotContainer.everybotClimber.climberMaster.getMotorOutputVoltage());
+    createTopic("Elevator Position" + "/Position", () -> robotContainer.elevator.elevator.getSelectedSensorPosition());
+    createTopic("Elevator Voltage " + "/Voltage", () -> robotContainer.elevator.elevator.getMotorOutputVoltage());
+    createTopic("Arm Position" + "/Position", () -> robotContainer.armTrapezoid.arm.getSelectedSensorPosition());
+    createTopic("Arm Voltage" + "/Voltage", () -> robotContainer.armTrapezoid.arm.getMotorOutputVoltage());
     
     log.finishInitialization();
   }

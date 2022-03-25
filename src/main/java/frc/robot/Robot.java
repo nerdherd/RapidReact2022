@@ -31,12 +31,11 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() { 
-    robotContainer = new RobotContainer();
-
-    Log.initAndLog("/home/lvuser/logs/", "Test", 0.02, robotContainer);
-
     CommandScheduler.getInstance().cancelAll();
-
+    
+    robotContainer = new RobotContainer();
+    
+    Log.initAndLog("/home/lvuser/logs/", "Test", 0.02, robotContainer);
     
     robotContainer.elevator.elevator.setSelectedSensorPosition(0);
     robotContainer.elevator.elevator.setNeutralMode(NeutralMode.Brake);
@@ -48,19 +47,21 @@ public class Robot extends TimedRobot {
     robotContainer.elevator.elevator.setSelectedSensorPosition(0);
     robotContainer.elevator.elevator.setNeutralMode(NeutralMode.Brake);
     //robotContainer.drivetrain.compressor.enableDigital();
-    robotContainer.elevator.elevator.setSelectedSensorPosition(0);
+    robotContainer.everybotClimber.climberMaster.setSelectedSensorPosition(0);
   }
 
 
   @Override
   public void teleopPeriodic() { 
-    robotContainer.drivetrain.driveControllerMovement();
+    
+    
     robotContainer.reportToSmartDashboard();
     robotContainer.drivetrain.rightMaster.setNeutralMode(NeutralMode.Coast);
     robotContainer.drivetrain.rightSlave.setNeutralMode(NeutralMode.Coast);
     robotContainer.drivetrain.leftMaster.setNeutralMode(NeutralMode.Coast);
     robotContainer.drivetrain.leftSlave.setNeutralMode(NeutralMode.Coast);
     robotContainer.configureButtonBindings();
+    
   }
 
 
@@ -88,5 +89,4 @@ public class Robot extends TimedRobot {
   public void disabledInit() {
     CommandScheduler.getInstance().cancelAll();
   }
-    
 }

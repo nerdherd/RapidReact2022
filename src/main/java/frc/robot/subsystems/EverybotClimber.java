@@ -6,10 +6,8 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Robot;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.EverybotConstants;
-import frc.robot.RobotContainer.Climber;
 
 public class EverybotClimber extends SubsystemBase {
     
@@ -17,8 +15,8 @@ public class EverybotClimber extends SubsystemBase {
     public TalonFX climberSlave;
 
     public EverybotClimber() {
-        climberMaster = new TalonFX(DriveConstants.kClimbMasterTalonID);
-        climberSlave = new TalonFX(DriveConstants.kClimbSlaveTalonID);
+        climberMaster = new TalonFX(DriveConstants.kHooksMasterTalonID);
+        climberSlave = new TalonFX(DriveConstants.kHooksSlaveTalonID);
 
         // negative goes up, positive goes down when the climber is homed at hardstop
         climberSlave.setInverted(InvertType.OpposeMaster);
