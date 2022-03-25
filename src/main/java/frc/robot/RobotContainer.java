@@ -51,6 +51,7 @@ public class RobotContainer {
     public Elevator elevator = new Elevator();
 
     private boolean m_climberShifter;
+    private double m_combinedSpeed;
 
     public RobotContainer() {
         SmartDashboard.putBoolean("arm moving", false);
@@ -187,6 +188,22 @@ public class RobotContainer {
         // Low pass filter, output = (alpha * intended value) + (1-alpha) * previous value
         double leftOutput = (DriveConstants.kDriveAlpha * leftInput) + (DriveConstants.kDriveOneMinusAlpha * prevLeftOutput);
         double rightOutput = (DriveConstants.kDriveAlpha * rightInput) + (DriveConstants.kDriveOneMinusAlpha * prevRightOutput);
+
+        double combSpeed = (Math.abs(drivetrain.leftMaster.getSelectedSensorVelocity()) 
+                         + Math.abs(drivetrain.rightMaster.getSelectedSensorVelocity()));
+        
+        m_combinedSpeed = (DriveConstants.kDriveAlpha * combSpeed) + (DriveConstants.kDriveOneMinusAlpha * m_combinedSpeed);
+        //6000rpm * 4096 ticks/rev / 60secs/min / 10decisecs/sec * 2gearboxes = 81920
+        //shift low when < 10% motor speed
+        //shift high when > 90% motor speed
+
+        if(m_combinedSpeed < 8192) {
+            drivetrain.driveShifter.set(Value.kReverse);
+        } else if(m_combinedSpeed > 73728) {
+            drivetrain.driveShifter.set(Value.kForward);
+        } else {
+            /*do nothing*/
+        }
 
         drivetrain.rightMaster.set(ControlMode.PercentOutput, rightOutput);
         drivetrain.leftMaster.set(ControlMode.PercentOutput, leftOutput);
