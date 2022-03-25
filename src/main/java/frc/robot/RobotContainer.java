@@ -57,6 +57,7 @@ public class RobotContainer {
         SmartDashboard.putBoolean("arm moving", false);
         initSmartDashboard();
         m_climberShifter = true;
+        m_combinedSpeed = 0;
 
         ps4Controller = new PS4Controller(0);
         ps4Controller2 = new PS4Controller(1);
