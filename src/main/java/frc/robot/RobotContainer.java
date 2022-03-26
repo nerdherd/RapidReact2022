@@ -92,7 +92,7 @@ public class RobotContainer {
             // Actually Cross
             if (ps4Controller2.getSquareButton()) {
                 if (elevator.elevator.getSelectedSensorPosition() > ClimberConstants.kElevatorTicksDown ){
-                    elevator.elevator.set(ControlMode.PercentOutput, -0.4);
+                    elevator.elevator.set(ControlMode.PercentOutput, -0.75);
                     SmartDashboard.putString(" Running Command ", "Elevator Down ");
                 } else if (elevator.elevator.getSelectedSensorPosition() <= ClimberConstants.kElevatorTicksDown) {
                     elevator.elevator.set(ControlMode.PercentOutput, 0);
@@ -105,7 +105,7 @@ public class RobotContainer {
             // Actually triangle
             if (ps4Controller2.getTriangleButton()) {
                 if (elevator.elevator.getSelectedSensorPosition() < ClimberConstants.kElevatorTicksUp) {
-                    elevator.elevator.set(ControlMode.PercentOutput, 0.32);
+                    elevator.elevator.set(ControlMode.PercentOutput, 0.4);
                     SmartDashboard.putString(" Running Command ", "Elevator Up ");
                 } else if (elevator.elevator.getSelectedSensorPosition() > ClimberConstants.kElevatorTicksUp) {
                     elevator.elevator.set(ControlMode.PercentOutput, 0);
@@ -118,7 +118,7 @@ public class RobotContainer {
             // Actually square button
             if (ps4Controller2.getCircleButton()) {
                 if (elevator.elevator.getSelectedSensorPosition() < ClimberConstants.kElevatorTicksExtend) {
-                    elevator.elevator.set(ControlMode.PercentOutput, 0.32);
+                    elevator.elevator.set(ControlMode.PercentOutput, 0.4);
                     SmartDashboard.putString(" Running Command ", "Elevator Up Extend ");
                 } else if (elevator.elevator.getSelectedSensorPosition() > ClimberConstants.kElevatorTicksExtend) {
                     elevator.elevator.set(ControlMode.PercentOutput, 0);

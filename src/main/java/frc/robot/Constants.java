@@ -66,7 +66,7 @@ public final class Constants {
         public static final double kArmkD = 0.6; //0.6 
         public static final double kArmkF = 2.82; // 2.82
 
-        public static final double kArmGravityFF = 0.41; //0.11 voltage calc, 0.41 phys calc
+        public static final double kArmGravityFF = 0.36; //0.11 voltage calc, 0.41 phys calc
 
         public static final double kArmStaticFF = 0.0;
 
@@ -85,9 +85,9 @@ public final class Constants {
         public static final double kTicksToVertical = 60;
         public static final double kArmTicksDownSoftLimit = 330;
         public static final double kArmTicksUpSoftLimit = 0;
-        public static final double kElevatorTicksUp = 20600;
-        public static final double kElevatorTicksExtend = 20600;
-        public static final double kElevatorTicksDown = 100;
+        public static final double kElevatorTicksUp = 6674600;
+        public static final double kElevatorTicksExtend = 6674600;
+        public static final double kElevatorTicksDown = 32400;
 
         public static final double kSoftLimitTicks = 20000;
 

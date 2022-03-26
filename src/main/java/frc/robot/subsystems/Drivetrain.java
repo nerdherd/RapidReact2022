@@ -85,9 +85,11 @@ public class Drivetrain extends SubsystemBase {
 
     public void reportToSmartDashboard() {
       SmartDashboard.putNumber(" Right Master Current ", rightMaster.getSupplyCurrent());
-      SmartDashboard.putNumber(" Right Slave Current ", rightSlaveB.getSupplyCurrent());
+      SmartDashboard.putNumber(" Right SlaveB Current ", rightSlaveB.getSupplyCurrent());
+      SmartDashboard.putNumber(" Right SlaveT Current ", rightSlaveT.getSupplyCurrent());
       SmartDashboard.putNumber(" Left Master Current ", leftMaster.getSupplyCurrent());
-      SmartDashboard.putNumber(" Left Slave Current ", leftSlaveB.getSupplyCurrent());
+      SmartDashboard.putNumber(" Left SlaveB Current ", leftSlaveB.getSupplyCurrent());
+      SmartDashboard.putNumber(" Left SlaveT Current ", leftSlaveT.getSupplyCurrent());
       
       // SmartDashboard.putBoolean(" Compressor Enabled ", compressor.enabled());
       // SmartDashboard.putBoolean(" Pressure Switch ", compressor.getPressureSwitchValue());

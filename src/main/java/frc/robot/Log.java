@@ -36,6 +36,8 @@ public class Log {
     createTopic("LeftMaster" + "/Voltage", () -> robotContainer.drivetrain.leftMaster.getMotorOutputVoltage());
     createTopic("RightFollowerB" + "/Voltage", () -> robotContainer.drivetrain.rightSlaveB.getMotorOutputVoltage());
     createTopic("LeftFollowerB" + "/Voltage", () -> robotContainer.drivetrain.leftSlaveB.getMotorOutputVoltage());
+    createTopic("RightFollowerT" + "/Voltage", () -> robotContainer.drivetrain.rightSlaveT.getMotorOutputVoltage());
+    createTopic("LeftFollowerT" + "/Voltage", () -> robotContainer.drivetrain.leftSlaveT.getMotorOutputVoltage());
     createTopic("RightMaster" + "/Velocity", () -> robotContainer.drivetrain.rightMaster.getSelectedSensorVelocity());
     createTopic("LeftMaster" + "/Velocity", () -> robotContainer.drivetrain.leftMaster.getSelectedSensorVelocity());
     createTopic("ClimberSensorVelocity" + "/Velocity", () -> robotContainer.everybotClimber.climberMaster.getSelectedSensorVelocity());
@@ -43,10 +45,12 @@ public class Log {
     createTopic("ClimberSensorPosition" + "/Position", () -> robotContainer.everybotClimber.climberMaster.getSelectedSensorPosition());
     createTopic("ClimberTrajPosition" + "/Position", () -> robotContainer.everybotClimber.climberMaster.getActiveTrajectoryPosition());
     createTopic("ClimberOutputVoltage" + "/Voltage", () -> robotContainer.everybotClimber.climberMaster.getMotorOutputVoltage());
-    createTopic("Elevator Position" + "/Position", () -> robotContainer.elevator.elevator.getSelectedSensorPosition());
-    createTopic("Elevator Voltage " + "/Voltage", () -> robotContainer.elevator.elevator.getMotorOutputVoltage());
-    createTopic("Arm Position" + "/Position", () -> robotContainer.armTrapezoid.arm.getSelectedSensorPosition());
-    createTopic("Arm Voltage" + "/Voltage", () -> robotContainer.armTrapezoid.arm.getMotorOutputVoltage());
+    createTopic("ElevatorPosition" + "/Position", () -> robotContainer.elevator.elevator.getSelectedSensorPosition());
+    createTopic("ElevatorVoltage " + "/Voltage", () -> robotContainer.elevator.elevator.getMotorOutputVoltage());
+    createTopic("ArmPosition" + "/Position", () -> robotContainer.armTrapezoid.arm.getSelectedSensorPosition());
+    createTopic("ArmVoltage" + "/Voltage", () -> robotContainer.armTrapezoid.arm.getMotorOutputVoltage());
+
+    createTopic("CompressorPressure" + "/Pressure", () -> robotContainer.drivetrain.compressor.getPressure());
     
     log.finishInitialization();
   }
