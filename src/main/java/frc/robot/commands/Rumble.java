@@ -25,10 +25,7 @@ public class Rumble extends CommandBase {
   private double velocityCurrentRatio;
 
   /** Creates a new Rumble. 
-   * Run during teleopPeriodic() to make the controller rumble when ramming into an obstacle.
-   * <p>
-   * For info on anonymous methods see 
-   * https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html
+   * Run during teleopPeriodic() to make the controller rumble when ramming into an obstacle
    * 
    * @param motorVelocity a supplier returning the motor velocity
    * @param motorCurrent  a supplier returning the motor current (supply)
@@ -44,7 +41,12 @@ public class Rumble extends CommandBase {
     this.deadband = deadband;
   }
 
-  // Called when the command is initially scheduled.
+  /**
+   * Initialize the velocity to current ratio.
+   * Called when the command is initially scheduled.
+   * <p>
+   * Can also be mannually called to reset the ratio
+   */
   @Override
   public void initialize() {
     if (this.motorCurrentSupplier.getAsDouble() != 0) {
