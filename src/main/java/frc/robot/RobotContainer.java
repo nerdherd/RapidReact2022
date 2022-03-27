@@ -257,40 +257,6 @@ public class RobotContainer {
             
     }
 
-    // public void smartDashboardButtons() {
-    // // SmartDashboard.putData(" Move ArmMM to Angle ", new InstantCommand(() -> 
-    //     //     armMotionMagic.climberToAngle()));
-
-    //     // SmartDashboard.putData(" Move ArmMM to Vertical ", new InstantCommand(() ->
-    //     //     armMotionMagic.climberToVertical()));
-
-    //     SmartDashboard.putData(" Move ArmTrapezoid Angle ", new InstantCommand(() -> 
-    //         armTrapezoid.setPositionMotionMagic(ClimberConstants.kTicksToRungAngle)));
-
-    //     SmartDashboard.putData( " Move ArmTrapezoid Vertical ", new InstantCommand(() ->
-    //         armTrapezoid.setPositionMotionMagic(ClimberConstants.kTicksToVertical)));
-
-    //     SmartDashboard.putData( "Move ArmTrapezoid Clear Rung ", new InstantCommand(() ->
-    //         armTrapezoid.setPositionMotionMagic(ClimberConstants.kTicksToClearRung)));
-
-    //     SmartDashboard.putData( "Reset Arm Encoder ", new InstantCommand(() -> 
-    //         armTrapezoid.resetClimbEncoder()));
-        
-    //     SmartDashboard.putData(" Reset Elevator Encoder ", new InstantCommand(() ->
-    //         elevator.resetElevatorEncoder()));
-
-    //     SmartDashboard.putData(" Command Scheduler Disable ", new InstantCommand(() -> 
-    //         CommandScheduler.getInstance().disable()));
-
-    //     SmartDashboard.putData(" Elevator Coast Mode ", new InstantCommand(() ->
-    //         elevator.elevator.setNeutralMode(NeutralMode.Coast)));
-        
-    //     SmartDashboard.putData(" Elevator Brake Mode ", new InstantCommand(() ->
-    //         elevator.elevator.setNeutralMode(NeutralMode.Brake)));
-            
-    // }
-
-
     public void reportToSmartDashboard() {
 
         SmartDashboard.putNumber(" Climber Position", everybotClimber.climberMaster.getSelectedSensorPosition());

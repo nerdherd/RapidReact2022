@@ -46,15 +46,12 @@ public class Robot extends TimedRobot {
   public void teleopInit() { 
     robotContainer.elevator.elevator.setSelectedSensorPosition(0);
     robotContainer.elevator.elevator.setNeutralMode(NeutralMode.Brake);
-    //robotContainer.drivetrain.compressor.enableDigital();
     robotContainer.everybotClimber.climberMaster.setSelectedSensorPosition(0);
   }
 
 
   @Override
   public void teleopPeriodic() { 
-    
-    
     robotContainer.reportToSmartDashboard();
     robotContainer.drivetrain.rightMaster.setNeutralMode(NeutralMode.Coast);
     robotContainer.drivetrain.rightSlave.setNeutralMode(NeutralMode.Coast);
@@ -63,7 +60,6 @@ public class Robot extends TimedRobot {
     robotContainer.configureButtonBindings();
     
   }
-
 
   @Override
   public void autonomousInit() {
