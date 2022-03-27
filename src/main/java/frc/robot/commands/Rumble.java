@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class Rumble extends CommandBase {
   private final DoubleSupplier motorVelocitySupplier;
   private final DoubleSupplier motorCurrentSupplier;
-  private final RumbleSetter rumbleSetter;
+  private final GenericHID controller;
   private final double deadband;
 
   // TODO: Should be defined in constants, but done here to avoid merge conflicts
@@ -24,14 +24,6 @@ public class Rumble extends CommandBase {
   private double timeRammed = 0;
   private double velocityCurrentRatio;
 
-  /** An interface for a class with a method to set the rumble 
-   * <p>
-   * Use a lambda or :: with GenericHID.setRumble
-  */
-  private interface RumbleSetter {
-    void setRumble(GenericHID.RumbleType rumbleType, double rumble);
-  }
-
   /** Creates a new Rumble. 
    * Run during teleopPeriodic() to make the controller rumble when ramming into an obstacle.
    * <p>
@@ -40,15 +32,15 @@ public class Rumble extends CommandBase {
    * 
    * @param motorVelocity a supplier returning the motor velocity
    * @param motorCurrent  a supplier returning the motor current (supply)
-   * @param rumbleSetter  a RumbleSetter that sets the rumble (use lambda)
+   * @param controller    the generic HID controller to rumble
    * @param deadband      a deadband that dictates how far away from the current-velocity ratio the motor can stray
    * @return              a new Rumble command
   */
   public Rumble(DoubleSupplier motorVelocity, DoubleSupplier motorCurrent, 
-                RumbleSetter rumbleSetter, double deadband) {
+                GenericHID controller, double deadband) {
     this.motorVelocitySupplier = motorVelocity;
     this.motorCurrentSupplier = motorCurrent;
-    this.rumbleSetter = rumbleSetter;
+    this.controller = controller;
     this.deadband = deadband;
   }
 
@@ -114,7 +106,7 @@ public class Rumble extends CommandBase {
    * @param rumbleStrength  the strength of the rumble [0, 1]
    */
   private void setBothRumbles(double rumbleStrength) {
-    rumbleSetter.setRumble(GenericHID.RumbleType.kLeftRumble, rumbleStrength);
-    rumbleSetter.setRumble(GenericHID.RumbleType.kRightRumble, rumbleStrength); 
+    controller.setRumble(GenericHID.RumbleType.kLeftRumble, rumbleStrength);
+    controller.setRumble(GenericHID.RumbleType.kRightRumble, rumbleStrength); 
   }
 }
