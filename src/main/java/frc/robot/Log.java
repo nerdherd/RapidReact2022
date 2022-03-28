@@ -32,10 +32,10 @@ public class Log {
     log = BadLog.init(getDesiredFile(directory, filename));
     createTopic("Time", () -> Timer.getFPGATimestamp());
 
-    createTopic("RightMaster" + "/Voltage", () -> robotContainer.drivetrain.rightMaster.getMotorOutputVoltage());
-    createTopic("LeftMaster" + "/Voltage", () -> robotContainer.drivetrain.leftMaster.getMotorOutputVoltage());
-    createTopic("RightFollower" + "/Voltage", () -> robotContainer.drivetrain.rightSlaveT.getMotorOutputVoltage());
-    createTopic("LeftFollower" + "/Voltage", () -> robotContainer.drivetrain.leftSlaveT.getMotorOutputVoltage());
+    createTopic("RightMaster" + "/Voltage", () -> robotContainer.drivetrain.driveMotors[0].getMotorOutputVoltage());
+    createTopic("LeftMaster" + "/Voltage", () -> robotContainer.drivetrain.driveMotors[1].getMotorOutputVoltage());
+    createTopic("RightFollower" + "/Voltage", () -> robotContainer.drivetrain.driveMotors[2].getMotorOutputVoltage());
+    createTopic("LeftFollower" + "/Voltage", () -> robotContainer.drivetrain.driveMotors[3].getMotorOutputVoltage());
     createTopic("ClimberSensorVelocity" + "/Velocity", () -> robotContainer.everybotClimber.climberMaster.getSelectedSensorVelocity());
     createTopic("ClimberTrajVelocity" + "/Velocity", () -> robotContainer.everybotClimber.climberMaster.getActiveTrajectoryVelocity());
     createTopic("ClimberSensorPosition" + "/Position", () -> robotContainer.everybotClimber.climberMaster.getSelectedSensorPosition());

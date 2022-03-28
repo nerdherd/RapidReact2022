@@ -21,6 +21,7 @@ import com.ctre.phoenix.sensors.CANCoderStatusFrame;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.PS4Controller.Button;
+import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.climber.Arm;
 import frc.robot.subsystems.climber.Elevator;
@@ -178,15 +179,15 @@ public class RobotContainer {
 
         double leftInput = ps4Controller.getLeftY();
         double rightInput = ps4Controller.getRightY();
-        double prevLeftOutput = drivetrain.leftMaster.getMotorOutputPercent();
-        double prevRightOutput = drivetrain.rightMaster.getMotorOutputPercent();
+        double prevLeftOutput = drivetrain.driveMotors[1].getMotorOutputPercent();
+        double prevRightOutput = drivetrain.driveMotors[0].getMotorOutputPercent();
 
         // Low pass filter, output = (alpha * intended value) + (1-alpha) * previous value
         double leftOutput = (DriveConstants.kDriveAlpha * leftInput) + (DriveConstants.kDriveOneMinusAlpha * prevLeftOutput);
         double rightOutput = (DriveConstants.kDriveAlpha * rightInput) + (DriveConstants.kDriveOneMinusAlpha * prevRightOutput);
 
-        drivetrain.rightMaster.set(ControlMode.PercentOutput, rightOutput);
-        drivetrain.leftMaster.set(ControlMode.PercentOutput, leftOutput);
+        drivetrain.driveMotors[1].set(ControlMode.PercentOutput, leftOutput);
+        drivetrain.driveMotors[0].set(ControlMode.PercentOutput, rightOutput);
         
     }
 
@@ -256,12 +257,9 @@ public class RobotContainer {
     }
 
     public void setNeutralModes() {
-        drivetrain.rightMaster.setNeutralMode(NeutralMode.Coast);
-        drivetrain.rightSlaveT.setNeutralMode(NeutralMode.Coast);
-        drivetrain.rightSlaveB.setNeutralMode(NeutralMode.Coast);
-        drivetrain.leftMaster.setNeutralMode(NeutralMode.Coast);
-        drivetrain.leftSlaveT.setNeutralMode(NeutralMode.Coast);
-        drivetrain.leftSlaveB.setNeutralMode(NeutralMode.Coast);
+        for (int i = 0; i > drivetrain.driveMotors.length; i++) {
+            drivetrain.driveMotors[i].setNeutralMode(NeutralMode.Coast);
+        }
 
         elevator.elevator.setNeutralMode(NeutralMode.Brake);
         arm.arm.setNeutralMode(NeutralMode.Brake);
@@ -273,7 +271,6 @@ public class RobotContainer {
         arm.arm.setSelectedSensorPosition(0);
 
     }
-
 
     public void reportToSmartDashboard() {
 
