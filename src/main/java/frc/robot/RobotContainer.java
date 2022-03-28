@@ -201,7 +201,7 @@ public class RobotContainer {
                     new WaitCommand(1), 
                     new InstantCommand(() -> drivetrain.setPower(0.5, 0.5))
                 ), 
-                new InstantCommand(() -> drivetrain.setPowerZero())
+                new InstantCommand(() -> drivetrain.setPower(0, 0))
             )
         );
         
@@ -212,7 +212,7 @@ public class RobotContainer {
                     new WaitCommand(1), 
                     new InstantCommand(() -> drivetrain.setPower(0.5, 0.5))
                 ),
-                new InstantCommand(() -> drivetrain.setPowerZero())
+                new InstantCommand(() -> drivetrain.setPower(0, 0))
             )
             
         );

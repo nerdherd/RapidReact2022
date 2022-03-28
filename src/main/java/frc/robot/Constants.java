@@ -25,7 +25,6 @@ public final class Constants {
         public static final int kClimberShifterReverseID = 3;
         public static final int kHookShifterForwardID = 1;
         public static final int kHookShifterReverseID = 6;
-
     }
 
     public static final class EverybotConstants {
