@@ -1,5 +1,7 @@
 package frc.robot.subsystems;
 
+import java.util.Set;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
@@ -19,10 +21,10 @@ import frc.robot.Constants.DriveConstants;
 public class Drivetrain extends SubsystemBase {
     public TalonFX rightMaster; // Channel 30 on CAN, 14 on PDP
     public TalonFX leftMaster; // Channel 16 on CAN, 0 on PDP
-    public TalonFX rightSlave; // Channel 31 on CAN, 15 on PDP
-    public TalonFX leftSlave; // Channel 17 on CAN, 1 on PDP
-    public TalonFX rightSlave2;
-    public TalonFX leftSlave2;
+    public TalonFX rightSlaveT; // Channel 31 on CAN, 15 on PDP
+    public TalonFX leftSlaveT; // Channel 17 on CAN, 1 on PDP
+    public TalonFX rightSlaveB;
+    public TalonFX leftSlaveB;
 
     public Compressor compressor; // Channel 3 on CAN
     public DoubleSolenoid driveShifter; // Channels 0 and 6
@@ -39,22 +41,22 @@ public class Drivetrain extends SubsystemBase {
     public Drivetrain() {
       rightMaster = new TalonFX(DriveConstants.kRightMasterTalonID);
       leftMaster = new TalonFX(DriveConstants.kLeftMasterTalonID);
-      rightSlave = new TalonFX(DriveConstants.kRightSlaveTalonID);  
-      leftSlave = new TalonFX(DriveConstants.kLeftSlaveTalonID);
-      rightSlave2 = new TalonFX(DriveConstants.kRightSlave2TalonID);
-      leftSlave2 = new TalonFX(DriveConstants.kLeftSlave2TalonID);
+      rightSlaveT = new TalonFX(DriveConstants.kRightSlaveTTalonID);  
+      leftSlaveT = new TalonFX(DriveConstants.kLeftSlaveTTalonID);
+      rightSlaveB = new TalonFX(DriveConstants.kRightSlaveBTalonID);
+      leftSlaveB = new TalonFX(DriveConstants.kLeftSlaveBTalonID);
 
-      leftSlave.follow(leftMaster);
-      leftSlave2.follow(leftMaster);
-      rightSlave.follow(rightMaster);
-      rightSlave2.follow(rightMaster);
+      leftSlaveT.follow(leftMaster);
+      leftSlaveB.follow(leftMaster);
+      rightSlaveT.follow(rightMaster);
+      rightSlaveB.follow(rightMaster);
 
       // Inverted the right side
       rightMaster.setInverted(true);
-      leftSlave.setInverted(InvertType.FollowMaster);
-      leftSlave2.setInverted(InvertType.FollowMaster);
-      rightSlave.setInverted(InvertType.FollowMaster);
-      rightSlave2.setInverted(InvertType.FollowMaster);
+      leftSlaveT.setInverted(InvertType.FollowMaster);
+      leftSlaveB.setInverted(InvertType.FollowMaster);
+      rightSlaveT.setInverted(InvertType.FollowMaster);
+      rightSlaveB.setInverted(InvertType.FollowMaster);
 
       // Pneumatics setup
       compressor = new Compressor(3, PneumaticsModuleType.CTREPCM);
@@ -63,14 +65,28 @@ public class Drivetrain extends SubsystemBase {
       // MIGHT NEED TO BE CHANGED
       climberShifter = new DoubleSolenoid(3, PneumaticsModuleType.CTREPCM, DriveConstants.kClimberShifterForwardID, DriveConstants.kClimberShifterReverseID);
       hookShifter = new DoubleSolenoid(3, PneumaticsModuleType.CTREPCM, DriveConstants.kHookShifterForwardID, DriveConstants.kHookShifterReverseID);
+
     }
 
-    public static double gainInput(double input) {
+    public void setClimberShifterForward() {
+      climberShifter.set(Value.kForward);
+    }
+
+    public void setClimberShifterReverse() {
+      climberShifter.set(Value.kReverse);
+    }
+
+    public void setDriveShifterForward() {
+      driveShifter.set(Value.kForward);
+    }
+
+    public void setDriveShifterReverse() {
+      driveShifter.set(Value.kReverse);
+    }
+
+    public double gainInput(double input) {
       input = Math.pow(input, 3);
       return input;
-    }
-
-    public void driveControllerMovement() {
     }
 
     public void setPowerZero() {
@@ -85,9 +101,11 @@ public class Drivetrain extends SubsystemBase {
 
     public void reportToSmartDashboard() {
       SmartDashboard.putNumber(" Right Master Current ", rightMaster.getSupplyCurrent());
-      SmartDashboard.putNumber(" Right Slave Current ", rightSlave.getSupplyCurrent());
+      SmartDashboard.putNumber(" Right Slave Current ", rightSlaveT.getSupplyCurrent());
+      SmartDashboard.putNumber(" Right Slave Current ", rightSlaveB.getSupplyCurrent());
       SmartDashboard.putNumber(" Left Master Current ", leftMaster.getSupplyCurrent());
-      SmartDashboard.putNumber(" Left Slave Current ", leftSlave.getSupplyCurrent());
+      SmartDashboard.putNumber(" Left Slave Current ", leftSlaveT.getSupplyCurrent());
+      SmartDashboard.putNumber(" Left Slave Current ", leftSlaveB.getSupplyCurrent());
       
       // SmartDashboard.putBoolean(" Compressor Enabled ", compressor.enabled());
       // SmartDashboard.putBoolean(" Pressure Switch ", compressor.getPressureSwitchValue());

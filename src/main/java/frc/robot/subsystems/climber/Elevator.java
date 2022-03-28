@@ -3,8 +3,6 @@ package frc.robot.subsystems.climber;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
-
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.ClimberConstants;
 
@@ -49,6 +47,33 @@ public class Elevator {
             SmartDashboard.putString(" Pos ", " True ");
         } else {
             SmartDashboard.putString(" Pos ", " False ");
+        }
+    }
+
+    public void moveElevatorUp() {
+        if (elevator.getSelectedSensorPosition() < ClimberConstants.kElevatorTicksUp) {
+            elevator.set(ControlMode.PercentOutput, 0.32);
+            SmartDashboard.putString(" Running Command ", "Elevator Up ");
+        } else if (elevator.getSelectedSensorPosition() > ClimberConstants.kElevatorTicksUp) {
+            elevator.set(ControlMode.PercentOutput, 0);
+        }
+    }
+
+    public void moveElevatorExtend() {
+        if (elevator.getSelectedSensorPosition() < ClimberConstants.kElevatorTicksExtend) {
+            elevator.set(ControlMode.PercentOutput, 0.32);
+            SmartDashboard.putString(" Running Command ", "Elevator Up Extend ");
+        } else if (elevator.getSelectedSensorPosition() > ClimberConstants.kElevatorTicksExtend) {
+            elevator.set(ControlMode.PercentOutput, 0);
+        }
+    }
+
+    public void moveElevatorDown() {
+        if (elevator.getSelectedSensorPosition() > ClimberConstants.kElevatorTicksDown ){
+            elevator.set(ControlMode.PercentOutput, -0.4);
+            SmartDashboard.putString(" Running Command ", "Elevator Down ");
+        } else if (elevator.getSelectedSensorPosition() <= ClimberConstants.kElevatorTicksDown) {
+            elevator.set(ControlMode.PercentOutput, 0);
         }
     }
     

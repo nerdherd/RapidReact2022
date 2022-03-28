@@ -7,11 +7,11 @@ public final class Constants {
         public static final double kDriveOneMinusAlpha = 0.88235;
 
         public static final int kRightMasterTalonID = 16;
-        public static final int kRightSlaveTalonID = 17;
-        public static final int kRightSlave2TalonID = 28; //new
+        public static final int kRightSlaveTTalonID = 17;
+        public static final int kRightSlaveBTalonID = 28; //new
         public static final int kLeftMasterTalonID = 31;
-        public static final int kLeftSlaveTalonID = 30;
-        public static final int kLeftSlave2TalonID = 19; //new
+        public static final int kLeftSlaveTTalonID = 30;
+        public static final int kLeftSlaveBTalonID = 19; //new
 
         public static final int kHooksMasterTalonID = 20; //new
         public static final int kHooksSlaveTalonID = 27; //new
