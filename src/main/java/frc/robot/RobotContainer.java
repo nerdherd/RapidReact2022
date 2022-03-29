@@ -111,23 +111,20 @@ public class RobotContainer {
 
             // ====================== ARM FUNCTIONS ====================== //
 
-            oL1.whenPressed(new InstantCommand(() ->
-                arm.setPositionMotionMagic(ClimberConstants.kTicksToRungAngle)));
+            oL1.whenPressed(new InstantCommand(() ->{
+                arm.setPositionMotionMagic(ClimberConstants.kTicksToRungAngle);
+                SmartDashboard.putString("Button State ", "Operator L1");
+            }));
+
+            oL2.whenPressed(new InstantCommand(() ->{
+                arm.setPositionMotionMagic(ClimberConstants.kTicksToClearRung);
+                SmartDashboard.putString("Button State ", "Operator L1");
+            }));
             
-            oL1.whenPressed(new InstantCommand(() ->
-                SmartDashboard.putString("Button State ", "Operator L1")));
-            
-            oL2.whenPressed(new InstantCommand(() ->
-                arm.setPositionMotionMagic(ClimberConstants.kTicksToClearRung)));
-            
-            oL2.whenPressed(new InstantCommand(() ->
-                SmartDashboard.putString("Button State ", "Operator L2")));
-        
-            oR1.whenPressed(new InstantCommand(() ->
-                arm.setPositionMotionMagic(ClimberConstants.kTicksToVertical)));
-            
-            oR1.whenPressed(new InstantCommand(() ->
-                SmartDashboard.putString("Button State ", "Operator R1")));
+            oR1.whenPressed(new InstantCommand(() ->{
+                arm.setPositionMotionMagic(ClimberConstants.kTicksToVertical);
+                SmartDashboard.putString("Button State ", "Operator L1");
+            }));
     
             double armInput = -ps4Controller2.getRightY();
             arm.arm.set(ControlMode.PercentOutput, armInput * 0.25, DemandType.ArbitraryFeedForward, -1 * arm.FF());
