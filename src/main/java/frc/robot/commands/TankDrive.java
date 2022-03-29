@@ -45,7 +45,7 @@ public class TankDrive extends CommandBase {
     double leftOutput = (DriveConstants.kDriveAlpha * leftInput) + (DriveConstants.kDriveOneMinusAlpha * prevLeftOutput);
     double rightOutput = (DriveConstants.kDriveAlpha * rightInput) + (DriveConstants.kDriveOneMinusAlpha * prevRightOutput);
 
-    drivetrain.drive(leftOutput, rightOutput);
+    drivetrain.setPower(leftOutput, rightOutput);
   }
 
   // Called once the command ends or is interrupted.
