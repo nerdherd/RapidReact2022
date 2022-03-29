@@ -5,19 +5,13 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandGroupBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 
 
 public class Robot extends TimedRobot {
-  public static SendableChooser<Command> autoChooser;
-  public static Command m_autonomousCommand;
-
-  // TODO: refractor code so that this doesn't have to be public static, and follows the intended use of robotContainer
-  public static RobotContainer robotContainer;
+  public RobotContainer robotContainer;
 
   @Override
   public void robotInit() { 
