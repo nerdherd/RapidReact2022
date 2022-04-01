@@ -32,17 +32,20 @@ public class Log {
     log = BadLog.init(getDesiredFile(directory, filename));
     createTopic("Time", () -> Timer.getFPGATimestamp());
 
-    createTopic("RightMaster" + "/Voltage", () -> robotContainer.drivetrain.driveMotors[0].getMotorOutputVoltage());
-    createTopic("LeftMaster" + "/Voltage", () -> robotContainer.drivetrain.driveMotors[1].getMotorOutputVoltage());
-    createTopic("RightFollower" + "/Voltage", () -> robotContainer.drivetrain.driveMotors[2].getMotorOutputVoltage());
-    createTopic("LeftFollower" + "/Voltage", () -> robotContainer.drivetrain.driveMotors[3].getMotorOutputVoltage());
+    createTopic("RightMaster" + "/Voltage", () -> robotContainer.drivetrain.driveRightMotors[0].getMotorOutputVoltage());
+    createTopic("LeftMaster" + "/Voltage", () -> robotContainer.drivetrain.driveLeftMotors[0].getMotorOutputVoltage());
+    createTopic("RightFollower" + "/Voltage", () -> robotContainer.drivetrain.driveRightMotors[1].getMotorOutputVoltage());
+    createTopic("LeftFollower" + "/Voltage", () -> robotContainer.drivetrain.driveLeftMotors[1].getMotorOutputVoltage());
+
     createTopic("ClimberSensorVelocity" + "/Velocity", () -> robotContainer.everybotClimber.climberMaster.getSelectedSensorVelocity());
     createTopic("ClimberTrajVelocity" + "/Velocity", () -> robotContainer.everybotClimber.climberMaster.getActiveTrajectoryVelocity());
     createTopic("ClimberSensorPosition" + "/Position", () -> robotContainer.everybotClimber.climberMaster.getSelectedSensorPosition());
     createTopic("ClimberTrajPosition" + "/Position", () -> robotContainer.everybotClimber.climberMaster.getActiveTrajectoryPosition());
     createTopic("ClimberOutputVoltage" + "/Voltage", () -> robotContainer.everybotClimber.climberMaster.getMotorOutputVoltage());
+
     createTopic("Elevator Position" + "/Position", () -> robotContainer.elevator.elevator.getSelectedSensorPosition());
     createTopic("Elevator Voltage " + "/Voltage", () -> robotContainer.elevator.elevator.getMotorOutputVoltage());
+    
     createTopic("Arm Position" + "/Position", () -> robotContainer.arm.arm.getSelectedSensorPosition());
     createTopic("Arm Voltage" + "/Voltage", () -> robotContainer.arm.arm.getMotorOutputVoltage());
     

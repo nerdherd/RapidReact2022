@@ -1,7 +1,4 @@
 package frc.robot.subsystems.climber;
-
-import java.util.HashMap;
-
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
@@ -18,8 +15,8 @@ public class Arm extends SubsystemBase {
 
     public TalonSRX arm;
     
-    public DoubleSolenoid climberShifter; // Channels 7 and 6
-    public DoubleSolenoid hookShifter; // Channels 2 and 5
+    private DoubleSolenoid climberPiston; // Channels 7 and 6
+    public DoubleSolenoid hookPiston; // Channels 2 and 5
 
     private boolean climberShifted = true;
     
@@ -33,8 +30,10 @@ public class Arm extends SubsystemBase {
         arm.config_kD(0, ClimberConstants.kArmkD);
         arm.config_kF(0, ClimberConstants.kArmkF);
 
-        climberShifter = new DoubleSolenoid(3, PneumaticsModuleType.CTREPCM, DriveConstants.kClimberShifterForwardID, DriveConstants.kClimberShifterReverseID);
-        hookShifter = new DoubleSolenoid(3, PneumaticsModuleType.CTREPCM, DriveConstants.kHookShifterForwardID, DriveConstants.kHookShifterReverseID);
+        climberPiston = new DoubleSolenoid(3, PneumaticsModuleType.CTREPCM, DriveConstants.kClimberPistonForwardID, DriveConstants.kClimberPistonReverseID);
+        hookPiston = new DoubleSolenoid(3, PneumaticsModuleType.CTREPCM, DriveConstants.kHookPistonForwardID, DriveConstants.kHookPistonReverseID);
+
+        climberPiston.set(Value.kForward);
     }
 
     public void setPositionMotionMagic(double ticks) {
@@ -73,16 +72,21 @@ public class Arm extends SubsystemBase {
     /** Toggle the climber arm hook */
     public void toggleClimberArmHook() {
         climberShifted = !climberShifted;
-        climberShifter.set(climberShifted ? Value.kReverse : Value.kForward);
+        climberPiston.set(climberShifted ? Value.kReverse : Value.kForward);
+    }
+
+    public void toggleClimberHook() {
+        climberPiston.toggle();
     }
 
     /** Shift the climber hooks */
     public void enableClimberHooks() {
-        hookShifter.set(Value.kForward);
+        hookPiston.set(Value.kForward);
     }
 
     /** Unshift the climber hooks */
     public void disableClimberHooks() {
-        hookShifter.set(Value.kReverse);
+        hookPiston.set(Value.kReverse);
     }
+
 }

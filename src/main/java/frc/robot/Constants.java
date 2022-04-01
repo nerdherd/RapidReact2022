@@ -21,10 +21,10 @@ public final class Constants {
 
         public static final int kDriveShifterForwardID = 0;
         public static final int kDriveShifterReverseID = 7;
-        public static final int kClimberShifterForwardID = 2;
-        public static final int kClimberShifterReverseID = 3;
-        public static final int kHookShifterForwardID = 1;
-        public static final int kHookShifterReverseID = 6;
+        public static final int kClimberPistonForwardID = 2;
+        public static final int kClimberPistonReverseID = 3;
+        public static final int kHookPistonForwardID = 1;
+        public static final int kHookPistonReverseID = 6;
     }
 
     public static final class EverybotConstants {

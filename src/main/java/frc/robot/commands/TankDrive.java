@@ -35,8 +35,8 @@ public class TankDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double prevLeftOutput = drivetrain.driveMotors[1].getMotorOutputPercent();
-    double prevRightOutput = drivetrain.driveMotors[0].getMotorOutputPercent();
+    double prevLeftOutput = drivetrain.driveLeftMotors[0].getMotorOutputPercent();
+    double prevRightOutput = drivetrain.driveRightMotors[0].getMotorOutputPercent();
 
     double leftInput = leftInputSupplier.getAsDouble();
     double rightInput = rightInputSupplier.getAsDouble();

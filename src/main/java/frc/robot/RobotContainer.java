@@ -4,7 +4,6 @@ import edu.wpi.first.wpilibj2.command.CommandGroupBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -16,12 +15,10 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.sensors.CANCoderStatusFrame;
 
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.PS4Controller.Button;
-import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.climber.Arm;
 import frc.robot.subsystems.climber.Elevator;
@@ -69,7 +66,6 @@ public class RobotContainer {
 
         ps4Controller = new PS4Controller(0);
         ps4Controller2 = new PS4Controller(1);
-        drivetrain.compressor.enableDigital();
 
 
         dCircle = new JoystickButton(ps4Controller, Button.kCircle.value); // Actually square button
@@ -132,62 +128,56 @@ public class RobotContainer {
 
             // ====================== SHIFTING FUNCTIONS ====================== //
 
-            dTriangle.whenPressed(new InstantCommand(() ->
-                drivetrain.setDriveShifterReverse()));
+            dTriangle.whenPressed(new InstantCommand(() ->{
+                drivetrain.setDriveShifterReverse();
+                SmartDashboard.putString(" Button State ", "Driver Triangle");
+            }));
 
-            dTriangle.whenPressed(new InstantCommand(() ->
-                SmartDashboard.putString(" Button State ", "Driver Triangle")));
-
-            dCircle.whenPressed(new InstantCommand(() ->
-                drivetrain.setDriveShifterForward()));
-
-            dCircle.whenPressed(new InstantCommand(() ->
-                SmartDashboard.putString(" Button State ", "Driver Circle")));
-
-            oCross.toggleWhenPressed(new StartEndCommand(
-                    drivetrain::setClimberShifterForward, 
-                    drivetrain::setClimberShifterReverse, 
-                    drivetrain));
+            dCircle.whenPressed(new InstantCommand(() ->{
+                drivetrain.setDriveShifterForward();
+                SmartDashboard.putString(" Button State ", "Driver Circle");
+            }));
             
-            oCross.whenPressed(new InstantCommand(() ->
-                SmartDashboard.putString(" Button State ", "Operator Cross")));
+            oCross.whenPressed(new InstantCommand(() -> {
+                arm.toggleClimberHook();
+                SmartDashboard.putString(" Button State ", "Operator Cross");
+            }));
 
             if (ps4Controller2.getLeftY() > ClimberConstants.kOperatorDeadband) {
-                drivetrain.hookShifter.set(Value.kForward);
+                arm.hookPiston.set(Value.kForward);
             } else if (ps4Controller2.getLeftY() < ClimberConstants.kOperatorDeadband) {
-                drivetrain.hookShifter.set(Value.kReverse);
+                arm.hookPiston.set(Value.kReverse);
             }
 
         } 
         
         else if (climberChooser.getSelected() == Climber.LOW) {
-            // Actually Cross
-            if (ps4Controller2.getSquareButtonPressed()) {
+            oSquare.whenPressed(new InstantCommand(() -> {
                 everybotClimber.moveClimber(1 * EverybotConstants.kTicksToLowRung);
                 SmartDashboard.putBoolean("Moving to low rung", true);
                 SmartDashboard.putString(" Button State ", " PS1 Square ");
-            }
+            }));
             // Actually Circle
-            if (ps4Controller2.getCrossButtonPressed()) {
+            oCross.whenPressed(new InstantCommand(() -> {
                 everybotClimber.moveClimber(1 * EverybotConstants.kTicksToClimbLowRung);
                 SmartDashboard.putBoolean("Climbing onto low rung", true);
                 SmartDashboard.putString(" Button State ", " PS1 Cross ");
-            }
+            }));
         }
 
         // ====================== DRIVE FUNCTIONS ====================== //
 
         double leftInput = ps4Controller.getLeftY();
         double rightInput = ps4Controller.getRightY();
-        double prevLeftOutput = drivetrain.driveMotors[1].getMotorOutputPercent();
-        double prevRightOutput = drivetrain.driveMotors[0].getMotorOutputPercent();
+        double prevLeftOutput = drivetrain.driveLeftMotors[0].getMotorOutputPercent();
+        double prevRightOutput = drivetrain.driveRightMotors[0].getMotorOutputPercent();
 
         // Low pass filter, output = (alpha * intended value) + (1-alpha) * previous value
         double leftOutput = (DriveConstants.kDriveAlpha * leftInput) + (DriveConstants.kDriveOneMinusAlpha * prevLeftOutput);
         double rightOutput = (DriveConstants.kDriveAlpha * rightInput) + (DriveConstants.kDriveOneMinusAlpha * prevRightOutput);
 
-        drivetrain.driveMotors[1].set(ControlMode.PercentOutput, leftOutput);
-        drivetrain.driveMotors[0].set(ControlMode.PercentOutput, rightOutput);
+        drivetrain.driveLeftMotors[0].set(ControlMode.PercentOutput, leftOutput);
+        drivetrain.driveRightMotors[0].set(ControlMode.PercentOutput, rightOutput);
         
     }
 
@@ -257,8 +247,9 @@ public class RobotContainer {
     }
 
     public void setNeutralModes() {
-        for (int i = 0; i > drivetrain.driveMotors.length; i++) {
-            drivetrain.driveMotors[i].setNeutralMode(NeutralMode.Coast);
+        for (int i = 0; i > drivetrain.driveLeftMotors.length; i++) {
+            drivetrain.driveLeftMotors[i].setNeutralMode(NeutralMode.Coast);
+            drivetrain.driveRightMotors[i].setNeutralMode(NeutralMode.Coast);
         }
 
         elevator.elevator.setNeutralMode(NeutralMode.Brake);
