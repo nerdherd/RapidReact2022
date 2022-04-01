@@ -79,6 +79,18 @@ public final class Constants {
         public static final double kArmAngleOffset = 42;
         public static final double kArmAngleLength = 1.0 / 4096 * 360 * 29;
 
+        public static final double kElevatorkP = 2.0; //0.5
+        public static final double kElevatorkI = 0;
+        public static final double kElevatorkD = 0.6; //0.6 
+        public static final double kElevatorkF = 2.82; // 2.82
+
+        public static final double kElevatorCruiseVelocity = 250;
+        public static final double kElevatorMotionAcceleration = 125;
+        public static final double kElevatorMaxVelocity = 575;
+        public static final double kElevatorMaxAcceleration = 575;
+        public static final double kElevatorDeadband = 0.004;
+        public static final double kElevatorStaticFrictionDeadband = 5.0;
+
         public static final double kTicksToRungAngle = 200; //Actual ticks 620, not resetting encoder position properly
         public static final double kTicksToClearRung = 250;
         public static final double kTicksToVertical = 60;
@@ -93,5 +105,7 @@ public final class Constants {
         public static final double kOperatorDeadband = 0.007874;
         public static final double kOperatorAlpha = 0.11765;
         public static final double kOperatorOneMinusAlpha = 0.88235;
+
+        public static final double kOperatorDebounce = 0.25;
     }
 }

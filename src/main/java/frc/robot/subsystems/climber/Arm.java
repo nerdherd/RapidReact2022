@@ -23,6 +23,7 @@ public class Arm extends SubsystemBase {
     public Arm() {
         arm = new TalonSRX(ClimberConstants.kArmTalonID);
         arm.setInverted(true);
+        
         arm.configMotionAcceleration(ClimberConstants.kArmMotionAcceleration);
         arm.configMotionCruiseVelocity(ClimberConstants.kArmCruiseVelocity);
         arm.configNeutralDeadband(ClimberConstants.kArmDeadband);

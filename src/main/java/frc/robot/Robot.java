@@ -27,16 +27,14 @@ public class Robot extends TimedRobot {
   
   @Override
   public void teleopInit() { 
-
+    robotContainer.configureButtonBindings();
   }
 
 
   @Override
   public void teleopPeriodic() { 
-    
     robotContainer.reportToSmartDashboard();
-    robotContainer.configureButtonBindings();
-    
+    robotContainer.joystickControls();
     CommandScheduler.getInstance().run();
   }
 
@@ -54,10 +52,6 @@ public class Robot extends TimedRobot {
   @Override
   public void autonomousPeriodic() {
     CommandScheduler.getInstance().run();
-
-
-    // -21560 to reach mid 
-    // -2675 to go down & latch
   }
 
   @Override

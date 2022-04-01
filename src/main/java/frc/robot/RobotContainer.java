@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.StartEndCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -16,8 +15,8 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
+import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.wpilibj.PS4Controller;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.PS4Controller.Button;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.climber.Arm;
@@ -26,13 +25,15 @@ import frc.robot.subsystems.climber.EverybotClimber;
 import frc.robot.Constants.ClimberConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.EverybotConstants;
+import frc.robot.commands.ToggleHookPiston;
 
 // import frc.robot.subsystems.climber.ArmMotionMagic;
 public class RobotContainer {
 
     public enum Climber {
         LOW,
-        TRAVERSAL;
+        TRAVERSAL,
+        TRAVERSAL_MOTIONMAGIC;
     }
 
     public Drivetrain drivetrain = new Drivetrain();
@@ -58,7 +59,6 @@ public class RobotContainer {
     public JoystickButton oL1;
     public JoystickButton oL2;
     public JoystickButton oR1;
-
 
     public RobotContainer() {
         SmartDashboard.putBoolean("arm moving", false);
@@ -88,7 +88,7 @@ public class RobotContainer {
 
             // ====================== ELEVATOR FUNCTIONS ====================== //   
 
-            oSquare.whileActiveContinuous(new InstantCommand(() ->
+            oSquare.whileActiveContinuous(new InstantCommand(() -> 
                 elevator.moveElevatorDown()));
             
             oSquare.whenPressed(new InstantCommand(() ->
@@ -106,50 +106,32 @@ public class RobotContainer {
             oTriangle.whenPressed(new InstantCommand(() ->
                 SmartDashboard.putString("Button State ", "Operator Circle")));
 
-            // ====================== ARM FUNCTIONS ====================== //
-
-            oL1.whenPressed(new InstantCommand(() ->{
-                arm.setPositionMotionMagic(ClimberConstants.kTicksToRungAngle);
-                SmartDashboard.putString("Button State ", "Operator L1");
-            }));
-
-            oL2.whenPressed(new InstantCommand(() ->{
-                arm.setPositionMotionMagic(ClimberConstants.kTicksToClearRung);
-                SmartDashboard.putString("Button State ", "Operator L1");
-            }));
-            
-            oR1.whenPressed(new InstantCommand(() ->{
-                arm.setPositionMotionMagic(ClimberConstants.kTicksToVertical);
-                SmartDashboard.putString("Button State ", "Operator L1");
-            }));
-    
-            double armInput = -ps4Controller2.getRightY();
-            arm.arm.set(ControlMode.PercentOutput, armInput * 0.25, DemandType.ArbitraryFeedForward, -1 * arm.FF());
-
-            // ====================== SHIFTING FUNCTIONS ====================== //
-
-            dTriangle.whenPressed(new InstantCommand(() ->{
-                drivetrain.setDriveShifterReverse();
-                SmartDashboard.putString(" Button State ", "Driver Triangle");
-            }));
-
-            dCircle.whenPressed(new InstantCommand(() ->{
-                drivetrain.setDriveShifterForward();
-                SmartDashboard.putString(" Button State ", "Driver Circle");
-            }));
-            
-            oCross.whenPressed(new InstantCommand(() -> {
-                arm.toggleClimberHook();
-                SmartDashboard.putString(" Button State ", "Operator Cross");
-            }));
-
-            if (ps4Controller2.getLeftY() > ClimberConstants.kOperatorDeadband) {
-                arm.hookPiston.set(Value.kForward);
-            } else if (ps4Controller2.getLeftY() < ClimberConstants.kOperatorDeadband) {
-                arm.hookPiston.set(Value.kReverse);
-            }
-
         } 
+
+        else if (climberChooser.getSelected() == Climber.TRAVERSAL_MOTIONMAGIC) {
+             // ====================== ARM FUNCTIONS ====================== //
+
+            oCross.whenPressed(new InstantCommand(() -> {
+                arm.setPositionMotionMagic(ClimberConstants.kTicksToRungAngle);
+                SmartDashboard.putString("Button State ", "Operator Cross");
+                SmartDashboard.putString(" Running Command ", " Rotate Arm Pos 1");
+                SmartDashboard.putNumber(" Target Position", ClimberConstants.kTicksToRungAngle);
+            }));
+
+            oSquare.whenPressed(new InstantCommand(() -> {
+                arm.setPositionMotionMagic(ClimberConstants.kTicksToClearRung);
+                SmartDashboard.putString("Button State ", "Operator Square");
+                SmartDashboard.putString(" Running Command ", " Rotate Arm Pos 2");
+                SmartDashboard.putNumber(" Target Position", ClimberConstants.kTicksToClearRung);
+            }));
+
+            oSquare.whenPressed(new InstantCommand(() -> {
+                arm.setPositionMotionMagic(ClimberConstants.kTicksToVertical);
+                SmartDashboard.putString("Button State ", "Operator Cross");
+                SmartDashboard.putString(" Running Command ", "Rotate Arm Vertical");
+                SmartDashboard.putNumber(" Target Position ", ClimberConstants.kTicksToVertical);
+            }));
+        }
         
         else if (climberChooser.getSelected() == Climber.LOW) {
             oSquare.whenPressed(new InstantCommand(() -> {
@@ -157,6 +139,7 @@ public class RobotContainer {
                 SmartDashboard.putBoolean("Moving to low rung", true);
                 SmartDashboard.putString(" Button State ", " PS1 Square ");
             }));
+
             // Actually Circle
             oCross.whenPressed(new InstantCommand(() -> {
                 everybotClimber.moveClimber(1 * EverybotConstants.kTicksToClimbLowRung);
@@ -165,6 +148,27 @@ public class RobotContainer {
             }));
         }
 
+        // ====================== SHIFTING FUNCTIONS ====================== //
+
+        dTriangle.debounce(ClimberConstants.kOperatorDebounce, DebounceType.kBoth).whenActive(new InstantCommand(() ->{
+            drivetrain.setDriveShifterReverse();
+            SmartDashboard.putString(" Button State ", "Driver Triangle");
+        }));
+
+        dCircle.debounce(ClimberConstants.kOperatorDebounce, DebounceType.kBoth).whenActive(new InstantCommand(() ->{
+            drivetrain.setDriveShifterForward();
+            SmartDashboard.putString(" Button State ", "Driver Circle");
+        }));
+        
+        oCross.debounce(ClimberConstants.kOperatorDebounce, DebounceType.kBoth).whenActive(new InstantCommand(() -> {
+            arm.toggleClimberHook();
+            SmartDashboard.putString(" Button State ", "Operator Cross");
+        }));
+
+        new ToggleHookPiston(ClimberConstants.kOperatorDeadband, ps4Controller2, arm);
+    }
+
+    public void joystickControls() {
         // ====================== DRIVE FUNCTIONS ====================== //
 
         double leftInput = ps4Controller.getLeftY();
@@ -178,7 +182,11 @@ public class RobotContainer {
 
         drivetrain.driveLeftMotors[0].set(ControlMode.PercentOutput, leftOutput);
         drivetrain.driveRightMotors[0].set(ControlMode.PercentOutput, rightOutput);
-        
+
+        // ====================== CLIMBER FUNCTIONS ====================== //
+
+        double armInput = -ps4Controller2.getRightY();
+        arm.arm.set(ControlMode.PercentOutput, armInput * 0.25, DemandType.ArbitraryFeedForward, -1 * arm.FF());
     }
 
     
@@ -214,6 +222,7 @@ public class RobotContainer {
 
         climberChooser.addOption("Select Low climb", Climber.LOW);
         climberChooser.setDefaultOption("Select Traversal climb", Climber.TRAVERSAL);
+        climberChooser.addOption("Select Traversal climb (Motion Magic)", Climber.TRAVERSAL_MOTIONMAGIC);
         
         SmartDashboard.putData(climberChooser);
 

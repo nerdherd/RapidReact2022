@@ -8,10 +8,18 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ClimberConstants;
 
 public class Elevator extends SubsystemBase {
-    public TalonSRX elevator = new TalonSRX(ClimberConstants.kElevatorTalonID);
+    public TalonSRX elevator;
 
     public Elevator() {
+        elevator = new TalonSRX(ClimberConstants.kElevatorTalonID);
         elevator.setInverted(true);
+
+        elevator.configMotionAcceleration(ClimberConstants.kElevatorMotionAcceleration);
+        elevator.configMotionCruiseVelocity(ClimberConstants.kElevatorCruiseVelocity);
+        elevator.configNeutralDeadband(ClimberConstants.kElevatorDeadband);
+        elevator.config_kP(0, ClimberConstants.kElevatorkP);
+        elevator.config_kD(0, ClimberConstants.kElevatorkD);
+        elevator.config_kF(0, ClimberConstants.kElevatorkF);
     }
     
     public void moveElevator(double speed) {
@@ -44,7 +52,11 @@ public class Elevator extends SubsystemBase {
             elevator.set(ControlMode.PercentOutput, 0);
         }
     }
-    
+
+    public void setPositionMotionMagic(double ticks){
+        elevator.set(ControlMode.MotionMagic, ticks);
+    }
+
     public void resetElevatorEncoder() {
         elevator.setSelectedSensorPosition(0);
     }
