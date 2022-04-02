@@ -106,6 +106,7 @@ public final class Constants {
         public static final double kOperatorAlpha = 0.11765;
         public static final double kOperatorOneMinusAlpha = 0.88235;
 
+        public static final double kDriverDebounce = 0.1;
         public static final double kOperatorDebounce = 0.25;
     }
 }

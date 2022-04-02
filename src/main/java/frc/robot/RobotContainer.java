@@ -3,9 +3,6 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.CommandGroupBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -26,6 +23,8 @@ import frc.robot.Constants.ClimberConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.EverybotConstants;
 import frc.robot.commands.ToggleHookPiston;
+import frc.robot.commands.autos.DriveWithDelay;
+import frc.robot.commands.autos.DriveWithoutDelay;
 
 // import frc.robot.subsystems.climber.ArmMotionMagic;
 public class RobotContainer {
@@ -115,21 +114,42 @@ public class RobotContainer {
                 arm.setPositionMotionMagic(ClimberConstants.kTicksToRungAngle);
                 SmartDashboard.putString("Button State ", "Operator Cross");
                 SmartDashboard.putString(" Running Command ", " Rotate Arm Pos 1");
-                SmartDashboard.putNumber(" Target Position", ClimberConstants.kTicksToRungAngle);
+                SmartDashboard.putNumber(" Arm Target Position", ClimberConstants.kTicksToRungAngle);
             }));
 
             oSquare.whenPressed(new InstantCommand(() -> {
                 arm.setPositionMotionMagic(ClimberConstants.kTicksToClearRung);
                 SmartDashboard.putString("Button State ", "Operator Square");
                 SmartDashboard.putString(" Running Command ", " Rotate Arm Pos 2");
-                SmartDashboard.putNumber(" Target Position", ClimberConstants.kTicksToClearRung);
+                SmartDashboard.putNumber(" Arm Target Position", ClimberConstants.kTicksToClearRung);
             }));
 
-            oSquare.whenPressed(new InstantCommand(() -> {
+            oTriangle.whenPressed(new InstantCommand(() -> {
                 arm.setPositionMotionMagic(ClimberConstants.kTicksToVertical);
                 SmartDashboard.putString("Button State ", "Operator Cross");
                 SmartDashboard.putString(" Running Command ", "Rotate Arm Vertical");
-                SmartDashboard.putNumber(" Target Position ", ClimberConstants.kTicksToVertical);
+                SmartDashboard.putNumber(" Arm Target Position ", ClimberConstants.kTicksToVertical);
+            }));
+
+            oCircle.whenPressed(new InstantCommand(() -> {
+                elevator.setPositionMotionMagic(ClimberConstants.kElevatorTicksUp);
+                SmartDashboard.putString(" Button State ", "Operator Circle ");
+                SmartDashboard.putString(" Running Command ", "Elevator Extend Low Pos");
+                SmartDashboard.putNumber(" Elevator Target Position", ClimberConstants.kElevatorTicksUp);
+            }));
+
+            oL1.whenPressed(new InstantCommand(() -> {
+                elevator.setPositionMotionMagic(ClimberConstants.kElevatorTicksExtend);
+                SmartDashboard.putString(" Button State ", "Operator L1");
+                SmartDashboard.putString(" Running Command ", "Elevator Extend High Pos");
+                SmartDashboard.putNumber(" Elevator Target Position ", ClimberConstants.kElevatorTicksExtend);
+            }));
+
+            oR1.whenPressed(new InstantCommand(() -> {
+                elevator.setPositionMotionMagic(ClimberConstants.kElevatorTicksDown);
+                SmartDashboard.putString(" Button State ", "Operator L1");
+                SmartDashboard.putString(" Running Command ", "Elevator Retract Origin");
+                SmartDashboard.putNumber(" Elevator Target Position ", ClimberConstants.kElevatorTicksDown);
             }));
         }
         
@@ -150,12 +170,12 @@ public class RobotContainer {
 
         // ====================== SHIFTING FUNCTIONS ====================== //
 
-        dTriangle.debounce(ClimberConstants.kOperatorDebounce, DebounceType.kBoth).whenActive(new InstantCommand(() ->{
+        dTriangle.debounce(ClimberConstants.kDriverDebounce, DebounceType.kBoth).whenActive(new InstantCommand(() ->{
             drivetrain.setDriveShifterReverse();
             SmartDashboard.putString(" Button State ", "Driver Triangle");
         }));
 
-        dCircle.debounce(ClimberConstants.kOperatorDebounce, DebounceType.kBoth).whenActive(new InstantCommand(() ->{
+        dCircle.debounce(ClimberConstants.kDriverDebounce, DebounceType.kBoth).whenActive(new InstantCommand(() ->{
             drivetrain.setDriveShifterForward();
             SmartDashboard.putString(" Button State ", "Driver Circle");
         }));
@@ -194,26 +214,11 @@ public class RobotContainer {
         autoChooser = new SendableChooser<CommandGroupBase>();
 
         autoChooser.setDefaultOption("leave tarmac :)", 
-            new SequentialCommandGroup(
-                // drive for 1 second with power 0.5, then set power zero
-                new ParallelDeadlineGroup(
-                    new WaitCommand(1), 
-                    new InstantCommand(() -> drivetrain.setPower(0.5, 0.5))
-                ), 
-                new InstantCommand(() -> drivetrain.setPower(0, 0))
-            )
+            new DriveWithoutDelay(drivetrain)
         );
         
         autoChooser.addOption("delay 5s then taxi",
-            new SequentialCommandGroup(
-                new WaitCommand(5),
-                new ParallelDeadlineGroup(
-                    new WaitCommand(1), 
-                    new InstantCommand(() -> drivetrain.setPower(0.5, 0.5))
-                ),
-                new InstantCommand(() -> drivetrain.setPower(0, 0))
-            )
-            
+            new DriveWithDelay(drivetrain)
         );
 
         SmartDashboard.putData(autoChooser);
