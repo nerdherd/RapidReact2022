@@ -7,11 +7,11 @@ public final class Constants {
         public static final double kDriveOneMinusAlpha = 0.88235;
 
         public static final int kRightMasterTalonID = 16;
-        public static final int kRightSlaveTTalonID = 17;
-        public static final int kRightSlaveBTalonID = 28; //new
+        public static final int kRightSlaveBTalonID = 17;
+        public static final int kRightSlaveTTalonID = 18; //new
         public static final int kLeftMasterTalonID = 31;
-        public static final int kLeftSlaveTTalonID = 30;
-        public static final int kLeftSlaveBTalonID = 19; //new
+        public static final int kLeftSlaveBTalonID = 30;
+        public static final int kLeftSlaveTTalonID = 29; //new
 
         public static final int kHooksMasterTalonID = 20; //new
         public static final int kHooksSlaveTalonID = 27; //new
@@ -57,15 +57,15 @@ public final class Constants {
     }
     
     public static final class ClimberConstants {
-        public static final int kArmTalonID = 15;
-        public static final int kElevatorTalonID = 7;
+        public static final int kArmTalonID = 28;
+        public static final int kElevatorTalonID = 19;
 
         public static final double kArmkP = 2.0; //0.5
         public static final double kArmkI = 0;
         public static final double kArmkD = 0.6; //0.6 
         public static final double kArmkF = 2.82; // 2.82
 
-        public static final double kArmGravityFF = 0.41; //0.11 voltage calc, 0.41 phys calc
+        public static final double kArmGravityFF = 0.36; //0.11 voltage calc, 0.41 phys calc
 
         public static final double kArmStaticFF = 0.0;
 
@@ -79,10 +79,10 @@ public final class Constants {
         public static final double kArmAngleOffset = 42;
         public static final double kArmAngleLength = 1.0 / 4096 * 360 * 29;
 
-        public static final double kElevatorkP = 2.0; //0.5
+        public static final double kElevatorkP = 1.0; //0.5
         public static final double kElevatorkI = 0;
-        public static final double kElevatorkD = 0.6; //0.6 
-        public static final double kElevatorkF = 2.82; // 2.82
+        public static final double kElevatorkD = 0.0002; //0.6 
+        public static final double kElevatorFF = 0; // 2.82
 
         public static final double kElevatorCruiseVelocity = 250;
         public static final double kElevatorMotionAcceleration = 125;
@@ -96,9 +96,9 @@ public final class Constants {
         public static final double kTicksToVertical = 60;
         public static final double kArmTicksDownSoftLimit = 330;
         public static final double kArmTicksUpSoftLimit = 0;
-        public static final double kElevatorTicksUp = 22000;
-        public static final double kElevatorTicksExtend = 23000;
-        public static final double kElevatorTicksDown = 2000;
+        public static final double kElevatorTicksUp = 290000;
+        public static final double kElevatorTicksExtend = 290000;
+        public static final double kElevatorTicksDown = 1620;
 
         public static final double kSoftLimitTicks = 20000;
 
