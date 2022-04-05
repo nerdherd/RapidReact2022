@@ -1,5 +1,6 @@
 package frc.robot.subsystems.climber;
 
+import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
@@ -9,14 +10,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.ClimberConstants;
 
 public class Elevator {
-    public TalonSRX elevator = new TalonSRX(ClimberConstants.kElevatorTalonID);
+    public TalonFX elevator = new TalonFX(ClimberConstants.kElevatorTalonID);
 
     private static double elevatorKp = 1.0;
     private static double elevatorKd = 0.0002;
     private static double elevatorFF = 0;
 
     public Elevator() {
-        elevator.setInverted(true);
+        elevator.setInverted(false);
     }
     
     public void moveElevator(double speed) {

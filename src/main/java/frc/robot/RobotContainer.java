@@ -92,7 +92,7 @@ public class RobotContainer {
             // Actually Cross
             if (ps4Controller2.getSquareButton()) {
                 if (elevator.elevator.getSelectedSensorPosition() > ClimberConstants.kElevatorTicksDown ){
-                    elevator.elevator.set(ControlMode.PercentOutput, -0.75);
+                    elevator.elevator.set(ControlMode.PercentOutput, -0.5);
                     SmartDashboard.putString(" Running Command ", "Elevator Down ");
                 } else if (elevator.elevator.getSelectedSensorPosition() <= ClimberConstants.kElevatorTicksDown) {
                     elevator.elevator.set(ControlMode.PercentOutput, 0);

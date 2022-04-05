@@ -85,9 +85,9 @@ public final class Constants {
         public static final double kTicksToVertical = 60;
         public static final double kArmTicksDownSoftLimit = 330;
         public static final double kArmTicksUpSoftLimit = 0;
-        public static final double kElevatorTicksUp = 6674600;
-        public static final double kElevatorTicksExtend = 6674600;
-        public static final double kElevatorTicksDown = 32400;
+        public static final double kElevatorTicksUp = 290000;
+        public static final double kElevatorTicksExtend = 290000;
+        public static final double kElevatorTicksDown = 1620;
 
         public static final double kSoftLimitTicks = 20000;
 
