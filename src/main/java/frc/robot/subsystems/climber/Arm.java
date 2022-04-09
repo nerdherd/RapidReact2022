@@ -46,7 +46,7 @@ public class Arm extends SubsystemBase {
     }
 
     public void armDefault() {
-        m_arm.set(ControlMode.PercentOutput, 0);
+        m_arm.set(ControlMode.PercentOutput, 0, DemandType.ArbitraryFeedForward, FF());
     }
 
     public void setPositionMotionMagic(double ticks) {

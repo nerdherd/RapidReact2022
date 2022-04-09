@@ -270,14 +270,14 @@ public class RobotContainer {
 
     public void initDefaultCommands() {
         elevator.initDefaultCommand();
+        arm.initDefaultCommand();
+        everybotClimber.initDefaultCommand();
     }
 
     public void reportToSmartDashboard() {
-
         arm.reportToSmartDashboard();
         elevator.reportToSmartDashboard();
         SmartDashboard.putBoolean(" Triangle Button Held ", ps4Controller2.getTriangleButton());
         SmartDashboard.putNumber(" Left Operator Y Axis ", ps4Controller2.getLeftY());
-
     }
 }

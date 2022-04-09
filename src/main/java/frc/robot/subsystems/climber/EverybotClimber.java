@@ -37,6 +37,10 @@ public class EverybotClimber extends SubsystemBase {
         SmartDashboard.putBoolean("Climbing onto low rung", false);
     }
 
+    public void initDefaultCommand() {
+        m_climberMaster.set(ControlMode.PercentOutput, 0);
+    }
+
     public void moveClimber(double ticksToTarget) {
         m_climberMaster.set(ControlMode.MotionMagic, m_climberMaster.getSelectedSensorPosition() + ticksToTarget);
     } 
