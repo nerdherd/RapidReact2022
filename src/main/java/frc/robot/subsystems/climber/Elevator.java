@@ -2,71 +2,92 @@ package frc.robot.subsystems.climber;
 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Log;
 import frc.robot.Constants.ClimberConstants;
 
 public class Elevator extends SubsystemBase {
-    public TalonSRX elevator;
+    private TalonSRX m_elevator;
 
     public Elevator() {
-        elevator = new TalonSRX(ClimberConstants.kElevatorTalonID);
-        elevator.setInverted(false);
+        m_elevator = new TalonSRX(ClimberConstants.kElevatorTalonID);
+        m_elevator.setInverted(false);
 
-        elevator.configMotionAcceleration(ClimberConstants.kElevatorMotionAcceleration);
-        elevator.configMotionCruiseVelocity(ClimberConstants.kElevatorCruiseVelocity);
-        elevator.configNeutralDeadband(ClimberConstants.kElevatorDeadband);
-        elevator.config_kP(0, ClimberConstants.kElevatorkP);
-        elevator.config_kD(0, ClimberConstants.kElevatorkD);
+        m_elevator.configMotionAcceleration(ClimberConstants.kElevatorMotionAcceleration);
+        m_elevator.configMotionCruiseVelocity(ClimberConstants.kElevatorCruiseVelocity);
+        m_elevator.configNeutralDeadband(ClimberConstants.kElevatorDeadband);
+        m_elevator.config_kP(0, ClimberConstants.kElevatorkP);
+        m_elevator.config_kD(0, ClimberConstants.kElevatorkD);
     }
 
     public void initDefaultCommand() { 
         setDefaultCommand(new InstantCommand(() -> 
-        moveElevator(0)));
+        elevatorDefault()));
+    }
+    
+    public void elevatorDefault() {
+        m_elevator.set(ControlMode.PercentOutput, 0);
     }
     
     public void moveElevator(double speed) {
-        elevator.set(ControlMode.PercentOutput, speed);
+        m_elevator.set(ControlMode.PercentOutput, speed);
     }
 
     public void moveElevatorUp() {
-        if (elevator.getSelectedSensorPosition() < ClimberConstants.kElevatorTicksUp) {
-            elevator.set(ControlMode.PercentOutput, 0.32);
+        if (m_elevator.getSelectedSensorPosition() < ClimberConstants.kElevatorTicksUp) {
+            m_elevator.set(ControlMode.PercentOutput, 0.32);
             SmartDashboard.putString(" Running Command ", "Elevator Up ");
-        } else if (elevator.getSelectedSensorPosition() > ClimberConstants.kElevatorTicksUp) {
-            elevator.set(ControlMode.PercentOutput, 0);
+        } else if (m_elevator.getSelectedSensorPosition() > ClimberConstants.kElevatorTicksUp) {
+            m_elevator.set(ControlMode.PercentOutput, 0);
         }
     }
 
     public void moveElevatorExtend() {
-        if (elevator.getSelectedSensorPosition() < ClimberConstants.kElevatorTicksExtend) {
-            elevator.set(ControlMode.PercentOutput, 0.32);
+        if (m_elevator.getSelectedSensorPosition() < ClimberConstants.kElevatorTicksExtend) {
+            m_elevator.set(ControlMode.PercentOutput, 0.32);
             SmartDashboard.putString(" Running Command ", "Elevator Up Extend ");
-        } else if (elevator.getSelectedSensorPosition() > ClimberConstants.kElevatorTicksExtend) {
-            elevator.set(ControlMode.PercentOutput, 0);
+        } else if (m_elevator.getSelectedSensorPosition() > ClimberConstants.kElevatorTicksExtend) {
+            m_elevator.set(ControlMode.PercentOutput, 0);
         }
     }
 
     public void moveElevatorDown() {
-        if (elevator.getSelectedSensorPosition() > ClimberConstants.kElevatorTicksDown ){
-            elevator.set(ControlMode.PercentOutput, -0.4);
+        if (m_elevator.getSelectedSensorPosition() > ClimberConstants.kElevatorTicksDown ){
+            m_elevator.set(ControlMode.PercentOutput, -0.4);
             SmartDashboard.putString(" Running Command ", "Elevator Down ");
-        } else if (elevator.getSelectedSensorPosition() <= ClimberConstants.kElevatorTicksDown) {
-            elevator.set(ControlMode.PercentOutput, 0);
+        } else if (m_elevator.getSelectedSensorPosition() <= ClimberConstants.kElevatorTicksDown) {
+            m_elevator.set(ControlMode.PercentOutput, 0);
         }
     }
 
     public void setPositionMotionMagic(double ticks){
-        elevator.set(ControlMode.MotionMagic, ticks);
+        m_elevator.set(ControlMode.MotionMagic, ticks);
     }
 
     public void resetElevatorEncoder() {
-        elevator.setSelectedSensorPosition(0);
+        m_elevator.setSelectedSensorPosition(0);
     }
 
-    public double testLog() {
-        return elevator.getSelectedSensorVelocity();
+    public void setNeutralModeBrake() {
+        m_elevator.setNeutralMode(NeutralMode.Brake);
     }
+    
+    public void setNeutralModeCoast() {
+        m_elevator.setNeutralMode(NeutralMode.Coast);
+    }
+
+    public void reportToSmartDashboard(){
+        SmartDashboard.putNumber("Elevator Position", m_elevator.getSelectedSensorPosition());
+        SmartDashboard.putNumber("Elevator Velocity", m_elevator.getSelectedSensorVelocity());
+    }
+
+    public void log() {
+        Log.createTopic("Elevator Position" + ("/Position"), () -> m_elevator.getSelectedSensorPosition());
+        Log.createTopic("Elevator Velocity" + ("/Velocity"), () -> m_elevator.getSelectedSensorVelocity());
+    }
+    
 }

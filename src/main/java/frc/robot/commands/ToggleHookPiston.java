@@ -1,7 +1,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.PS4Controller;
-import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.climber.Arm;
 
@@ -25,9 +24,9 @@ public class ToggleHookPiston extends CommandBase {
     @Override
     public void execute() {
         if (ps4Controller.getLeftY() > deadband) {
-            arm.hookPiston.set(Value.kForward);
+            arm.enableClimberHooks();
         } else if (ps4Controller.getLeftY() < deadband) {
-            arm.hookPiston.set(Value.kReverse);
+            arm.disableClimberHooks();
         }
     }
 

@@ -1,35 +1,38 @@
 package frc.robot.subsystems.climber;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Log;
 import frc.robot.Constants.ClimberConstants;
 import frc.robot.Constants.DriveConstants;
 
 public class Arm extends SubsystemBase {
 
-    public TalonSRX arm;
+    private TalonSRX m_arm;
     
     private DoubleSolenoid climberPiston; // Channels 7 and 6
-    public DoubleSolenoid hookPiston; // Channels 2 and 5
+    private DoubleSolenoid hookPiston; // Channels 2 and 5
 
-    private boolean climberShifted = true;
+    private boolean m_climberShifted = true;
     
     public Arm() {
-        arm = new TalonSRX(ClimberConstants.kArmTalonID);
-        arm.setInverted(true);
+        m_arm = new TalonSRX(ClimberConstants.kArmTalonID);
+        m_arm.setInverted(true);
         
-        arm.configMotionAcceleration(ClimberConstants.kArmMotionAcceleration);
-        arm.configMotionCruiseVelocity(ClimberConstants.kArmCruiseVelocity);
-        arm.configNeutralDeadband(ClimberConstants.kArmDeadband);
-        arm.config_kP(0, ClimberConstants.kArmkP);
-        arm.config_kD(0, ClimberConstants.kArmkD);
-        arm.config_kF(0, ClimberConstants.kArmkF);
+        m_arm.configMotionAcceleration(ClimberConstants.kArmMotionAcceleration);
+        m_arm.configMotionCruiseVelocity(ClimberConstants.kArmCruiseVelocity);
+        m_arm.configNeutralDeadband(ClimberConstants.kArmDeadband);
+        m_arm.config_kP(0, ClimberConstants.kArmkP);
+        m_arm.config_kD(0, ClimberConstants.kArmkD);
+        m_arm.config_kF(0, ClimberConstants.kArmkF);
 
         climberPiston = new DoubleSolenoid(3, PneumaticsModuleType.CTREPCM, DriveConstants.kClimberPistonForwardID, DriveConstants.kClimberPistonReverseID);
         hookPiston = new DoubleSolenoid(3, PneumaticsModuleType.CTREPCM, DriveConstants.kHookPistonForwardID, DriveConstants.kHookPistonReverseID);
@@ -37,20 +40,18 @@ public class Arm extends SubsystemBase {
         climberPiston.set(Value.kForward);
     }
 
-    public void setPositionMotionMagic(double ticks) {
-        arm.set(ControlMode.MotionMagic, ticks, 
-            DemandType.ArbitraryFeedForward, FF());
+    public void initDefaultCommand() {
+        setDefaultCommand(new InstantCommand(() ->
+        armDefault()));
     }
 
-    public void resetClimbEncoder() {
-        arm.setSelectedSensorPosition(0);
-    }  
+    public void armDefault() {
+        m_arm.set(ControlMode.PercentOutput, 0);
+    }
 
-    public void reportToSmartDashboard() {
-        SmartDashboard.putNumber(" Climber Position ", arm.getSelectedSensorPosition());
-        SmartDashboard.putNumber(" Climber Voltage ", arm.getMotorOutputVoltage());
-        SmartDashboard.putNumber(" Climber Voltage ", arm.getSupplyCurrent());
-        SmartDashboard.putNumber(" Climber Angle Conversion ", ticksToAngle());
+    public void setPositionMotionMagic(double ticks) {
+        m_arm.set(ControlMode.MotionMagic, ticks, 
+            DemandType.ArbitraryFeedForward, FF());
     }
 
     public double FF() {
@@ -58,11 +59,11 @@ public class Arm extends SubsystemBase {
     }
 
     public double getPosition() {
-        return arm.getSelectedSensorPosition();
+        return m_arm.getSelectedSensorPosition();
     }
     
     public double ticksToAngle() {
-        return 90 - ((arm.getSelectedSensorPosition() - ClimberConstants.kArmAngleOffset)
+        return 90 - ((m_arm.getSelectedSensorPosition() - ClimberConstants.kArmAngleOffset)
              * 360 / 4096);
     }
 
@@ -70,10 +71,14 @@ public class Arm extends SubsystemBase {
         return deg * Math.PI/180;
     }  
 
-    /** Toggle the climber arm hook */
+    public void joystickArmMovement(double armInput) {
+        m_arm.set(ControlMode.PercentOutput, armInput * 0.25, DemandType.ArbitraryFeedForward, -1 * FF());
+    }
+
+    /** Toggle the climber m_arm hook */
     public void toggleClimberArmHook() {
-        climberShifted = !climberShifted;
-        climberPiston.set(climberShifted ? Value.kReverse : Value.kForward);
+        m_climberShifted = !m_climberShifted;
+        climberPiston.set(m_climberShifted ? Value.kReverse : Value.kForward);
     }
 
     public void toggleClimberHook() {
@@ -88,6 +93,31 @@ public class Arm extends SubsystemBase {
     /** Unshift the climber hooks */
     public void disableClimberHooks() {
         hookPiston.set(Value.kReverse);
+    }
+
+    public void resetArmEncoder() {
+        m_arm.setSelectedSensorPosition(0);
+    }  
+
+    public void setNeutralModeBrake() {
+        m_arm.setNeutralMode(NeutralMode.Brake);
+    }
+
+    public void setNeutralModeCoast() {
+        m_arm.setNeutralMode(NeutralMode.Coast);
+    }
+
+    public void reportToSmartDashboard() {
+        SmartDashboard.putNumber(" Arm Position ", m_arm.getSelectedSensorPosition());
+        SmartDashboard.putNumber(" Arm Velocity ", m_arm.getSelectedSensorVelocity());
+        SmartDashboard.putNumber(" Arm Voltage ", m_arm.getMotorOutputVoltage());
+        SmartDashboard.putNumber(" Arm Current ", m_arm.getSupplyCurrent());
+        SmartDashboard.putNumber(" Climber Angle Conversion ", ticksToAngle());
+    }
+
+    public void log(){
+        Log.createTopic("Arm Position" + "/Position", () -> m_arm.getSelectedSensorPosition());
+        Log.createTopic("Arm Voltage" + "/Voltage", () -> m_arm.getMotorOutputVoltage());
     }
 
 }

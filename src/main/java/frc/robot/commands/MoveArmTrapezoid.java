@@ -6,9 +6,6 @@ package frc.robot.commands;
 
 import java.util.function.DoubleSupplier;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.DemandType;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants.ClimberConstants;
 import frc.robot.subsystems.climber.Arm;
@@ -34,7 +31,7 @@ public class MoveArmTrapezoid extends CommandBase {
   @Override
   public void execute() {
     double armInput = -armInputSupplier.getAsDouble();
-    armTrapezoid.arm.set(ControlMode.PercentOutput, armInput * 0.25, DemandType.ArbitraryFeedForward, -1 * armTrapezoid.FF());
+    armTrapezoid.joystickArmMovement(armInput);
 
     double hooksInput = hooksInputSupplier.getAsDouble();
     if (hooksInput > ClimberConstants.kOperatorDeadband) {

@@ -8,10 +8,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.DemandType;
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-
 import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.PS4Controller.Button;
@@ -193,20 +189,19 @@ public class RobotContainer {
 
         double leftInput = ps4Controller.getLeftY();
         double rightInput = ps4Controller.getRightY();
-        double prevLeftOutput = drivetrain.driveLeftMotors[0].getMotorOutputPercent();
-        double prevRightOutput = drivetrain.driveRightMotors[0].getMotorOutputPercent();
+        double prevLeftOutput = drivetrain.getLeftMotorOutputPercent();
+        double prevRightOutput = drivetrain.getRightMotorOutputPercent();
 
         // Low pass filter, output = (alpha * intended value) + (1-alpha) * previous value
         double leftOutput = (DriveConstants.kDriveAlpha * leftInput) + (DriveConstants.kDriveOneMinusAlpha * prevLeftOutput);
         double rightOutput = (DriveConstants.kDriveAlpha * rightInput) + (DriveConstants.kDriveOneMinusAlpha * prevRightOutput);
 
-        drivetrain.driveLeftMotors[0].set(ControlMode.PercentOutput, leftOutput);
-        drivetrain.driveRightMotors[0].set(ControlMode.PercentOutput, rightOutput);
+        drivetrain.setPower(leftOutput, rightOutput);
 
         // ====================== CLIMBER FUNCTIONS ====================== //
 
         double armInput = -ps4Controller2.getRightY();
-        arm.arm.set(ControlMode.PercentOutput, armInput * 0.25, DemandType.ArbitraryFeedForward, -1 * arm.FF());
+        arm.joystickArmMovement(armInput);
     }
 
     
@@ -232,7 +227,7 @@ public class RobotContainer {
         SmartDashboard.putData(climberChooser);
 
         SmartDashboard.putData(" Reset Climber Encoders ", new InstantCommand(() -> 
-            everybotClimber.climberMaster.setSelectedSensorPosition(0)));
+            everybotClimber.resetEverybotClimberEncoder()));
         
         SmartDashboard.putData(" Move arm Angle ", new InstantCommand(() -> 
             arm.setPositionMotionMagic(ClimberConstants.kTicksToRungAngle)));
@@ -244,7 +239,7 @@ public class RobotContainer {
             arm.setPositionMotionMagic(ClimberConstants.kTicksToClearRung)));
 
         SmartDashboard.putData( "Reset Arm Encoder ", new InstantCommand(() -> 
-            arm.resetClimbEncoder()));
+            arm.resetArmEncoder()));
         
         SmartDashboard.putData(" Reset Elevator Encoder ", new InstantCommand(() ->
             elevator.resetElevatorEncoder()));
@@ -253,42 +248,35 @@ public class RobotContainer {
             CommandScheduler.getInstance().disable()));
 
         SmartDashboard.putData(" Elevator Coast Mode ", new InstantCommand(() ->
-            elevator.elevator.setNeutralMode(NeutralMode.Coast)));
+            elevator.setNeutralModeCoast()));
         
         SmartDashboard.putData(" Elevator Brake Mode ", new InstantCommand(() ->
-            elevator.elevator.setNeutralMode(NeutralMode.Brake)));
+            elevator.setNeutralModeBrake()));
             
     }
 
     public void setNeutralModes() {
-        for (int i = 0; i > drivetrain.driveLeftMotors.length; i++) {
-            drivetrain.driveLeftMotors[i].setNeutralMode(NeutralMode.Coast);
-            drivetrain.driveRightMotors[i].setNeutralMode(NeutralMode.Coast);
-        }
-
-        elevator.elevator.setNeutralMode(NeutralMode.Brake);
-        arm.arm.setNeutralMode(NeutralMode.Brake);
+        drivetrain.setNeutralModes();
+        elevator.setNeutralModeBrake();
+        arm.setNeutralModeBrake();
     }
 
     public void resetEncoderPositions() {
-        elevator.elevator.setSelectedSensorPosition(0);
-        everybotClimber.climberMaster.setSelectedSensorPosition(0);
-        arm.arm.setSelectedSensorPosition(0);
+        elevator.resetElevatorEncoder();
+        everybotClimber.resetEverybotClimberEncoder();
+        arm.resetArmEncoder();
 
+    }
+
+    public void initDefaultCommands() {
+        elevator.initDefaultCommand();
     }
 
     public void reportToSmartDashboard() {
 
-        SmartDashboard.putNumber(" Climber Position", everybotClimber.climberMaster.getSelectedSensorPosition());
-        SmartDashboard.putNumber(" Arm Position ", arm.arm.getSelectedSensorPosition());
-        SmartDashboard.putNumber(" Arm Velocity ", arm.arm.getSelectedSensorVelocity());
-        SmartDashboard.putNumber(" Arm Voltage ", arm.arm.getMotorOutputVoltage());
-        SmartDashboard.putNumber(" Arm Angle Conversion ", arm.ticksToAngle());
-        SmartDashboard.putNumber(" Elevator Position ", elevator.elevator.getSelectedSensorPosition());
-        SmartDashboard.putNumber(" Elevator Voltage ", elevator.elevator.getMotorOutputVoltage());
+        arm.reportToSmartDashboard();
+        elevator.reportToSmartDashboard();
         SmartDashboard.putBoolean(" Triangle Button Held ", ps4Controller2.getTriangleButton());
-        SmartDashboard.putNumber(" Climber Voltage ", everybotClimber.climberMaster.getMotorOutputVoltage());
-        SmartDashboard.putNumber(" Climber Current ", everybotClimber.climberMaster.getSupplyCurrent());
         SmartDashboard.putNumber(" Left Operator Y Axis ", ps4Controller2.getLeftY());
 
     }
