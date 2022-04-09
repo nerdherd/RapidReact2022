@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ClimberConstants;
 
@@ -12,14 +13,18 @@ public class Elevator extends SubsystemBase {
 
     public Elevator() {
         elevator = new TalonSRX(ClimberConstants.kElevatorTalonID);
-        elevator.setInverted(true);
+        elevator.setInverted(false);
 
         elevator.configMotionAcceleration(ClimberConstants.kElevatorMotionAcceleration);
         elevator.configMotionCruiseVelocity(ClimberConstants.kElevatorCruiseVelocity);
         elevator.configNeutralDeadband(ClimberConstants.kElevatorDeadband);
         elevator.config_kP(0, ClimberConstants.kElevatorkP);
         elevator.config_kD(0, ClimberConstants.kElevatorkD);
-        elevator.config_kF(0, ClimberConstants.kElevatorkF);
+    }
+
+    public void initDefaultCommand() { 
+        setDefaultCommand(new InstantCommand(() -> 
+        moveElevator(0)));
     }
     
     public void moveElevator(double speed) {
@@ -59,5 +64,9 @@ public class Elevator extends SubsystemBase {
 
     public void resetElevatorEncoder() {
         elevator.setSelectedSensorPosition(0);
+    }
+
+    public double testLog() {
+        return elevator.getSelectedSensorVelocity();
     }
 }
