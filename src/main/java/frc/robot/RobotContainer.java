@@ -264,7 +264,7 @@ public class RobotContainer {
         elevator.resetElevatorEncoder();
         everybotClimber.resetEverybotClimberEncoder();
         arm.resetArmEncoder();
-        drivetrain.resetPose();
+        drivetrain.resetEncoders();
 
     }
 
@@ -275,7 +275,8 @@ public class RobotContainer {
     }
 
     public void simPeriodic() {
-        drivetrain.driveSimulation();
+        drivetrain.simPeriodic();
+        elevator.simPeriodic();
     }
 
     public void reportToSmartDashboard() {

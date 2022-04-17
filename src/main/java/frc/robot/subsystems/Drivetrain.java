@@ -36,7 +36,6 @@ public class Drivetrain extends SubsystemBase {
   private TalonFXSimCollection m_leftMasterSimData;
   private TalonFXSimCollection m_rightMasterSimData;
 
-
   private DifferentialDrivetrainSim m_diffDriveSim;
   private DifferentialDriveOdometry m_diffDriveOdometry;
 
@@ -81,7 +80,7 @@ public class Drivetrain extends SubsystemBase {
     m_diffDriveSim = new DifferentialDrivetrainSim(
       LinearSystemId.identifyDrivetrainSystem(DriveConstants.kDriveSimkVLinear, DriveConstants.kDriveSimkALinear, 
       DriveConstants.kDriveSimkVAngular, DriveConstants.kDriveSimkAAngular),
-      DCMotor.getFalcon500(6),
+      DCMotor.getFalcon500(2),
       DriveConstants.kDriveGearing,
       DriveConstants.kTrackWidth,
       Units.inchesToMeters(DriveConstants.kWheelRadius),
@@ -149,7 +148,7 @@ public class Drivetrain extends SubsystemBase {
     Log.createTopic("LeftBFollower" + "/Voltage", () -> m_driveLeftMotors[2].getMotorOutputVoltage());
   }
 
-  public void driveSimulation() {
+  public void simPeriodic() {
     m_diffDriveSim.setInputs(m_leftMasterSim.getMotorOutputVoltage(), m_rightMasterSim.getMotorOutputVoltage());
     m_diffDriveSim.update(0.02);
 
@@ -168,7 +167,7 @@ public class Drivetrain extends SubsystemBase {
     m_field2D.setRobotPose(m_diffDriveOdometry.getPoseMeters());
   }
 
-  public void resetPose() {
+  public void resetEncoders() {
     m_leftMasterSim.setSelectedSensorPosition(0);
     m_rightMasterSim.setSelectedSensorPosition(0);
   }

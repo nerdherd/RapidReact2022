@@ -88,6 +88,14 @@ public final class Constants {
         public static final double kArmAngleOffset = 42;
         public static final double kArmAngleLength = 1.0 / 4096 * 360 * 29;
 
+        public static final double kElevatorGearing = 0;
+        public static final double kElevatorCarriageMass = 0;
+        public static final double kElevatorDrumRadius = 0;
+        public static final double kElevatorWidth = 0;
+        public static final double kElevatorHeight = 0;
+        public static final double kElevatorRootX = 0;
+        public static final double kElevatorRootY = 0;
+
         public static final double kElevatorkP = 1.0; //0.5
         public static final double kElevatorkI = 0;
         public static final double kElevatorkD = 0.0002; //0.6 
@@ -108,6 +116,9 @@ public final class Constants {
         public static final double kElevatorTicksUp = 290000;
         public static final double kElevatorTicksExtend = 290000;
         public static final double kElevatorTicksDown = 1620;
+
+        public static final double kElevatorTicksMax = 300000;
+        public static final double kElevatorTicksMin = 100;
 
         public static final double kSoftLimitTicks = 20000;
 
