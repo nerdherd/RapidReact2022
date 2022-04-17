@@ -3,9 +3,9 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
-import com.ctre.phoenix.motorcontrol.TalonSRXSimCollection;
+import com.ctre.phoenix.motorcontrol.TalonFXSimCollection;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
@@ -31,10 +31,10 @@ public class Drivetrain extends SubsystemBase {
   private TalonFX[] m_driveLeftMotors;
   private TalonFX[] m_driveRightMotors;
 
-  private WPI_TalonSRX m_leftMasterSim;
-  private WPI_TalonSRX m_rightMasterSim;
-  private TalonSRXSimCollection m_leftMasterSimData;
-  private TalonSRXSimCollection m_rightMasterSimData;
+  private WPI_TalonFX m_leftMasterSim;
+  private WPI_TalonFX m_rightMasterSim;
+  private TalonFXSimCollection m_leftMasterSimData;
+  private TalonFXSimCollection m_rightMasterSimData;
 
 
   private DifferentialDrivetrainSim m_diffDriveSim;
@@ -88,8 +88,13 @@ public class Drivetrain extends SubsystemBase {
       null
     );
 
-    m_navSim = new AHRS(SPI.Port.kMXP);
+    m_leftMasterSim = new WPI_TalonFX(DriveConstants.kLeftMasterTalonID);
+    m_rightMasterSim = new WPI_TalonFX(DriveConstants.kRightMasterTalonID);
 
+    m_leftMasterSimData = m_driveLeftMotors[0].getSimCollection();
+    m_rightMasterSimData = m_driveRightMotors[0].getSimCollection();
+
+    m_navSim = new AHRS(SPI.Port.kMXP);
 
   }
 
@@ -148,10 +153,10 @@ public class Drivetrain extends SubsystemBase {
     m_diffDriveSim.setInputs(m_leftMasterSim.getMotorOutputVoltage(), m_rightMasterSim.getMotorOutputVoltage());
     m_diffDriveSim.update(0.02);
 
-    m_leftMasterSimData.setQuadratureVelocity((int) (m_leftMasterSim.getSelectedSensorVelocity()));
-    m_rightMasterSimData.setQuadratureVelocity((int) (m_rightMasterSim.getSelectedSensorVelocity()));
-    m_leftMasterSimData.setQuadratureRawPosition((int) (m_leftMasterSim.getSelectedSensorPosition()));
-    m_rightMasterSimData.setQuadratureRawPosition((int) (m_rightMasterSim.getSelectedSensorPosition()));
+    m_leftMasterSimData.setIntegratedSensorVelocity((int) (m_diffDriveSim.getLeftVelocityMetersPerSecond()));
+    m_rightMasterSimData.setIntegratedSensorVelocity((int) (m_diffDriveSim.getRightVelocityMetersPerSecond()));
+    m_leftMasterSimData.setIntegratedSensorRawPosition((int) (m_diffDriveSim.getLeftPositionMeters()));
+    m_rightMasterSimData.setIntegratedSensorRawPosition((int) (m_diffDriveSim.getRightPositionMeters()));
 
     m_navSim.getAngle();
 
