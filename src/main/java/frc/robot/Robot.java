@@ -59,4 +59,9 @@ public class Robot extends TimedRobot {
   public void disabledInit() {
     CommandScheduler.getInstance().cancelAll();
   }
+
+  @Override
+  public void simulationPeriodic() {
+    robotContainer.simPeriodic();
+  }
 }

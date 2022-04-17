@@ -25,6 +25,15 @@ public final class Constants {
         public static final int kClimberPistonReverseID = 3;
         public static final int kHookPistonForwardID = 1;
         public static final int kHookPistonReverseID = 6;
+
+        public static final double kDriveSimkVLinear = 0;
+        public static final double kDriveSimkALinear = 0;
+        public static final double kDriveSimkVAngular = 0;
+        public static final double kDriveSimkAAngular = 0;
+
+        public static final double kDriveGearing= 0;
+        public static final double kTrackWidth = 0;
+        public static final double kWheelRadius = 0;
     }
 
     public static final class EverybotConstants {

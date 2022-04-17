@@ -62,7 +62,6 @@ public class RobotContainer {
         ps4Controller = new PS4Controller(0);
         ps4Controller2 = new PS4Controller(1);
 
-
         dCircle = new JoystickButton(ps4Controller, Button.kCircle.value); // Actually square button
         dTriangle = new JoystickButton(ps4Controller, Button.kTriangle.value); // Actually triangle button
         
@@ -265,6 +264,7 @@ public class RobotContainer {
         elevator.resetElevatorEncoder();
         everybotClimber.resetEverybotClimberEncoder();
         arm.resetArmEncoder();
+        drivetrain.resetPose();
 
     }
 
@@ -274,10 +274,16 @@ public class RobotContainer {
         everybotClimber.initDefaultCommand();
     }
 
+    public void simPeriodic() {
+        drivetrain.driveSimulation();
+    }
+
     public void reportToSmartDashboard() {
         arm.reportToSmartDashboard();
         elevator.reportToSmartDashboard();
         SmartDashboard.putBoolean(" Triangle Button Held ", ps4Controller2.getTriangleButton());
         SmartDashboard.putNumber(" Left Operator Y Axis ", ps4Controller2.getLeftY());
     }
+
+    
 }

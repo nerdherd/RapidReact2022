@@ -3,21 +3,46 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
+import com.ctre.phoenix.motorcontrol.TalonSRXSimCollection;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
+import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.math.system.plant.LinearSystemId;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
+import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Log;
 import frc.robot.Constants.DriveConstants;
 
+
+
 public class Drivetrain extends SubsystemBase {
 
   private TalonFX[] m_driveLeftMotors;
   private TalonFX[] m_driveRightMotors;
+
+  private WPI_TalonSRX m_leftMasterSim;
+  private WPI_TalonSRX m_rightMasterSim;
+  private TalonSRXSimCollection m_leftMasterSimData;
+  private TalonSRXSimCollection m_rightMasterSimData;
+
+
+  private DifferentialDrivetrainSim m_diffDriveSim;
+  private DifferentialDriveOdometry m_diffDriveOdometry;
+
+  private AHRS m_navSim;
+
+  private Field2d m_field2D;
 
   private Compressor compressor; // Channel 3 on CAN
   public DoubleSolenoid driveShifter; // Channels 0 and 6
@@ -51,8 +76,21 @@ public class Drivetrain extends SubsystemBase {
     compressor.enableDigital();
 
     driveShifter = new DoubleSolenoid(3, PneumaticsModuleType.CTREPCM, DriveConstants.kDriveShifterForwardID, DriveConstants.kDriveShifterReverseID);
-    // MIGHT NEED TO BE CHANGED
     
+    // ======================= SIMULATION ======================= //
+    m_diffDriveSim = new DifferentialDrivetrainSim(
+      LinearSystemId.identifyDrivetrainSystem(DriveConstants.kDriveSimkVLinear, DriveConstants.kDriveSimkALinear, 
+      DriveConstants.kDriveSimkVAngular, DriveConstants.kDriveSimkAAngular),
+      DCMotor.getFalcon500(6),
+      DriveConstants.kDriveGearing,
+      DriveConstants.kTrackWidth,
+      Units.inchesToMeters(DriveConstants.kWheelRadius),
+      null
+    );
+
+    m_navSim = new AHRS(SPI.Port.kMXP);
+
+
   }
 
   // ======================= TELEOP FUNCTIONS ======================= //
@@ -93,6 +131,8 @@ public class Drivetrain extends SubsystemBase {
     SmartDashboard.putNumber(" Left Slave T Current ",  m_driveLeftMotors[1].getSupplyCurrent());
     SmartDashboard.putNumber(" Right Slave B Current ", m_driveRightMotors[2].getSupplyCurrent());
     SmartDashboard.putNumber(" Left Slave B Current ",  m_driveLeftMotors[2].getSupplyCurrent());
+
+    SmartDashboard.putData("Field", m_field2D);
   }
 
   public void log() {
@@ -102,6 +142,30 @@ public class Drivetrain extends SubsystemBase {
     Log.createTopic("LeftTFollower" + "/Voltage", () -> m_driveLeftMotors[1].getMotorOutputVoltage());
     Log.createTopic("RightBFollower" + "/Voltage", () -> m_driveRightMotors[2].getMotorOutputVoltage());
     Log.createTopic("LeftBFollower" + "/Voltage", () -> m_driveLeftMotors[2].getMotorOutputVoltage());
+  }
+
+  public void driveSimulation() {
+    m_diffDriveSim.setInputs(m_leftMasterSim.getMotorOutputVoltage(), m_rightMasterSim.getMotorOutputVoltage());
+    m_diffDriveSim.update(0.02);
+
+    m_leftMasterSimData.setQuadratureVelocity((int) (m_leftMasterSim.getSelectedSensorVelocity()));
+    m_rightMasterSimData.setQuadratureVelocity((int) (m_rightMasterSim.getSelectedSensorVelocity()));
+    m_leftMasterSimData.setQuadratureRawPosition((int) (m_leftMasterSim.getSelectedSensorPosition()));
+    m_rightMasterSimData.setQuadratureRawPosition((int) (m_rightMasterSim.getSelectedSensorPosition()));
+
+    m_navSim.getAngle();
+
+    m_diffDriveOdometry.update(
+      m_navSim.getRotation2d(), 
+      m_leftMasterSim.getSelectedSensorPosition(), 
+      m_rightMasterSim.getSelectedSensorPosition());
+
+    m_field2D.setRobotPose(m_diffDriveOdometry.getPoseMeters());
+  }
+
+  public void resetPose() {
+    m_leftMasterSim.setSelectedSensorPosition(0);
+    m_rightMasterSim.setSelectedSensorPosition(0);
   }
 
 }
