@@ -17,10 +17,12 @@ import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.simulation.DifferentialDrivetrainSim;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.SPI;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -42,9 +44,14 @@ public class Drivetrain extends SubsystemBase {
   private DifferentialDrivetrainSim m_diffDriveSim;
   private DifferentialDriveOdometry m_diffDriveOdometry;
 
+  private PS4Controller m_ps4controller;
+  private XboxController m_xboxController;
+
   private AHRS m_navSim;
 
   private Field2d m_field2D;
+
+  private int m_dev;
 
   private Compressor compressor; // Channel 3 on CAN
   public DoubleSolenoid driveShifter; // Channels 0 and 6
@@ -89,6 +96,8 @@ public class Drivetrain extends SubsystemBase {
       Units.inchesToMeters(DriveConstants.kWheelRadius),
       null
     );
+
+    m_ps4controller = new PS4Controller(0);
 
     m_navSim = new AHRS(SPI.Port.kMXP);
 
@@ -162,8 +171,8 @@ public class Drivetrain extends SubsystemBase {
   public void simPeriodic() {
     SmartDashboard.putData("Field", m_field2D);
 
-    int dev = SimDeviceDataJNI.getSimDeviceHandle("navX-Sensor[0]");
-    SimDouble angle = new SimDouble(SimDeviceDataJNI.getSimValueHandle(dev, "Yaw"));
+    m_dev = SimDeviceDataJNI.getSimDeviceHandle("navX-Sensor[0]");
+    SimDouble angle = new SimDouble(SimDeviceDataJNI.getSimValueHandle(m_dev, "Yaw"));
     angle.set(5.0);
 
     m_diffDriveSim.setInputs(m_leftMasterSim.getMotorOutputVoltage(), m_rightMasterSim.getMotorOutputVoltage());
@@ -183,7 +192,11 @@ public class Drivetrain extends SubsystemBase {
 
     m_field2D.setRobotPose(m_diffDriveOdometry.getPoseMeters());
 
+  }
 
+  public void simTeleop() {
+    m_leftMasterSim.setVoltage(1);
+    m_rightMasterSim.setVoltage(1);
   }
 
   public void resetEncoders() {
