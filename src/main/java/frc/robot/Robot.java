@@ -19,7 +19,7 @@ public class Robot extends TimedRobot {
     
     robotContainer = new RobotContainer();
     
-    Log.initAndLog("/home/lvuser/logs/", "Test", 0.02, robotContainer);
+    // Log.initAndLog("/home/lvuser/logs/", "Test", 0.02, robotContainer);
     robotContainer.resetEncoderPositions();
     robotContainer.setNeutralModes();
     
@@ -28,7 +28,7 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() { 
     robotContainer.configureButtonBindings();
-    robotContainer.initDefaultCommands();
+    // robotContainer.initDefaultCommands();
   }
 
 
@@ -36,6 +36,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() { 
     robotContainer.reportToSmartDashboard();
     robotContainer.joystickControls();
+    robotContainer.simTeleop();
     CommandScheduler.getInstance().run();
   }
 

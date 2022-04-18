@@ -1,0 +1,79 @@
+{
+  "HALProvider": {
+    "Other Devices": {
+      "Talon FX[16]/Integrated Sensor": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon SRX[19]/Quad Encoder": {
+        "header": {
+          "open": true
+        }
+      }
+    }
+  },
+  "NTProvider": {
+    "types": {
+      "/FMSInfo": "FMSInfo",
+      "/LiveWindow/Arm": "Subsystem",
+      "/LiveWindow/Drivetrain": "Subsystem",
+      "/LiveWindow/Elevator": "Subsystem",
+      "/LiveWindow/EverybotClimber": "Subsystem",
+      "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
+      "/LiveWindow/Ungrouped/Talon FX [16]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Talon FX [31]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Talon SRX [19]": "Motor Controller",
+      "/LiveWindow/Ungrouped/navX-Sensor[4]": "Gyro",
+      "/SmartDashboard/ Command Scheduler Disable ": "Command",
+      "/SmartDashboard/ Elevator Brake Mode ": "Command",
+      "/SmartDashboard/ Elevator Coast Mode ": "Command",
+      "/SmartDashboard/ Elevator Sim ": "Mechanism2d",
+      "/SmartDashboard/ Move arm Angle ": "Command",
+      "/SmartDashboard/ Move arm Vertical ": "Command",
+      "/SmartDashboard/ Reset Climber Encoders ": "Command",
+      "/SmartDashboard/ Reset Elevator Encoder ": "Command",
+      "/SmartDashboard/Field": "Field2d",
+      "/SmartDashboard/Move arm Clear Rung ": "Command",
+      "/SmartDashboard/Reset Arm Encoder ": "Command",
+      "/SmartDashboard/SendableChooser[0]": "String Chooser",
+      "/SmartDashboard/SendableChooser[1]": "String Chooser"
+    },
+    "windows": {
+      "/LiveWindow/Drivetrain": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/LiveWindow/Elevator": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/ Elevator Sim ": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/Field": {
+        "window": {
+          "visible": true
+        }
+      }
+    }
+  },
+  "NetworkTables": {
+    "SmartDashboard": {
+      "open": true
+    }
+  },
+  "Plot": {
+    "Plot <0>": {
+      "plots": [
+        {
+          "height": 338
+        }
+      ]
+    }
+  }
+}

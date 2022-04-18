@@ -8,6 +8,9 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.hal.SimDouble;
+import edu.wpi.first.hal.simulation.SimDeviceDataJNI;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.DifferentialDriveOdometry;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
@@ -87,13 +90,17 @@ public class Drivetrain extends SubsystemBase {
       null
     );
 
+    m_navSim = new AHRS(SPI.Port.kMXP);
+
+    m_diffDriveOdometry = new DifferentialDriveOdometry(Rotation2d.fromDegrees(m_navSim.getYaw()));
+
     m_leftMasterSim = new WPI_TalonFX(DriveConstants.kLeftMasterTalonID);
     m_rightMasterSim = new WPI_TalonFX(DriveConstants.kRightMasterTalonID);
 
     m_leftMasterSimData = m_driveLeftMotors[0].getSimCollection();
     m_rightMasterSimData = m_driveRightMotors[0].getSimCollection();
 
-    m_navSim = new AHRS(SPI.Port.kMXP);
+    m_field2D = new Field2d();
 
   }
 
@@ -107,10 +114,15 @@ public class Drivetrain extends SubsystemBase {
     driveShifter.set(Value.kReverse);
   }
   
-  
+ 
   public void setPower(double leftSpeed, double rightSpeed) {
     m_driveLeftMotors[0].set(ControlMode.PercentOutput, leftSpeed);
     m_driveRightMotors[0].set(ControlMode.PercentOutput, rightSpeed);
+  }
+
+  public void setPowerSim(double leftSpeed, double rightSpeed) {
+    m_leftMasterSim.set(ControlMode.PercentOutput, leftSpeed);
+    m_rightMasterSim.set(ControlMode.PercentOutput, rightSpeed);
   }
 
   public void setNeutralModes() {
@@ -136,7 +148,6 @@ public class Drivetrain extends SubsystemBase {
     SmartDashboard.putNumber(" Right Slave B Current ", m_driveRightMotors[2].getSupplyCurrent());
     SmartDashboard.putNumber(" Left Slave B Current ",  m_driveLeftMotors[2].getSupplyCurrent());
 
-    SmartDashboard.putData("Field", m_field2D);
   }
 
   public void log() {
@@ -149,6 +160,12 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void simPeriodic() {
+    SmartDashboard.putData("Field", m_field2D);
+
+    int dev = SimDeviceDataJNI.getSimDeviceHandle("navX-Sensor[0]");
+    SimDouble angle = new SimDouble(SimDeviceDataJNI.getSimValueHandle(dev, "Yaw"));
+    angle.set(5.0);
+
     m_diffDriveSim.setInputs(m_leftMasterSim.getMotorOutputVoltage(), m_rightMasterSim.getMotorOutputVoltage());
     m_diffDriveSim.update(0.02);
 
@@ -165,6 +182,8 @@ public class Drivetrain extends SubsystemBase {
       m_rightMasterSim.getSelectedSensorPosition());
 
     m_field2D.setRobotPose(m_diffDriveOdometry.getPoseMeters());
+
+
   }
 
   public void resetEncoders() {

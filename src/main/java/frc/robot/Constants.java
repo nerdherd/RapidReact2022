@@ -26,14 +26,14 @@ public final class Constants {
         public static final int kHookPistonForwardID = 1;
         public static final int kHookPistonReverseID = 6;
 
-        public static final double kDriveSimkVLinear = 0;
-        public static final double kDriveSimkALinear = 0;
-        public static final double kDriveSimkVAngular = 0;
-        public static final double kDriveSimkAAngular = 0;
+        public static final double kDriveSimkVLinear = 1;
+        public static final double kDriveSimkALinear = 1;
+        public static final double kDriveSimkVAngular = 1;
+        public static final double kDriveSimkAAngular = 1;
 
-        public static final double kDriveGearing= 0;
-        public static final double kTrackWidth = 0;
-        public static final double kWheelRadius = 0;
+        public static final double kDriveGearing= 1;
+        public static final double kTrackWidth = 1;
+        public static final double kWheelRadius = 1;
     }
 
     public static final class EverybotConstants {
@@ -88,11 +88,11 @@ public final class Constants {
         public static final double kArmAngleOffset = 42;
         public static final double kArmAngleLength = 1.0 / 4096 * 360 * 29;
 
-        public static final double kElevatorGearing = 0;
-        public static final double kElevatorCarriageMass = 0;
-        public static final double kElevatorDrumRadius = 0;
-        public static final double kElevatorWidth = 0;
-        public static final double kElevatorHeight = 0;
+        public static final double kElevatorGearing = 1;
+        public static final double kElevatorCarriageMass = 1;
+        public static final double kElevatorDrumRadius = 1;
+        public static final double kElevatorWidth = 1;
+        public static final double kElevatorHeight = 1;
         public static final double kElevatorRootX = 0;
         public static final double kElevatorRootY = 0;
 

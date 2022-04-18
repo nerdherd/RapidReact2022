@@ -268,20 +268,25 @@ public class RobotContainer {
 
     }
 
-    public void initDefaultCommands() {
-        elevator.initDefaultCommand();
-        arm.initDefaultCommand();
-        everybotClimber.initDefaultCommand();
-    }
+    // public void initDefaultCommands() {
+    //     elevator.initDefaultCommand();
+    //     arm.initDefaultCommand();
+    //     everybotClimber.initDefaultCommand();
+    // }
 
     public void simPeriodic() {
         drivetrain.simPeriodic();
         elevator.simPeriodic();
     }
 
+    public void simTeleop() {
+        new DriveWithoutDelay(drivetrain);
+    }
+
     public void reportToSmartDashboard() {
         arm.reportToSmartDashboard();
         elevator.reportToSmartDashboard();
+        drivetrain.reportToSmartDashboard();
         SmartDashboard.putBoolean(" Triangle Button Held ", ps4Controller2.getTriangleButton());
         SmartDashboard.putNumber(" Left Operator Y Axis ", ps4Controller2.getLeftY());
     }
