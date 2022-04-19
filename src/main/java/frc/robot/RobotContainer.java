@@ -182,7 +182,6 @@ public class RobotContainer {
             SmartDashboard.putString(" Button State ", "Operator Cross");
         }));
 
-        new ToggleHookPiston(ClimberConstants.kOperatorDeadband, ps4Controller2, arm);
     }
 
     public void joystickControls() {
@@ -203,6 +202,7 @@ public class RobotContainer {
 
         double armInput = -ps4Controller2.getRightY();
         arm.joystickArmMovement(armInput);
+        new ToggleHookPiston(ClimberConstants.kOperatorDeadband, ps4Controller2, arm);
     }
 
     
@@ -282,7 +282,8 @@ public class RobotContainer {
     }
 
     public void simTeleop() {
-        new DriveWithoutDelay(drivetrain);
+        // new DriveWithoutDelay(drivetrain);
+        drivetrain.simTeleop();
     }
 
     public void reportToSmartDashboard() {

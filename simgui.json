@@ -66,6 +66,7 @@
         "window": {
           "visible": true
         }
+<<<<<<< HEAD
       },
       "/SmartDashboard/Field": {
         "window": {
@@ -76,6 +77,8 @@
         "window": {
           "visible": true
         }
+=======
+>>>>>>> 0136321e395d18139bcd7aff21c4bf31884fe6e7
       }
     }
   },
@@ -91,7 +94,11 @@
     "Plot <0>": {
       "plots": [
         {
+<<<<<<< HEAD
           "height": -6
+=======
+          "height": -12
+>>>>>>> 0136321e395d18139bcd7aff21c4bf31884fe6e7
         }
       ]
     }
