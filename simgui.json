@@ -6,6 +6,16 @@
           "open": true
         }
       },
+      "Talon FX[20]/Integrated Sensor": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX[27]/Integrated Sensor": {
+        "header": {
+          "open": true
+        }
+      },
       "Talon SRX[19]/Quad Encoder": {
         "header": {
           "open": true
@@ -22,6 +32,8 @@
       "/LiveWindow/EverybotClimber": "Subsystem",
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
       "/LiveWindow/Ungrouped/Talon FX [16]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Talon FX [20]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Talon FX [27]": "Motor Controller",
       "/LiveWindow/Ungrouped/Talon FX [31]": "Motor Controller",
       "/LiveWindow/Ungrouped/Talon SRX [19]": "Motor Controller",
       "/LiveWindow/Ungrouped/navX-Sensor[4]": "Gyro",
@@ -45,7 +57,7 @@
           "visible": true
         }
       },
-      "/LiveWindow/Elevator": {
+      "/LiveWindow/EverybotClimber": {
         "window": {
           "visible": true
         }
@@ -59,11 +71,19 @@
         "window": {
           "visible": true
         }
+      },
+      "/SmartDashboard/SendableChooser[1]": {
+        "window": {
+          "visible": true
+        }
       }
     }
   },
   "NetworkTables": {
     "SmartDashboard": {
+      "SendableChooser[1]": {
+        "open": true
+      },
       "open": true
     }
   },
@@ -71,7 +91,7 @@
     "Plot <0>": {
       "plots": [
         {
-          "height": 338
+          "height": -6
         }
       ]
     }
