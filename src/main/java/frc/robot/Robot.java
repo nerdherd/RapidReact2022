@@ -15,6 +15,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandGroupBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.climber.Arm;
 import frc.robot.subsystems.climber.Elevator;
 import frc.robot.subsystems.Drivetrain;
@@ -47,6 +49,11 @@ public class Robot extends TimedRobot {
     robotContainer.elevator.elevator.setSelectedSensorPosition(0);
     robotContainer.elevator.elevator.setNeutralMode(NeutralMode.Brake);
     robotContainer.everybotClimber.climberMaster.setSelectedSensorPosition(0);
+    SequentialCommandGroup initRumble = new SequentialCommandGroup(
+      new WaitCommand(1),
+      new InstantCommand(() -> robotContainer.rumble.initialize())
+    );
+    initRumble.schedule();
   }
 
 
@@ -59,6 +66,8 @@ public class Robot extends TimedRobot {
     robotContainer.drivetrain.leftSlave.setNeutralMode(NeutralMode.Coast);
     robotContainer.configureButtonBindings();
     
+    robotContainer.rumble.schedule();
+    CommandScheduler.getInstance().run();
   }
 
   @Override

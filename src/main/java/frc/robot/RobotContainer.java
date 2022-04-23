@@ -27,6 +27,7 @@ import frc.robot.subsystems.climber.Elevator;
 import frc.robot.Constants.ClimberConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.EverybotConstants;
+import frc.robot.commands.Rumble;
 
 // import frc.robot.subsystems.climber.ArmMotionMagic;
 public class RobotContainer {
@@ -52,6 +53,8 @@ public class RobotContainer {
 
     private boolean m_climberShifter;
 
+    private Rumble rumble;
+
     public RobotContainer() {
         SmartDashboard.putBoolean("arm moving", false);
         initSmartDashboard();
@@ -60,6 +63,8 @@ public class RobotContainer {
         ps4Controller = new PS4Controller(0);
         ps4Controller2 = new PS4Controller(1);
         //drivetrain.compressor.enableDigital();
+        rumble = new Rumble(() -> drivetrain.rightMaster.getSupplyCurrent(), () -> drivetrain.rightMaster.getSelectedSensorVelocity(), ps4Controller, 5);
+        rumble.schedule();
     }
 
     // test if this works.
