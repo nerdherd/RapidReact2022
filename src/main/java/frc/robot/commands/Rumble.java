@@ -8,6 +8,7 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class Rumble extends CommandBase {
@@ -76,7 +77,7 @@ public class Rumble extends CommandBase {
       double ratio = motorVelocity / motorCurrent;
       // Check if ratio is less than ideal ratio - deadband
       if (ratio < velocityCurrentRatio - deadband) {
-        // Add time to time rammed\
+        // Add time to time rammed
         timeRammed += (Timer.getFPGATimestamp() - lastFPGATimestamp);
       } else {
         // TODO: Add a time period before resetting time rammed, in case there are spikes in the ratio
@@ -90,6 +91,7 @@ public class Rumble extends CommandBase {
 
     // Set the rumble strength (from 0 to 1 on an exponential scale)
     double rumbleStrength = (timeRammed / 5) * (timeRammed / 5);
+    SmartDashboard.putNumber("Rammed Time", (int) timeRammed);
     setBothRumbles(rumbleStrength); 
   }
 

@@ -53,7 +53,7 @@ public class RobotContainer {
 
     private boolean m_climberShifter;
 
-    private Rumble rumble;
+    public Rumble rumble;
 
     public RobotContainer() {
         SmartDashboard.putBoolean("arm moving", false);
