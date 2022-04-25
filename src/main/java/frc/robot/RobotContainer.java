@@ -279,6 +279,7 @@ public class RobotContainer {
     public void simPeriodic() {
         drivetrain.simPeriodic();
         elevator.simPeriodic();
+        everybotClimber.simPeriodic();
     }
 
     public void simTeleop() {

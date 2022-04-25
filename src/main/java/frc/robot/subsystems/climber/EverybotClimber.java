@@ -72,8 +72,8 @@ public class EverybotClimber extends SubsystemBase {
     } 
 
     public void simPeriodic() {
-        m_climberMasterSimData.setIntegratedSensorRawPosition((int)(m_climberMaster.getSelectedSensorPosition()));
-        m_climberMasterSimData.setIntegratedSensorVelocity((int)(m_climberMaster.getSelectedSensorVelocity()));
+        m_climberMasterSimData.setIntegratedSensorRawPosition((int)(m_climberMasterSim.getSelectedSensorPosition()));
+        m_climberMasterSimData.setIntegratedSensorVelocity((int)(m_climberMasterSim.getSelectedSensorVelocity()));
     }
 
     public void moveClimberSim(double ticksToTarget) {
