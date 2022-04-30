@@ -63,7 +63,8 @@ public class RobotContainer {
         ps4Controller = new PS4Controller(0);
         ps4Controller2 = new PS4Controller(1);
         //drivetrain.compressor.enableDigital();
-        rumble = new Rumble(() -> drivetrain.rightMaster.getSupplyCurrent(), () -> drivetrain.rightMaster.getSelectedSensorVelocity(), ps4Controller, 5);
+        rumble = new Rumble(() -> drivetrain.rightMaster.getSupplyCurrent(), 
+            () -> drivetrain.rightMaster.getSelectedSensorVelocity(), ps4Controller, 5, 0.1);
         rumble.schedule();
     }
 

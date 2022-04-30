@@ -8,6 +8,7 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class Rumble extends CommandBase {
@@ -23,22 +24,26 @@ public class Rumble extends CommandBase {
   private double lastFPGATimestamp;
   private double timeRammed = 0;
   private double velocityCurrentRatio;
+  private double timeUnderRatio = 0;
+  private double timeCancelBuffer = 0;
 
   /** Creates a new Rumble. 
    * Run during teleopPeriodic() to make the controller rumble when ramming into an obstacle
    * 
-   * @param motorVelocity a supplier returning the motor velocity
-   * @param motorCurrent  a supplier returning the motor current (supply)
-   * @param controller    the generic HID controller to rumble
-   * @param deadband      a deadband that dictates how far away from the current-velocity ratio the motor can stray
-   * @return              a new Rumble command
+   * @param motorVelocity     a supplier returning the motor velocity
+   * @param motorCurrent      a supplier returning the motor current (supply)
+   * @param controller        the generic HID controller to rumble
+   * @param deadband          a deadband that dictates how far away from the current-velocity ratio the motor can stray
+   * @param timeCancelBuffer  the time span before the robot is marked as safe and not ramming
+   * @return                  a new Rumble command
   */
   public Rumble(DoubleSupplier motorVelocity, DoubleSupplier motorCurrent, 
-                GenericHID controller, double deadband) {
+                GenericHID controller, double deadband, double timeCancelBuffer) {
     this.motorVelocitySupplier = motorVelocity;
     this.motorCurrentSupplier = motorCurrent;
     this.controller = controller;
     this.deadband = deadband;
+    this.timeCancelBuffer = timeCancelBuffer;
   }
 
   /**
@@ -76,13 +81,18 @@ public class Rumble extends CommandBase {
       double ratio = motorVelocity / motorCurrent;
       // Check if ratio is less than ideal ratio - deadband
       if (ratio < velocityCurrentRatio - deadband) {
-        // Add time to time rammed\
+        // Add time to time rammed
         timeRammed += (Timer.getFPGATimestamp() - lastFPGATimestamp);
+        // Reset time at zero
+        timeUnderRatio = 0;
       } else {
-        // TODO: Add a time period before resetting time rammed, in case there are spikes in the ratio
-
-        // Reset the time rammed
-        timeRammed = 0;
+        // Add time to time at zero
+        timeUnderRatio += (Timer.getFPGATimestamp() - lastFPGATimestamp);
+        // Only reset time rammed if time at zero is greater than buffer
+        if (timeUnderRatio >= timeCancelBuffer) {
+          // Reset the time rammed
+          timeRammed = 0;
+        }
       }
     }
 
@@ -90,6 +100,7 @@ public class Rumble extends CommandBase {
 
     // Set the rumble strength (from 0 to 1 on an exponential scale)
     double rumbleStrength = (timeRammed / 5) * (timeRammed / 5);
+    SmartDashboard.putNumber("Rammed Time", (int) timeRammed);
     setBothRumbles(rumbleStrength); 
   }
 
