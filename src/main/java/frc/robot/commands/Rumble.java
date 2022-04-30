@@ -18,7 +18,7 @@ public class Rumble extends CommandBase {
   private final double deadband;
 
   // TODO: Should be defined in constants, but done here to avoid merge conflicts
-  private final double minimumVelocity = 100;
+  private final double minimumVelocity = 1;
   private final double minimumCurrent = 0.2;
 
   private double lastFPGATimestamp;
@@ -54,31 +54,43 @@ public class Rumble extends CommandBase {
    */
   @Override
   public void initialize() {
+    SmartDashboard.putBoolean("started", true);
     if (this.motorCurrentSupplier.getAsDouble() != 0) {
       velocityCurrentRatio = this.motorVelocitySupplier.getAsDouble() / this.motorCurrentSupplier.getAsDouble();
     } else {
       // will never rumble 
       velocityCurrentRatio = 0;
     }
+    SmartDashboard.putNumber("timestamp", Timer.getFPGATimestamp());
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // Set rumble to 0 if the ideal ratio is 0
-    if (velocityCurrentRatio == 0) { 
-      setBothRumbles(0);
-      return; 
-    }
-
     // Get motor velocity and current
     double motorVelocity = this.motorVelocitySupplier.getAsDouble();
     double motorCurrent = this.motorCurrentSupplier.getAsDouble();
+    
+    SmartDashboard.putNumber("Motor velocity from inside haptic", motorVelocity);
+    SmartDashboard.putNumber("Motor current from inside haptic", motorCurrent);
+    
+    SmartDashboard.putNumber("timestamp", Timer.getFPGATimestamp());
+    SmartDashboard.putNumber("ratio", velocityCurrentRatio);
+
+    lastFPGATimestamp = Timer.getFPGATimestamp();
+    
+    // Set rumble to 0 if the ideal ratio is 0
+    if (velocityCurrentRatio == 0) {
+      initialize();
+      setBothRumbles(0);
+      return;
+    };
 
     // Check if motor velocity is above minimum velocity/current
     if (motorVelocity >= minimumVelocity && motorCurrent >= minimumCurrent) {
       // Get velocity-current ratio
       double ratio = motorVelocity / motorCurrent;
+      SmartDashboard.putNumber(" Recent Ratio ", ratio);
       // Check if ratio is less than ideal ratio - deadband
       if (ratio < velocityCurrentRatio - deadband) {
         // Add time to time rammed
@@ -95,8 +107,6 @@ public class Rumble extends CommandBase {
         }
       }
     }
-
-    lastFPGATimestamp = Timer.getFPGATimestamp();
 
     // Set the rumble strength (from 0 to 1 on an exponential scale)
     double rumbleStrength = (timeRammed / 5) * (timeRammed / 5);

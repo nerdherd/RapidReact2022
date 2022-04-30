@@ -33,6 +33,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() { 
+    SmartDashboard.putBoolean("started", false);
     CommandScheduler.getInstance().cancelAll();
     
     robotContainer = new RobotContainer();
@@ -51,7 +52,7 @@ public class Robot extends TimedRobot {
     robotContainer.everybotClimber.climberMaster.setSelectedSensorPosition(0);
     SequentialCommandGroup initRumble = new SequentialCommandGroup(
       new WaitCommand(1),
-      new InstantCommand(() -> robotContainer.rumble.initialize())
+      new InstantCommand(() -> robotContainer.rumble.schedule())
     );
     initRumble.schedule();
   }
@@ -66,7 +67,6 @@ public class Robot extends TimedRobot {
     robotContainer.drivetrain.leftSlave.setNeutralMode(NeutralMode.Coast);
     robotContainer.configureButtonBindings();
     
-    robotContainer.rumble.schedule();
     CommandScheduler.getInstance().run();
 
     SmartDashboard.putNumber(" Drive Velocity ", robotContainer.drivetrain.rightMaster.getSelectedSensorVelocity());
