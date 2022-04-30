@@ -68,6 +68,9 @@ public class Robot extends TimedRobot {
     
     robotContainer.rumble.schedule();
     CommandScheduler.getInstance().run();
+
+    SmartDashboard.putNumber(" Drive Velocity ", robotContainer.drivetrain.rightMaster.getSelectedSensorVelocity());
+    SmartDashboard.putNumber(" Drive Current ", robotContainer.drivetrain.rightMaster.getSupplyCurrent());
   }
 
   @Override
