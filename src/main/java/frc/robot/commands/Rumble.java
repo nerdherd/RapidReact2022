@@ -4,12 +4,16 @@
 
 package frc.robot.commands;
 
+import java.util.HashMap;
 import java.util.function.DoubleSupplier;
+
+import com.fasterxml.jackson.core.io.DataOutputAsStream;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.util.datalog.DataLog;
 
 public class Rumble extends CommandBase {
   private final DoubleSupplier motorVelocitySupplier;
@@ -26,6 +30,10 @@ public class Rumble extends CommandBase {
   private double velocityCurrentRatio;
   private double timeUnderRatio = 0;
   private double timeCancelBuffer = 0;
+
+  private HashMap<String, Integer> logEntries;
+
+  private DataLog dataLog;
 
   /** Creates a new Rumble. 
    * Run during teleopPeriodic() to make the controller rumble when ramming into an obstacle
@@ -44,6 +52,8 @@ public class Rumble extends CommandBase {
     this.controller = controller;
     this.deadband = deadband;
     this.timeCancelBuffer = timeCancelBuffer;
+
+    dataLog = new DataLog("/home/lvuser/logs", "RumbleLog");
   }
 
   /**
@@ -62,6 +72,12 @@ public class Rumble extends CommandBase {
       velocityCurrentRatio = 0;
     }
     SmartDashboard.putNumber("timestamp", Timer.getFPGATimestamp());
+
+    logEntries = new HashMap<String, Integer>() {{
+      put("Drivebase Current Velocity Ratio", dataLog.start("Drivebase Current Velocity Ratio", "double"));
+      put("Drivebase Current", dataLog.start("Drivebase Current", "double"));
+      put("Drivebase Velocity", dataLog.start("Drivebase Velocity", "double"));
+    }};
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -83,11 +99,10 @@ public class Rumble extends CommandBase {
     if (velocityCurrentRatio == 0) {
       initialize();
       setBothRumbles(0);
-      return;
-    };
-
+    }
+    
     // Check if motor velocity is above minimum velocity/current
-    if (motorVelocity >= minimumVelocity && motorCurrent >= minimumCurrent) {
+    else if (motorVelocity >= minimumVelocity && motorCurrent >= minimumCurrent) {
       // Get velocity-current ratio
       double ratio = motorVelocity / motorCurrent;
       SmartDashboard.putNumber(" Recent Ratio ", ratio);
@@ -112,6 +127,14 @@ public class Rumble extends CommandBase {
     double rumbleStrength = (timeRammed / 5) * (timeRammed / 5);
     SmartDashboard.putNumber("Rammed Time", (int) timeRammed);
     setBothRumbles(rumbleStrength); 
+
+    // dataLog.start("Drivebase Current Velocity Ratio", "double");
+    // dataLog.start("Drivebase Current", "double");
+    // dataLog.start("Drivebase Velocity", "double");
+
+    dataLog.appendDouble(logEntries.get("Drivebase Current Velocity Ratio"), velocityCurrentRatio, (long)Timer.getFPGATimestamp());
+    dataLog.appendDouble(logEntries.get("Drivebase Current"), motorCurrent, (long)Timer.getFPGATimestamp());
+    dataLog.appendDouble(logEntries.get("Drivebase Velocity"), motorVelocity, (long)Timer.getFPGATimestamp());
   }
 
   // Called once the command ends or is interrupted.
@@ -131,5 +154,15 @@ public class Rumble extends CommandBase {
   private void setBothRumbles(double rumbleStrength) {
     controller.setRumble(GenericHID.RumbleType.kLeftRumble, rumbleStrength);
     controller.setRumble(GenericHID.RumbleType.kRightRumble, rumbleStrength); 
+  }
+
+  public void DisableLog() {
+    if (dataLog != null && logEntries != null) {
+      for (int entry : logEntries.values()) {
+        dataLog.finish(entry);
+      }
+  
+      dataLog.close();
+    }
   }
 }

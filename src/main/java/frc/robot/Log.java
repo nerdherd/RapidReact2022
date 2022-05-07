@@ -45,8 +45,8 @@ public class Log {
     createTopic("Elevator Voltage " + "/Voltage", () -> robotContainer.elevator.elevator.getMotorOutputVoltage());
     createTopic("Arm Position" + "/Position", () -> robotContainer.armTrapezoid.arm.getSelectedSensorPosition());
     // createTopic("Arm Voltage" + "/Voltage", () -> robotContainer.armTrapezoid.arm.getMotorOutputVoltages());
-    createTopic("RightMasterVelocity" + "/Velocity", () -> robotContainer.drivetrain.rightMaster.getSelectedSensorVelocity());
-    createTopic("RightMasterVelocity" + "/Velocity", () -> robotContainer.drivetrain.rightMaster.getSupplyCurrent());
+    // createTopic("RightMasterVelocity" + "/Velocity", () -> robotContainer.drivetrain.rightMaster.getSelectedSensorVelocity());
+    // createTopic("RightMasterCurrent" + "/Velocity", () -> robotContainer.drivetrain.rightMaster.getSupplyCurrent());
     
     log.finishInitialization();
   }
