@@ -59,18 +59,12 @@ public class Rumble extends CommandBase {
   /**
    * Initialize the velocity to current ratio.
    * Called when the command is initially scheduled.
-   * <p>
-   * Can also be mannually called to reset the ratio
    */
   @Override
   public void initialize() {
+    setRatio();
+
     SmartDashboard.putBoolean("started", true);
-    if (this.motorCurrentSupplier.getAsDouble() != 0) {
-      velocityCurrentRatio = this.motorVelocitySupplier.getAsDouble() / this.motorCurrentSupplier.getAsDouble();
-    } else {
-      // will never rumble 
-      velocityCurrentRatio = 0;
-    }
     SmartDashboard.putNumber("timestamp", Timer.getFPGATimestamp());
 
     logEntries = new HashMap<String, Integer>() {{
@@ -80,7 +74,25 @@ public class Rumble extends CommandBase {
     }};
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
+  /**
+   * Set the velocity-current ratio.
+   * Constantly called until the ratio is above zero
+   */
+  public void setRatio() {
+    if (this.motorCurrentSupplier.getAsDouble() != 0) {
+      velocityCurrentRatio = this.motorVelocitySupplier.getAsDouble() / this.motorCurrentSupplier.getAsDouble();
+    } else {
+      // will never rumble
+      velocityCurrentRatio = 0;
+    }
+  }
+
+  /**
+   * Compare the velocity current ratio to the ratio at the current timestamp.
+   * Add strength to rumble if the velocity current ratio is higher, until 5 seconds is reached.
+   * <p>
+   * Called every time the scheduler is run.
+   */
   @Override
   public void execute() {
     // Get motor velocity and current
@@ -90,31 +102,30 @@ public class Rumble extends CommandBase {
     SmartDashboard.putNumber("Motor velocity from inside haptic", motorVelocity);
     SmartDashboard.putNumber("Motor current from inside haptic", motorCurrent);
     
-    SmartDashboard.putNumber("timestamp", Timer.getFPGATimestamp());
+    double currentFPGATimestamp = Timer.getFPGATimestamp();
+
+    SmartDashboard.putNumber("timestamp", currentFPGATimestamp);
     SmartDashboard.putNumber("ratio", velocityCurrentRatio);
 
-    lastFPGATimestamp = Timer.getFPGATimestamp();
-    
-    // Set rumble to 0 if the ideal ratio is 0
+    // Set rumble to 0 if the ideal ratio is 0, and attempt to calculate the ideal ratio again
     if (velocityCurrentRatio == 0) {
-      initialize();
+      // TODO Possible bug: ratio might be set before the motors accelerate completely, so the ratio might be too low
+      setRatio();
       setBothRumbles(0);
-    }
-    
-    // Check if motor velocity is above minimum velocity/current
-    else if (motorVelocity >= minimumVelocity && motorCurrent >= minimumCurrent) {
+      // Check if motor velocity is above minimum velocity/current
+    } else if (motorVelocity >= minimumVelocity && motorCurrent >= minimumCurrent) {
       // Get velocity-current ratio
       double ratio = motorVelocity / motorCurrent;
       SmartDashboard.putNumber(" Recent Ratio ", ratio);
       // Check if ratio is less than ideal ratio - deadband
       if (ratio < velocityCurrentRatio - deadband) {
         // Add time to time rammed
-        timeRammed += (Timer.getFPGATimestamp() - lastFPGATimestamp);
+        timeRammed += (currentFPGATimestamp - lastFPGATimestamp);
         // Reset time at zero
         timeUnderRatio = 0;
       } else {
-        // Add time to time at zero
-        timeUnderRatio += (Timer.getFPGATimestamp() - lastFPGATimestamp);
+        // Add time to time under ratio
+        timeUnderRatio += (currentFPGATimestamp - lastFPGATimestamp);
         // Only reset time rammed if time at zero is greater than buffer
         if (timeUnderRatio >= timeCancelBuffer) {
           // Reset the time rammed
@@ -132,16 +143,37 @@ public class Rumble extends CommandBase {
     // dataLog.start("Drivebase Current", "double");
     // dataLog.start("Drivebase Velocity", "double");
 
-    dataLog.appendDouble(logEntries.get("Drivebase Current Velocity Ratio"), velocityCurrentRatio, (long)Timer.getFPGATimestamp());
-    dataLog.appendDouble(logEntries.get("Drivebase Current"), motorCurrent, (long)Timer.getFPGATimestamp());
-    dataLog.appendDouble(logEntries.get("Drivebase Velocity"), motorVelocity, (long)Timer.getFPGATimestamp());
+    // Multiply by 1 million because for some reason all values were E-5 in the log file
+    long currentFPGATimestampLong = (long) currentFPGATimestamp * 1000000;
+
+    // Log values
+    dataLog.appendDouble(logEntries.get("Drivebase Current Velocity Ratio"), velocityCurrentRatio, currentFPGATimestampLong);
+    dataLog.appendDouble(logEntries.get("Drivebase Current"), motorCurrent, currentFPGATimestampLong);
+    dataLog.appendDouble(logEntries.get("Drivebase Velocity"), motorVelocity, currentFPGATimestampLong);
+    
+    // Set the current FPGA Timestamp to the previous one to prepare for the next iteration of the command
+    lastFPGATimestamp = currentFPGATimestamp;
   }
 
-  // Called once the command ends or is interrupted.
+  /**
+   * Called once the command ends or is interrupted.
+   * <p>
+   * Finishes logging
+   * @param interrupted     true if the command was interrupted/cancelled, false if ended normally
+   */
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    // Finish logging for all entries
+    for (int entry : logEntries.values()) {
+      dataLog.finish(entry);
+    }
+    // Close the log file
+    dataLog.close();
+  }
 
-  // Returns true when the command should end.
+  /**
+   * Returns true when this command ends.
+   */
   @Override
   public boolean isFinished() {
     return false;
@@ -154,15 +186,5 @@ public class Rumble extends CommandBase {
   private void setBothRumbles(double rumbleStrength) {
     controller.setRumble(GenericHID.RumbleType.kLeftRumble, rumbleStrength);
     controller.setRumble(GenericHID.RumbleType.kRightRumble, rumbleStrength); 
-  }
-
-  public void DisableLog() {
-    if (dataLog != null && logEntries != null) {
-      for (int entry : logEntries.values()) {
-        dataLog.finish(entry);
-      }
-  
-      dataLog.close();
-    }
   }
 }
