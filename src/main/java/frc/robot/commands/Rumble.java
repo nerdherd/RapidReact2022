@@ -7,8 +7,6 @@ package frc.robot.commands;
 import java.util.HashMap;
 import java.util.function.DoubleSupplier;
 
-import com.fasterxml.jackson.core.io.DataOutputAsStream;
-
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -27,7 +25,7 @@ public class Rumble extends CommandBase {
 
   private double lastFPGATimestamp;
   private double timeRammed = 0;
-  private double velocityCurrentRatio;
+  private double velocityCurrentRatio = 0;
   private double timeUnderRatio = 0;
   private double timeCancelBuffer = 0;
 
@@ -68,9 +66,11 @@ public class Rumble extends CommandBase {
     SmartDashboard.putNumber("timestamp", Timer.getFPGATimestamp());
 
     logEntries = new HashMap<String, Integer>() {{
-      put("Drivebase Current Velocity Ratio", dataLog.start("Drivebase Current Velocity Ratio", "double"));
+      put("Drivebase Live Current Velocity Ratio", dataLog.start("Drivebase Constant Current Velocity Ratio", "double"));
+      put("Drivebase Live Current Velocity Ratio", dataLog.start("Drivebase Live Current Velocity Ratio", "double"));
       put("Drivebase Current", dataLog.start("Drivebase Current", "double"));
       put("Drivebase Velocity", dataLog.start("Drivebase Velocity", "double"));
+      put("Rumble Strength", dataLog.start("Rumble Strength", "double"));
     }};
   }
 
@@ -80,9 +80,11 @@ public class Rumble extends CommandBase {
    */
   public void setRatio() {
     if (this.motorCurrentSupplier.getAsDouble() != 0) {
-      velocityCurrentRatio = this.motorVelocitySupplier.getAsDouble() / this.motorCurrentSupplier.getAsDouble();
+      double velocity = this.motorVelocitySupplier.getAsDouble();
+      double current = this.motorCurrentSupplier.getAsDouble();
+      velocityCurrentRatio = Math.abs(velocity / current);
     } else {
-      // will never rumble
+      // won't rumble
       velocityCurrentRatio = 0;
     }
   }
@@ -105,7 +107,9 @@ public class Rumble extends CommandBase {
     double currentFPGATimestamp = Timer.getFPGATimestamp();
 
     SmartDashboard.putNumber("timestamp", currentFPGATimestamp);
-    SmartDashboard.putNumber("ratio", velocityCurrentRatio);
+    SmartDashboard.putNumber("constant ratio", velocityCurrentRatio);
+
+    double ratio = 0;
 
     // Set rumble to 0 if the ideal ratio is 0, and attempt to calculate the ideal ratio again
     if (velocityCurrentRatio == 0) {
@@ -115,7 +119,7 @@ public class Rumble extends CommandBase {
       // Check if motor velocity is above minimum velocity/current
     } else if (motorVelocity >= minimumVelocity && motorCurrent >= minimumCurrent) {
       // Get velocity-current ratio
-      double ratio = motorVelocity / motorCurrent;
+      ratio = Math.abs(motorVelocity / motorCurrent);
       SmartDashboard.putNumber(" Recent Ratio ", ratio);
       // Check if ratio is less than ideal ratio - deadband
       if (ratio < velocityCurrentRatio - deadband) {
@@ -134,8 +138,10 @@ public class Rumble extends CommandBase {
       }
     }
 
+    SmartDashboard.putNumber("live ratio", ratio);
+
     // Set the rumble strength (from 0 to 1 on an exponential scale)
-    double rumbleStrength = (timeRammed / 5) * (timeRammed / 5);
+    double rumbleStrength = Math.min((timeRammed / 5) * (timeRammed / 5), 1);
     SmartDashboard.putNumber("Rammed Time", (int) timeRammed);
     setBothRumbles(rumbleStrength); 
 
@@ -147,9 +153,11 @@ public class Rumble extends CommandBase {
     long currentFPGATimestampLong = (long) currentFPGATimestamp * 1000000;
 
     // Log values
-    dataLog.appendDouble(logEntries.get("Drivebase Current Velocity Ratio"), velocityCurrentRatio, currentFPGATimestampLong);
+    dataLog.appendDouble(logEntries.get("Drivebase Constant Current Velocity Ratio"), velocityCurrentRatio, currentFPGATimestampLong);
+    dataLog.appendDouble(logEntries.get("Drivebase Live Current Velocity Ratio"), ratio, currentFPGATimestampLong);
     dataLog.appendDouble(logEntries.get("Drivebase Current"), motorCurrent, currentFPGATimestampLong);
     dataLog.appendDouble(logEntries.get("Drivebase Velocity"), motorVelocity, currentFPGATimestampLong);
+    dataLog.appendDouble(logEntries.get("Rumble Strength"), rumbleStrength, currentFPGATimestampLong);
     
     // Set the current FPGA Timestamp to the previous one to prepare for the next iteration of the command
     lastFPGATimestamp = currentFPGATimestamp;
