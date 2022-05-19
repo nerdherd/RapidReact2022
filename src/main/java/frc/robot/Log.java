@@ -44,6 +44,12 @@ public class Log {
     createTopic("Elevator Position" + "/Position", () -> robotContainer.elevator.elevator.getSelectedSensorPosition());
     createTopic("Elevator Voltage " + "/Voltage", () -> robotContainer.elevator.elevator.getMotorOutputVoltage());
     createTopic("Arm Position" + "/Position", () -> robotContainer.armTrapezoid.arm.getSelectedSensorPosition());
+    createTopic("RightMasterVelocity", () -> robotContainer.drivetrain.rightMaster.getSelectedSensorVelocity());
+    createTopic("RightMasterCurrent", () -> robotContainer.drivetrain.rightMaster.getSupplyCurrent());
+    createTopic("Constant Ratio", () -> robotContainer.rumble != null ? robotContainer.rumble.fixedRatio : 0);
+    createTopic("Changing Ratio", () -> robotContainer.rumble != null ? robotContainer.rumble.ratio : 0);
+    createTopic("Time Rammed", () -> robotContainer.rumble != null ? robotContainer.rumble.timeRammed : 0);
+    createTopic("Rumble Strength", () -> robotContainer.rumble != null ? robotContainer.rumble.rumbleStrength : 0);
     // createTopic("Arm Voltage" + "/Voltage", () -> robotContainer.armTrapezoid.arm.getMotorOutputVoltages());
     // createTopic("RightMasterVelocity" + "/Velocity", () -> robotContainer.drivetrain.rightMaster.getSelectedSensorVelocity());
     // createTopic("RightMasterCurrent" + "/Velocity", () -> robotContainer.drivetrain.rightMaster.getSupplyCurrent());

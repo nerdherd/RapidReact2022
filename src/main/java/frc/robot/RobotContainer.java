@@ -19,6 +19,7 @@ import com.ctre.phoenix.sensors.CANCoderStatusFrame;
 
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.PS4Controller.Button;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.EverybotClimber;
@@ -62,9 +63,10 @@ public class RobotContainer {
 
         ps4Controller = new PS4Controller(0);
         ps4Controller2 = new PS4Controller(1);
+        
         //drivetrain.compressor.enableDigital();
         rumble = new Rumble(() -> drivetrain.rightMaster.getSupplyCurrent(), 
-            () -> drivetrain.rightMaster.getSelectedSensorVelocity(), ps4Controller, 0.0001, 0.1);
+            () -> drivetrain.rightMaster.getSelectedSensorVelocity(), ps4Controller, 0, 0);
         rumble.schedule();
     }
 
