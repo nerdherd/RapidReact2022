@@ -1,9 +1,38 @@
 {
+<<<<<<< HEAD
+=======
+  "HALProvider": {
+    "Other Devices": {
+      "Talon FX[16]/Integrated Sensor": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX[20]/Integrated Sensor": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX[27]/Integrated Sensor": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon SRX[19]/Quad Encoder": {
+        "header": {
+          "open": true
+        }
+      }
+    }
+  },
+>>>>>>> simulation
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
       "/LiveWindow/Ungrouped/Talon FX [16]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Talon FX [20]": "Motor Controller",
+      "/LiveWindow/Ungrouped/Talon FX [27]": "Motor Controller",
       "/LiveWindow/Ungrouped/Talon FX [31]": "Motor Controller",
       "/LiveWindow/Ungrouped/Talon SRX [19]": "Motor Controller",
       "/LiveWindow/Ungrouped/navX-Sensor[4]": "Gyro",
@@ -22,10 +51,37 @@
       "/SmartDashboard/SendableChooser[1]": "String Chooser"
     },
     "windows": {
+<<<<<<< HEAD
+      "/SmartDashboard/Field": {
+=======
+      "/LiveWindow/Drivetrain": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/LiveWindow/EverybotClimber": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/ Elevator Sim ": {
+>>>>>>> simulation
+        "window": {
+          "visible": true
+        }
+<<<<<<< HEAD
+      },
       "/SmartDashboard/Field": {
         "window": {
           "visible": true
         }
+      },
+      "/SmartDashboard/SendableChooser[1]": {
+        "window": {
+          "visible": true
+        }
+=======
+>>>>>>> 0136321e395d18139bcd7aff21c4bf31884fe6e7
       }
     }
   },
@@ -34,7 +90,11 @@
       "open": true
     },
     "SmartDashboard": {
+<<<<<<< HEAD
       "Field": {
+=======
+      "SendableChooser[1]": {
+>>>>>>> simulation
         "open": true
       },
       "open": true
@@ -47,7 +107,11 @@
     "Plot <0>": {
       "plots": [
         {
+<<<<<<< HEAD
+          "height": -6
+=======
           "height": -12
+>>>>>>> 0136321e395d18139bcd7aff21c4bf31884fe6e7
         }
       ],
       "window": {

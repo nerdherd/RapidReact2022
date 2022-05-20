@@ -151,6 +151,7 @@ public class RobotContainer {
         else if (climberChooser.getSelected() == Climber.LOW) {
             oSquare.whenPressed(new InstantCommand(() -> {
                 everybotClimber.moveClimber(1 * EverybotConstants.kTicksToLowRung);
+                everybotClimber.moveClimberSim(1 * EverybotConstants.kTicksToLowRung);
                 SmartDashboard.putBoolean("Moving to low rung", true);
                 SmartDashboard.putString(" Button State ", " PS1 Square ");
             }));
@@ -158,6 +159,7 @@ public class RobotContainer {
             // Actually Circle
             oCross.whenPressed(new InstantCommand(() -> {
                 everybotClimber.moveClimber(1 * EverybotConstants.kTicksToClimbLowRung);
+                everybotClimber.moveClimberSim(1 * EverybotConstants.kTicksToClimbLowRung);
                 SmartDashboard.putBoolean("Climbing onto low rung", true);
                 SmartDashboard.putString(" Button State ", " PS1 Cross ");
             }));
@@ -277,6 +279,7 @@ public class RobotContainer {
     public void simPeriodic() {
         drivetrain.simPeriodic();
         elevator.simPeriodic();
+        everybotClimber.simPeriodic();
     }
 
     public void simTeleop() {

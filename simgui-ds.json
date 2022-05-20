@@ -95,8 +95,17 @@
     }
   ],
   "robotJoysticks": [
+<<<<<<< HEAD
+    {},
+    {
+      "guid": "Keyboard0"
+    }
+  ],
+  "zeroDisconnectedJoysticks": false
+=======
     {
       "guid": "Keyboard0"
     }
   ]
+>>>>>>> 0136321e395d18139bcd7aff21c4bf31884fe6e7
 }
