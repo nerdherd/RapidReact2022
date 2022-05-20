@@ -1,25 +1,7 @@
 {
-  "HALProvider": {
-    "Other Devices": {
-      "Talon FX[16]/Integrated Sensor": {
-        "header": {
-          "open": true
-        }
-      },
-      "Talon SRX[19]/Quad Encoder": {
-        "header": {
-          "open": true
-        }
-      }
-    }
-  },
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
-      "/LiveWindow/Arm": "Subsystem",
-      "/LiveWindow/Drivetrain": "Subsystem",
-      "/LiveWindow/Elevator": "Subsystem",
-      "/LiveWindow/EverybotClimber": "Subsystem",
       "/LiveWindow/Ungrouped/Scheduler": "Scheduler",
       "/LiveWindow/Ungrouped/Talon FX [16]": "Motor Controller",
       "/LiveWindow/Ungrouped/Talon FX [31]": "Motor Controller",
@@ -40,17 +22,7 @@
       "/SmartDashboard/SendableChooser[1]": "String Chooser"
     },
     "windows": {
-      "/LiveWindow/Drivetrain": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/LiveWindow/Elevator": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/SmartDashboard/ Elevator Sim ": {
+      "/SmartDashboard/Field": {
         "window": {
           "visible": true
         }
@@ -58,9 +30,18 @@
     }
   },
   "NetworkTables": {
+    "LiveWindow": {
+      "open": true
+    },
     "SmartDashboard": {
+      "Field": {
+        "open": true
+      },
       "open": true
     }
+  },
+  "NetworkTables View": {
+    "visible": false
   },
   "Plot": {
     "Plot <0>": {
@@ -68,7 +49,10 @@
         {
           "height": -12
         }
-      ]
+      ],
+      "window": {
+        "visible": false
+      }
     }
   }
 }

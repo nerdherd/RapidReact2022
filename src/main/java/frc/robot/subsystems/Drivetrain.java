@@ -44,8 +44,7 @@ public class Drivetrain extends SubsystemBase {
   private DifferentialDrivetrainSim m_diffDriveSim;
   private DifferentialDriveOdometry m_diffDriveOdometry;
 
-  private PS4Controller m_ps4controller;
-  private XboxController m_xboxController;
+  private PS4Controller m_ps4controllerSim;
 
   private AHRS m_navSim;
 
@@ -97,7 +96,7 @@ public class Drivetrain extends SubsystemBase {
       null
     );
 
-    m_ps4controller = new PS4Controller(0);
+    m_ps4controllerSim = new PS4Controller(0);
 
     m_navSim = new AHRS(SPI.Port.kMXP);
 
@@ -173,7 +172,7 @@ public class Drivetrain extends SubsystemBase {
 
     m_dev = SimDeviceDataJNI.getSimDeviceHandle("navX-Sensor[0]");
     SimDouble angle = new SimDouble(SimDeviceDataJNI.getSimValueHandle(m_dev, "Yaw"));
-    angle.set(5.0);
+    angle.set(0);
 
     m_diffDriveSim.setInputs(m_leftMasterSim.getMotorOutputVoltage(), m_rightMasterSim.getMotorOutputVoltage());
     m_diffDriveSim.update(0.02);
@@ -195,8 +194,17 @@ public class Drivetrain extends SubsystemBase {
   }
 
   public void simTeleop() {
-    m_leftMasterSim.setVoltage(1);
-    m_rightMasterSim.setVoltage(1);
+    // m_leftMasterSim.setVoltage(1);
+    // m_rightMasterSim.setVoltage(1);
+
+    double m_leftInput = m_ps4controllerSim.getLeftY();
+    double m_rightInput = m_ps4controllerSim.getRightY();
+    
+    m_leftMasterSim.set(ControlMode.PercentOutput, m_leftInput);
+    m_rightMasterSim.set(ControlMode.PercentOutput, m_rightInput);
+
+    // m_leftMasterSim.set(ControlMode.PercentOutput, m_ps4controller.getLeftY());
+    // m_rightMasterSim.set(ControlMode.PercentOutput, m_ps4controller.getRightY());
   }
 
   public void resetEncoders() {
