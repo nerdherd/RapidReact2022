@@ -8,10 +8,10 @@ public final class Constants {
 
         public static final int kRightMasterTalonID = 16;
         public static final int kRightSlaveBTalonID = 17;
-        public static final int kRightSlaveTTalonID = 18; //new
+        // public static final int kRightSlaveTTalonID = 18; //new
         public static final int kLeftMasterTalonID = 31;
         public static final int kLeftSlaveBTalonID = 30;
-        public static final int kLeftSlaveTTalonID = 29; //new
+        //public static final int kLeftSlaveTTalonID = 29; //new
 
         public static final int kHooksMasterTalonID = 20; //new
         public static final int kHooksSlaveTalonID = 27; //new

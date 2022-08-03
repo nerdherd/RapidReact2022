@@ -31,7 +31,6 @@ public class DriveTest extends SequentialCommandGroup {
             new WaitCommand(1),
             new InstantCommand(() -> robotContainer.drivetrain.setPower(0,0))
 
-
         );
 
     }

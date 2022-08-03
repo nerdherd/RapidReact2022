@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.climber.Arm;
 import frc.robot.subsystems.climber.Elevator;
 import frc.robot.subsystems.Drivetrain;
+import frc.robot.subsystems.EverybotClimber;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.ClimberConstants;
 
@@ -58,10 +59,10 @@ public class Robot extends TimedRobot {
     robotContainer.reportToSmartDashboard();
     robotContainer.drivetrain.rightMaster.setNeutralMode(NeutralMode.Coast);
     robotContainer.drivetrain.rightSlaveB.setNeutralMode(NeutralMode.Coast);
-    robotContainer.drivetrain.rightSlaveT.setNeutralMode(NeutralMode.Coast);
+    // robotContainer.drivetrain.rightSlaveT.setNeutralMode(NeutralMode.Coast);
     robotContainer.drivetrain.leftMaster.setNeutralMode(NeutralMode.Coast);
     robotContainer.drivetrain.leftSlaveB.setNeutralMode(NeutralMode.Coast);
-    robotContainer.drivetrain.leftSlaveT.setNeutralMode(NeutralMode.Coast);
+    // robotContainer.drivetrain.leftSlaveT.setNeutralMode(NeutralMode.Coast);
 
     robotContainer.configureButtonBindings();
     
@@ -83,14 +84,8 @@ public class Robot extends TimedRobot {
   public void autonomousPeriodic() {
     // Arm.rotateArmToAngle(64, 5);
     SmartDashboard.putNumber(" Arm Position ", Arm.arm.getSelectedSensorPosition());
-<<<<<<< HEAD
-    
+    // SmartDashboard.putNumber(" Hook Master ", RobotContainer.everybotClimber.climberMaster);
     CommandScheduler.getInstance().run();
-=======
-    CommandScheduler.getInstance().run();
-
-
->>>>>>> main
     // -21560 to reach mid 
     // -2675 to go down & latch
   }
@@ -98,5 +93,6 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit() {
     CommandScheduler.getInstance().cancelAll();
+    robotContainer.elevator.elevator.set(ControlMode.PercentOutput, 0);
   }
 }

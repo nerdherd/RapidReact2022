@@ -59,8 +59,8 @@ public class RobotContainer {
         m_climberShifter = true;
         m_combinedSpeed = 0;
 
-        ps4Controller = new PS4Controller(0);
-        ps4Controller2 = new PS4Controller(1);
+        ps4Controller = new PS4Controller(0); // Driver
+        ps4Controller2 = new PS4Controller(1); // Operator
         //drivetrain.compressor.enableDigital();
     }
 
@@ -96,8 +96,10 @@ public class RobotContainer {
                     SmartDashboard.putString(" Running Command ", "Elevator Down ");
                 } else if (elevator.elevator.getSelectedSensorPosition() <= ClimberConstants.kElevatorTicksDown) {
                     elevator.elevator.set(ControlMode.PercentOutput, 0);
+                    SmartDashboard.putString( " Running Command ", " Elevator Reached Down Position ");
                 }
                 SmartDashboard.putString( "Button State ", "Square ");
+
             // } else if (ps4Controller2.getSquareButton() == false) {
             //     elevator.elevator.set(ControlMode.PercentOutput, 0);
             }
@@ -121,6 +123,7 @@ public class RobotContainer {
                     elevator.elevator.set(ControlMode.PercentOutput, 0.4);
                     SmartDashboard.putString(" Running Command ", "Elevator Up Extend ");
                 } else if (elevator.elevator.getSelectedSensorPosition() > ClimberConstants.kElevatorTicksExtend) {
+                    SmartDashboard.putString(" Running Command ", "Elevator Up Extend Reached ");
                     elevator.elevator.set(ControlMode.PercentOutput, 0);
                 }
                 SmartDashboard.putString(" Button State ", " Circle ");
@@ -333,6 +336,6 @@ public class RobotContainer {
         SmartDashboard.putNumber(" Climber Voltage ", everybotClimber.climberMaster.getMotorOutputVoltage());
         SmartDashboard.putNumber(" Climber Current ", everybotClimber.climberMaster.getSupplyCurrent());
         SmartDashboard.putNumber(" Left Operator Y Axis ", ps4Controller2.getLeftY());
-
+        drivetrain.reportToSmartDashboard();
     }
 }
