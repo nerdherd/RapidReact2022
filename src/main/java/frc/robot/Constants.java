@@ -95,5 +95,9 @@ public final class Constants {
         public static final double kOperatorAlpha = 0.11765;
         public static final double kOperatorOneMinusAlpha = 0.88235;
     }
+
+    public static final class SystemCheckConstants {
+        public static final double kDrivePower = 0.1;
+    }
 }
 ;
