@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.climber.Arm;
 import frc.robot.subsystems.climber.Elevator;
+import frc.robot.subsystems.climber.commands.systemchecks.DriveTest;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.EverybotClimber;
 import frc.robot.RobotContainer;
@@ -29,6 +30,9 @@ public class Robot extends TimedRobot {
 
   // TODO: refractor code so that this doesn't have to be public static, and follows the intended use of robotContainer
   public static RobotContainer robotContainer;
+
+  // Commands
+  DriveTest driveTest = new DriveTest();
 
   @Override
   public void robotInit() { 
@@ -94,5 +98,11 @@ public class Robot extends TimedRobot {
   public void disabledInit() {
     CommandScheduler.getInstance().cancelAll();
     robotContainer.elevator.elevator.set(ControlMode.PercentOutput, 0);
+  }
+
+  @Override
+  public void testInit() {
+    driveTest.execute();
+
   }
 }
