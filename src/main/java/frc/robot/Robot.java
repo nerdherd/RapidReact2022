@@ -103,6 +103,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void testInit() {
-    
+    SmartDashboard.putData(" Run Selected Test ", robotContainer.systemCheckChooser.getSelected());
   }
 }
