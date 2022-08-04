@@ -26,6 +26,9 @@ import frc.robot.subsystems.climber.ArmTrapezoid;
 import frc.robot.subsystems.climber.Elevator;
 import frc.robot.subsystems.climber.commands.elevator.ElevatorDown;
 import frc.robot.subsystems.climber.commands.elevator.ElevatorExtend;
+import frc.robot.subsystems.climber.commands.systemchecks.DriveTest;
+import frc.robot.subsystems.climber.commands.systemchecks.ElevatorTest;
+import frc.robot.subsystems.climber.commands.systemchecks.EverybotClimberTest;
 import frc.robot.Constants.ClimberConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.EverybotConstants;
@@ -45,6 +48,7 @@ public class RobotContainer {
     public PS4Controller ps4Controller2;
     
     public SendableChooser<CommandGroupBase> autoChooser;
+    public SendableChooser<CommandGroupBase> systemCheckChooser;
     public SendableChooser<Climber> climberChooser;
 
     public Climber climber;
@@ -222,6 +226,13 @@ public class RobotContainer {
         );
 
         SmartDashboard.putData(autoChooser);
+
+        // System check auto chooser
+        systemCheckChooser = new SendableChooser<CommandGroupBase>();
+        systemCheckChooser.setDefaultOption(" Drive Test Case ", new DriveTest());
+        systemCheckChooser.addOption(" Elevator Test Case ", new ElevatorTest());
+        systemCheckChooser.addOption(" Everybot Climber Test Case ", new EverybotClimberTest());
+        SmartDashboard.putData(systemCheckChooser);
 
         climberChooser = new SendableChooser<Climber>();
 

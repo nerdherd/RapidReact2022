@@ -26,7 +26,8 @@ import frc.robot.Constants.ClimberConstants;
 
 public class Robot extends TimedRobot {
   public static SendableChooser<Command> autoChooser;
-  public static Command m_autonomousCommand;
+  public static SendableChooser<Command> systemCheckChooser;
+  // public static Command m_autonomousCommand;
 
   // TODO: refractor code so that this doesn't have to be public static, and follows the intended use of robotContainer
   public static RobotContainer robotContainer;
@@ -102,7 +103,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void testInit() {
-    driveTest.execute();
-
+    
   }
 }
