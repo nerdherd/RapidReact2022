@@ -54,6 +54,7 @@ public class Robot extends TimedRobot {
     robotContainer.elevator.elevator.setNeutralMode(NeutralMode.Brake);
     //robotContainer.drivetrain.compressor.enableDigital();
     robotContainer.everybotClimber.climberMaster.setSelectedSensorPosition(0);
+    
   }
 
 
@@ -70,7 +71,8 @@ public class Robot extends TimedRobot {
     // robotContainer.drivetrain.leftSlaveT.setNeutralMode(NeutralMode.Coast);
 
     robotContainer.configureButtonBindings();
-    
+    SmartDashboard.putData(" Run Selected Test ", robotContainer.systemCheckChooser.getSelected());
+
   }
 
 
@@ -101,8 +103,5 @@ public class Robot extends TimedRobot {
     robotContainer.elevator.elevator.set(ControlMode.PercentOutput, 0);
   }
 
-  @Override
-  public void testInit() {
-    SmartDashboard.putData(" Run Selected Test ", robotContainer.systemCheckChooser.getSelected());
-  }
+  
 }

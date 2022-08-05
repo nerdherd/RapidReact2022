@@ -8,15 +8,17 @@ import frc.robot.subsystems.EverybotClimber;
 
 public class EverybotClimberTest extends SequentialCommandGroup {
 
-    public static RobotContainer robotContainer = new RobotContainer();
-    public static EverybotClimber everybotClimber = new EverybotClimber();
+    // public static RobotContainer robotContainer = new RobotContainer();
+    // public static EverybotClimber everybotClimber = new EverybotClimber();
 
     public EverybotClimberTest() {
 
         addCommands(
-            new InstantCommand(() -> everybotClimber.moveClimber(1 * EverybotConstants.kTicksToLowRung)),
-            new InstantCommand(() -> everybotClimber.moveClimber(1 * EverybotConstants.kTicksToClimbLowRung)),
-            new InstantCommand(() -> everybotClimber.moveClimber(1 * EverybotConstants.kTicksToHome))
+            new EverybotMotor(RobotContainer.everybotClimber)
+            // new InstantCommand(() -> everybotClimber.moveClimber(1 * EverybotConstants.kTicksToLowRung)),
+            // new InstantCommand(() -> everybotClimber.moveClimber(1 * EverybotConstants.kTicksToClimbLowRung)),
+            // new InstantCommand(() -> everybotClimber.moveClimber(1 * EverybotConstants.kTicksToHome))
+            
         );
 
     }

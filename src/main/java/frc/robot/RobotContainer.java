@@ -41,8 +41,8 @@ public class RobotContainer {
         TRAVERSAL;
     }
 
-    public Drivetrain drivetrain = new Drivetrain();
-    public EverybotClimber everybotClimber = new EverybotClimber();
+    public static Drivetrain drivetrain = new Drivetrain();
+    public static EverybotClimber everybotClimber = new EverybotClimber();
 
     public PS4Controller ps4Controller;
     public PS4Controller ps4Controller2;
