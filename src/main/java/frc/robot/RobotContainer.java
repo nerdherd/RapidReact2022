@@ -26,12 +26,12 @@ import frc.robot.subsystems.climber.ArmTrapezoid;
 import frc.robot.subsystems.climber.Elevator;
 import frc.robot.subsystems.climber.commands.elevator.ElevatorDown;
 import frc.robot.subsystems.climber.commands.elevator.ElevatorExtend;
-import frc.robot.subsystems.climber.commands.systemchecks.DriveTest;
-import frc.robot.subsystems.climber.commands.systemchecks.ElevatorTest;
-import frc.robot.subsystems.climber.commands.systemchecks.EverybotClimberTest;
 import frc.robot.Constants.ClimberConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.EverybotConstants;
+import frc.robot.commands.systemchecks.DriveTest;
+import frc.robot.commands.systemchecks.ElevatorTest;
+import frc.robot.commands.systemchecks.EverybotClimberTest;
 
 // import frc.robot.subsystems.climber.ArmMotionMagic;
 public class RobotContainer {

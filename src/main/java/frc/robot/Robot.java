@@ -17,11 +17,11 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.subsystems.climber.Arm;
 import frc.robot.subsystems.climber.Elevator;
-import frc.robot.subsystems.climber.commands.systemchecks.DriveTest;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.EverybotClimber;
 import frc.robot.RobotContainer;
 import frc.robot.Constants.ClimberConstants;
+import frc.robot.commands.systemchecks.DriveTest;
 
 
 public class Robot extends TimedRobot {

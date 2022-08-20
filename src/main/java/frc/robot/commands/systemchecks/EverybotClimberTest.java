@@ -1,4 +1,4 @@
-package frc.robot.subsystems.climber.commands.systemchecks;
+package frc.robot.commands.systemchecks;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
