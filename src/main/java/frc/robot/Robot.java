@@ -85,8 +85,6 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber(" Arm Position ", Arm.arm.getSelectedSensorPosition());
     CommandScheduler.getInstance().run();
 
-
->>>>>>> main
     // -21560 to reach mid 
     // -2675 to go down & latch
   }
