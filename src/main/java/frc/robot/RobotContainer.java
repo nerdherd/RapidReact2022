@@ -112,7 +112,7 @@ public class RobotContainer {
                 SmartDashboard.putString(" Running Command ", " Rotate Arm Pos 1");
                 SmartDashboard.putNumber(" Arm Target Position", ClimberConstants.kTicksToRungAngle);
             }));
-
+// :)
             oSquare.whenPressed(new InstantCommand(() -> {
                 arm.setPositionMotionMagic(ClimberConstants.kTicksToClearRung);
                 SmartDashboard.putString("Button State ", "Operator Square");
@@ -259,6 +259,12 @@ public class RobotContainer {
         drivetrain.setNeutralModes();
         elevator.setNeutralModeBrake();
         arm.setNeutralModeBrake();
+    }
+
+    public void setCoastMode() {
+        elevator.setNeutralModeCoast();
+        drivetrain.setNeutralModes();
+        arm.setNeutralModeCoast();
     }
 
     public void resetEncoderPositions() {

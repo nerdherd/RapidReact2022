@@ -25,24 +25,24 @@ public class Drivetrain extends SubsystemBase {
   public Drivetrain() {
     m_driveRightMotors = new TalonFX[] {
       new TalonFX(DriveConstants.kRightMasterTalonID), // Channel 30 on CAN, 14 on PDP
-      new TalonFX(DriveConstants.kRightSlaveTTalonID), // Channel 31 on CAN, 15 on PDP
+      // new TalonFX(DriveConstants.kRightSlaveTTalonID), // Channel 31 on CAN, 15 on PDP
       new TalonFX(DriveConstants.kRightSlaveBTalonID),
     };
 
     m_driveLeftMotors = new TalonFX[] {
       new TalonFX(DriveConstants.kLeftMasterTalonID), // Channel 16 on CAN, 0 on PDP
-      new TalonFX(DriveConstants.kLeftSlaveTTalonID), // Channel 17 on CAN, 1 on PDP
+      // new TalonFX(DriveConstants.kLeftSlaveTTalonID), // Channel 17 on CAN, 1 on PDP
       new TalonFX(DriveConstants.kLeftSlaveBTalonID)
     };
     
     m_driveLeftMotors[1].follow(m_driveLeftMotors[0]);
-    m_driveLeftMotors[2].follow(m_driveLeftMotors[0]);
+    // m_driveLeftMotors[2].follow(m_driveLeftMotors[0]);
     m_driveRightMotors[1].follow(m_driveRightMotors[0]);
-    m_driveRightMotors[2].follow(m_driveRightMotors[0]);
+    // m_driveRightMotors[2].follow(m_driveRightMotors[0]);
     
     // Inverted the right side
     m_driveRightMotors[0].setInverted(true);
-    for (int i = 1; i <= 2; i++) {
+    for (int i = 1; i <= m_driveRightMotors.length - 1; i++) {
       m_driveRightMotors[i].setInverted(InvertType.FollowMaster);;
     }
 

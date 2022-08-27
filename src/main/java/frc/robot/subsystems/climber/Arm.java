@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Log;
 import frc.robot.Constants.ClimberConstants;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.commands.StopArm;
 
 public class Arm extends SubsystemBase {
 
@@ -38,10 +39,12 @@ public class Arm extends SubsystemBase {
         hookPiston = new DoubleSolenoid(3, PneumaticsModuleType.CTREPCM, DriveConstants.kHookPistonForwardID, DriveConstants.kHookPistonReverseID);
 
         climberPiston.set(Value.kForward);
+
+        stopArm();
     }
 
     public void initDefaultCommand() {
-
+        // setDefaultCommand(new StopArm(this));
     }
 
     public void stopArm() {

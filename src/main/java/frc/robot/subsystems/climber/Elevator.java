@@ -22,10 +22,11 @@ public class Elevator extends SubsystemBase {
         m_elevator.configNeutralDeadband(ClimberConstants.kElevatorDeadband);
         m_elevator.config_kP(0, ClimberConstants.kElevatorkP);
         m_elevator.config_kD(0, ClimberConstants.kElevatorkD);
+        stopElevator();
     }
 
     public void initDefaultCommand() {
-        setDefaultCommand(new StopElevator(this));
+        // setDefaultCommand(new StopElevator(this));
     }
     
     public void stopElevator() {
@@ -82,6 +83,8 @@ public class Elevator extends SubsystemBase {
     public void reportToSmartDashboard(){
         SmartDashboard.putNumber("Elevator Position", m_elevator.getSelectedSensorPosition());
         SmartDashboard.putNumber("Elevator Velocity", m_elevator.getSelectedSensorVelocity());
+        SmartDashboard.putNumber("Elevator Current", m_elevator.getSupplyCurrent());
+        SmartDashboard.putNumber("Elevator Voltage", m_elevator.getBusVoltage());
     }
 
     public void log() {
