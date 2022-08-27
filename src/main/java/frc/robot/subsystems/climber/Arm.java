@@ -41,11 +41,10 @@ public class Arm extends SubsystemBase {
     }
 
     public void initDefaultCommand() {
-        setDefaultCommand(new InstantCommand(() ->
-        armDefault()));
+
     }
 
-    public void armDefault() {
+    public void stopArm() {
         m_arm.set(ControlMode.PercentOutput, 0, DemandType.ArbitraryFeedForward, FF());
     }
 

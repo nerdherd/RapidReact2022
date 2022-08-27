@@ -5,10 +5,10 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Log;
 import frc.robot.Constants.ClimberConstants;
+import frc.robot.commands.StopElevator;
 
 public class Elevator extends SubsystemBase {
     private TalonSRX m_elevator;
@@ -24,12 +24,11 @@ public class Elevator extends SubsystemBase {
         m_elevator.config_kD(0, ClimberConstants.kElevatorkD);
     }
 
-    public void initDefaultCommand() { 
-        setDefaultCommand(new InstantCommand(() -> 
-        elevatorDefault()));
+    public void initDefaultCommand() {
+        setDefaultCommand(new StopElevator(this));
     }
     
-    public void elevatorDefault() {
+    public void stopElevator() {
         m_elevator.set(ControlMode.PercentOutput, 0);
     }
     
