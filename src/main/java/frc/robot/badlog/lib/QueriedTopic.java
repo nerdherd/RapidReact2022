@@ -1,4 +1,4 @@
-package com.badlog.lib;
+package frc.robot.badlog.lib;
 
 import java.util.Optional;
 import java.util.function.Supplier;
