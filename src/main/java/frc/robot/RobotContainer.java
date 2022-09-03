@@ -26,9 +26,11 @@ import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.EverybotClimber;
 import frc.robot.subsystems.climber.ArmTrapezoid;
 import frc.robot.subsystems.climber.Elevator;
+import frc.robot.subsystems.shooter.Flywheel;
 import frc.robot.Constants.ClimberConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.EverybotConstants;
+import frc.robot.Constants.FlywheelConstants;
 import frc.robot.commands.Rumble;
 
 // import frc.robot.subsystems.climber.ArmMotionMagic;
@@ -38,18 +40,20 @@ public class RobotContainer {
 
     public PS4Controller ps4Controller;
     public PS4Controller ps4Controller2;
+
+    public JoystickButton dTriangle;
+    public JoystickButton dCross;
     
     public SendableChooser<CommandGroupBase> autoChooser;
 
     public ArmTrapezoid armTrapezoid = new ArmTrapezoid();
     public Elevator elevator = new Elevator();
 
-    private boolean m_climberShifter;
-
+    public Flywheel flywheel = new Flywheel();                                               
+                                                                                  
+    private boolean m_climberShifter;                                             
+       
     public Rumble rumble;
-
-    public TalonFX leftFlywheel = new TalonFX(34);
-    public TalonFX rightFlywheel = new TalonFX(35);
 
     public RobotContainer() {
         SmartDashboard.putBoolean("arm moving", false);
@@ -68,18 +72,11 @@ public class RobotContainer {
     // test if this works.
 
     public void configureButtonBindings() {
-        if (ps4Controller.getL1ButtonPressed()) {
-            SmartDashboard.setDefaultString("L1", "yupp");
-            leftFlywheel.set(ControlMode.PercentOutput, -10);
-            rightFlywheel.set(ControlMode.PercentOutput, 10);
-        }
+        dTriangle = new JoystickButton(ps4Controller2, Button.kTriangle.value);
+        dCross = new JoystickButton(ps4Controller2, Button.kCross.value);
 
-        if (ps4Controller.getR1ButtonPressed()) {
-            SmartDashboard.setDefaultString("R1", "yupp");
-            leftFlywheel.set(ControlMode.PercentOutput, 0);
-            rightFlywheel.set(ControlMode.PercentOutput, 0);
-        }
-
+        dTriangle.whenPressed(new InstantCommand(() -> flywheel.setVelocity(FlywheelConstants.kFlywheelVelocity)));
+        dCross.whenPressed(new InstantCommand(() -> flywheel.setVelocityZero()));
 
         // TELEOP DRIVE
         double leftInput = ps4Controller.getLeftY();
@@ -93,7 +90,6 @@ public class RobotContainer {
 
         drivetrain.rightMaster.set(ControlMode.PercentOutput, rightOutput);
         drivetrain.leftMaster.set(ControlMode.PercentOutput, leftOutput);
-        
     }
 
     

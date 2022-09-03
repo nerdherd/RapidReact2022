@@ -90,4 +90,16 @@ public final class Constants {
         public static final double kOperatorAlpha = 0.11765;
         public static final double kOperatorOneMinusAlpha = 0.88235;
     }
+
+    public static final class FlywheelConstants {
+        public static final double kMotionMagicCruiseVelocity = 10888.53;
+        public static final double kMotionMagicAcceleration = 10888.53;
+        public static final double kFlywheelP = 0;
+        public static final double kFlywheelI = 0;
+        public static final double kFlywheelD = 0;
+        public static final double kFlywheelFF = 0;
+        public static final int kRightFlywheelID = 35;
+        public static final int kLeftFlywheelID = 34;
+        public static final double kFlywheelVelocity = 0; 
+    }
 }
