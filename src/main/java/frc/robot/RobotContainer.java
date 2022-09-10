@@ -18,6 +18,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.sensors.CANCoderStatusFrame;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
@@ -27,10 +28,14 @@ import frc.robot.subsystems.EverybotClimber;
 import frc.robot.subsystems.climber.ArmTrapezoid;
 import frc.robot.subsystems.climber.Elevator;
 import frc.robot.subsystems.shooter.Flywheel;
+import frc.robot.subsystems.shooter.Indexer;
+import frc.robot.subsystems.shooter.Roller;
 import frc.robot.Constants.ClimberConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.EverybotConstants;
 import frc.robot.Constants.FlywheelConstants;
+import frc.robot.Constants.IndexerConstants;
+import frc.robot.Constants.RollerConstants;
 import frc.robot.commands.Rumble;
 
 // import frc.robot.subsystems.climber.ArmMotionMagic;
@@ -41,15 +46,22 @@ public class RobotContainer {
     public PS4Controller ps4Controller;
     public PS4Controller ps4Controller2;
 
-    public JoystickButton dTriangle;
-    public JoystickButton dCross;
+    public JoystickButton dTriangleOperator;
+    public JoystickButton dCrossOperator; 
+    public JoystickButton dSquareOperator; // Cross
+    public JoystickButton dCircleOperator; // Square
+    public JoystickButton dLeftOperator1;
+    public JoystickButton dRightOperator1;
+
     
     public SendableChooser<CommandGroupBase> autoChooser;
 
     public ArmTrapezoid armTrapezoid = new ArmTrapezoid();
     public Elevator elevator = new Elevator();
 
-    public Flywheel flywheel = new Flywheel();                                               
+    public Flywheel flywheel = new Flywheel();   
+    public Indexer indexer = new Indexer();  
+    public Roller roller = new Roller();                                          
                                                                                   
     private boolean m_climberShifter;                                             
        
@@ -72,11 +84,20 @@ public class RobotContainer {
     // test if this works.
 
     public void configureButtonBindings() {
-        dTriangle = new JoystickButton(ps4Controller2, Button.kTriangle.value);
-        dCross = new JoystickButton(ps4Controller2, Button.kCross.value);
+        dTriangleOperator = new JoystickButton(ps4Controller2, Button.kTriangle.value);
+        dCrossOperator = new JoystickButton(ps4Controller2, Button.kCross.value);
+        dSquareOperator = new JoystickButton(ps4Controller2, Button.kSquare.value);
+        dCircleOperator = new JoystickButton(ps4Controller2, Button.kCircle.value);
+        dLeftOperator1 = new JoystickButton(ps4Controller, Button.kTriangle.value);
+        dRightOperator1 = new JoystickButton(ps4Controller, Button.kCross.value);
 
-        dTriangle.whenPressed(new InstantCommand(() -> flywheel.setVelocity(FlywheelConstants.kFlywheelVelocity)));
-        dCross.whenPressed(new InstantCommand(() -> flywheel.setVelocityZero()));
+        dTriangleOperator.whenPressed(new InstantCommand(() -> flywheel.setPercent(FlywheelConstants.kFlywheelPercent)));
+        dCrossOperator.whenPressed(new InstantCommand(() -> flywheel.setPercentZero()));
+        dSquareOperator.whenPressed(new InstantCommand(() -> indexer.setPercent(IndexerConstants.kIndexerPercent)));
+        dCircleOperator.whenPressed(new InstantCommand(() -> indexer.setPercentZero()));
+        dLeftOperator1.whenPressed(new InstantCommand(() -> roller.setPercent(RollerConstants.kRollerPercent)));
+        dRightOperator1.whenPressed(new InstantCommand(() -> roller.setPercentZero()));
+
 
         // TELEOP DRIVE
         double leftInput = ps4Controller.getLeftY();

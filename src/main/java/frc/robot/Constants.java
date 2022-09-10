@@ -100,6 +100,18 @@ public final class Constants {
         public static final double kFlywheelFF = 0;
         public static final int kRightFlywheelID = 35;
         public static final int kLeftFlywheelID = 34;
-        public static final double kFlywheelVelocity = 0; 
+        public static final double kFlywheelVelocity = 0;
+        public static final double kFlywheelPercent = 0.55; 
+    }
+
+    public static final class IndexerConstants {
+        public static final int kIndexerTopID = 20;
+        public static final int kIndexerBottomID = 21;
+        public static final double kIndexerPercent = 0.5;
+    }
+
+    public static final class RollerConstants {
+        public static final int kRollerID = 5;
+        public static final double kRollerPercent = -0.95;
     }
 }

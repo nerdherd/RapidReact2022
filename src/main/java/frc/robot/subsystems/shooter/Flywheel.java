@@ -15,8 +15,8 @@ public class Flywheel {
         leftMaster = new TalonFX(FlywheelConstants.kLeftFlywheelID);
         rightFollower = new TalonFX(FlywheelConstants.kRightFlywheelID);
         
-        leftMaster.setInverted(true);
-        rightFollower.setInverted(false);
+        leftMaster.setInverted(false);
+        rightFollower.setInverted(true);
 
         rightFollower.follow(leftMaster);
     }
@@ -27,6 +27,14 @@ public class Flywheel {
 
     public void setVelocityZero() {
         leftMaster.set(ControlMode.Velocity, 0);
+    }
+
+    public void setPercent(double percent) {
+        leftMaster.set(ControlMode.PercentOutput, percent);
+    }
+
+    public void setPercentZero() {
+        leftMaster.set(ControlMode.PercentOutput, 0);
     }
 
     public void reportToSmartDashboard() {
