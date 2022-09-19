@@ -95,7 +95,7 @@ public class RobotContainer {
         dCrossOperator.whenPressed(new InstantCommand(() -> flywheel.setPercentZero()));
         dSquareOperator.whenPressed(new InstantCommand(() -> indexer.setPercent(IndexerConstants.kIndexerPercent)));
         dCircleOperator.whenPressed(new InstantCommand(() -> indexer.setPercentZero()));
-        dLeftOperator1.whenPressed(new InstantCommand(() -> roller.setPercent(RollerConstants.kRollerPercent)));
+        dLeftOperator1.whenPressed(new InstantCommand(() -> roller.toggleRoller(RollerConstants.kRollerPercent)));
         dRightOperator1.whenPressed(new InstantCommand(() -> roller.setPercentZero()));
 
 

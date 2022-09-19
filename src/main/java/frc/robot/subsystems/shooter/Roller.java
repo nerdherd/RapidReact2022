@@ -1,5 +1,7 @@
 package frc.robot.subsystems.shooter;
 
+import javax.swing.SizeRequirements;
+
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
@@ -9,9 +11,11 @@ import frc.robot.Constants.RollerConstants;
 public class Roller {
 
     private TalonSRX roller;
+    private boolean isRunning;
 
     public Roller() {
         roller = new TalonSRX(RollerConstants.kRollerID);
+        isRunning = false;
     }
 
     // public void setVelocity(double velocity) {
@@ -28,6 +32,16 @@ public class Roller {
 
     public void setPercentZero() {
         roller.set(ControlMode.PercentOutput, 0);
+    }
+
+    public void toggleRoller(double percent) {
+        if (isRunning) {
+            setPercentZero();
+            isRunning = false;
+        } else {
+            setPercent(percent);
+            isRunning = true;
+        }
     }
 
     public void reportToSmartDashboard() {
