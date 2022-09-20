@@ -18,6 +18,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.sensors.CANCoderStatusFrame;
 
+import edu.wpi.first.wpilibj.DSControlWord;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -88,13 +89,15 @@ public class RobotContainer {
         dCrossOperator = new JoystickButton(ps4Controller2, Button.kCross.value);
         dSquareOperator = new JoystickButton(ps4Controller2, Button.kSquare.value);
         dCircleOperator = new JoystickButton(ps4Controller2, Button.kCircle.value);
-        dLeftOperator1 = new JoystickButton(ps4Controller, Button.kTriangle.value);
-        dRightOperator1 = new JoystickButton(ps4Controller, Button.kCross.value);
+        dLeftOperator1 = new JoystickButton(ps4Controller, Button.kTriangle.value); // Driver
+        dRightOperator1 = new JoystickButton(ps4Controller, Button.kCross.value); // Driver
 
         dTriangleOperator.whenPressed(new InstantCommand(() -> flywheel.setPercent(FlywheelConstants.kFlywheelPercent)));
         dCrossOperator.whenPressed(new InstantCommand(() -> flywheel.setPercentZero()));
-        dSquareOperator.whenPressed(new InstantCommand(() -> indexer.setPercent(IndexerConstants.kIndexerPercent)));
-        dCircleOperator.whenPressed(new InstantCommand(() -> indexer.setPercentZero()));
+        // dSquareOperator.whenPressed(new InstantCommand(() -> indexer.setPercent(IndexerConstants.kIndexerPercent)));
+        // dCircleOperator.whenPressed(new InstantCommand(() -> indexer.setPercentZero()));
+        // dSquareOperator.whenPressed(new InstantCommand(() -> intake.raiseIntake()));
+
         dLeftOperator1.whenPressed(new InstantCommand(() -> roller.toggleRoller(RollerConstants.kRollerPercent)));
         dRightOperator1.whenPressed(new InstantCommand(() -> roller.setPercentZero()));
 
