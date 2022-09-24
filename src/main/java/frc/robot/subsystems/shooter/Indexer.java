@@ -9,13 +9,15 @@ import frc.robot.Constants.IndexerConstants;
 public class Indexer {
 
     private TalonFX IndexerTop;
-    private TalonFX IndexerBottom;
+    //private TalonFX IndexerBottom;
+    private boolean isRunning;
 
     public Indexer() {
         IndexerTop = new TalonFX(IndexerConstants.kIndexerTopID);
-        IndexerBottom = new TalonFX(IndexerConstants.kIndexerBottomID);
+        //IndexerBottom = new TalonFX(IndexerConstants.kIndexerBottomID);
 
-        IndexerBottom.follow(IndexerTop);
+        isRunning = false;
+        //IndexerBottom.follow(IndexerTop);
     }
 
     // public void setVelocity(double velocity) {
@@ -28,10 +30,22 @@ public class Indexer {
 
     public void setPercent(double percent) {
         IndexerTop.set(ControlMode.PercentOutput, percent);
+        //IndexerBottom.set(ControlMode.PercentOutput, percent/2);
     }
 
     public void setPercentZero() {
         IndexerTop.set(ControlMode.PercentOutput, 0);
+        //IndexerBottom.set(ControlMode.PercentOutput, 0);
+    }
+
+    public void toggleIndexer() {
+        if (isRunning) {
+            setPercentZero();
+            isRunning = false;
+        } else {
+            setPercent(IndexerConstants.kIndexerPercent);
+            isRunning = true;
+        }
     }
 
     public void reportToSmartDashboard() {

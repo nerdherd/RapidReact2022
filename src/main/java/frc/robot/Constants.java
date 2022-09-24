@@ -107,7 +107,7 @@ public final class Constants {
     public static final class IndexerConstants {
         public static final int kIndexerTopID = 20;
         public static final int kIndexerBottomID = 21;
-        public static final double kIndexerPercent = 0;
+        public static final double kIndexerPercent = .3;
     }
 
     public static final class RollerConstants {
@@ -117,10 +117,17 @@ public final class Constants {
 
     public static final class IntakeConstants{
         public static final int kIntakeID = 37;
-        public static final double kIntakeUpPosition = 1895;
-        public static final double kIntakeOffset = 3211; // Ticks when perpendicular to ground
-        public static final double kIntakeGravityFF = -0.175; // Negative goes up, should invert
-        public static final double kIntakeDownPosition = 1098;
+        public static final double kIntakeUpPosition = -2415;// 1895 // When ready to intake
+        public static final double kIntakeOffset = -3936; // Ticks when perpendicular to ground
+        public static final double kIntakeGravityFF = 0.175; // Negative goes up, should invert
+        public static final double kIntakeDownPosition = -1715; // 1098
+        public static final double kIntakeMotionAcceleration = 125;
+        public static final double kIntakeCruiseVelocity = 250;
+        public static final double kIntakeDeadband = 0.004;
+        public static final double kIntakeP = 2.2; // 2
+        public static final double kIntakeD = 0;
+        public static final double kIntakeF = 0; // 2.8
+
     }
 
 }

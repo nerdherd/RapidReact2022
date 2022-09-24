@@ -30,6 +30,7 @@ import frc.robot.subsystems.climber.ArmTrapezoid;
 import frc.robot.subsystems.climber.Elevator;
 import frc.robot.subsystems.shooter.Flywheel;
 import frc.robot.subsystems.shooter.Indexer;
+import frc.robot.subsystems.shooter.Intake;
 import frc.robot.subsystems.shooter.Roller;
 import frc.robot.Constants.ClimberConstants;
 import frc.robot.Constants.DriveConstants;
@@ -62,7 +63,8 @@ public class RobotContainer {
 
     public Flywheel flywheel = new Flywheel();   
     public Indexer indexer = new Indexer();  
-    public Roller roller = new Roller();                                          
+    public Roller roller = new Roller();
+    public Intake intake = new Intake();                                          
                                                                                   
     private boolean m_climberShifter;                                             
        
@@ -92,14 +94,15 @@ public class RobotContainer {
         dLeftOperator1 = new JoystickButton(ps4Controller, Button.kTriangle.value); // Driver
         dRightOperator1 = new JoystickButton(ps4Controller, Button.kCross.value); // Driver
 
-        dTriangleOperator.whenPressed(new InstantCommand(() -> flywheel.setPercent(FlywheelConstants.kFlywheelPercent)));
-        dCrossOperator.whenPressed(new InstantCommand(() -> flywheel.setPercentZero()));
+        dTriangleOperator.whenPressed(new InstantCommand(() -> flywheel.toggleFlywheel()));
+        dLeftOperator1.whenPressed(new InstantCommand(() -> indexer.setPercent(IndexerConstants.kIndexerPercent)));
         // dSquareOperator.whenPressed(new InstantCommand(() -> indexer.setPercent(IndexerConstants.kIndexerPercent)));
         // dCircleOperator.whenPressed(new InstantCommand(() -> indexer.setPercentZero()));
-        // dSquareOperator.whenPressed(new InstantCommand(() -> intake.raiseIntake()));
+        dCircleOperator.whenPressed(new InstantCommand(() -> roller.toggleRoller(RollerConstants.kRollerPercent)));
+        dSquareOperator.whenPressed(new InstantCommand(() -> intake.RaiseIntake()));
 
-        dLeftOperator1.whenPressed(new InstantCommand(() -> roller.toggleRoller(RollerConstants.kRollerPercent)));
-        dRightOperator1.whenPressed(new InstantCommand(() -> roller.setPercentZero()));
+        // dLeftOperator1.whenPressed(new InstantCommand(() -> roller.toggleRoller(RollerConstants.kRollerPercent)));
+        //dRightOperator1.whenPressed(new InstantCommand(() -> roller.setPercentZero()));
 
 
         // TELEOP DRIVE

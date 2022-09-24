@@ -3,6 +3,7 @@ package frc.robot.subsystems.shooter;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
+import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.FlywheelConstants;
 
@@ -10,6 +11,7 @@ public class Flywheel {
 
     private TalonFX leftMaster;
     private TalonFX rightFollower;
+    private boolean isRunning;
 
     public Flywheel() {
         leftMaster = new TalonFX(FlywheelConstants.kLeftFlywheelID);
@@ -19,6 +21,7 @@ public class Flywheel {
         rightFollower.setInverted(true);
 
         rightFollower.follow(leftMaster);
+        isRunning = false;
     }
 
     public void setVelocity(double velocity) {
@@ -35,6 +38,16 @@ public class Flywheel {
 
     public void setPercentZero() {
         leftMaster.set(ControlMode.PercentOutput, 0);
+    }
+
+    public void toggleFlywheel() {
+        if (!isRunning) {
+            setPercent(FlywheelConstants.kFlywheelPercent);
+            isRunning = true;
+        } else {
+            setPercentZero();
+            isRunning = false;
+        }
     }
 
     public void reportToSmartDashboard() {

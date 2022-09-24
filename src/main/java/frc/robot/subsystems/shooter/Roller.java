@@ -26,11 +26,11 @@ public class Roller {
     //     IndexerTop.set(ControlMode.Velocity, 0);
     // }
 
-    public void setPercent(double percent) {
+    private void setPercent(double percent) {
         roller.set(ControlMode.PercentOutput, percent);
     }
 
-    public void setPercentZero() {
+    private void setPercentZero() {
         roller.set(ControlMode.PercentOutput, 0);
     }
 
