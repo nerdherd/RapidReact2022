@@ -66,13 +66,14 @@ public class Robot extends TimedRobot {
     robotContainer.drivetrain.rightSlave.setNeutralMode(NeutralMode.Coast);
     robotContainer.drivetrain.leftMaster.setNeutralMode(NeutralMode.Coast);
     robotContainer.drivetrain.leftSlave.setNeutralMode(NeutralMode.Coast);
-    robotContainer.configureButtonBindings();
+    robotContainer.configurePeriodic();
     
     CommandScheduler.getInstance().run();
 
     SmartDashboard.putNumber(" Drive Velocity ", robotContainer.drivetrain.rightMaster.getSelectedSensorVelocity());
     SmartDashboard.putNumber(" Drive Current ", robotContainer.drivetrain.rightMaster.getSupplyCurrent());
 
+    robotContainer.roller.reportToSmartDashboard();
     
   }
 

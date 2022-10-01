@@ -15,6 +15,7 @@ public class Roller {
 
     public Roller() {
         roller = new TalonSRX(RollerConstants.kRollerID);
+        roller.set(ControlMode.PercentOutput, 0);
         isRunning = false;
     }
 
@@ -45,6 +46,7 @@ public class Roller {
     }
 
     public void reportToSmartDashboard() {
+        SmartDashboard.putBoolean("Roller Running", isRunning);
         
     }
 }

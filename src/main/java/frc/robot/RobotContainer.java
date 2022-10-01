@@ -55,7 +55,6 @@ public class RobotContainer {
     public JoystickButton dLeftOperator1;
     public JoystickButton dRightOperator1;
 
-    
     public SendableChooser<CommandGroupBase> autoChooser;
 
     public ArmTrapezoid armTrapezoid = new ArmTrapezoid();
@@ -84,8 +83,6 @@ public class RobotContainer {
         rumble.schedule();
     }
 
-    // test if this works.
-
     public void configureButtonBindings() {
         dTriangleOperator = new JoystickButton(ps4Controller2, Button.kTriangle.value);
         dCrossOperator = new JoystickButton(ps4Controller2, Button.kCross.value);
@@ -95,16 +92,20 @@ public class RobotContainer {
         dRightOperator1 = new JoystickButton(ps4Controller, Button.kCross.value); // Driver
 
         dTriangleOperator.whenPressed(new InstantCommand(() -> flywheel.toggleFlywheel()));
-        dLeftOperator1.whenPressed(new InstantCommand(() -> indexer.setPercent(IndexerConstants.kIndexerPercent)));
+        dCrossOperator.whenPressed(new InstantCommand(() -> indexer.setPercent(IndexerConstants.kIndexerPercent)));
         // dSquareOperator.whenPressed(new InstantCommand(() -> indexer.setPercent(IndexerConstants.kIndexerPercent)));
         // dCircleOperator.whenPressed(new InstantCommand(() -> indexer.setPercentZero()));
-        dCircleOperator.whenPressed(new InstantCommand(() -> roller.toggleRoller(RollerConstants.kRollerPercent)));
-        dSquareOperator.whenPressed(new InstantCommand(() -> intake.RaiseIntake()));
+        dCircleOperator.whenPressed(new InstantCommand(() -> roller.toggleRoller(RollerConstants.kRollerPercent))); // Square
+        dSquareOperator.whenPressed(new InstantCommand(() -> intake.RaiseIntake())); // Cross
 
         // dLeftOperator1.whenPressed(new InstantCommand(() -> roller.toggleRoller(RollerConstants.kRollerPercent)));
         //dRightOperator1.whenPressed(new InstantCommand(() -> roller.setPercentZero()));
 
+    }
 
+    // test if this works.
+
+    public void configurePeriodic() {
         // TELEOP DRIVE
         double leftInput = ps4Controller.getLeftY();
         double rightInput = ps4Controller.getRightY();
