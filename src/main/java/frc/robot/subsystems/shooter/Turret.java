@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.NerdyMath;
 import frc.robot.Constants.TurretConstants;
 
 public class Turret extends SubsystemBase {
@@ -13,13 +14,16 @@ public class Turret extends SubsystemBase {
     private TalonFX hoodMotor;
     private TalonFX baseMotor;
 
-    private double currentBaseAngle, currentHoodAngle;
+    private double hoodLimitLower, hoodLimitUpper;
 
     public Turret() {
-        this.frontFlywheelFalcon = new TalonFX(TurretConstants.frontFlywheelFalconID);
-        this.backFlywheelFalcon = new TalonFX(TurretConstants.backFlywheelFalconID);
-        this.hoodMotor = new TalonFX(TurretConstants.hoodMotorID);
-        this.baseMotor = new TalonFX(TurretConstants.baseMotorID);
+        this.frontFlywheelFalcon = new TalonFX(TurretConstants.kFrontFlywheelFalconID);
+        this.backFlywheelFalcon = new TalonFX(TurretConstants.kBackFlywheelFalconID);
+        this.hoodMotor = new TalonFX(TurretConstants.kHoodMotorID);
+        this.baseMotor = new TalonFX(TurretConstants.kBaseMotorID);
+
+        hoodLimitLower = NerdyMath.ticksToAngle(TurretConstants.kHoodLowerLimitTicks);
+        hoodLimitUpper = NerdyMath.ticksToAngle(TurretConstants.kHoodUpperLimitTicks);
     }
 
     public void setVelocity(double velocity) {
@@ -27,7 +31,7 @@ public class Turret extends SubsystemBase {
         
         // Get front flywheel to spin at 1/4 the speed
         frontFlywheelFalcon.set(ControlMode.Velocity, velocity 
-                                * (1/TurretConstants.backFlywheelGearRatio) 
+                                * (1/TurretConstants.kBackFlywheelGearRatio) 
                                 * 0.25);
     }
 
@@ -36,14 +40,18 @@ public class Turret extends SubsystemBase {
     }
 
     public void turnToBaseAngle(double angle) {
-        baseMotor.set(ControlMode.MotionMagic, TurretConstants.baseTicksPerRadian * constrainAngle(angle));
+        baseMotor.set(ControlMode.MotionMagic, TurretConstants.kBaseTicksPerRadian * constrainAngleBase(angle));
     }
 
     public void turnToHoodAngle(double angle) {
-        hoodMotor.set(ControlMode.MotionMagic, TurretConstants.hoodTicksPerRadian * constrainAngle(angle));
+        hoodMotor.set(
+            ControlMode.MotionMagic, 
+            TurretConstants.kHoodTicksPerRadian * 
+            NerdyMath.clamp(angle, hoodLimitLower, hoodLimitUpper)
+            );
     }
 
-    private double constrainAngle(double rawAngle) {
+    private double constrainAngleBase(double rawAngle) {
         double newAngle = rawAngle % 360;
         if (newAngle < 0) {
             newAngle += 360;
@@ -51,4 +59,5 @@ public class Turret extends SubsystemBase {
 
         return newAngle - 180;
     }
+
 }

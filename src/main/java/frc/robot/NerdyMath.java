@@ -1,12 +1,17 @@
 package frc.robot;
 
-public class MathUtil {
+public class NerdyMath {
     public static double ticksToAngle(double ticks, double ticksPerRotation) {
         return ticks * 360 / ticksPerRotation;
     }
 
+    /**
+     * Default value (2048) for Falcon500 built-in encoder and (4096) for CTRE SRX Mag Encoder
+     * @param ticks
+     * @return
+     */
     public static double ticksToAngle(double ticks) {
-        return ticks * 360 / 4096;
+        return ticks * 360 / 2048;
     }
 
     public static double degreesToRadians(double deg) {
@@ -19,5 +24,9 @@ public class MathUtil {
 
     public static double angleToTicks(double angle, double ticksPerRotation) {
         return angle * ticksPerRotation / 360;
+    }
+
+    public static double clamp(double value, double min, double max) {
+        return Math.max(min, Math.min(max, value));
     }
 }

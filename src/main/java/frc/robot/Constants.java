@@ -117,7 +117,7 @@ public final class Constants {
 
     public static final class IntakeConstants{
         public static final int kIntakeID = 37;
-        public static final double kIntakeUpPosition = -2714;// 1895 // When ready to intake
+        public static final double kIntakeUpPosition = -2714; // When ready to intake
         public static final double kIntakeOffset = -4189; // Ticks when perpendicular to ground
         public static final double kIntakeGravityFF = 0.175; // Negative goes up, should invert
         public static final double kIntakeDownPosition = -1715; // 1098
@@ -131,16 +131,20 @@ public final class Constants {
     }
 
     public static final class TurretConstants {
-        public static final int frontFlywheelFalconID = 0;
-        public static final int backFlywheelFalconID = 0;
-        public static final int hoodMotorID = 0;
-        public static final int baseMotorID = 0;
+        public static final int kFrontFlywheelFalconID = 0;
+        public static final int kBackFlywheelFalconID = 0;
+        public static final int kHoodMotorID = 0;
+        public static final int kBaseMotorID = 0;
 
-        public static final double baseGearRatio = 0;
-        public static final double backFlywheelGearRatio = 39 / 30.0;
+        public static final double kBaseGearRatio = 0;
+        public static final double kBackFlywheelGearRatio = 39 / 30.0;
 
-        public static final double baseTicksPerRadian = 0;
-        public static final double hoodTicksPerRadian = 0;
+        public static final double kBaseTicksPerRadian = 0;
+        public static final double kHoodTicksPerRadian = 0;
+
+        // NOTE: Hood angle is measured from hood axle to axle of upper flywheel
+        public static final double kHoodLowerLimitTicks = 0; // Ticks when at 15 degrees should ideally be 25700 ticks, 0 ticks is parallel to ground
+        public static final double kHoodUpperLimitTicks = 0;
     }
 
 }
