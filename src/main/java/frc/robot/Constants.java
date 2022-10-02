@@ -130,4 +130,17 @@ public final class Constants {
 
     }
 
+    public static final class TurretConstants {
+        public static final int frontFlywheelFalconID = 0;
+        public static final int backFlywheelFalconID = 0;
+        public static final int hoodMotorID = 0;
+        public static final int baseMotorID = 0;
+
+        public static final double baseGearRatio = 1.0;
+        public static final double backFlywheelGearRatio = 39 / 30.0;
+
+        public static final double baseTicksPerRadian = 0;
+        public static final double hoodTicksPerRadian = 0;
+    }
+
 }
