@@ -13,7 +13,7 @@ public class Turret extends SubsystemBase {
     private TalonFX hoodMotor;
     private TalonFX baseMotor;
 
-    private double currentAngle;
+    private double currentBaseAngle, currentHoodAngle;
 
     public Turret() {
         this.frontFlywheelFalcon = new TalonFX(TurretConstants.frontFlywheelFalconID);
@@ -36,10 +36,19 @@ public class Turret extends SubsystemBase {
     }
 
     public void turnToBaseAngle(double angle) {
-        baseMotor.set(ControlMode.MotionMagic, TurretConstants.baseTicksPerRadian * angle);
+        baseMotor.set(ControlMode.MotionMagic, TurretConstants.baseTicksPerRadian * constrainAngle(angle));
     }
 
     public void turnToHoodAngle(double angle) {
-        hoodMotor.set(ControlMode.MotionMagic, TurretConstants.hoodTicksPerRadian * angle);
+        hoodMotor.set(ControlMode.MotionMagic, TurretConstants.hoodTicksPerRadian * constrainAngle(angle));
+    }
+
+    private double constrainAngle(double rawAngle) {
+        double newAngle = rawAngle % 360;
+        if (newAngle < 0) {
+            newAngle += 360;
+        }
+
+        return newAngle - 180;
     }
 }

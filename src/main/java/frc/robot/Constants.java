@@ -136,7 +136,7 @@ public final class Constants {
         public static final int hoodMotorID = 0;
         public static final int baseMotorID = 0;
 
-        public static final double baseGearRatio = 1.0;
+        public static final double baseGearRatio = 0;
         public static final double backFlywheelGearRatio = 39 / 30.0;
 
         public static final double baseTicksPerRadian = 0;
