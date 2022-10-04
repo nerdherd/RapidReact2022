@@ -32,9 +32,9 @@ public class Rumble extends CommandBase {
   public double ratio = 0;
   public double rumbleStrength = 0;
 
-  private HashMap<String, Integer> logEntries;
+  // private HashMap<String, Integer> logEntries;
 
-  private DataLog dataLog;
+  // private DataLog dataLog;
 
   /** Creates a new Rumble. 
    * Run during teleopPeriodic() to make the controller rumble when ramming into an obstacle
@@ -54,7 +54,7 @@ public class Rumble extends CommandBase {
     this.deadband = deadband;
     this.timeCancelBuffer = timeCancelBuffer;
 
-    dataLog = new DataLog("/home/lvuser/logs", "RumbleLog");
+    // dataLog = new DataLog("/home/lvuser/logs", "RumbleLog");
   }
 
   /**
@@ -68,13 +68,13 @@ public class Rumble extends CommandBase {
     SmartDashboard.putBoolean("started", true);
     SmartDashboard.putNumber("timestamp", Timer.getFPGATimestamp());
 
-    logEntries = new HashMap<String, Integer>() {{
-      put("Drivebase Constant Current Velocity Ratio", dataLog.start("Drivebase Constant Current Velocity Ratio", "double"));
-      put("Drivebase Live Current Velocity Ratio", dataLog.start("Drivebase Live Current Velocity Ratio", "double"));
-      put("Drivebase Current", dataLog.start("Drivebase Current", "double"));
-      put("Drivebase Velocity", dataLog.start("Drivebase Velocity", "double"));
-      put("Rumble Strength", dataLog.start("Rumble Strength", "double"));
-    }};
+    // logEntries = new HashMap<String, Integer>() {{
+    //   put("Drivebase Constant Current Velocity Ratio", dataLog.start("Drivebase Constant Current Velocity Ratio", "double"));
+    //   put("Drivebase Live Current Velocity Ratio", dataLog.start("Drivebase Live Current Velocity Ratio", "double"));
+    //   put("Drivebase Current", dataLog.start("Drivebase Current", "double"));
+    //   put("Drivebase Velocity", dataLog.start("Drivebase Velocity", "double"));
+    //   put("Rumble Strength", dataLog.start("Rumble Strength", "double"));
+    // }};
   }
 
   /**
@@ -149,11 +149,11 @@ public class Rumble extends CommandBase {
     long currentFPGATimestampLong = (long) currentFPGATimestamp * 1000000;
 
     // Log values
-    dataLog.appendDouble(logEntries.get("Drivebase Constant Current Velocity Ratio"), fixedRatio, currentFPGATimestampLong);
-    dataLog.appendDouble(logEntries.get("Drivebase Live Current Velocity Ratio"), ratio, currentFPGATimestampLong);
-    dataLog.appendDouble(logEntries.get("Drivebase Current"), motorCurrent, currentFPGATimestampLong);
-    dataLog.appendDouble(logEntries.get("Drivebase Velocity"), motorVelocity, currentFPGATimestampLong);
-    dataLog.appendDouble(logEntries.get("Rumble Strength"), rumbleStrength, currentFPGATimestampLong);
+    // dataLog.appendDouble(logEntries.get("Drivebase Constant Current Velocity Ratio"), fixedRatio, currentFPGATimestampLong);
+    // dataLog.appendDouble(logEntries.get("Drivebase Live Current Velocity Ratio"), ratio, currentFPGATimestampLong);
+    // dataLog.appendDouble(logEntries.get("Drivebase Current"), motorCurrent, currentFPGATimestampLong);
+    // dataLog.appendDouble(logEntries.get("Drivebase Velocity"), motorVelocity, currentFPGATimestampLong);
+    // dataLog.appendDouble(logEntries.get("Rumble Strength"), rumbleStrength, currentFPGATimestampLong);
     
     // Set the current FPGA Timestamp to the previous one to prepare for the next iteration of the command
     lastFPGATimestamp = currentFPGATimestamp;
@@ -168,11 +168,11 @@ public class Rumble extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     // Finish logging for all entries
-    for (int entry : logEntries.values()) {
-      dataLog.finish(entry);
-    }
+    // for (int entry : logEntries.values()) {
+    //   dataLog.finish(entry);
+    // }
     // Close the log file
-    dataLog.close();
+    // dataLog.close();
     // Reset rumble so controllers don't rumble infinitely
     setBothRumbles(0);
   }
