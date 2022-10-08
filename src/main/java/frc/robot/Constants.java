@@ -147,4 +147,12 @@ public final class Constants {
         public static final double kHoodUpperLimitTicks = 0;
     }
 
+    public static final class VisionConstants {
+        public static final int kTargetHeight = 0;
+        public static final int kCameraMountHeight = 0;
+        public static final int kTargetWidth = 0;
+        public static final int kXFocalLength_lime = 0;
+        public static final double kCameraBumperOffset = 0;
+    }
+
 }
