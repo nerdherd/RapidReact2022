@@ -41,8 +41,9 @@ public class Turret extends SubsystemBase {
 
     public void turnToBaseAngle(double angle) {
         double currentAngle = baseMotor.getSelectedSensorPosition() / TurretConstants.kBaseTicksPerRadian;
-        
-        baseMotor.set(ControlMode.MotionMagic, TurretConstants.kBaseTicksPerRadian * constrainAngleBase(angle));
+        double offsetAngle = TurretConstants.kBaseTicksPerRadian * constrainAngleBase(angle);
+        double targetAngle = currentAngle + offsetAngle;
+        baseMotor.set(ControlMode.MotionMagic, targetAngle);
     }
 
     public void turnToHoodAngle(double angle) {
