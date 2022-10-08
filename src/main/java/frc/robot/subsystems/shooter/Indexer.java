@@ -15,9 +15,8 @@ public class Indexer {
     public Indexer() {
         IndexerTop = new TalonFX(IndexerConstants.kIndexerTopID);
         IndexerBottom = new TalonFX(IndexerConstants.kIndexerBottomID);
-        IndexerBottom.set(ControlMode.PercentOutput, 0);
-        IndexerTop.set(ControlMode.PercentOutput, 0);
-        isRunning = false;
+        
+        
         // IndexerBottom.follow(IndexerTop);
     }
 
@@ -47,6 +46,12 @@ public class Indexer {
             setPercent(IndexerConstants.kIndexerPercent);
             isRunning = true;
         }
+    }
+
+    public void init() {
+        IndexerBottom.set(ControlMode.PercentOutput, 0);
+        IndexerTop.set(ControlMode.PercentOutput, 0);
+        isRunning = false;
     }
 
     public void reportToSmartDashboard() {

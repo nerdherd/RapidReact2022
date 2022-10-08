@@ -163,6 +163,8 @@ public class Rumble extends CommandBase {
    * Called once the command ends or is interrupted.
    * <p>
    * Finishes logging
+   * 
+   * 
    * @param interrupted     true if the command was interrupted/cancelled, false if ended normally
    */
   @Override

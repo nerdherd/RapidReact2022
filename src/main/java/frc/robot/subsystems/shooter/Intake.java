@@ -23,8 +23,7 @@ public class Intake{
         intake.config_kD(0, IntakeConstants.kIntakeD);
         intake.config_kF(0, IntakeConstants.kIntakeF);
 
-        intakePosition = -2564;
-
+        intakePosition = (int)IntakeConstants.kIntakeUpPosition;
     }
 
     public void RaiseIntake(){
@@ -64,4 +63,9 @@ public class Intake{
     public void reportToSmartDashboard() {
         SmartDashboard.putNumber("FF", FF());
     }
+
+    public void init() {
+        DisableIntake();
+    }
+    
 }

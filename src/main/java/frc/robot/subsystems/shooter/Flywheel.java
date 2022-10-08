@@ -10,8 +10,8 @@ import frc.robot.Constants.FlywheelConstants;
 
 public class Flywheel {
 
-    private TalonFX leftMaster;
-    private TalonFX rightFollower;
+    public TalonFX leftMaster;
+    public TalonFX rightFollower;
     private boolean isRunning;
 
     public Flywheel() {
@@ -22,8 +22,6 @@ public class Flywheel {
         rightFollower.setInverted(true);
 
         rightFollower.follow(leftMaster);
-        isRunning = false;
-        leftMaster.set(ControlMode.PercentOutput, 0);
     }
 
     public void setVelocity(double velocity) {
@@ -50,6 +48,11 @@ public class Flywheel {
             setPercentZero();
             isRunning = false;
         }
+    }
+
+    public void init() {
+        isRunning = false;
+        leftMaster.set(ControlMode.PercentOutput, 0);
     }
 
     public void reportToSmartDashboard() {

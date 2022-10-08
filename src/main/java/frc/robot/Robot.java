@@ -56,6 +56,7 @@ public class Robot extends TimedRobot {
       new InstantCommand(() -> robotContainer.rumble.schedule())
     );
     initRumble.schedule();
+    robotContainer.initShooter();
   }
 
 

@@ -83,6 +83,12 @@ public class RobotContainer {
         rumble.schedule();
     }
 
+    public void initShooter() {
+        flywheel.init();
+        indexer.init();
+        roller.init();
+    }
+
     public void configureButtonBindings() {
         dTriangleOperator = new JoystickButton(ps4Controller2, Button.kTriangle.value);
         dCrossOperator = new JoystickButton(ps4Controller2, Button.kCross.value);
@@ -92,7 +98,7 @@ public class RobotContainer {
         dRightOperator1 = new JoystickButton(ps4Controller, Button.kCross.value); // Driver
 
         dTriangleOperator.whenPressed(new InstantCommand(() -> flywheel.toggleFlywheel()));
-        dCrossOperator.whenPressed(new InstantCommand(() -> indexer.setPercent(IndexerConstants.kIndexerPercent)));
+        dCrossOperator.whenPressed(new InstantCommand(() -> indexer.toggleIndexer()));
         // dSquareOperator.whenPressed(new InstantCommand(() -> indexer.setPercent(IndexerConstants.kIndexerPercent)));
         // dCircleOperator.whenPressed(new InstantCommand(() -> indexer.setPercentZero()));
         dCircleOperator.whenPressed(new InstantCommand(() -> roller.toggleRoller(RollerConstants.kRollerPercent))); // Square
@@ -195,4 +201,5 @@ public class RobotContainer {
         SmartDashboard.putNumber(" Left Operator Y Axis ", ps4Controller2.getLeftY());
 
     }
+
 }
