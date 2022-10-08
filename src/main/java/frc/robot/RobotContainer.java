@@ -53,8 +53,9 @@ public class RobotContainer {
     public JoystickButton dCrossOperator; 
     public JoystickButton dSquareOperator; // Cross
     public JoystickButton dCircleOperator; // Square
-    public JoystickButton dLeftOperator1;
-    public JoystickButton dRightOperator1;
+    public JoystickButton dLeftDriver1;
+    public JoystickButton dRightDriver1;
+    public JoystickButton dRightOperatorBumper;
 
     public SendableChooser<CommandGroupBase> autoChooser;
 
@@ -91,9 +92,11 @@ public class RobotContainer {
         dCrossOperator = new JoystickButton(ps4Controller2, Button.kCross.value);
         dSquareOperator = new JoystickButton(ps4Controller2, Button.kSquare.value);
         dCircleOperator = new JoystickButton(ps4Controller2, Button.kCircle.value);
-        dLeftOperator1 = new JoystickButton(ps4Controller, Button.kTriangle.value); // Driver
-        dRightOperator1 = new JoystickButton(ps4Controller, Button.kCross.value); // Driver
+        // dLeftDriver1 = new JoystickButton(ps4Controller, Button.kTriangle.value); // Driver
+        // dRightDriver1 = new JoystickButton(ps4Controller, Button.kCross.value); // Driver
 
+        dRightOperatorBumper = new JoystickButton(ps4Controller2, Button.kR1.value);        
+        
         dTriangleOperator.whenPressed(new InstantCommand(() -> flywheel.toggleFlywheel()));
         dCrossOperator.whenPressed(new InstantCommand(() -> indexer.setPercent(IndexerConstants.kIndexerPercent)));
         // dSquareOperator.whenPressed(new InstantCommand(() -> indexer.setPercent(IndexerConstants.kIndexerPercent)));
@@ -101,8 +104,8 @@ public class RobotContainer {
         dCircleOperator.whenPressed(new InstantCommand(() -> roller.toggleRoller(RollerConstants.kRollerPercent))); // Square
         dSquareOperator.whenPressed(new InstantCommand(() -> intake.RaiseIntake())); // Cross
 
-        // dLeftOperator1.whenPressed(new InstantCommand(() -> roller.toggleRoller(RollerConstants.kRollerPercent)));
-        //dRightOperator1.whenPressed(new InstantCommand(() -> roller.setPercentZero()));
+        // dLeftDriver1.whenPressed(new InstantCommand(() -> roller.toggleRoller(RollerConstants.kRollerPercent)));
+        //dRightDriver1.whenPressed(new InstantCommand(() -> roller.setPercentZero()));
 
     }
 
