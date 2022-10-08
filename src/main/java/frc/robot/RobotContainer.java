@@ -26,6 +26,7 @@ import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.PS4Controller.Button;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.EverybotClimber;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.climber.ArmTrapezoid;
 import frc.robot.subsystems.climber.Elevator;
 import frc.robot.subsystems.shooter.Flywheel;
@@ -63,7 +64,9 @@ public class RobotContainer {
     public Flywheel flywheel = new Flywheel();   
     public Indexer indexer = new Indexer();  
     public Roller roller = new Roller();
-    public Intake intake = new Intake();                                          
+    public Intake intake = new Intake();
+    
+    public Limelight limelight = new Limelight();
                                                                                   
     private boolean m_climberShifter;                                             
        
@@ -176,6 +179,7 @@ public class RobotContainer {
     }
 
     public void reportToSmartDashboard() {
+        limelight.reportToSmartDashboard();
 
         SmartDashboard.putNumber(" Climber Position", everybotClimber.climberMaster.getSelectedSensorPosition());
         SmartDashboard.putNumber(" Arm Position ", armTrapezoid.arm.getSelectedSensorPosition());
