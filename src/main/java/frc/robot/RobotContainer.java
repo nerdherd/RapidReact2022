@@ -193,6 +193,7 @@ public class RobotContainer {
 
     public void reportToSmartDashboard() {
         limelight.reportToSmartDashboard();
+        turret.reportToSmartDashboard();
 
         SmartDashboard.putNumber(" Climber Position", everybotClimber.climberMaster.getSelectedSensorPosition());
         SmartDashboard.putNumber(" Arm Position ", armTrapezoid.arm.getSelectedSensorPosition());

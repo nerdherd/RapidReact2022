@@ -133,13 +133,13 @@ public final class Constants {
     public static final class TurretConstants {
         public static final int kFrontFlywheelFalconID = 0;
         public static final int kBackFlywheelFalconID = 0;
-        public static final int kHoodMotorID = 0;
+        public static final int kHoodMotorID = 36;
         public static final int kBaseMotorID = 0;
 
         public static final double kBaseGearRatio = 0;
         public static final double kBackFlywheelGearRatio = 39 / 30.0;
 
-        public static final double kBaseTicksPerDegree = 0;
+        public static final double kBaseTicksPerDegree = 228.671;
         public static final double kHoodTicksPerDegree = 0;
 
         // NOTE: Hood angle is measured from hood axle to axle of upper flywheel

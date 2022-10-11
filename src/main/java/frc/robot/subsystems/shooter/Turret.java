@@ -2,7 +2,9 @@ package frc.robot.subsystems.shooter;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.NerdyMath;
 import frc.robot.Constants.TurretConstants;
@@ -12,8 +14,8 @@ public class Turret extends SubsystemBase {
     
     private TalonFX frontFlywheelFalcon;
     private TalonFX backFlywheelFalcon;
-    private TalonFX hoodMotor;
-    private TalonFX baseMotor;
+    private TalonSRX hoodMotor;
+    private TalonSRX baseMotor;
 
     private TurnToTarget turnToTargetCommand;
 
@@ -22,9 +24,10 @@ public class Turret extends SubsystemBase {
     public Turret() {
         this.frontFlywheelFalcon = new TalonFX(TurretConstants.kFrontFlywheelFalconID);
         this.backFlywheelFalcon = new TalonFX(TurretConstants.kBackFlywheelFalconID);
-        this.hoodMotor = new TalonFX(TurretConstants.kHoodMotorID);
-        this.baseMotor = new TalonFX(TurretConstants.kBaseMotorID);
+        this.hoodMotor = new TalonSRX(TurretConstants.kHoodMotorID);
+        this.baseMotor = new TalonSRX(TurretConstants.kBaseMotorID);
 
+        this.hoodMotor.setSelectedSensorPosition(0);
         hoodLimitLower = NerdyMath.ticksToAngle(TurretConstants.kHoodLowerLimitTicks);
         hoodLimitUpper = NerdyMath.ticksToAngle(TurretConstants.kHoodUpperLimitTicks);
     }
@@ -81,6 +84,10 @@ public class Turret extends SubsystemBase {
         }
 
         return newAngle - 180;
+    }
+
+    public void reportToSmartDashboard() {
+        SmartDashboard.putNumber("Hood Ticks", hoodMotor.getSelectedSensorPosition());
     }
 
 }
