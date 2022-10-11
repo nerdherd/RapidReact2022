@@ -6,6 +6,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.NerdyMath;
 import frc.robot.Constants.TurretConstants;
+import frc.robot.commands.TurnToTarget;
 
 public class Turret extends SubsystemBase {
     
@@ -13,6 +14,8 @@ public class Turret extends SubsystemBase {
     private TalonFX backFlywheelFalcon;
     private TalonFX hoodMotor;
     private TalonFX baseMotor;
+
+    private TurnToTarget turnToTargetCommand;
 
     private double hoodLimitLower, hoodLimitUpper;
 
@@ -24,6 +27,15 @@ public class Turret extends SubsystemBase {
 
         hoodLimitLower = NerdyMath.ticksToAngle(TurretConstants.kHoodLowerLimitTicks);
         hoodLimitUpper = NerdyMath.ticksToAngle(TurretConstants.kHoodUpperLimitTicks);
+    }
+
+    public void setTurnToTargetCommand(TurnToTarget command) {
+        this.turnToTargetCommand = command;
+        setDefaultCommand(this.turnToTargetCommand);
+    }
+
+    public void toggleHood() {
+        this.turnToTargetCommand.toggleHood();
     }
 
     public void setVelocity(double velocity) {
@@ -40,10 +52,18 @@ public class Turret extends SubsystemBase {
     }
 
     public void turnToBaseAngle(double angle) {
-        double currentAngle = baseMotor.getSelectedSensorPosition() / TurretConstants.kBaseTicksPerRadian;
+        double currentAngle = getCurrentBaseAngle();
         double offsetAngle = TurretConstants.kBaseTicksPerRadian * constrainAngleBase(angle);
         double targetAngle = currentAngle + offsetAngle;
         baseMotor.set(ControlMode.MotionMagic, targetAngle);
+    }
+
+    public double getCurrentBaseAngle() {
+        return baseMotor.getSelectedSensorPosition() / TurretConstants.kBaseTicksPerRadian;
+    }
+
+    public double getCurrentHoodAngle() {
+        return hoodMotor.getSelectedSensorPosition() / TurretConstants.kHoodTicksPerRadian;
     }
 
     public void turnToHoodAngle(double angle) {

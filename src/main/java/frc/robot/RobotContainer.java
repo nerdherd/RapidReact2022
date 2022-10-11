@@ -33,6 +33,7 @@ import frc.robot.subsystems.shooter.Flywheel;
 import frc.robot.subsystems.shooter.Indexer;
 import frc.robot.subsystems.shooter.Intake;
 import frc.robot.subsystems.shooter.Roller;
+import frc.robot.subsystems.shooter.Turret;
 import frc.robot.Constants.ClimberConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.EverybotConstants;
@@ -40,6 +41,7 @@ import frc.robot.Constants.FlywheelConstants;
 import frc.robot.Constants.IndexerConstants;
 import frc.robot.Constants.RollerConstants;
 import frc.robot.commands.Rumble;
+import frc.robot.commands.TurnToTarget;
 
 // import frc.robot.subsystems.climber.ArmMotionMagic;
 public class RobotContainer {
@@ -57,6 +59,8 @@ public class RobotContainer {
     public JoystickButton dRightDriver1;
     public JoystickButton dRightOperatorBumper;
 
+    public JoystickButton dTriangleDriver;
+
     public SendableChooser<CommandGroupBase> autoChooser;
 
     public ArmTrapezoid armTrapezoid = new ArmTrapezoid();
@@ -66,6 +70,7 @@ public class RobotContainer {
     public Indexer indexer = new Indexer();  
     public Roller roller = new Roller();
     public Intake intake = new Intake();
+    public Turret turret = new Turret();
     
     public Limelight limelight = new Limelight();
                                                                                   
@@ -85,9 +90,15 @@ public class RobotContainer {
         rumble = new Rumble(() -> drivetrain.rightMaster.getSupplyCurrent(), 
             () -> drivetrain.rightMaster.getSelectedSensorVelocity(), ps4Controller, 0, 0);
         rumble.schedule();
+
+        TurnToTarget turnToTarget = new TurnToTarget(turret, limelight);
+        turret.setTurnToTargetCommand(turnToTarget);
     }
 
     public void configureButtonBindings() {
+        dTriangleDriver = new JoystickButton(ps4Controller, Button.kTriangle.value);
+        dTriangleDriver.debounce(0.1).whenActive(new InstantCommand(() -> turret.toggleHood()));
+
         dTriangleOperator = new JoystickButton(ps4Controller2, Button.kTriangle.value);
         dCrossOperator = new JoystickButton(ps4Controller2, Button.kCross.value);
         dSquareOperator = new JoystickButton(ps4Controller2, Button.kSquare.value);
@@ -103,7 +114,6 @@ public class RobotContainer {
         // dCircleOperator.whenPressed(new InstantCommand(() -> indexer.setPercentZero()));
         dCircleOperator.whenPressed(new InstantCommand(() -> roller.toggleRoller(RollerConstants.kRollerPercent))); // Square
         dSquareOperator.whenPressed(new InstantCommand(() -> intake.RaiseIntake())); // Cross
-
         // dLeftDriver1.whenPressed(new InstantCommand(() -> roller.toggleRoller(RollerConstants.kRollerPercent)));
         //dRightDriver1.whenPressed(new InstantCommand(() -> roller.setPercentZero()));
 
