@@ -139,8 +139,8 @@ public final class Constants {
         public static final double kBaseGearRatio = 0;
         public static final double kBackFlywheelGearRatio = 39 / 30.0;
 
-        public static final double kBaseTicksPerRadian = 0;
-        public static final double kHoodTicksPerRadian = 0;
+        public static final double kBaseTicksPerDegree = 0;
+        public static final double kHoodTicksPerDegree = 0;
 
         // NOTE: Hood angle is measured from hood axle to axle of upper flywheel
         public static final double kHoodLowerLimitTicks = 0; // Ticks when at 15 degrees should ideally be 25700 ticks, 0 ticks is parallel to ground
