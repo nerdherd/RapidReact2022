@@ -92,7 +92,7 @@ public class RobotContainer {
         rumble.schedule();
 
         TurnToTarget turnToTarget = new TurnToTarget(turret, limelight);
-        turret.setTurnToTargetCommand(turnToTarget);
+        turret.setTurnToTargetCommand(limelight);
     }
 
     public void configureButtonBindings() {

@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.NerdyMath;
 import frc.robot.Constants.TurretConstants;
 import frc.robot.commands.TurnToTarget;
+import frc.robot.subsystems.Limelight;
 
 public class Turret extends SubsystemBase {
     
@@ -32,8 +33,8 @@ public class Turret extends SubsystemBase {
         hoodLimitUpper = NerdyMath.ticksToAngle(TurretConstants.kHoodUpperLimitTicks);
     }
 
-    public void setTurnToTargetCommand(TurnToTarget command) {
-        this.turnToTargetCommand = command;
+    public void setTurnToTargetCommand(Limelight limelight) {
+        this.turnToTargetCommand = new TurnToTarget(this, limelight);
         setDefaultCommand(this.turnToTargetCommand);
     }
 
