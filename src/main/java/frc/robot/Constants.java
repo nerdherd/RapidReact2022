@@ -102,6 +102,10 @@ public final class Constants {
         public static final int kLeftFlywheelID = 34;
         public static final double kFlywheelVelocity = 0;
         public static final double kFlywheelPercent = 0.55; 
+
+        // Determined by trying various percentages with measured robot distance from hub
+        public static final double kFlywheelInnerTarmacPercent = 0.28;
+        public static final double kFlywheelOuterTarmacPercent = 0.32;
     }
 
     public static final class IndexerConstants {

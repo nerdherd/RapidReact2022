@@ -39,6 +39,7 @@ import frc.robot.Constants.FlywheelConstants;
 import frc.robot.Constants.IndexerConstants;
 import frc.robot.Constants.RollerConstants;
 import frc.robot.commands.Rumble;
+import frc.robot.commands.TaxiShoot;
 
 // import frc.robot.subsystems.climber.ArmMotionMagic;
 public class RobotContainer {
@@ -130,28 +131,30 @@ public class RobotContainer {
     public void initSmartDashboard() {
         autoChooser = new SendableChooser<CommandGroupBase>();
 
-        autoChooser.setDefaultOption("leave tarmac :)", 
-            new SequentialCommandGroup(
-                // drive for 1 second with power 0.5, then set power zero
-                new ParallelDeadlineGroup(
-                    new WaitCommand(1), 
-                    new InstantCommand(() -> drivetrain.setPower(0.5, 0.5))
-                ), 
-                new InstantCommand(() -> drivetrain.setPowerZero())
-            )
-        );
+        autoChooser.setDefaultOption("Shoot then Taxi", new TaxiShoot(drivetrain, flywheel, indexer));
+
+        // autoChooser.setDefaultOption("leave tarmac :)", 
+        //     new SequentialCommandGroup(
+        //         // drive for 1 second with power 0.5, then set power zero
+        //         new ParallelDeadlineGroup(
+        //             new WaitCommand(1), 
+        //             new InstantCommand(() -> drivetrain.setPower(0.5, 0.5))
+        //         ), 
+        //         new InstantCommand(() -> drivetrain.setPowerZero())
+        //     )
+        // );
         
-        autoChooser.addOption("delay 5s then taxi",
-            new SequentialCommandGroup(
-                new WaitCommand(5),
-                new ParallelDeadlineGroup(
-                    new WaitCommand(1), 
-                    new InstantCommand(() -> drivetrain.setPower(0.5, 0.5))
-                ),
-                new InstantCommand(() -> drivetrain.setPowerZero())
-            )
+        // autoChooser.addOption("delay 5s then taxi",
+        //     new SequentialCommandGroup(
+        //         new WaitCommand(5),
+        //         new ParallelDeadlineGroup(
+        //             new WaitCommand(1), 
+        //             new InstantCommand(() -> drivetrain.setPower(0.5, 0.5))
+        //         ),
+        //         new InstantCommand(() -> drivetrain.setPowerZero())
+        //     )
             
-        );
+        // );
 
         SmartDashboard.putData(" Reset Climber Encoders ", new InstantCommand(() -> everybotClimber.climberMaster.setSelectedSensorPosition(0)));
         

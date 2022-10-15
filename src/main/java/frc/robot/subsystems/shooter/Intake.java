@@ -64,7 +64,8 @@ public class Intake{
     }
 
     public void init() {
-        DisableIntake();
+        LowerIntake();
+        // DisableIntake();
     }
     
 }
