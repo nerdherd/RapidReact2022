@@ -8,6 +8,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -75,6 +76,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber(" Drive Current ", robotContainer.drivetrain.rightMaster.getSupplyCurrent());
 
     robotContainer.roller.reportToSmartDashboard();
+    robotContainer.flywheel.reportToSmartDashboard();
     
   }
 

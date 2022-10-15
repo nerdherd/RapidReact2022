@@ -29,11 +29,10 @@ public class Intake{
     public void RaiseIntake(){
         intakeIsUp = true;
         intake.set(ControlMode.MotionMagic, intakePosition, DemandType.ArbitraryFeedForward, FF());
-        intakePosition -= 20;
     }
     public void LowerIntake(){
         intakeIsUp = false;
-        intake.set(ControlMode.MotionMagic, intakePosition, DemandType.ArbitraryFeedForward, FF());
+        intake.set(ControlMode.MotionMagic, IntakeConstants.kIntakeOffset, DemandType.ArbitraryFeedForward, FF());
     }
     public void DisableIntake(){
         intake.set(ControlMode.PercentOutput,0);

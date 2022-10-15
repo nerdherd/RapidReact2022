@@ -10,6 +10,7 @@ import frc.robot.Constants.FlywheelConstants;
 
 public class Flywheel {
 
+    public double flywheelVelocity;
     public TalonFX leftMaster;
     public TalonFX rightFollower;
     private boolean isRunning;
@@ -42,7 +43,7 @@ public class Flywheel {
 
     public void toggleFlywheel() {
         if (!isRunning) {
-            setPercent(FlywheelConstants.kFlywheelPercent);
+            setPercent(flywheelVelocity);
             isRunning = true;
         } else {
             setPercentZero();
@@ -51,11 +52,12 @@ public class Flywheel {
     }
 
     public void init() {
+        SmartDashboard.putNumber("flywheelVelocity", FlywheelConstants.kFlywheelPercent);
         isRunning = false;
         leftMaster.set(ControlMode.PercentOutput, 0);
     }
 
     public void reportToSmartDashboard() {
-        
+        flywheelVelocity = SmartDashboard.getNumber("flywheelVelocity", 0);
     }
 }

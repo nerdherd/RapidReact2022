@@ -102,7 +102,7 @@ public class RobotContainer {
         // dSquareOperator.whenPressed(new InstantCommand(() -> indexer.setPercent(IndexerConstants.kIndexerPercent)));
         // dCircleOperator.whenPressed(new InstantCommand(() -> indexer.setPercentZero()));
         dCircleOperator.whenPressed(new InstantCommand(() -> roller.toggleRoller(RollerConstants.kRollerPercent))); // Square
-        dSquareOperator.whenPressed(new InstantCommand(() -> intake.RaiseIntake())); // Cross
+        dSquareOperator.whenPressed(new InstantCommand(() -> intake.toggleIntake())); // Cross
 
         // dLeftOperator1.whenPressed(new InstantCommand(() -> roller.toggleRoller(RollerConstants.kRollerPercent)));
         //dRightOperator1.whenPressed(new InstantCommand(() -> roller.setPercentZero()));
