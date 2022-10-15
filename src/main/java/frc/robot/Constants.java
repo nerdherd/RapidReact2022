@@ -136,15 +136,27 @@ public final class Constants {
         public static final int kHoodMotorID = 36;
         public static final int kBaseMotorID = 0;
 
+        public static final double kHoodF = 0.867;
+        public static final double kHoodP = 0.1;
+        public static final double kHoodD = 0.6;
+        public static final double kHoodI = 0;
+
+        public static final double kHoodCruiseVelocity = 100;
+        public static final double kHoodAcceleration = 50;
+        public static final double kHoodMaxVelocity = 200;
+        public static final double kHoodMaxAccel = 100;
+        public static final double kHoodDeadband = 0.07; // One Degree 
+
+
         public static final double kBaseGearRatio = 0;
         public static final double kBackFlywheelGearRatio = 39 / 30.0;
 
-        public static final double kBaseTicksPerDegree = 228.671;
-        public static final double kHoodTicksPerDegree = 0;
+        public static final double kBaseTicksPerDegree = 0;
+        public static final double kHoodTicksPerDegree = 238.3;
 
         // NOTE: Hood angle is measured from hood axle to axle of upper flywheel
         public static final double kHoodLowerLimitTicks = 0; // Ticks when at 15 degrees should ideally be 25700 ticks, 0 ticks is parallel to ground
-        public static final double kHoodUpperLimitTicks = 0;
+        public static final double kHoodUpperLimitTicks = 7648;
     }
 
     public static final class VisionConstants {

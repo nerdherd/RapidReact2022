@@ -28,7 +28,15 @@ public class Turret extends SubsystemBase {
         this.hoodMotor = new TalonSRX(TurretConstants.kHoodMotorID);
         this.baseMotor = new TalonSRX(TurretConstants.kBaseMotorID);
 
-        this.hoodMotor.setSelectedSensorPosition(0);
+        this.hoodMotor.config_kP(0, TurretConstants.kHoodP);
+        this.hoodMotor.config_kI(0, TurretConstants.kHoodI);
+        this.hoodMotor.config_kD(0, TurretConstants.kHoodD);
+        this.hoodMotor.config_kF(0, TurretConstants.kHoodF);
+        this.hoodMotor.configMotionAcceleration(TurretConstants.kHoodAcceleration);
+        this.hoodMotor.configMotionCruiseVelocity(TurretConstants.kHoodCruiseVelocity);
+        this.hoodMotor.set(ControlMode.Current, 0);
+        this.hoodMotor.configNeutralDeadband(TurretConstants.kHoodDeadband);
+
         hoodLimitLower = NerdyMath.ticksToAngle(TurretConstants.kHoodLowerLimitTicks);
         hoodLimitUpper = NerdyMath.ticksToAngle(TurretConstants.kHoodUpperLimitTicks);
     }
@@ -70,12 +78,18 @@ public class Turret extends SubsystemBase {
         return hoodMotor.getSelectedSensorPosition() / TurretConstants.kHoodTicksPerDegree;
     }
 
-    public void turnToHoodAngle(double angle) {
+    public void turnToHoodTicks(double ticks) {
         hoodMotor.set(
-            ControlMode.MotionMagic, 
-            TurretConstants.kHoodTicksPerDegree * 
-            NerdyMath.clamp(angle, hoodLimitLower, hoodLimitUpper)
-            );
+                    ControlMode.MotionMagic, 
+                    NerdyMath.clamp(ticks, 
+                        TurretConstants.kHoodLowerLimitTicks, 
+                        TurretConstants.kHoodUpperLimitTicks));
+    }
+
+    public void turnToHoodAngle(double angle) {
+        turnToHoodTicks(
+            TurretConstants.kHoodTicksPerDegree * angle
+        );
     }
 
     private double constrainAngleBase(double rawAngle) {
@@ -88,7 +102,16 @@ public class Turret extends SubsystemBase {
     }
 
     public void reportToSmartDashboard() {
+        SmartDashboard.putNumber("Hood current", getHoodCurrent());
         SmartDashboard.putNumber("Hood Ticks", hoodMotor.getSelectedSensorPosition());
+    }
+
+    public double getHoodCurrent() {
+        return this.hoodMotor.getStatorCurrent();
+    }
+
+    public void resetHoodEncoder() {
+        this.hoodMotor.setSelectedSensorPosition(0);
     }
 
 }

@@ -99,6 +99,11 @@ public class RobotContainer {
         dTriangleDriver = new JoystickButton(ps4Controller, Button.kTriangle.value);
         dTriangleDriver.debounce(0.1).whenActive(new InstantCommand(() -> turret.toggleHood()));
 
+        SmartDashboard.putData("Hood to 15 degrees", new InstantCommand(() -> turret.turnToHoodAngle(15)));
+        SmartDashboard.putData("Hood to 0 degrees", new InstantCommand(() -> turret.turnToHoodAngle(0)));
+        SmartDashboard.putData("Hood to max degrees", new InstantCommand(() -> turret.turnToHoodAngle(100)));
+        SmartDashboard.putData("Reset hood encoder", new InstantCommand(() -> turret.resetHoodEncoder()));
+
         dTriangleOperator = new JoystickButton(ps4Controller2, Button.kTriangle.value);
         dCrossOperator = new JoystickButton(ps4Controller2, Button.kCross.value);
         dSquareOperator = new JoystickButton(ps4Controller2, Button.kSquare.value);
