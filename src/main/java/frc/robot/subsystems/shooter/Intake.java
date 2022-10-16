@@ -10,8 +10,8 @@ import frc.robot.Constants.IntakeConstants;
 public class Intake{
 
     public TalonSRX intake;
-    public boolean intakeIsUp = false;
-    public int intakePosition;
+    public boolean intakeIsUp;
+    public int intakeTargetPosition;
 
     public Intake(){
         intake = new TalonSRX(IntakeConstants.kIntakeID);
@@ -22,17 +22,17 @@ public class Intake{
         intake.config_kP(0, IntakeConstants.kIntakeP);
         intake.config_kD(0, IntakeConstants.kIntakeD);
         intake.config_kF(0, IntakeConstants.kIntakeF);
-
-        intakePosition = (int)IntakeConstants.kIntakeUpPosition;
     }
 
     public void RaiseIntake(){
         intakeIsUp = true;
-        intake.set(ControlMode.MotionMagic, intakePosition, DemandType.ArbitraryFeedForward, FF());
+        intake.set(ControlMode.MotionMagic, (int)IntakeConstants.kIntakeUpPosition, DemandType.ArbitraryFeedForward, FF());
+        intakeTargetPosition = (int)IntakeConstants.kIntakeUpPosition;
     }
     public void LowerIntake(){
         intakeIsUp = false;
         intake.set(ControlMode.MotionMagic, IntakeConstants.kIntakeOffset, DemandType.ArbitraryFeedForward, FF());
+        intakeTargetPosition = (int)IntakeConstants.kIntakeOffset;
     }
     public void DisableIntake(){
         intake.set(ControlMode.PercentOutput,0);
@@ -61,10 +61,21 @@ public class Intake{
 
     public void reportToSmartDashboard() {
         SmartDashboard.putNumber("FF", FF());
+
+        SmartDashboard.putBoolean("Intake reached position", false);
+
+        // Within 10 ticks of target
+        if (intake.getSelectedSensorPosition() < intakeTargetPosition + 10 || 
+        intake.getSelectedSensorPosition() > intakeTargetPosition - 10) {
+            SmartDashboard.putBoolean("Intake reached position", true);
+        } else {
+            SmartDashboard.putBoolean("Intake reached position", false);
+        }
     }
 
     public void init() {
         LowerIntake();
+        intakeIsUp = false;
         // DisableIntake();
     }
     

@@ -15,7 +15,8 @@ public class Indexer {
     public Indexer() {
         IndexerTop = new TalonFX(IndexerConstants.kIndexerTopID);
         IndexerBottom = new TalonFX(IndexerConstants.kIndexerBottomID);
-        
+        IndexerTop.setInverted(true);
+        IndexerBottom.setInverted(true);
         
         // IndexerBottom.follow(IndexerTop);
     }

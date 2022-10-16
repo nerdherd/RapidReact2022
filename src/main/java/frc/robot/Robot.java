@@ -77,6 +77,7 @@ public class Robot extends TimedRobot {
 
     robotContainer.roller.reportToSmartDashboard();
     robotContainer.flywheel.reportToSmartDashboard();
+    robotContainer.intake.reportToSmartDashboard();
     
   }
 

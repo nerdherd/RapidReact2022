@@ -53,8 +53,10 @@ public class RobotContainer {
     public JoystickButton dCrossOperator; 
     public JoystickButton dSquareOperator; // Cross
     public JoystickButton dCircleOperator; // Square
-    public JoystickButton dLeftOperator1;
-    public JoystickButton dRightOperator1;
+    public JoystickButton dRBumperDriver;
+    public JoystickButton dLBumperDriver;
+    public JoystickButton dRBumperOperator;
+    public JoystickButton dLBumperOperator;
 
     public SendableChooser<CommandGroupBase> autoChooser;
 
@@ -88,6 +90,7 @@ public class RobotContainer {
         flywheel.init();
         indexer.init();
         roller.init();
+        intake.init();
     }
 
     public void configureButtonBindings() {
@@ -95,16 +98,27 @@ public class RobotContainer {
         dCrossOperator = new JoystickButton(ps4Controller2, Button.kCross.value);
         dSquareOperator = new JoystickButton(ps4Controller2, Button.kSquare.value);
         dCircleOperator = new JoystickButton(ps4Controller2, Button.kCircle.value);
-        dLeftOperator1 = new JoystickButton(ps4Controller, Button.kTriangle.value); // Driver
-        dRightOperator1 = new JoystickButton(ps4Controller, Button.kCross.value); // Driver
+        dRBumperDriver = new JoystickButton(ps4Controller, Button.kR1.value); // Driver
+        dLBumperDriver = new JoystickButton(ps4Controller, Button.kR2.value); // Driver
+        dRBumperOperator = new JoystickButton(ps4Controller2, Button.kR1.value);
+        dLBumperOperator = new JoystickButton(ps4Controller2, Button.kL1.value);
 
-        dTriangleOperator.whenPressed(new InstantCommand(() -> flywheel.toggleFlywheel()));
+        // leftbumberoperator = slow flywheel
+        // rightbumperoperator = fast flywheel
+        // triangle = stop
+
+        dTriangleOperator.whenPressed(new InstantCommand(() -> flywheel.setPercentZero()));
         dCrossOperator.whenPressed(new InstantCommand(() -> indexer.toggleIndexer()));
         // dSquareOperator.whenPressed(new InstantCommand(() -> indexer.setPercent(IndexerConstants.kIndexerPercent)));
         // dCircleOperator.whenPressed(new InstantCommand(() -> indexer.setPercentZero()));
         dCircleOperator.whenPressed(new InstantCommand(() -> roller.toggleRoller(RollerConstants.kRollerPercent))); // Square
         dSquareOperator.whenPressed(new InstantCommand(() -> intake.toggleIntake())); // Cross
 
+        dRBumperDriver.whenPressed(new InstantCommand(() -> intake.LowerIntake()));
+        dLBumperDriver.whenPressed(new InstantCommand(() -> intake.RaiseIntake()));
+
+        dRBumperOperator.whenPressed(new InstantCommand(() -> flywheel.setPercent(FlywheelConstants.kFlywheelOuterTarmacPercent)));
+        dLBumperOperator.whenPressed(new InstantCommand(() -> flywheel.setPercent(FlywheelConstants.kFlywheelInnerTarmacPercent)));
         // dLeftOperator1.whenPressed(new InstantCommand(() -> roller.toggleRoller(RollerConstants.kRollerPercent)));
         //dRightOperator1.whenPressed(new InstantCommand(() -> roller.setPercentZero()));
 
@@ -125,6 +139,8 @@ public class RobotContainer {
 
         drivetrain.rightMaster.set(ControlMode.PercentOutput, rightOutput);
         drivetrain.leftMaster.set(ControlMode.PercentOutput, leftOutput);
+
+        indexer.setPercent(ps4Controller2.getRightY());
     }
 
     

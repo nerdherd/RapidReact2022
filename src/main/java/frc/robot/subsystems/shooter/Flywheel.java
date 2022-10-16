@@ -41,6 +41,10 @@ public class Flywheel {
         leftMaster.set(ControlMode.PercentOutput, 0);
     }
 
+    // public void flywheelInnerTarmac() {
+    //     flywheelVelocity
+    // }
+
     public void toggleFlywheel() {
         if (!isRunning) {
             setPercent(flywheelVelocity);
@@ -58,6 +62,5 @@ public class Flywheel {
     }
 
     public void reportToSmartDashboard() {
-        flywheelVelocity = SmartDashboard.getNumber("flywheelVelocity", 0);
     }
 }

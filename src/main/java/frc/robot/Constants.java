@@ -104,25 +104,25 @@ public final class Constants {
         public static final double kFlywheelPercent = 0.55; 
 
         // Determined by trying various percentages with measured robot distance from hub
-        public static final double kFlywheelInnerTarmacPercent = 0.28;
-        public static final double kFlywheelOuterTarmacPercent = 0.32;
+        public static final double kFlywheelInnerTarmacPercent = 0.26;
+        public static final double kFlywheelOuterTarmacPercent = 0.29;
     }
 
     public static final class IndexerConstants {
         public static final int kIndexerTopID = 20;
         public static final int kIndexerBottomID = 21;
-        public static final double kIndexerPercent = .70;
+        public static final double kIndexerPercent = -0.80;
     }
 
     public static final class RollerConstants {
         public static final int kRollerID = 38;
-        public static final double kRollerPercent = -0.85;
+        public static final double kRollerPercent = 0.9;
     }
 
     public static final class IntakeConstants{
         public static final int kIntakeID = 37;
-        public static final double kIntakeUpPosition = 278; // When ready to intake
-        public static final double kIntakeOffset = -2254; // Ticks when perpendicular to ground
+        public static final double kIntakeUpPosition = -3450; // When ready to intake
+        public static final double kIntakeOffset = -5000; // Ticks when perpendicular to ground
         public static final double kIntakeGravityFF = 0.175; // Negative goes up, should invert
         public static final double kIntakeDownPosition = -1715; // 1098
         public static final double kIntakeMotionAcceleration = 125;

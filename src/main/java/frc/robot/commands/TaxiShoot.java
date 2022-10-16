@@ -31,7 +31,7 @@ public class TaxiShoot extends SequentialCommandGroup {
             new InstantCommand(() -> flywheel.setPercentZero()),
             new InstantCommand(() -> indexer.setPercentZero()),
             // Adjust drive.setPower so robot reaches outside of tarmac
-            new ParallelRaceGroup(new InstantCommand(() -> drive.setPower(0.2, 0.2)), new WaitCommand(3))
+            new ParallelRaceGroup(new InstantCommand(() -> drive.setPower(-0.5, -0.5)), new WaitCommand(3))
         );
  
     }

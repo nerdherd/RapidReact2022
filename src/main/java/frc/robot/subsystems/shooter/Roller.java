@@ -9,13 +9,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.RollerConstants;
 
 public class Roller {
-
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
     private TalonSRX roller;
     private boolean isRunning;
 
     public Roller() {
         roller = new TalonSRX(RollerConstants.kRollerID);
-        
+        roller.setInverted(true);
     }
 
     // public void setVelocity(double velocity) {
