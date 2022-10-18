@@ -11,6 +11,7 @@ public class Limelight extends SubsystemBase {
     NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight-nerd");
     NetworkTableEntry tx;
     NetworkTableEntry ty;
+    
     NetworkTableEntry ta;
     NetworkTableEntry ts;
     NetworkTableEntry tlong;
