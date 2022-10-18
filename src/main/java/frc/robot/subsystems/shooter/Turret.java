@@ -27,6 +27,10 @@ public class Turret extends SubsystemBase {
 
         hoodLimitLower = NerdyMath.ticksToAngle(TurretConstants.kHoodLowerLimitTicks);
         hoodLimitUpper = NerdyMath.ticksToAngle(TurretConstants.kHoodUpperLimitTicks);
+
+        this.frontFlywheelFalcon.set(ControlMode.PercentOutput, 0);
+        this.backFlywheelFalcon.set(ControlMode.PercentOutput, 0);
+
     }
 
     public void setTurnToTargetCommand(TurnToTarget command) {
@@ -38,13 +42,22 @@ public class Turret extends SubsystemBase {
         this.turnToTargetCommand.toggleHood();
     }
 
+    public void setPower(double power) {
+        backFlywheelFalcon.set(ControlMode.PercentOutput, power);
+        
+        // Get front flywheel to spin at 1/4 the speed
+        frontFlywheelFalcon.set(ControlMode.PercentOutput, power 
+                                * (1/TurretConstants.kBackFlywheelGearRatio) 
+                                * 1);
+    }
+
     public void setVelocity(double velocity) {
         backFlywheelFalcon.set(ControlMode.Velocity, velocity);
         
         // Get front flywheel to spin at 1/4 the speed
         frontFlywheelFalcon.set(ControlMode.Velocity, velocity 
                                 * (1/TurretConstants.kBackFlywheelGearRatio) 
-                                * 0.25);
+                                * 1);
     }
 
     public void setVelocityZero() {

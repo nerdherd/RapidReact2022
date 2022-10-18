@@ -12,6 +12,8 @@ public class TurnToTarget extends CommandBase {
     public TurnToTarget(Turret turret, Limelight limelight) {
         this.turret = turret;
         this.limelight = limelight;
+
+        addRequirements(turret, limelight);
     }
 
     @Override

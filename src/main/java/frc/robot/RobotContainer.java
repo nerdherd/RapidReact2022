@@ -163,31 +163,34 @@ public class RobotContainer {
             
         );
 
-        SmartDashboard.putData(" Reset Climber Encoders ", new InstantCommand(() -> everybotClimber.climberMaster.setSelectedSensorPosition(0)));
+        SmartDashboard.putData("Turret 70%", new InstantCommand(() -> turret.setPower(0.7)));
+        SmartDashboard.putData("Turret 0%", new InstantCommand(() -> turret.setVelocityZero()));
+
+        // SmartDashboard.putData(" Reset Climber Encoders ", new InstantCommand(() -> everybotClimber.climberMaster.setSelectedSensorPosition(0)));
         
-        SmartDashboard.putData(" Move ArmTrapezoid Angle ", new InstantCommand(() -> 
-            armTrapezoid.setPositionMotionMagic(ClimberConstants.kTicksToRungAngle)));
+        // SmartDashboard.putData(" Move ArmTrapezoid Angle ", new InstantCommand(() -> 
+        //     armTrapezoid.setPositionMotionMagic(ClimberConstants.kTicksToRungAngle)));
 
-        SmartDashboard.putData( " Move ArmTrapezoid Vertical ", new InstantCommand(() ->
-            armTrapezoid.setPositionMotionMagic(ClimberConstants.kTicksToVertical)));
+        // SmartDashboard.putData( " Move ArmTrapezoid Vertical ", new InstantCommand(() ->
+        //     armTrapezoid.setPositionMotionMagic(ClimberConstants.kTicksToVertical)));
 
-        SmartDashboard.putData( "Move ArmTrapezoid Clear Rung ", new InstantCommand(() ->
-            armTrapezoid.setPositionMotionMagic(ClimberConstants.kTicksToClearRung)));
+        // SmartDashboard.putData( "Move ArmTrapezoid Clear Rung ", new InstantCommand(() ->
+        //     armTrapezoid.setPositionMotionMagic(ClimberConstants.kTicksToClearRung)));
 
-        SmartDashboard.putData( "Reset Arm Encoder ", new InstantCommand(() -> 
-            armTrapezoid.resetClimbEncoder()));
+        // SmartDashboard.putData( "Reset Arm Encoder ", new InstantCommand(() -> 
+        //     armTrapezoid.resetClimbEncoder()));
         
-        SmartDashboard.putData(" Reset Elevator Encoder ", new InstantCommand(() ->
-            elevator.resetElevatorEncoder()));
+        // SmartDashboard.putData(" Reset Elevator Encoder ", new InstantCommand(() ->
+        //     elevator.resetElevatorEncoder()));
 
         SmartDashboard.putData(" Command Scheduler Disable ", new InstantCommand(() -> 
             CommandScheduler.getInstance().disable()));
 
-        SmartDashboard.putData(" Elevator Coast Mode ", new InstantCommand(() ->
-            elevator.elevator.setNeutralMode(NeutralMode.Coast)));
+        // SmartDashboard.putData(" Elevator Coast Mode ", new InstantCommand(() ->
+        //     elevator.elevator.setNeutralMode(NeutralMode.Coast)));
         
-        SmartDashboard.putData(" Elevator Brake Mode ", new InstantCommand(() ->
-            elevator.elevator.setNeutralMode(NeutralMode.Brake)));
+        // SmartDashboard.putData(" Elevator Brake Mode ", new InstantCommand(() ->
+        //     elevator.elevator.setNeutralMode(NeutralMode.Brake)));
             
     }
 

@@ -131,8 +131,8 @@ public final class Constants {
     }
 
     public static final class TurretConstants {
-        public static final int kFrontFlywheelFalconID = 0;
-        public static final int kBackFlywheelFalconID = 0;
+        public static final int kFrontFlywheelFalconID = 18;
+        public static final int kBackFlywheelFalconID = 3;
         public static final int kHoodMotorID = 0;
         public static final int kBaseMotorID = 0;
 
