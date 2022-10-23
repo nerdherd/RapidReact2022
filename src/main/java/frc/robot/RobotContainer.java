@@ -9,12 +9,16 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.PS4Controller.Button;
+
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.EverybotClimber;
+import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.shooter.Flywheel;
 import frc.robot.subsystems.shooter.Indexer;
 import frc.robot.subsystems.shooter.Intake;
 import frc.robot.subsystems.shooter.Roller;
+import frc.robot.subsystems.shooter.Turret;
+
 import frc.robot.Constants.FlywheelConstants;
 import frc.robot.Constants.RollerConstants;
 import frc.robot.commands.Rumble;
@@ -37,14 +41,17 @@ public class RobotContainer {
     public JoystickButton dLBumperDriver;
     public JoystickButton dRBumperOperator;
     public JoystickButton dLBumperOperator;
+    public JoystickButton dTriangleDriver;
 
     public SendableChooser<CommandGroupBase> autoChooser;
 
     public Flywheel flywheel = new Flywheel();   
     public Indexer indexer = new Indexer();  
     public Roller roller = new Roller();
-    public Intake intake = new Intake();                                          
-                                                                               
+    public Intake intake = new Intake();
+    public Limelight limelight = new Limelight();
+    public Turret turret = new Turret(limelight);    
+
     public Rumble rumble;
 
     public RobotContainer() {
@@ -73,6 +80,14 @@ public class RobotContainer {
     }
 
     public void configureButtonBindings() {
+        dTriangleDriver = new JoystickButton(ps4Controller, Button.kTriangle.value);
+        dTriangleDriver.debounce(0.1).whenActive(new InstantCommand(() -> turret.toggleHood()));
+
+        // Turret hood testing code
+        SmartDashboard.putData("Hood to 15 degrees", new InstantCommand(() -> turret.turnToHoodAngle(15)));
+        SmartDashboard.putData("Hood to 0 degrees", new InstantCommand(() -> turret.turnToHoodAngle(0)));
+        SmartDashboard.putData("Reset hood encoder", new InstantCommand(() -> turret.resetHoodEncoder()));
+
         dTriangleOperator = new JoystickButton(ps4Controller2, Button.kTriangle.value);
         dCrossOperator = new JoystickButton(ps4Controller2, Button.kCross.value);
         dSquareOperator = new JoystickButton(ps4Controller2, Button.kSquare.value);
@@ -102,8 +117,6 @@ public class RobotContainer {
         //dRightOperator1.whenPressed(new InstantCommand(() -> roller.setPercentZero()));
 
     }
-
-    // test if this works.
 
     public void configurePeriodic() {
         indexer.setPercent(ps4Controller2.getRightY());
@@ -140,17 +153,13 @@ public class RobotContainer {
     }
 
     public void reportToSmartDashboard() {
+        limelight.reportToSmartDashboard();
+        turret.reportToSmartDashboard();
+
         SmartDashboard.putNumber(" Climber Position", everybotClimber.climberMaster.getSelectedSensorPosition());
-        // SmartDashboard.putBoolean(" Triangle Button Held ", ps4Controller2.getTriangleButton());
-        // SmartDashboard.putNumber(" Right Operator Axis ", ps4Controller2.getRightY());
-        // SmartDashboard.putNumber(" ArmMM Position ", armMotionMagic.arm.getSelectedSensorPosition());
-        // SmartDashboard.putNumber(" ArmMM Velocity", armMotionMagic.arm.getSelectedSensorVelocity());
-        // SmartDashboard.putNumber(" ArmMM Voltage ", armMotionMagic.arm.getMotorOutputVoltage());
         SmartDashboard.putBoolean(" Triangle Button Held ", ps4Controller2.getTriangleButton());
         SmartDashboard.putNumber(" Climber Voltage ", everybotClimber.climberMaster.getMotorOutputVoltage());
         SmartDashboard.putNumber(" Climber Current ", everybotClimber.climberMaster.getSupplyCurrent());
         SmartDashboard.putNumber(" Left Operator Y Axis ", ps4Controller2.getLeftY());
-
     }
-
 }

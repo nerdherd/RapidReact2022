@@ -43,7 +43,7 @@ public class Log {
     createTopic("Indexer Bottom" + "/Current", () -> robotContainer.indexer.IndexerBottom.getStatorCurrent());
     createTopic("Indexer Top" + "/Velocity", () -> robotContainer.indexer.IndexerTop.getSelectedSensorVelocity());
     createTopic("Indexer Bottom" + "/Velocity", () -> robotContainer.indexer.IndexerBottom.getSelectedSensorVelocity());
-
+    createTopic("Hood Current" + "/Current", () -> robotContainer.turret.getHoodCurrent());
     log.finishInitialization();
   }
 
