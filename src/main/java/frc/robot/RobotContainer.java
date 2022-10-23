@@ -39,6 +39,7 @@ import frc.robot.Constants.FlywheelConstants;
 import frc.robot.Constants.IndexerConstants;
 import frc.robot.Constants.RollerConstants;
 import frc.robot.commands.Rumble;
+import frc.robot.commands.TankDrive;
 import frc.robot.commands.TaxiShoot;
 
 // import frc.robot.subsystems.climber.ArmMotionMagic;
@@ -84,6 +85,12 @@ public class RobotContainer {
         rumble = new Rumble(() -> drivetrain.rightMaster.getSupplyCurrent(), 
             () -> drivetrain.rightMaster.getSelectedSensorVelocity(), ps4Controller, 0, 0);
         rumble.schedule();
+
+        TankDrive tankDrive = new TankDrive(drivetrain, 
+                                            () -> ps4Controller.getLeftY(), 
+                                            () -> ps4Controller.getRightY());
+        
+        drivetrain.setDefaultCommand(tankDrive);
     }
 
     public void initShooter() {
@@ -127,19 +134,6 @@ public class RobotContainer {
     // test if this works.
 
     public void configurePeriodic() {
-        // TELEOP DRIVE
-        double leftInput = ps4Controller.getLeftY();
-        double rightInput = ps4Controller.getRightY();
-        double prevLeftOutput = drivetrain.leftMaster.getMotorOutputPercent();
-        double prevRightOutput = drivetrain.rightMaster.getMotorOutputPercent();
-
-        // Low pass filter, output = (alpha * intended value) + (1-alpha) * previous value
-        double leftOutput = (DriveConstants.kDriveAlpha * leftInput) + (DriveConstants.kDriveOneMinusAlpha * prevLeftOutput);
-        double rightOutput = (DriveConstants.kDriveAlpha * rightInput) + (DriveConstants.kDriveOneMinusAlpha * prevRightOutput);
-
-        drivetrain.rightMaster.set(ControlMode.PercentOutput, rightOutput);
-        drivetrain.leftMaster.set(ControlMode.PercentOutput, leftOutput);
-
         indexer.setPercent(ps4Controller2.getRightY());
     }
 

@@ -77,14 +77,17 @@ public class Drivetrain extends SubsystemBase {
       SmartDashboard.putNumber(" Left Slave Current ", leftSlave.getSupplyCurrent());
     }
 
-    // ====================== AUTONOMOUS FUNCTIONS ====================== //
-    
-    // Speed in percentage, waitTime in seconds
-    public void drive(double leftSpeed, double rightSpeed, double waitTime) {
-      leftMaster.set(ControlMode.PercentOutput, leftSpeed);
-      rightMaster.set(ControlMode.PercentOutput, rightSpeed);
+    public void tankDrive(double leftInput, double rightInput) {
+      double prevLeftOutput = leftMaster.getMotorOutputPercent();
+      double prevRightOutput = rightMaster.getMotorOutputPercent();
 
-      Timer.delay(waitTime);
+      // Low pass filter, output = (alpha * intended value) + (1-alpha) * previous value
+      double leftOutput = (DriveConstants.kDriveAlpha * leftInput) + (DriveConstants.kDriveOneMinusAlpha * prevLeftOutput);
+      double rightOutput = (DriveConstants.kDriveAlpha * rightInput) + (DriveConstants.kDriveOneMinusAlpha * prevRightOutput);
+
+      rightMaster.set(ControlMode.PercentOutput, rightOutput);
+      leftMaster.set(ControlMode.PercentOutput, leftOutput);
     }
+
 }
   
