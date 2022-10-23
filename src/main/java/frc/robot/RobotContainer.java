@@ -8,8 +8,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import edu.wpi.first.wpilibj.PS4Controller;
-import edu.wpi.first.wpilibj.PS4Controller.Button;
-
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.EverybotClimber;
 import frc.robot.subsystems.Limelight;
@@ -18,7 +16,8 @@ import frc.robot.subsystems.shooter.Indexer;
 import frc.robot.subsystems.shooter.Intake;
 import frc.robot.subsystems.shooter.Roller;
 import frc.robot.subsystems.shooter.Turret;
-
+import frc.robot.util.BadPS4;
+import frc.robot.util.BadPS4.Button;
 import frc.robot.Constants.FlywheelConstants;
 import frc.robot.Constants.RollerConstants;
 import frc.robot.commands.Rumble;
@@ -33,15 +32,8 @@ public class RobotContainer {
     public PS4Controller ps4Controller;
     public PS4Controller ps4Controller2;
 
-    public JoystickButton dTriangleOperator;
-    public JoystickButton dCrossOperator; 
-    public JoystickButton dSquareOperator; // Cross
-    public JoystickButton dCircleOperator; // Square
-    public JoystickButton dRBumperDriver;
-    public JoystickButton dLBumperDriver;
-    public JoystickButton dRBumperOperator;
-    public JoystickButton dLBumperOperator;
-    public JoystickButton dTriangleDriver;
+    public JoystickButton dTriangle, dCross, dSquare, dCircle, dRBumper, dLBumper;
+    public JoystickButton oTriangle, oCross, oSquare, oCircle, oRBumper, oLBumper;
 
     public SendableChooser<CommandGroupBase> autoChooser;
 
@@ -56,9 +48,10 @@ public class RobotContainer {
 
     public RobotContainer() {
         initSmartDashboard();
+        initButtons();
 
-        ps4Controller = new PS4Controller(0);
-        ps4Controller2 = new PS4Controller(1);
+        ps4Controller = new BadPS4(0);
+        ps4Controller2 = new BadPS4(1);
         
         //drivetrain.compressor.enableDigital();
         rumble = new Rumble(() -> drivetrain.rightMaster.getSupplyCurrent(), 
@@ -80,49 +73,55 @@ public class RobotContainer {
     }
 
     public void configureButtonBindings() {
-        dTriangleDriver = new JoystickButton(ps4Controller, Button.kTriangle.value);
-        dTriangleDriver.debounce(0.1).whenActive(new InstantCommand(() -> turret.toggleHood()));
+        dTriangle.debounce(0.1).whenActive(new InstantCommand(() -> turret.toggleHood()));
 
         // Turret hood testing code
         SmartDashboard.putData("Hood to 15 degrees", new InstantCommand(() -> turret.turnToHoodAngle(15)));
         SmartDashboard.putData("Hood to 0 degrees", new InstantCommand(() -> turret.turnToHoodAngle(0)));
         SmartDashboard.putData("Reset hood encoder", new InstantCommand(() -> turret.resetHoodEncoder()));
 
-        dTriangleOperator = new JoystickButton(ps4Controller2, Button.kTriangle.value);
-        dCrossOperator = new JoystickButton(ps4Controller2, Button.kCross.value);
-        dSquareOperator = new JoystickButton(ps4Controller2, Button.kSquare.value);
-        dCircleOperator = new JoystickButton(ps4Controller2, Button.kCircle.value);
-        dRBumperDriver = new JoystickButton(ps4Controller, Button.kR1.value); // Driver
-        dLBumperDriver = new JoystickButton(ps4Controller, Button.kR2.value); // Driver
-        dRBumperOperator = new JoystickButton(ps4Controller2, Button.kR1.value);
-        dLBumperOperator = new JoystickButton(ps4Controller2, Button.kL1.value);
-
         // leftbumberoperator = slow flywheel
         // rightbumperoperator = fast flywheel
         // triangle = stop
 
-        dTriangleOperator.whenPressed(new InstantCommand(() -> flywheel.setPercentZero()));
-        dCrossOperator.whenPressed(new InstantCommand(() -> indexer.toggleIndexer()));
-        // dSquareOperator.whenPressed(new InstantCommand(() -> indexer.setPercent(IndexerConstants.kIndexerPercent)));
-        // dCircleOperator.whenPressed(new InstantCommand(() -> indexer.setPercentZero()));
-        dCircleOperator.whenPressed(new InstantCommand(() -> roller.toggleRoller(RollerConstants.kRollerPercent))); // Square
-        dSquareOperator.whenPressed(new InstantCommand(() -> intake.toggleIntake())); // Cross
+        oTriangle.whenPressed(new InstantCommand(() -> flywheel.setPercentZero()));
+        oCircle.whenPressed(new InstantCommand(() -> indexer.toggleIndexer()));
+        // oCross.whenPressed(new InstantCommand(() -> indexer.setPercent(IndexerConstants.kIndexerPercent)));
+        // oSquare.whenPressed(new InstantCommand(() -> indexer.setPercentZero()));
+        oSquare.whenPressed(new InstantCommand(() -> roller.toggleRoller(RollerConstants.kRollerPercent))); // Square
+        oCross.whenPressed(new InstantCommand(() -> intake.toggleIntake())); // Cross
 
-        dRBumperDriver.whenPressed(new InstantCommand(() -> intake.LowerIntake()));
-        dLBumperDriver.whenPressed(new InstantCommand(() -> intake.RaiseIntake()));
+        dRBumper.whenPressed(new InstantCommand(() -> intake.LowerIntake()));
+        dLBumper.whenPressed(new InstantCommand(() -> intake.RaiseIntake()));
 
-        dRBumperOperator.whenPressed(new InstantCommand(() -> flywheel.setPercent(FlywheelConstants.kFlywheelOuterTarmacPercent)));
-        dLBumperOperator.whenPressed(new InstantCommand(() -> flywheel.setPercent(FlywheelConstants.kFlywheelInnerTarmacPercent)));
+        oRBumper.whenPressed(new InstantCommand(() -> flywheel.setPercent(FlywheelConstants.kFlywheelOuterTarmacPercent)));
+        oLBumper.whenPressed(new InstantCommand(() -> flywheel.setPercent(FlywheelConstants.kFlywheelInnerTarmacPercent)));
         // dLeftOperator1.whenPressed(new InstantCommand(() -> roller.toggleRoller(RollerConstants.kRollerPercent)));
-        //dRightOperator1.whenPressed(new InstantCommand(() -> roller.setPercentZero()));
+        // dRightOperator1.whenPressed(new InstantCommand(() -> roller.setPercentZero()));
+    }
 
+    public void initButtons() {
+        dTriangle = new JoystickButton(ps4Controller, Button.kTriangle.value);
+        dCross = new JoystickButton(ps4Controller, Button.kCross.value);
+        dSquare = new JoystickButton(ps4Controller, Button.kSquare.value);
+        dCircle = new JoystickButton(ps4Controller, Button.kCircle.value);
+
+        dRBumper = new JoystickButton(ps4Controller, Button.kR1.value);
+        dLBumper = new JoystickButton(ps4Controller, Button.kL1.value);
+
+        oTriangle = new JoystickButton(ps4Controller2, Button.kTriangle.value);
+        oCross = new JoystickButton(ps4Controller2, Button.kCross.value);
+        oSquare = new JoystickButton(ps4Controller2, Button.kSquare.value);
+        oCircle = new JoystickButton(ps4Controller2, Button.kCircle.value);
+
+        oRBumper = new JoystickButton(ps4Controller, Button.kR1.value);
+        oLBumper = new JoystickButton(ps4Controller, Button.kL1.value);
     }
 
     public void configurePeriodic() {
         indexer.setPercent(ps4Controller2.getRightY());
     }
 
-    
     public void initSmartDashboard() {
         autoChooser = new SendableChooser<CommandGroupBase>();
 

@@ -1,4 +1,4 @@
-package frc.robot;
+package frc.robot.util;
 
 public class NerdyMath {
     public static double ticksToAngle(double ticks, double ticksPerRotation) {

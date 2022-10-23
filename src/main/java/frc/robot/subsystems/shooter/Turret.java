@@ -6,10 +6,10 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.NerdyMath;
 import frc.robot.Constants.TurretConstants;
 import frc.robot.commands.TurnToTarget;
 import frc.robot.subsystems.Limelight;
+import frc.robot.util.NerdyMath;
 
 public class Turret extends SubsystemBase {
     
