@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 
 
@@ -18,12 +16,6 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.subsystems.climber.Arm;
-import frc.robot.subsystems.climber.Elevator;
-import frc.robot.subsystems.Drivetrain;
-import frc.robot.RobotContainer;
-import frc.robot.Constants.ClimberConstants;
-
 
 public class Robot extends TimedRobot {
   public static SendableChooser<Command> autoChooser;
@@ -39,18 +31,12 @@ public class Robot extends TimedRobot {
     
     robotContainer = new RobotContainer();
     
-    Log.initAndLog("/home/lvuser/logs/", "Test", 0.02, robotContainer);
-    
-    robotContainer.elevator.elevator.setSelectedSensorPosition(0);
-    robotContainer.elevator.elevator.setNeutralMode(NeutralMode.Brake);
-    robotContainer.armTrapezoid.arm.setNeutralMode(NeutralMode.Brake);
+    Log.initAndLog("/home/lvuser/logs/", "Test", 0.02, robotContainer); 
   }
   
   @Override
   public void teleopInit() { 
     robotContainer.configureButtonBindings();
-    robotContainer.elevator.elevator.setSelectedSensorPosition(0);
-    robotContainer.elevator.elevator.setNeutralMode(NeutralMode.Brake);
     robotContainer.everybotClimber.climberMaster.setSelectedSensorPosition(0);
     SequentialCommandGroup initRumble = new SequentialCommandGroup(
       new WaitCommand(1),
@@ -88,19 +74,11 @@ public class Robot extends TimedRobot {
     if (command != null) {
       command.schedule();
     }
-    
-    Arm.arm.setSelectedSensorPosition(0);
   }
 
   @Override
   public void autonomousPeriodic() {
-    // Arm.rotateArmToAngle(64, 5);
-    SmartDashboard.putNumber(" Arm Position ", Arm.arm.getSelectedSensorPosition());
     CommandScheduler.getInstance().run();
-
-
-    // -21560 to reach mid 
-    // -2675 to go down & latch
   }
 
   @Override
