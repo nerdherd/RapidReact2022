@@ -47,8 +47,9 @@ public class Intake{
     }
 
     public double ticksToAngle() {
-        return 90 - ((intake.getSelectedSensorPosition() - IntakeConstants.kIntakeOffset)
-             * 360 / 4096);
+        double tickDifference = Math.abs(intake.getSelectedSensorPosition() - IntakeConstants.kIntakeOffset);
+        double angleDifference = tickDifference * 360 / 4096;
+        return 90 - angleDifference;
     }
 
     public double degreesToRadians(double deg) {
@@ -74,9 +75,9 @@ public class Intake{
     }
 
     public void init() {
-        LowerIntake();
+        // LowerIntake();
         intakeIsUp = false;
-        // DisableIntake();
+        DisableIntake();
     }
     
 }
