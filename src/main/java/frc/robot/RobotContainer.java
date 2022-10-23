@@ -55,7 +55,7 @@ public class RobotContainer {
         
         //drivetrain.compressor.enableDigital();
         rumble = new Rumble(() -> drivetrain.rightMaster.getSupplyCurrent(), 
-            () -> drivetrain.rightMaster.getSelectedSensorVelocity(), ps4Controller, 0, 0);
+            () -> drivetrain.rightMaster.getSelectedSensorVelocity(), ps4Controller, 0);
         rumble.schedule();
 
         TankDrive tankDrive = new TankDrive(drivetrain, 

@@ -4,14 +4,14 @@
 
 package frc.robot.commands;
 
-import java.util.HashMap;
+// import java.util.HashMap;
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.util.datalog.DataLog;
+// import edu.wpi.first.util.datalog.DataLog;
 
 public class Rumble extends CommandBase {
   private final DoubleSupplier motorVelocitySupplier;
@@ -19,15 +19,14 @@ public class Rumble extends CommandBase {
   private final GenericHID controller;
   private final double deadband;
 
-  // TODO: Should be defined in constants, but done here to avoid merge conflicts
   private final double minimumVelocity = 1;
   private final double minimumCurrent = 0.2;
 
   private double lastFPGATimestamp;
   public double timeRammed = 0;
   public double fixedRatio = 0;
-  private double timeUnderRatio = 0;
-  private double timeCancelBuffer = 0;
+  // private double timeUnderRatio = 0;
+  // private double timeCancelBuffer = 0;
 
   public double ratio = 0;
   public double rumbleStrength = 0;
@@ -47,12 +46,11 @@ public class Rumble extends CommandBase {
    * @return                  a new Rumble command
   */
   public Rumble(DoubleSupplier motorVelocity, DoubleSupplier motorCurrent, 
-                GenericHID controller, double deadband, double timeCancelBuffer) {
+                GenericHID controller, double deadband) {
     this.motorVelocitySupplier = motorVelocity;
     this.motorCurrentSupplier = motorCurrent;
     this.controller = controller;
     this.deadband = deadband;
-    this.timeCancelBuffer = timeCancelBuffer;
 
     // dataLog = new DataLog("/home/lvuser/logs", "RumbleLog");
   }
@@ -146,7 +144,7 @@ public class Rumble extends CommandBase {
     // dataLog.start("Drivebase Velocity", "double");
 
     // Multiply by 1 million because for some reason all values were E-5 in the log file
-    long currentFPGATimestampLong = (long) currentFPGATimestamp * 1000000;
+    // long currentFPGATimestampLong = (long) currentFPGATimestamp * 1000000;
 
     // Log values
     // dataLog.appendDouble(logEntries.get("Drivebase Constant Current Velocity Ratio"), fixedRatio, currentFPGATimestampLong);
