@@ -56,7 +56,7 @@ public class TwoBallAuto extends SequentialCommandGroup {
 
         Trajectory tarmacToTerminal = TrajectoryGenerator.generateTrajectory(
             new Pose2d(0, 0, new Rotation2d(0.8116)),
-            List.of(new Translation2d(0.942, 0.635)),
+            List.of(new Translation2d(0.459, 0.366)),
             new Pose2d(0.942, 0.635, new Rotation2d(0.7636)),
             config
             );
