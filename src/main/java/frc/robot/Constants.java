@@ -21,6 +21,29 @@ public final class Constants {
         public static final int kHookShifterForwardID = 1;
         public static final int kHookShifterReverseID = 6;
 
+        // ================== AUTOS =====================
+        public static final double kRamseteS = 0;
+        public static final double kRamseteV = 0;
+        public static final double kRamseteA = 0;
+        public static final double kRamseteMaxVolts = 10;
+
+        public static final double kDriveMaxVel = 2.0;
+        public static final double kDriveMaxAccel = 1.0;
+
+        public static final double kMaxCentripetalAcceleration = 2.1;
+
+        public static final double kLeftP = 0;
+        public static final double kLeftI = 0;
+        public static final double kLeftD = 0;
+        public static final double kRightP = 0;
+        public static final double kRightI = 0;
+        public static final double kRightD = 0;
+
+        public static final double kTrackWidth = 0.68;
+
+        public static final double kTicksPerFoot = 0;
+        // ==============================================
+
     }
 
     public static final class EverybotConstants {

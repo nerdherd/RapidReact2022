@@ -23,6 +23,7 @@ import frc.robot.Constants.RollerConstants;
 import frc.robot.commands.Rumble;
 import frc.robot.commands.TankDrive;
 import frc.robot.commands.TaxiShoot;
+import frc.robot.commands.TwoBallAuto;
 
 // import frc.robot.subsystems.climber.ArmMotionMagic;
 public class RobotContainer {
@@ -126,7 +127,7 @@ public class RobotContainer {
         autoChooser = new SendableChooser<CommandGroupBase>();
 
         autoChooser.setDefaultOption("Shoot then Taxi", new TaxiShoot(drivetrain, flywheel, indexer));
-
+        autoChooser.addOption("Two Ball Auto", new TwoBallAuto(drivetrain, flywheel, indexer, intake, roller));
         // autoChooser.setDefaultOption("leave tarmac :)", 
         //     new SequentialCommandGroup(
         //         // drive for 1 second with power 0.5, then set power zero
