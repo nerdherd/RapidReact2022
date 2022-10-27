@@ -50,7 +50,6 @@ public class RobotContainer {
 
     public RobotContainer() {
         initSmartDashboard();
-        initButtons();
 
         ps4Controller = new BadPS4(0);
         ps4Controller2 = new BadPS4(1);
@@ -59,12 +58,7 @@ public class RobotContainer {
         rumble = new Rumble(() -> drivetrain.rightMaster.getSupplyCurrent(), 
             () -> drivetrain.rightMaster.getSelectedSensorVelocity(), ps4Controller, 0);
         rumble.schedule();
-
-        TankDrive tankDrive = new TankDrive(drivetrain, 
-                                            () -> ps4Controller.getLeftY(), 
-                                            () -> ps4Controller.getRightY());
         
-        drivetrain.setDefaultCommand(tankDrive);
     }
 
     public void initSubsystems() {
@@ -73,6 +67,10 @@ public class RobotContainer {
         roller.init();
         intake.init();
         passiveClimber.init();
+        TankDrive tankDrive = new TankDrive(drivetrain, 
+                                            () -> ps4Controller.getLeftY(), 
+                                            () -> ps4Controller.getRightY());
+        drivetrain.setDefaultCommand(tankDrive);
     }
 
     public void configureButtonBindings() {

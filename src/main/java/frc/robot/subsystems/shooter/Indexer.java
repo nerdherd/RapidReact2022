@@ -20,6 +20,11 @@ public class Indexer {
         // IndexerBottom.follow(IndexerTop);
     }
 
+    // public void setVelocityPOV(double povValue) {
+        
+
+    // }
+
     // public void setVelocity(double velocity) {
     //     IndexerTop.set(ControlMode.Velocity, velocity);
     // }

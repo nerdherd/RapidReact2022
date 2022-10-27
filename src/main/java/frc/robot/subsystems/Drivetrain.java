@@ -47,7 +47,8 @@ public class Drivetrain extends SubsystemBase {
       rightSlave.follow(rightMaster);
 
       // Inverted the right side
-      rightMaster.setInverted(true);
+      leftMaster.setInverted(true);
+      rightMaster.setInverted(false);
       leftSlave.setInverted(InvertType.FollowMaster);
       rightSlave.setInverted(InvertType.FollowMaster);
 
@@ -68,9 +69,6 @@ public class Drivetrain extends SubsystemBase {
     public static double gainInput(double input) {
       input = Math.pow(input, 3);
       return input;
-    }
-
-    public void driveControllerMovement() {
     }
 
     public void setPowerZero() {
@@ -121,6 +119,8 @@ public class Drivetrain extends SubsystemBase {
       SmartDashboard.putNumber(" Right Slave Current ", rightSlave.getSupplyCurrent());
       SmartDashboard.putNumber(" Left Master Current ", leftMaster.getSupplyCurrent());
       SmartDashboard.putNumber(" Left Slave Current ", leftSlave.getSupplyCurrent());
+      SmartDashboard.putNumber(" Drive Velocity ", rightMaster.getSelectedSensorVelocity());
+      SmartDashboard.putNumber(" Drive Current ", rightMaster.getSupplyCurrent());
     }
 
     public void tankDrive(double leftInput, double rightInput) {

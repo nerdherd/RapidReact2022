@@ -6,10 +6,10 @@ public final class Constants {
         public static final double kDriveAlpha = 0.11765;
         public static final double kDriveOneMinusAlpha = 0.88235;
 
-        public static final int kRightMasterTalonID = 30;
-        public static final int kRightSlaveTalonID = 31;
-        public static final int kLeftMasterTalonID = 16;
-        public static final int kLeftSlaveTalonID = 17;
+        public static final int kRightMasterTalonID = 16;
+        public static final int kRightSlaveTalonID = 17;
+        public static final int kLeftMasterTalonID = 30;
+        public static final int kLeftSlaveTalonID = 31;
 
         public static final int kHooksMasterTalonID = 20; //new
         public static final int kHooksSlaveTalonID = 27; //new

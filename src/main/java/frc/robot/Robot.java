@@ -31,6 +31,7 @@ public class Robot extends TimedRobot {
     robotContainer = new RobotContainer();
     
     Log.initAndLog("/home/lvuser/logs/", "Test", 0.02, robotContainer); 
+    robotContainer.initButtons();
   }
   
   @Override
@@ -56,10 +57,7 @@ public class Robot extends TimedRobot {
     robotContainer.configurePeriodic();
     
     CommandScheduler.getInstance().run();
-
-    SmartDashboard.putNumber(" Drive Velocity ", robotContainer.drivetrain.rightMaster.getSelectedSensorVelocity());
-    SmartDashboard.putNumber(" Drive Current ", robotContainer.drivetrain.rightMaster.getSupplyCurrent());
-
+    
     robotContainer.roller.reportToSmartDashboard();
     robotContainer.flywheel.reportToSmartDashboard();
     robotContainer.intake.reportToSmartDashboard();
