@@ -53,6 +53,12 @@ public class Indexer {
         }
     }
 
+    public void manualControl(double percent) {
+        if (!isRunning) {
+            setPercent(percent);
+        }
+    }
+
     public void init() {
         IndexerBottom.set(ControlMode.PercentOutput, 0);
         IndexerTop.set(ControlMode.PercentOutput, 0);

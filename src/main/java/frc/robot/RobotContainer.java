@@ -57,7 +57,7 @@ public class RobotContainer {
         roller.init();
         intake.init();
         passiveClimber.init();
-        drivetrain.startTankDrive(ps4Controller::getLeftY, ps4Controller::getRightY);
+        // drivetrain.startTankDrive(ps4Controller::getLeftY, ps4Controller::getRightY);
         drivetrain.startRumble(ps4Controller);
     }
 
@@ -109,7 +109,11 @@ public class RobotContainer {
     }
 
     public void configurePeriodic() {
+        // TODO: might override stuff in indexer and stop it from ever running?
         indexer.setPercent(ps4Controller2.getRightY());
+        // Possible fix:
+        // indexer.manualControl(ps4Controller2.getRightY());
+        drivetrain.tankDrive(ps4Controller.getLeftY(), ps4Controller.getRightY());
         drivetrain.setNeutralCoast();
     }
 
