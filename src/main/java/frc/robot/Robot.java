@@ -31,7 +31,6 @@ public class Robot extends TimedRobot {
     robotContainer = new RobotContainer();
     
     Log.initAndLog("/home/lvuser/logs/", "Test", 0.02, robotContainer); 
-    robotContainer.initButtons();
   }
   
   @Override
@@ -43,7 +42,6 @@ public class Robot extends TimedRobot {
     );
     initRumble.schedule();
     robotContainer.initSubsystems();
-
   }
 
 

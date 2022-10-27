@@ -6,9 +6,9 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 
 public class TankDrive extends CommandBase {
-    Drivetrain drivetrain;
-    DoubleSupplier leftInput;
-    DoubleSupplier rightInput;
+    private Drivetrain drivetrain;
+    private DoubleSupplier leftInput;
+    private DoubleSupplier rightInput;
 
     public TankDrive(Drivetrain drivetrain, DoubleSupplier leftInput, DoubleSupplier rightInput) {
         this.drivetrain = drivetrain;

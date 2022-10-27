@@ -21,7 +21,6 @@ import frc.robot.util.BadPS4.Button;
 import frc.robot.Constants.FlywheelConstants;
 import frc.robot.Constants.RollerConstants;
 import frc.robot.commands.Rumble;
-import frc.robot.commands.TankDrive;
 import frc.robot.commands.TaxiShoot;
 import frc.robot.commands.TwoBallAuto;
 
@@ -58,7 +57,6 @@ public class RobotContainer {
         rumble = new Rumble(() -> drivetrain.rightMaster.getSupplyCurrent(), 
             () -> drivetrain.rightMaster.getSelectedSensorVelocity(), ps4Controller, 0);
         rumble.schedule();
-        
     }
 
     public void initSubsystems() {
@@ -67,13 +65,11 @@ public class RobotContainer {
         roller.init();
         intake.init();
         passiveClimber.init();
-        TankDrive tankDrive = new TankDrive(drivetrain, 
-                                            () -> ps4Controller.getLeftY(), 
-                                            () -> ps4Controller.getRightY());
-        drivetrain.setDefaultCommand(tankDrive);
+        drivetrain.startTankDrive(ps4Controller::getLeftY, ps4Controller::getRightY);
     }
 
     public void configureButtonBindings() {
+        initButtons();
         dTriangle.debounce(0.1).whenActive(new InstantCommand(() -> turret.toggleHood()));
 
         // Turret hood testing code
