@@ -36,13 +36,13 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() { 
     robotContainer.configureButtonBindings();
-    robotContainer.everybotClimber.climberMaster.setSelectedSensorPosition(0);
     SequentialCommandGroup initRumble = new SequentialCommandGroup(
       new WaitCommand(1),
       new InstantCommand(() -> robotContainer.rumble.schedule())
     );
     initRumble.schedule();
-    robotContainer.initShooter();
+    robotContainer.initSubsystems();
+
   }
 
 

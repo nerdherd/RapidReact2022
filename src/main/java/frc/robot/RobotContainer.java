@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import edu.wpi.first.wpilibj.PS4Controller;
 import frc.robot.subsystems.Drivetrain;
-import frc.robot.subsystems.EverybotClimber;
+import frc.robot.subsystems.PassiveClimber;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.shooter.Flywheel;
 import frc.robot.subsystems.shooter.Indexer;
@@ -28,7 +28,7 @@ import frc.robot.commands.TwoBallAuto;
 // import frc.robot.subsystems.climber.ArmMotionMagic;
 public class RobotContainer {
     public Drivetrain drivetrain = new Drivetrain();
-    public EverybotClimber everybotClimber = new EverybotClimber();
+    public PassiveClimber everybotClimber = new PassiveClimber();
 
     public PS4Controller ps4Controller;
     public PS4Controller ps4Controller2;
@@ -43,7 +43,8 @@ public class RobotContainer {
     public Roller roller = new Roller();
     public Intake intake = new Intake();
     public Limelight limelight = new Limelight();
-    public Turret turret = new Turret(limelight);    
+    public Turret turret = new Turret(limelight);
+    public PassiveClimber passiveClimber = new PassiveClimber();    
 
     public Rumble rumble;
 
@@ -66,11 +67,12 @@ public class RobotContainer {
         drivetrain.setDefaultCommand(tankDrive);
     }
 
-    public void initShooter() {
+    public void initSubsystems() {
         flywheel.init();
         indexer.init();
         roller.init();
         intake.init();
+        passiveClimber.init();
     }
 
     public void configureButtonBindings() {
@@ -156,10 +158,7 @@ public class RobotContainer {
         limelight.reportToSmartDashboard();
         turret.reportToSmartDashboard();
 
-        SmartDashboard.putNumber(" Climber Position", everybotClimber.climberMaster.getSelectedSensorPosition());
         SmartDashboard.putBoolean(" Triangle Button Held ", ps4Controller2.getTriangleButton());
-        SmartDashboard.putNumber(" Climber Voltage ", everybotClimber.climberMaster.getMotorOutputVoltage());
-        SmartDashboard.putNumber(" Climber Current ", everybotClimber.climberMaster.getSupplyCurrent());
         SmartDashboard.putNumber(" Left Operator Y Axis ", ps4Controller2.getLeftY());
     }
 }
