@@ -4,18 +4,11 @@
 
 package frc.robot;
 
-import com.ctre.phoenix.motorcontrol.NeutralMode;
-
-
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandGroupBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class Robot extends TimedRobot {
   public static SendableChooser<Command> autoChooser;
@@ -25,7 +18,6 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() { 
-    SmartDashboard.putBoolean("started", false);
     CommandScheduler.getInstance().cancelAll();
     
     robotContainer = new RobotContainer();
@@ -36,30 +28,15 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopInit() { 
     robotContainer.configureButtonBindings();
-    SequentialCommandGroup initRumble = new SequentialCommandGroup(
-      new WaitCommand(1),
-      new InstantCommand(() -> robotContainer.rumble.schedule())
-    );
-    initRumble.schedule();
     robotContainer.initSubsystems();
   }
-
 
   @Override
   public void teleopPeriodic() { 
     robotContainer.reportToSmartDashboard();
-    robotContainer.drivetrain.rightMaster.setNeutralMode(NeutralMode.Coast);
-    robotContainer.drivetrain.rightSlave.setNeutralMode(NeutralMode.Coast);
-    robotContainer.drivetrain.leftMaster.setNeutralMode(NeutralMode.Coast);
-    robotContainer.drivetrain.leftSlave.setNeutralMode(NeutralMode.Coast);
     robotContainer.configurePeriodic();
     
     CommandScheduler.getInstance().run();
-    
-    robotContainer.roller.reportToSmartDashboard();
-    robotContainer.flywheel.reportToSmartDashboard();
-    robotContainer.intake.reportToSmartDashboard();
-    
   }
 
   @Override

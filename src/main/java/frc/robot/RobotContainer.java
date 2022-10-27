@@ -20,7 +20,6 @@ import frc.robot.util.BadPS4;
 import frc.robot.util.BadPS4.Button;
 import frc.robot.Constants.FlywheelConstants;
 import frc.robot.Constants.RollerConstants;
-import frc.robot.commands.Rumble;
 import frc.robot.commands.TaxiShoot;
 import frc.robot.commands.TwoBallAuto;
 
@@ -45,18 +44,11 @@ public class RobotContainer {
     public Turret turret = new Turret(limelight);
     public PassiveClimber passiveClimber = new PassiveClimber();    
 
-    public Rumble rumble;
-
     public RobotContainer() {
         initSmartDashboard();
 
         ps4Controller = new BadPS4(0);
         ps4Controller2 = new BadPS4(1);
-        
-        //drivetrain.compressor.enableDigital();
-        rumble = new Rumble(() -> drivetrain.rightMaster.getSupplyCurrent(), 
-            () -> drivetrain.rightMaster.getSelectedSensorVelocity(), ps4Controller, 0);
-        rumble.schedule();
     }
 
     public void initSubsystems() {
@@ -66,6 +58,7 @@ public class RobotContainer {
         intake.init();
         passiveClimber.init();
         drivetrain.startTankDrive(ps4Controller::getLeftY, ps4Controller::getRightY);
+        drivetrain.startRumble(ps4Controller);
     }
 
     public void configureButtonBindings() {
@@ -117,6 +110,7 @@ public class RobotContainer {
 
     public void configurePeriodic() {
         indexer.setPercent(ps4Controller2.getRightY());
+        drivetrain.setNeutralCoast();
     }
 
     public void initSmartDashboard() {
@@ -151,6 +145,10 @@ public class RobotContainer {
     public void reportToSmartDashboard() {
         limelight.reportToSmartDashboard();
         turret.reportToSmartDashboard();
+        roller.reportToSmartDashboard();
+        flywheel.reportToSmartDashboard();
+        intake.reportToSmartDashboard();
+        passiveClimber.reportToSmartDashboard();
 
         SmartDashboard.putBoolean(" Triangle Button Held ", ps4Controller2.getTriangleButton());
         SmartDashboard.putNumber(" Left Operator Y Axis ", ps4Controller2.getLeftY());

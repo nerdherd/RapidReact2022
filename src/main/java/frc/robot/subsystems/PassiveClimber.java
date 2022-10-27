@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.InvertType;
+import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -16,7 +17,12 @@ public class PassiveClimber extends SubsystemBase {
         climberLeft = new TalonFX(ClimberConstants.kClimberLeftID);
         climberRight = new TalonFX(ClimberConstants.kClimberRightID);
 
-        // invert one here
+        // invert one here (choose one)
+        // climberLeft.setInverted(false);
+        // climberRight.setInverted(true);
+
+        // climberLeft.setInverted(true);
+        // climberRight.setInverted(false);
 
         // config tuning params in slot 0
         climberLeft.config_kP(0, ClimberConstants.kP);
@@ -36,6 +42,27 @@ public class PassiveClimber extends SubsystemBase {
         climberRight.configMotionAcceleration(ClimberConstants.kMotionAcceleration);
     }
 
+    /* Percent Output Control */
+
+    public void setPower(double power) {
+        setPowerLeft(power);
+        setPowerRight(power);
+    }
+
+    public void setPowerLeft(double power) {
+        climberLeft.set(ControlMode.PercentOutput, power);
+    }
+
+    public void setPowerRight(double power) {
+        climberRight.set(ControlMode.PercentOutput, power);
+    }
+
+    public void setPowerZero() {
+        setPower(0);
+    }
+
+    /* Position Control */
+
     public void setPositionLeft(double ticks) {
         climberLeft.set(ControlMode.MotionMagic, ticks);
     }
@@ -49,7 +76,10 @@ public class PassiveClimber extends SubsystemBase {
     }
 
     public void init() {
-        climberLeft.set(ControlMode.PercentOutput, 0);
-        climberRight.set(ControlMode.PercentOutput, 0);
+        setPowerZero();
     }    
+
+    public void reportToSmartDashboard() {
+
+    }
 }

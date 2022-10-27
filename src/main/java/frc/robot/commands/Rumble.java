@@ -63,7 +63,6 @@ public class Rumble extends CommandBase {
   public void initialize() {
     setRatio();
 
-    SmartDashboard.putBoolean("started", true);
     SmartDashboard.putNumber("timestamp", Timer.getFPGATimestamp());
 
     // logEntries = new HashMap<String, Integer>() {{
