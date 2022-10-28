@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.TurretConstants;
 import frc.robot.commands.TurnToTarget;
+import frc.robot.commands.TurnTurretBase;
 import frc.robot.subsystems.Limelight;
 import frc.robot.util.NerdyMath;
 
@@ -20,10 +21,13 @@ public class Turret extends SubsystemBase {
     private TalonSRX feederMotor;
 
     private TurnToTarget turnToTargetCommand;
+    private TurnTurretBase turnTurretBaseCommand;
 
     private boolean feederIsRunning;
     private boolean tarmacOutsideIsRunning;
     private boolean tarmacInsideIsRunning;
+
+    private double baseTargetPosition;
     
     public Turret(Limelight limelight) {
         feederIsRunning = false;
@@ -49,11 +53,16 @@ public class Turret extends SubsystemBase {
         this.baseMotor.configMotionCruiseVelocity(TurretConstants.kBaseCruiseVelocity);
         this.baseMotor.setInverted(true);
 
+        this.baseTargetPosition = this.baseMotor.getSelectedSensorPosition();
+
         this.frontFlywheelFalcon.set(ControlMode.PercentOutput, 0);
         this.backFlywheelFalcon.set(ControlMode.PercentOutput, 0);
 
-        this.turnToTargetCommand = new TurnToTarget(this, limelight);
-        setDefaultCommand(this.turnToTargetCommand);
+        // this.turnToTargetCommand = new TurnToTarget(this, limelight);
+        // this.turnToTargetCommand.schedule();
+
+        this.turnTurretBaseCommand = new TurnTurretBase(this);
+        this.turnTurretBaseCommand.schedule();
     }
 
     public void toggleHood() {
@@ -122,12 +131,26 @@ public class Turret extends SubsystemBase {
     //     setVelocity(0);
     // }
 
+    public void setTargetPosition(double ticks) {
+        this.baseTargetPosition = NerdyMath.clamp(
+            ticks, 
+            TurretConstants.kBaseLowerLimitTicks, 
+            TurretConstants.kBaseUpperLimitTicks);
+    }
+
+    public void changeTargetPosition(double offsetTicks) {
+        setTargetPosition(baseTargetPosition + offsetTicks);
+    }
+
+    public void turnToTargetPosition() {
+        this.baseMotor.set(ControlMode.MotionMagic, this.baseTargetPosition);
+    }
+
     public void turnToBaseAngle(double angle) {
         double currentAngle = getCurrentBaseAngle();
         double offsetAngle = constrainAngleBase(angle);
         double targetAngle = currentAngle + offsetAngle;
-        double targetPosition = TurretConstants.kBaseTicksPerDegree * targetAngle;
-        baseMotor.set(ControlMode.MotionMagic, targetPosition);
+        setTargetPosition(TurretConstants.kBaseTicksPerDegree * targetAngle);
     }
 
     public double getCurrentBaseAngle() {
@@ -147,9 +170,7 @@ public class Turret extends SubsystemBase {
     }
 
     public void turnToHoodAngle(double angle) {
-        turnToHoodTicks(
-            TurretConstants.kHoodTicksPerDegree * angle
-        );
+        this.baseTargetPosition = TurretConstants.kHoodTicksPerDegree * angle;
     }
 
     private double constrainAngleBase(double rawAngle) {

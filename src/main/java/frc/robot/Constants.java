@@ -145,6 +145,11 @@ public final class Constants {
         public static final double kHoodLowerLimitTicks = 0; // Ticks when at 15 degrees should ideally be 25700 ticks, 0 ticks is parallel to ground
         public static final double kHoodUpperLimitTicks = 7648;
 
+        public static final double kBaseLowerLimitTicks = 0;
+        public static final double kBaseUpperLimitTicks = 0;
+
+        public static final double kBaseTicksPer20ms = 10;
+
         public static final double kFlywheelInnerTarmacPercent = 0;
         public static final double kFlywheelOuterTarmacPercent = 0;
     }

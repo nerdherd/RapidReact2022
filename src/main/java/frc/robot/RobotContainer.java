@@ -21,6 +21,7 @@ import frc.robot.util.BadPS4.Button;
 import frc.robot.Constants.FlywheelConstants;
 import frc.robot.Constants.RollerConstants;
 import frc.robot.Constants.TurretConstants;
+import frc.robot.commands.ManualTurretBase;
 import frc.robot.commands.TaxiShoot;
 import frc.robot.commands.TwoBallAuto;
 
@@ -82,10 +83,13 @@ public class RobotContainer {
         oCross.whenPressed(new InstantCommand(() -> intake.toggleIntake())); // Cross
 
 
-        oRBumper.whenPressed(new InstantCommand(() -> turret.toggleFlywheelOutside()));
-        oLBumper.whenPressed(new InstantCommand(() -> turret.toggleFlywheelInside()));
+        oTriangle.whenPressed(new InstantCommand(() -> turret.toggleFlywheelOutside()));
+        oSquare.whenPressed(new InstantCommand(() -> turret.toggleFlywheelInside()));
         // dLeftOperator1.whenPressed(new InstantCommand(() -> roller.toggleRoller(RollerConstants.kRollerPercent)));
         // dRightOperator1.whenPressed(new InstantCommand(() -> roller.setPercentZero()));
+
+        oRBumper.whenHeld(new ManualTurretBase(turret, TurretConstants.kBaseTicksPer20ms));
+        oLBumper.whenHeld(new ManualTurretBase(turret, -TurretConstants.kBaseTicksPer20ms));
     }
 
     public void initButtons() {
