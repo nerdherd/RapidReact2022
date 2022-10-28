@@ -82,6 +82,8 @@ public class RobotContainer {
         // oSquare.whenPressed(new InstantCommand(() -> indexer.setPercentZero()));
         oCross.whenPressed(new InstantCommand(() -> intake.toggleIntake())); // Cross
 
+        dCross.whenPressed(new InstantCommand(() -> drivetrain.toggleShift()));
+        dCircle.whenPressed(new InstantCommand(() -> turret.toggleFeeder()));
 
         oTriangle.whenPressed(new InstantCommand(() -> turret.toggleFlywheelOutside()));
         oSquare.whenPressed(new InstantCommand(() -> turret.toggleFlywheelInside()));
