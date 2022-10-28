@@ -34,7 +34,7 @@ public class Log {
     createTopic("Time", () -> Timer.getFPGATimestamp());
 
     // TODO: Log roller current (keeps overheating)
-    createTopic("FlywheelMasterVelocity" + "/Velocity", () -> robotContainer.flywheel.leftMaster.getSelectedSensorVelocity());    // createTopic("RightMaster" + "/Voltage", () -> robotContainer.drivetrain.rightMaster.getMotorOutputVoltage());
+    // createTopic("FlywheelMasterVelocity" + "/Velocity", () -> robotContainer.flywheel.leftMaster.getSelectedSensorVelocity());    // createTopic("RightMaster" + "/Voltage", () -> robotContainer.drivetrain.rightMaster.getMotorOutputVoltage());
     createTopic("LeftMaster" + "/Voltage", () -> robotContainer.drivetrain.leftMaster.getMotorOutputVoltage());
     createTopic("RightMaster" + "/Voltage", () -> robotContainer.drivetrain.leftMaster.getMotorOutputVoltage());
     createTopic("RightFollower" + "/Voltage", () -> robotContainer.drivetrain.rightSlave.getMotorOutputVoltage());

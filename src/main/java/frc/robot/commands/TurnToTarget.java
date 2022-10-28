@@ -22,6 +22,7 @@ public class TurnToTarget extends CommandBase {
         double hoodTargetAngle = turret.getCurrentHoodAngle() + limelight.getYOffsetFromTarget();
         SmartDashboard.putNumber("hood target angle", hoodTargetAngle);
 
+        double baseTargetAngle = turret.getCurrentBaseAngle() + limelight.getXOffsetFromTarget();
         turret.turnToBaseAngle(turret.getCurrentBaseAngle() + limelight.getXOffsetFromTarget());
         if (turnHood) {
             turret.turnToHoodAngle(hoodTargetAngle);

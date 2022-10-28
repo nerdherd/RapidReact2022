@@ -4,18 +4,23 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.wpilibj.motorcontrol.Talon;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.Constants.IntakeConstants; 
+import frc.robot.Constants.IntakeConstants;
+import frc.robot.Constants.RollerConstants; 
 
 public class Intake{
 
     public TalonSRX intake;
+    public TalonSRX roller;
     public boolean intakeIsUp;
     public int intakeTargetPosition;
 
     public Intake(){
         intake = new TalonSRX(IntakeConstants.kIntakeID);
+        roller = new TalonSRX(RollerConstants.kRollerID);
         intake.setInverted(true);
+        roller.setInverted(true);
         intake.configMotionAcceleration(IntakeConstants.kIntakeMotionAcceleration);
         intake.configMotionCruiseVelocity(IntakeConstants.kIntakeCruiseVelocity);
         intake.configNeutralDeadband(IntakeConstants.kIntakeDeadband);
@@ -24,18 +29,31 @@ public class Intake{
         intake.config_kF(0, IntakeConstants.kIntakeF);
     }
 
+    public void setPercent(double power) {
+        roller.set(ControlMode.PercentOutput, power);
+    }
+
+    public void setPercentZero() {
+        setPercent(0);
+    }
+
     public void RaiseIntake(){
         intakeIsUp = true;
         intake.set(ControlMode.MotionMagic, (int)IntakeConstants.kIntakeUpPosition, DemandType.ArbitraryFeedForward, FF());
         intakeTargetPosition = (int)IntakeConstants.kIntakeUpPosition;
+        setPercentZero();
+        
     }
     public void LowerIntake(){
         intakeIsUp = false;
         intake.set(ControlMode.MotionMagic, IntakeConstants.kIntakeOffset, DemandType.ArbitraryFeedForward, FF());
         intakeTargetPosition = (int)IntakeConstants.kIntakeOffset;
+        setPercent(IntakeConstants.kRollerPercent);
     }
+
     public void DisableIntake(){
         intake.set(ControlMode.PercentOutput,0);
+        setPercentZero();
     }
 
     public void toggleIntake() {

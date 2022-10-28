@@ -9,6 +9,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandGroupBase;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.shooter.Turret;
 
 public class Robot extends TimedRobot {
   public static SendableChooser<Command> autoChooser;
@@ -19,6 +21,9 @@ public class Robot extends TimedRobot {
   @Override
   public void robotInit() { 
     CommandScheduler.getInstance().cancelAll();
+    
+    Limelight limelight = new Limelight();
+    Turret turret = new Turret(limelight);
     
     robotContainer = new RobotContainer();
     
@@ -33,6 +38,7 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopPeriodic() { 
+
     robotContainer.reportToSmartDashboard();
     robotContainer.configurePeriodic();
     

@@ -17,14 +17,24 @@ public class Turret extends SubsystemBase {
     private TalonFX backFlywheelFalcon;
     private TalonSRX hoodMotor;
     private TalonSRX baseMotor;
+    private TalonSRX feederMotor;
 
     private TurnToTarget turnToTargetCommand;
+
+    private boolean feederIsRunning;
+    private boolean tarmacOutsideIsRunning;
+    private boolean tarmacInsideIsRunning;
     
     public Turret(Limelight limelight) {
+        feederIsRunning = false;
+        tarmacInsideIsRunning = false;
+        tarmacOutsideIsRunning = false;
+
         this.frontFlywheelFalcon = new TalonFX(TurretConstants.kFrontFlywheelFalconID);
         this.backFlywheelFalcon = new TalonFX(TurretConstants.kBackFlywheelFalconID);
         this.hoodMotor = new TalonSRX(TurretConstants.kHoodMotorID);
         this.baseMotor = new TalonSRX(TurretConstants.kBaseMotorID);
+        this.feederMotor = new TalonSRX(TurretConstants.kFeederMotorID);
 
         this.hoodMotor.config_kP(0, TurretConstants.kHoodP);
         this.hoodMotor.config_kI(0, TurretConstants.kHoodI);
@@ -34,6 +44,10 @@ public class Turret extends SubsystemBase {
         this.hoodMotor.configMotionCruiseVelocity(TurretConstants.kHoodCruiseVelocity);
         this.hoodMotor.set(ControlMode.Current, 0);
         this.hoodMotor.configNeutralDeadband(TurretConstants.kHoodDeadband);
+        this.baseMotor.config_kP(0, TurretConstants.kBaseP);
+        this.baseMotor.configMotionAcceleration(TurretConstants.kBaseMotionAcceleration);
+        this.baseMotor.configMotionCruiseVelocity(TurretConstants.kBaseCruiseVelocity);
+        this.baseMotor.setInverted(true);
 
         this.frontFlywheelFalcon.set(ControlMode.PercentOutput, 0);
         this.backFlywheelFalcon.set(ControlMode.PercentOutput, 0);
@@ -46,33 +60,74 @@ public class Turret extends SubsystemBase {
         this.turnToTargetCommand.toggleHood();
     }
 
-    public void setPower(double power) {
-        backFlywheelFalcon.set(ControlMode.PercentOutput, power);
-        
-        // Get front flywheel to spin at 1/4 the speed
-        frontFlywheelFalcon.set(ControlMode.PercentOutput, power 
-                                * (1/TurretConstants.kBackFlywheelGearRatio) 
-                                * 1);
+    public void setPercent(double power) {
+        backFlywheelFalcon.set(ControlMode.PercentOutput, power * TurretConstants.kBackFlywheelGearRatio);    
+        frontFlywheelFalcon.set(ControlMode.PercentOutput, power);
     }
 
-    public void setVelocity(double velocity) {
-        backFlywheelFalcon.set(ControlMode.Velocity, velocity);
-        
-        // Get front flywheel to spin at 1/4 the speed
-        frontFlywheelFalcon.set(ControlMode.Velocity, velocity 
-                                * (1/TurretConstants.kBackFlywheelGearRatio) 
-                                * 1);
+    public void setPercentZero() {
+        setPercent(0);
     }
 
-    public void setVelocityZero() {
-        setVelocity(0);
+    public void setFeederPercent(double power) {
+        feederMotor.set(ControlMode.PercentOutput, power);
     }
+
+    public void setFeederPercentZero(double power) {
+        setFeederPercent(0);
+    }
+
+    public void toggleFlywheelOutside() {
+        if (tarmacOutsideIsRunning) {
+            setPercentZero();
+            tarmacOutsideIsRunning = false;
+        } else {
+            setPercent(TurretConstants.kFlywheelOuterTarmacPercent);
+            tarmacOutsideIsRunning = true;
+        }
+        tarmacInsideIsRunning = false;
+    }
+
+    public void toggleFlywheelInside() {
+        if (tarmacInsideIsRunning) {
+            setPercentZero();
+            tarmacInsideIsRunning = false;
+        } else {
+            setPercent(TurretConstants.kFlywheelInnerTarmacPercent);
+            tarmacInsideIsRunning = true;
+        }
+        tarmacOutsideIsRunning = false;
+    }
+
+    public void toggleFeeder() {
+        if (feederIsRunning) {
+            setPercentZero();
+            feederIsRunning = false;
+        } else {
+            setPercent(TurretConstants.kfeederPercent);
+            feederIsRunning = true;
+        }
+    }
+
+    // public void setVelocity(double velocity) {
+    //     backFlywheelFalcon.set(ControlMode.Velocity, velocity);
+        
+    //     // Get front flywheel to spin at 1/4 the speed
+    //     frontFlywheelFalcon.set(ControlMode.Velocity, velocity 
+    //                             * (1/TurretConstants.kBackFlywheelGearRatio) 
+    //                             * 1);
+    // }
+
+    // public void setVelocityZero() {
+    //     setVelocity(0);
+    // }
 
     public void turnToBaseAngle(double angle) {
         double currentAngle = getCurrentBaseAngle();
-        double offsetAngle = TurretConstants.kBaseTicksPerDegree * constrainAngleBase(angle);
+        double offsetAngle = constrainAngleBase(angle);
         double targetAngle = currentAngle + offsetAngle;
-        baseMotor.set(ControlMode.MotionMagic, targetAngle);
+        double targetPosition = TurretConstants.kBaseTicksPerDegree * targetAngle;
+        baseMotor.set(ControlMode.MotionMagic, targetPosition);
     }
 
     public double getCurrentBaseAngle() {
@@ -99,7 +154,7 @@ public class Turret extends SubsystemBase {
 
     private double constrainAngleBase(double rawAngle) {
         double newAngle = rawAngle % 360;
-        if (newAngle < 0) {
+        if (newAngle <= 0) {
             newAngle += 360;
         }
 
@@ -108,11 +163,19 @@ public class Turret extends SubsystemBase {
 
     public void reportToSmartDashboard() {
         SmartDashboard.putNumber("Hood current", getHoodCurrent());
-        SmartDashboard.putNumber("Hood Ticks", hoodMotor.getSelectedSensorPosition());
+        SmartDashboard.putNumber("Hood ticks", hoodMotor.getSelectedSensorPosition());
+        SmartDashboard.putNumber("Hood angle", getCurrentHoodAngle());
+        SmartDashboard.putNumber("Base current", getBaseCurrent());
+        SmartDashboard.putNumber("Base ticks", baseMotor.getSelectedSensorPosition());
+        SmartDashboard.putNumber("Base angle", getCurrentBaseAngle());
     }
 
     public double getHoodCurrent() {
         return this.hoodMotor.getStatorCurrent();
+    }
+
+    public double getBaseCurrent() {
+        return this.baseMotor.getStatorCurrent();
     }
 
     public void resetHoodEncoder() {

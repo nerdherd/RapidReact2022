@@ -47,22 +47,20 @@ public final class Constants {
     }
     
     public static final class ClimberConstants {
-        public static final int kClimberLeftID = 0;
-        public static final int kClimberRightID = 0;
+        public static final int kClimberLeftID = 25;
+        public static final int kClimberRightID = 19;
 
         public static final double kP = 0;
         public static final double kI = 0;
         public static final double kD = 0; 
-        public static final double kF = 0;
 
         public static final double kCruiseVelocity = 250;
         public static final double kMotionAcceleration = 125;
 
-        public static final double kPos1 = 0;
-        public static final double kPos2 = 0;
-        public static final double kPos3 = 0;
-        public static final double kPos4 = 0;
-        public static final double kPos5 = 0;
+        public static final double kLeftPos1 = 0;
+        public static final double kLeftPos2 = 0;
+        public static final double kRightPos1 = 0;
+        public static final double kRightPos2 = 0;
 
     }
 
@@ -84,7 +82,7 @@ public final class Constants {
     }
 
     public static final class IndexerConstants {
-        public static final int kIndexerTopID = 20;
+        public static final int kIndexerTopID = 25;
         public static final int kIndexerBottomID = 21;
         public static final double kIndexerPercent = -0.80;
     }
@@ -96,6 +94,8 @@ public final class Constants {
 
     public static final class IntakeConstants{
         public static final int kIntakeID = 37;
+        public static final int kRollerID = 20;
+
         public static final double kIntakeUpPosition = -3450; // When ready to intake
         public static final double kIntakeOffset = -5000; // Ticks when perpendicular to ground
         public static final double kIntakeGravityFF = 0.175; // Negative goes up, should invert
@@ -107,6 +107,7 @@ public final class Constants {
         public static final double kIntakeD = 0;
         public static final double kIntakeF = 0; // 2.8
 
+        public static final double kRollerPercent = 0.9;
     }
 
     public static final class TurretConstants {
@@ -114,6 +115,9 @@ public final class Constants {
         public static final int kBackFlywheelFalconID = 3;
         public static final int kHoodMotorID = 36;
         public static final int kBaseMotorID = 0;
+        public static final int kFeederMotorID = 0;
+
+        public static final double kfeederPercent = 0;
 
         public static final double kHoodF = 0.867;
         public static final double kHoodP = 0.1;
@@ -126,16 +130,23 @@ public final class Constants {
         public static final double kHoodMaxAccel = 100;
         public static final double kHoodDeadband = 0.07; // One Degree 
 
+        public static final double kBaseP = 0;
+        
+        public static final double kBaseCruiseVelocity = 300;
+        public static final double kBaseMotionAcceleration = 300;
 
-        public static final double kBaseGearRatio = 0;
+        public static final double kBaseGearRatio = 234;
         public static final double kBackFlywheelGearRatio = 39 / 30.0;
 
-        public static final double kBaseTicksPerDegree = 0;
+        public static final double kBaseTicksPerDegree = 11.111;
         public static final double kHoodTicksPerDegree = 238.3;
 
         // NOTE: Hood angle is measured from hood axle to axle of upper flywheel
         public static final double kHoodLowerLimitTicks = 0; // Ticks when at 15 degrees should ideally be 25700 ticks, 0 ticks is parallel to ground
         public static final double kHoodUpperLimitTicks = 7648;
+
+        public static final double kFlywheelInnerTarmacPercent = 0;
+        public static final double kFlywheelOuterTarmacPercent = 0;
     }
 
     public static final class VisionConstants {

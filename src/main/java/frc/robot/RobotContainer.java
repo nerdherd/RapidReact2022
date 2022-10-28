@@ -20,6 +20,7 @@ import frc.robot.util.BadPS4;
 import frc.robot.util.BadPS4.Button;
 import frc.robot.Constants.FlywheelConstants;
 import frc.robot.Constants.RollerConstants;
+import frc.robot.Constants.TurretConstants;
 import frc.robot.commands.TaxiShoot;
 import frc.robot.commands.TwoBallAuto;
 
@@ -36,9 +37,9 @@ public class RobotContainer {
 
     public SendableChooser<CommandGroupBase> autoChooser;
 
-    public Flywheel flywheel = new Flywheel();   
+    // public Flywheel flywheel = new Flywheel();   
     public Indexer indexer = new Indexer();  
-    public Roller roller = new Roller();
+    // public Roller roller = new Roller();
     public Intake intake = new Intake();
     public Limelight limelight = new Limelight();
     public Turret turret = new Turret(limelight);
@@ -52,9 +53,9 @@ public class RobotContainer {
     }
 
     public void initSubsystems() {
-        flywheel.init();
+        // flywheel.init();
         indexer.init();
-        roller.init();
+        // roller.init();
         intake.init();
         passiveClimber.init();
         // drivetrain.startTankDrive(ps4Controller::getLeftY, ps4Controller::getRightY);
@@ -63,6 +64,7 @@ public class RobotContainer {
 
     public void configureButtonBindings() {
         initButtons();
+        
         dTriangle.debounce(0.1).whenActive(new InstantCommand(() -> turret.toggleHood()));
 
         // Turret hood testing code
@@ -74,18 +76,14 @@ public class RobotContainer {
         // rightbumperoperator = fast flywheel
         // triangle = stop
 
-        oTriangle.whenPressed(new InstantCommand(() -> flywheel.setPercentZero()));
         oCircle.whenPressed(new InstantCommand(() -> indexer.toggleIndexer()));
         // oCross.whenPressed(new InstantCommand(() -> indexer.setPercent(IndexerConstants.kIndexerPercent)));
         // oSquare.whenPressed(new InstantCommand(() -> indexer.setPercentZero()));
-        oSquare.whenPressed(new InstantCommand(() -> roller.toggleRoller(RollerConstants.kRollerPercent))); // Square
         oCross.whenPressed(new InstantCommand(() -> intake.toggleIntake())); // Cross
 
-        dRBumper.whenPressed(new InstantCommand(() -> intake.LowerIntake()));
-        dLBumper.whenPressed(new InstantCommand(() -> intake.RaiseIntake()));
 
-        oRBumper.whenPressed(new InstantCommand(() -> flywheel.setPercent(FlywheelConstants.kFlywheelOuterTarmacPercent)));
-        oLBumper.whenPressed(new InstantCommand(() -> flywheel.setPercent(FlywheelConstants.kFlywheelInnerTarmacPercent)));
+        oRBumper.whenPressed(new InstantCommand(() -> turret.toggleFlywheelOutside()));
+        oLBumper.whenPressed(new InstantCommand(() -> turret.toggleFlywheelInside()));
         // dLeftOperator1.whenPressed(new InstantCommand(() -> roller.toggleRoller(RollerConstants.kRollerPercent)));
         // dRightOperator1.whenPressed(new InstantCommand(() -> roller.setPercentZero()));
     }
@@ -120,8 +118,8 @@ public class RobotContainer {
     public void initSmartDashboard() {
         autoChooser = new SendableChooser<CommandGroupBase>();
 
-        autoChooser.setDefaultOption("Shoot then Taxi", new TaxiShoot(drivetrain, flywheel, indexer));
-        autoChooser.addOption("Two Ball Auto", new TwoBallAuto(drivetrain, flywheel, indexer, intake, roller));
+        autoChooser.setDefaultOption("Shoot then Taxi", new TaxiShoot(drivetrain, turret, indexer));
+        autoChooser.addOption("Two Ball Auto", new TwoBallAuto(drivetrain, turret, indexer, intake));
         // autoChooser.setDefaultOption("leave tarmac :)", 
         //     new SequentialCommandGroup(
         //         // drive for 1 second with power 0.5, then set power zero
@@ -149,12 +147,13 @@ public class RobotContainer {
     public void reportToSmartDashboard() {
         limelight.reportToSmartDashboard();
         turret.reportToSmartDashboard();
-        roller.reportToSmartDashboard();
-        flywheel.reportToSmartDashboard();
+        // roller.reportToSmartDashboard();
+        // flywheel.reportToSmartDashboard();
         intake.reportToSmartDashboard();
         passiveClimber.reportToSmartDashboard();
 
         SmartDashboard.putBoolean(" Triangle Button Held ", ps4Controller2.getTriangleButton());
         SmartDashboard.putNumber(" Left Operator Y Axis ", ps4Controller2.getLeftY());
+        SmartDashboard.putBoolean(" Manual Climb ", false);
     }
 }

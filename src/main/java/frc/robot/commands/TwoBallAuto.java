@@ -18,11 +18,13 @@ import frc.robot.Constants.DriveConstants;
 import frc.robot.Constants.FlywheelConstants;
 import frc.robot.Constants.IndexerConstants;
 import frc.robot.Constants.RollerConstants;
+import frc.robot.Constants.TurretConstants;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.shooter.Flywheel;
 import frc.robot.subsystems.shooter.Indexer;
 import frc.robot.subsystems.shooter.Intake;
 import frc.robot.subsystems.shooter.Roller;
+import frc.robot.subsystems.shooter.Turret;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
@@ -43,7 +45,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 
 public class TwoBallAuto extends SequentialCommandGroup {
 
-    public TwoBallAuto(Drivetrain drive, Flywheel flywheel, Indexer indexer, Intake intake, Roller roller) {
+    public TwoBallAuto(Drivetrain drive, Turret turret, Indexer indexer, Intake intake) {
         var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
         new SimpleMotorFeedforward(DriveConstants.kRamseteS, DriveConstants.kRamseteV, DriveConstants.kRamseteA),
         drive.m_kinematics, 
@@ -73,9 +75,8 @@ public class TwoBallAuto extends SequentialCommandGroup {
             drive::setVoltage, drive);
 
         addCommands(
-            new InstantCommand(() -> roller.setPercent(RollerConstants.kRollerPercent)),
             new InstantCommand(() -> intake.LowerIntake()),
-            new ParallelCommandGroup(new InstantCommand(() -> flywheel.setPercent(FlywheelConstants.kFlywheelPercent)), driveTarmacToTerminal),
+            new ParallelCommandGroup(new InstantCommand(() -> turret.setPercent(TurretConstants.kFlywheelInnerTarmacPercent)), driveTarmacToTerminal),
             new ParallelCommandGroup(new InstantCommand(() -> indexer.setPercent(IndexerConstants.kIndexerPercent)), new InstantCommand(() -> intake.RaiseIntake()))
         );
 

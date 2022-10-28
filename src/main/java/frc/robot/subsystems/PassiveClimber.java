@@ -28,12 +28,10 @@ public class PassiveClimber extends SubsystemBase {
         climberLeft.config_kP(0, ClimberConstants.kP);
         climberLeft.config_kI(0, ClimberConstants.kI);
         climberLeft.config_kD(0, ClimberConstants.kD);
-        climberLeft.config_kF(0, ClimberConstants.kF);
 
-        climberLeft.config_kP(0, ClimberConstants.kP);
-        climberLeft.config_kI(0, ClimberConstants.kI);
-        climberLeft.config_kD(0, ClimberConstants.kD);
-        climberLeft.config_kF(0, ClimberConstants.kF);
+        climberRight.config_kP(0, ClimberConstants.kP);
+        climberRight.config_kI(0, ClimberConstants.kI);
+        climberRight.config_kD(0, ClimberConstants.kD);
 
         climberLeft.configMotionCruiseVelocity(ClimberConstants.kCruiseVelocity);
         climberLeft.configMotionAcceleration(ClimberConstants.kMotionAcceleration);
@@ -70,6 +68,7 @@ public class PassiveClimber extends SubsystemBase {
     public void setPositionRight(double ticks) {
         climberRight.set(ControlMode.MotionMagic, ticks);
     }
+
 
     public void setPositionBoth(double ticks) {
         climberRight.set(ControlMode.MotionMagic, ticks);
