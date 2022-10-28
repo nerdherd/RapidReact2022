@@ -29,31 +29,31 @@ public class Intake{
         intake.config_kF(0, IntakeConstants.kIntakeF);
     }
 
-    public void setPercent(double power) {
+    public void setRollerPercent(double power) {
         roller.set(ControlMode.PercentOutput, power);
     }
 
-    public void setPercentZero() {
-        setPercent(0);
+    public void setRollerPercentZero() {
+        setRollerPercent(0);
     }
 
     public void RaiseIntake(){
         intakeIsUp = true;
         intake.set(ControlMode.MotionMagic, (int)IntakeConstants.kIntakeUpPosition, DemandType.ArbitraryFeedForward, FF());
         intakeTargetPosition = (int)IntakeConstants.kIntakeUpPosition;
-        setPercentZero();
+        setRollerPercentZero();
         
     }
     public void LowerIntake(){
         intakeIsUp = false;
         intake.set(ControlMode.MotionMagic, IntakeConstants.kIntakeOffset, DemandType.ArbitraryFeedForward, FF());
         intakeTargetPosition = (int)IntakeConstants.kIntakeOffset;
-        setPercent(IntakeConstants.kRollerPercent);
+        setRollerPercent(IntakeConstants.kRollerPercent);
     }
 
     public void DisableIntake(){
         intake.set(ControlMode.PercentOutput,0);
-        setPercentZero();
+        setRollerPercentZero();
     }
 
     public void toggleIntake() {
