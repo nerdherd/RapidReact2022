@@ -22,7 +22,7 @@ import frc.robot.Constants.FlywheelConstants;
 import frc.robot.Constants.RollerConstants;
 import frc.robot.Constants.TurretConstants;
 import frc.robot.commands.ManualTurretBase;
-import frc.robot.commands.TaxiShoot;
+import frc.robot.commands.Taxi;
 import frc.robot.commands.TwoBallAuto;
 
 // import frc.robot.subsystems.climber.ArmMotionMagic;
@@ -38,9 +38,9 @@ public class RobotContainer {
 
     public SendableChooser<CommandGroupBase> autoChooser;
 
-    // public Flywheel flywheel = new Flywheel();   
+    public Flywheel flywheel = new Flywheel();   
     public Indexer indexer = new Indexer();  
-    // public Roller roller = new Roller();
+    public Roller roller = new Roller();
     public Intake intake = new Intake();
     public Limelight limelight = new Limelight();
     public Turret turret = new Turret(limelight);
@@ -56,7 +56,7 @@ public class RobotContainer {
     public void initSubsystems() {
         // flywheel.init();
         indexer.init();
-        // roller.init();
+        roller.init();
         intake.init();
         passiveClimber.init();
         // drivetrain.startTankDrive(ps4Controller::getLeftY, ps4Controller::getRightY);
@@ -66,32 +66,22 @@ public class RobotContainer {
     public void configureButtonBindings() {
         initButtons();
         
-        dTriangle.debounce(0.1).whenActive(new InstantCommand(() -> turret.toggleHood()));
+        // dTriangle.debounce(0.1).whenActive(new InstantCommand(() -> turret.toggleHood()));
 
         // Turret hood testing code
         SmartDashboard.putData("Hood to 15 degrees", new InstantCommand(() -> turret.turnToHoodAngle(15)));
         SmartDashboard.putData("Hood to 0 degrees", new InstantCommand(() -> turret.turnToHoodAngle(0)));
         SmartDashboard.putData("Reset hood encoder", new InstantCommand(() -> turret.resetHoodEncoder()));
 
-        // leftbumberoperator = slow flywheel
-        // rightbumperoperator = fast flywheel
-        // triangle = stop
-
-        oCircle.whenPressed(new InstantCommand(() -> indexer.toggleIndexer()));
-        // oCross.whenPressed(new InstantCommand(() -> indexer.setPercent(IndexerConstants.kIndexerPercent)));
-        // oSquare.whenPressed(new InstantCommand(() -> indexer.setPercentZero()));
-        oCross.whenPressed(new InstantCommand(() -> intake.toggleIntake())); // Cross
-
-        dCross.whenPressed(new InstantCommand(() -> drivetrain.toggleShift()));
-        dCircle.whenPressed(new InstantCommand(() -> turret.toggleFeeder()));
-
-        oTriangle.whenPressed(new InstantCommand(() -> turret.toggleFlywheelOutside()));
-        oSquare.whenPressed(new InstantCommand(() -> turret.toggleFlywheelInside()));
-        // dLeftOperator1.whenPressed(new InstantCommand(() -> roller.toggleRoller(RollerConstants.kRollerPercent)));
-        // dRightOperator1.whenPressed(new InstantCommand(() -> roller.setPercentZero()));
-
-        oRBumper.whenHeld(new ManualTurretBase(turret, TurretConstants.kBaseTicksPer20ms));
-        oLBumper.whenHeld(new ManualTurretBase(turret, -TurretConstants.kBaseTicksPer20ms));
+        oCircle.whenPressed(new InstantCommand(() -> intake.toggleIntake()));
+        oTriangle.whenPressed(new InstantCommand(() -> roller.toggleRoller(RollerConstants.kRollerPercent)));
+        oSquare.whenPressed(new InstantCommand(() -> indexer.toggleIndexer()));
+        oCross.whenPressed(new InstantCommand(() -> flywheel.toggleFlywheel()));
+        
+        dTriangle.whenPressed(new InstantCommand(() -> drivetrain.shiftHigh()));
+        dSquare.whenPressed(new InstantCommand(() -> drivetrain.shiftLow()));
+        // passiveClimber.setPowerRight(ps4Controller2.getRightY());
+        // oCircle.whenPressed(new InstantCommand(() -> passiveClimber.setPowerRight(0.0)));
     }
 
     public void initButtons() {
@@ -113,10 +103,6 @@ public class RobotContainer {
     }
 
     public void configurePeriodic() {
-        // TODO: might override stuff in indexer and stop it from ever running?
-        indexer.setPercent(ps4Controller2.getRightY());
-        // Possible fix:
-        // indexer.manualControl(ps4Controller2.getRightY());
         drivetrain.tankDrive(ps4Controller.getLeftY(), ps4Controller.getRightY());
         drivetrain.setNeutralCoast();
     }
@@ -124,8 +110,8 @@ public class RobotContainer {
     public void initSmartDashboard() {
         autoChooser = new SendableChooser<CommandGroupBase>();
 
-        autoChooser.setDefaultOption("Shoot then Taxi", new TaxiShoot(drivetrain, turret, indexer));
-        autoChooser.addOption("Two Ball Auto", new TwoBallAuto(drivetrain, turret, indexer, intake));
+        autoChooser.setDefaultOption("Shoot then Taxi", new Taxi(drivetrain, flywheel, indexer));
+        // autoChooser.addOption("Two Ball Auto", new TwoBallAuto(drivetrain, turret, indexer, intake));
         // autoChooser.setDefaultOption("leave tarmac :)", 
         //     new SequentialCommandGroup(
         //         // drive for 1 second with power 0.5, then set power zero
@@ -153,8 +139,8 @@ public class RobotContainer {
     public void reportToSmartDashboard() {
         limelight.reportToSmartDashboard();
         turret.reportToSmartDashboard();
-        // roller.reportToSmartDashboard();
-        // flywheel.reportToSmartDashboard();
+        roller.reportToSmartDashboard();
+        flywheel.reportToSmartDashboard();
         intake.reportToSmartDashboard();
         passiveClimber.reportToSmartDashboard();
 

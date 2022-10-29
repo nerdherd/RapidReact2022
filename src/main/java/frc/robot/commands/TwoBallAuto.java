@@ -10,6 +10,7 @@ package frc.robot.commands;
 
 import java.util.List;
 import java.lang.Math;
+import java.time.Instant;
 
 // import com.nerdherd.lib.drivetrain.experimental.Drivetrain;
 
@@ -45,7 +46,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 
 public class TwoBallAuto extends SequentialCommandGroup {
 
-    public TwoBallAuto(Drivetrain drive, Turret turret, Indexer indexer, Intake intake) {
+    public TwoBallAuto(Drivetrain drive, Flywheel flywheel, Indexer indexer, Intake intake) {
         var autoVoltageConstraint = new DifferentialDriveVoltageConstraint(
         new SimpleMotorFeedforward(DriveConstants.kRamseteS, DriveConstants.kRamseteV, DriveConstants.kRamseteA),
         drive.m_kinematics, 
@@ -75,9 +76,14 @@ public class TwoBallAuto extends SequentialCommandGroup {
             drive::setVoltage, drive);
 
         addCommands(
-            new InstantCommand(() -> intake.LowerIntake()),
-            new ParallelCommandGroup(new InstantCommand(() -> turret.setPercent(TurretConstants.kFlywheelInnerTarmacPercent)), driveTarmacToTerminal),
-            new ParallelCommandGroup(new InstantCommand(() -> indexer.setPercent(IndexerConstants.kIndexerPercent)), new InstantCommand(() -> intake.RaiseIntake()))
+            new InstantCommand(() -> flywheel.setPercent(0.375, -0.3)),
+            new WaitCommand(2),
+            new InstantCommand(() -> indexer.setPercent(0.9, 0.45)),
+            new InstantCommand(() -> flywheel.setPercentZero()),
+            new InstantCommand(() -> indexer.setPercentZero()),
+            new InstantCommand(() -> intake.ReadyIntake()), // might need to stow here, not ready
+            new ParallelCommandGroup(new InstantCommand(() -> flywheel.setPercent(0.6, -0.4)), driveTarmacToTerminal),
+            new ParallelCommandGroup(new InstantCommand(() -> indexer.setPercent(IndexerConstants.kIndexerPercent, IndexerConstants.kIndexerPercent/2)), new InstantCommand(() -> intake.StowIntake()))
         );
 
     }

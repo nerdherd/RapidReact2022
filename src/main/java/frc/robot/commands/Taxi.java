@@ -12,28 +12,28 @@ import frc.robot.subsystems.shooter.Flywheel;
 import frc.robot.subsystems.shooter.Indexer;
 import frc.robot.subsystems.shooter.Turret;
  
-public class TaxiShoot extends SequentialCommandGroup {
+public class Taxi extends SequentialCommandGroup {
  
     Drivetrain drive;
-    Turret turret;
+    Flywheel flywheel;
     Indexer indexer;
  
-    public TaxiShoot(Drivetrain drive, Turret turret, Indexer indexer) {
+    public Taxi(Drivetrain drive, Flywheel flywheel, Indexer indexer) {
  
         this.drive = drive;
-        this.turret = turret;
+        this.flywheel = flywheel;
         this.indexer = indexer;
  
         addCommands(
-            new InstantCommand(() -> turret.setPercent(TurretConstants.kFlywheelInnerTarmacPercent)),
-            new InstantCommand(() -> indexer.setPercent(IndexerConstants.kIndexerPercent)),
+            new InstantCommand(() -> flywheel.setPercent(0.375, -0.3)),
+            new WaitCommand(2),
+            new InstantCommand(() -> indexer.setPercent(0.9, 0.45)),
             new WaitCommand(5),
-            new InstantCommand(() -> turret.setPercentZero()),
+            new InstantCommand(() -> flywheel.setPercentZero()),
             new InstantCommand(() -> indexer.setPercentZero()),
-            // Adjust drive.setPower so robot reaches outside of tarmac
-            new ParallelRaceGroup(new InstantCommand(() -> drive.setPower(-0.5, -0.5)), new WaitCommand(3))
+            new InstantCommand(() -> drive.setPower(0.5, 0.5)),
+            new WaitCommand(2),
+            new InstantCommand(() -> drive.setPower(0.0, 0.0))
         );
- 
     }
-    
 }

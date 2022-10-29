@@ -14,8 +14,9 @@ public final class Constants {
         public static final int kHooksMasterTalonID = 20; //new
         public static final int kHooksSlaveTalonID = 27; //new
 
+        // 3 and 4
         public static final int kDriveShifterForwardID = 0;
-        public static final int kDriveShifterReverseID = 7;
+        public static final int kDriveShifterReverseID = 1;
         public static final int kClimberShifterForwardID = 2;
         public static final int kClimberShifterReverseID = 3;
         public static final int kHookShifterForwardID = 1;
@@ -71,8 +72,10 @@ public final class Constants {
         public static final double kFlywheelI = 0;
         public static final double kFlywheelD = 0;
         public static final double kFlywheelFF = 0;
-        public static final int kRightFlywheelID = 35;
-        public static final int kLeftFlywheelID = 34;
+        public static final int kFlywheelID = 3;
+        public static final int kFeederID = 36;
+        // public static final int kRightFlywheelID = 35;
+        // public static final int kLeftFlywheelID = 34;
         public static final double kFlywheelVelocity = 0;
         public static final double kFlywheelPercent = 0.55; 
 
@@ -88,7 +91,7 @@ public final class Constants {
     }
 
     public static final class RollerConstants {
-        public static final int kRollerID = 38;
+        public static final int kRollerID = 20;
         public static final double kRollerPercent = 0.9;
     }
 
@@ -96,12 +99,13 @@ public final class Constants {
         public static final int kIntakeID = 37;
         public static final int kRollerID = 20;
 
-        public static final double kIntakeUpPosition = -3450; // When ready to intake
-        public static final double kIntakeOffset = -5000; // Ticks when perpendicular to ground
-        public static final double kIntakeGravityFF = 0.175; // Negative goes up, should invert
-        public static final double kIntakeDownPosition = -1715; // 1098
-        public static final double kIntakeMotionAcceleration = 125;
-        public static final double kIntakeCruiseVelocity = 250;
+        public static final double kIntakeReadyPosition = 325; // When ready to intake
+        // public static final double kIntakeOffset = 0;
+        public static final double kIntakeStowPosition = -1942; // When ready to intake
+        public static final double kIntakeHorizontal = -135; // MEASURE
+        public static final double kIntakeGravityFF = 0.15; // Negative goes up, should invert 175
+        public static final double kIntakeMotionAcceleration = 100; // 125
+        public static final double kIntakeCruiseVelocity = 100; // 250
         public static final double kIntakeDeadband = 0.004;
         public static final double kIntakeP = 2.2; // 2
         public static final double kIntakeD = 0;
@@ -111,8 +115,8 @@ public final class Constants {
     }
 
     public static final class TurretConstants {
-        public static final int kFrontFlywheelFalconID = 18;
-        public static final int kBackFlywheelFalconID = 3;
+        public static final int kFrontFlywheelFalconID = 18; // this is actually not real
+        public static final int kBackFlywheelFalconID = 3; // its like a fallacy or smth idk
         public static final int kHoodMotorID = 36;
         public static final int kBaseMotorID = 0;
         public static final int kFeederMotorID = 0;

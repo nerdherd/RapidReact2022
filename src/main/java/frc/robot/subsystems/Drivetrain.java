@@ -36,7 +36,7 @@ public class Drivetrain extends SubsystemBase {
   public TalonFX leftSlave; 
 
   public Compressor compressor; // Channel 3 on CAN
-  public DoubleSolenoid driveShifter; // Channels 0 and 6
+  public DoubleSolenoid driveShifter; // Channels 0 and 1 as of 10/28/2022
   private boolean shifted = false;
 
   // https://www.kauailabs.com/dist/frc/2022/navx_frc.json
@@ -54,13 +54,15 @@ public class Drivetrain extends SubsystemBase {
     rightSlave.follow(rightMaster);
 
     // Inverted the right side
-    leftMaster.setInverted(true);
-    rightMaster.setInverted(false);
+    leftMaster.setInverted(false);
+    rightMaster.setInverted(true);
     leftSlave.setInverted(InvertType.FollowMaster);
     rightSlave.setInverted(InvertType.FollowMaster);
 
     // Pneumatics setup
     compressor = new Compressor(3, PneumaticsModuleType.CTREPCM);
+    // compressor.enableDigital();
+    // Module number depends on how many PCMs there are
     driveShifter = new DoubleSolenoid(3, PneumaticsModuleType.CTREPCM, 
       DriveConstants.kDriveShifterForwardID, DriveConstants.kDriveShifterReverseID);
     

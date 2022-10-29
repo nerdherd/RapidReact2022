@@ -8,39 +8,45 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.FlywheelConstants;
 
 public class Flywheel {
+    // public TalonFX leftMaster;
+    // public TalonFX rightFollower;
 
-    public double flywheelVelocity;
-    public TalonFX leftMaster;
-    public TalonFX rightFollower;
+    public TalonFX flywheel;
     public TalonSRX feeder;
     private boolean isRunning;
 
     public Flywheel() {
-        leftMaster = new TalonFX(FlywheelConstants.kLeftFlywheelID);
-        rightFollower = new TalonFX(FlywheelConstants.kRightFlywheelID);
+        // leftMaster = new TalonFX(FlywheelConstants.kLeftFlywheelID);
+        // rightFollower = new TalonFX(FlywheelConstants.kRightFlywheelID);
 
         
-        leftMaster.setInverted(false);
-        rightFollower.setInverted(true);
+        // leftMaster.setInverted(false);
+        // rightFollower.setInverted(true);
 
-        rightFollower.follow(leftMaster);
+        // rightFollower.follow(leftMaster);
+        flywheel = new TalonFX(FlywheelConstants.kFlywheelID);
+        feeder = new TalonSRX(FlywheelConstants.kFeederID);
 
+        flywheel.setInverted(false);
+        feeder.setInverted(true);
     }
 
-    public void setVelocity(double velocity) {
-        leftMaster.set(ControlMode.Velocity, velocity);
-    }
+    // public void setVelocity(double velocity) {
+    //     flywheel.set(ControlMode.Velocity, velocity);
+    // }
 
-    public void setVelocityZero() {
-        leftMaster.set(ControlMode.Velocity, 0);
-    }
+    // public void setVelocityZero() {
+    //     flywheel.set(ControlMode.Velocity, 0);
+    // }
 
-    public void setPercent(double percent) {
-        leftMaster.set(ControlMode.PercentOutput, percent);
+    public void setPercent(double flywheelPercent, double feederPercent) {
+        flywheel.set(ControlMode.PercentOutput, flywheelPercent);
+        feeder.set(ControlMode.PercentOutput, feederPercent);
     }
 
     public void setPercentZero() {
-        leftMaster.set(ControlMode.PercentOutput, 0);
+        flywheel.set(ControlMode.PercentOutput, 0);
+        feeder.set(ControlMode.PercentOutput, 0);
     }
 
     // public void flywheelInnerTarmac() {
@@ -49,7 +55,7 @@ public class Flywheel {
 
     public void toggleFlywheel() {
         if (!isRunning) {
-            setPercent(flywheelVelocity);
+            setPercent(0.6, -0.4); // flywheel, feeder
             isRunning = true;
         } else {
             setPercentZero();
@@ -57,12 +63,17 @@ public class Flywheel {
         }
     }
 
+    public void manualFlywheel() {
+        if (!isRunning) {
+            setPercent(0.1, 0);
+        }
+    }
+
     public void init() {
         SmartDashboard.putNumber("flywheelVelocity", FlywheelConstants.kFlywheelPercent);
         isRunning = false;
-        leftMaster.set(ControlMode.PercentOutput, 0);
+        flywheel.set(ControlMode.PercentOutput, 0);
     }
 
-    public void reportToSmartDashboard() {
-    }
+    public void reportToSmartDashboard() { }
 }

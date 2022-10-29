@@ -19,7 +19,7 @@ public class Intake{
     public Intake(){
         intake = new TalonSRX(IntakeConstants.kIntakeID);
         roller = new TalonSRX(RollerConstants.kRollerID);
-        intake.setInverted(true);
+        intake.setInverted(false);
         roller.setInverted(true);
         intake.configMotionAcceleration(IntakeConstants.kIntakeMotionAcceleration);
         intake.configMotionCruiseVelocity(IntakeConstants.kIntakeCruiseVelocity);
@@ -37,18 +37,18 @@ public class Intake{
         setRollerPercent(0);
     }
 
-    public void RaiseIntake(){
+    public void ReadyIntake(){
         intakeIsUp = true;
-        intake.set(ControlMode.MotionMagic, (int)IntakeConstants.kIntakeUpPosition, DemandType.ArbitraryFeedForward, FF());
-        intakeTargetPosition = (int)IntakeConstants.kIntakeUpPosition;
-        setRollerPercentZero();
+        intake.set(ControlMode.MotionMagic, (int)IntakeConstants.kIntakeReadyPosition);
+        intakeTargetPosition = (int)IntakeConstants.kIntakeReadyPosition;
+        // setRollerPercent(IntakeConstants.kRollerPercent);
         
     }
-    public void LowerIntake(){
+    public void StowIntake(){
         intakeIsUp = false;
-        intake.set(ControlMode.MotionMagic, IntakeConstants.kIntakeOffset, DemandType.ArbitraryFeedForward, FF());
-        intakeTargetPosition = (int)IntakeConstants.kIntakeOffset;
-        setRollerPercent(IntakeConstants.kRollerPercent);
+        intake.set(ControlMode.MotionMagic, IntakeConstants.kIntakeStowPosition);
+        intakeTargetPosition = (int)IntakeConstants.kIntakeStowPosition;
+        // setRollerPercentZero();
     }
 
     public void DisableIntake(){
@@ -58,28 +58,29 @@ public class Intake{
 
     public void toggleIntake() {
         if (intakeIsUp) {
-            LowerIntake();
+            StowIntake();
         } else {
-            RaiseIntake();  
+            ReadyIntake();  
         }
     }
 
     public double ticksToAngle() {
-        double tickDifference = Math.abs(intake.getSelectedSensorPosition() - IntakeConstants.kIntakeOffset);
+        double tickDifference = Math.abs(intake.getSelectedSensorPosition() - IntakeConstants.kIntakeHorizontal);
         double angleDifference = tickDifference * 360 / 4096;
-        return 90 - angleDifference;
+        return angleDifference;
+        // return angleDifference;
     }
 
     public double degreesToRadians(double deg) {
         return deg * Math.PI/180;
     }
 
-    public double FF() {
-        return IntakeConstants.kIntakeGravityFF * Math.cos(degreesToRadians(ticksToAngle()));
-    }
+    // public double FF() {
+    //     return IntakeConstants.kIntakeGravityFF * Math.cos(degreesToRadians(ticksToAngle()));
+    // }
 
     public void reportToSmartDashboard() {
-        SmartDashboard.putNumber("FF", FF());
+        // SmartDashboard.putNumber("FF", FF());
 
         SmartDashboard.putBoolean("Intake reached position", false);
 

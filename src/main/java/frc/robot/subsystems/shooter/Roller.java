@@ -33,6 +33,7 @@ public class Roller {
     }
 
     public void toggleRoller(double percent) {
+        SmartDashboard.putBoolean("roller button pressed", true);
         if (isRunning) {
             setPercentZero();
             isRunning = false;

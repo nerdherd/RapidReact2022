@@ -22,8 +22,8 @@ public class Robot extends TimedRobot {
   public void robotInit() { 
     CommandScheduler.getInstance().cancelAll();
     
-    Limelight limelight = new Limelight();
-    Turret turret = new Turret(limelight);
+    // Limelight limelight = new Limelight();
+    // Turret turret = new Turret(limelight);
     
     robotContainer = new RobotContainer();
     
@@ -37,7 +37,7 @@ public class Robot extends TimedRobot {
   }
 
   @Override
-  public void teleopPeriodic() { 
+  public void teleopPeriodic() {
 
     robotContainer.reportToSmartDashboard();
     robotContainer.configurePeriodic();
