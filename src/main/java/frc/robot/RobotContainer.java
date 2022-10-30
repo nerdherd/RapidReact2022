@@ -73,13 +73,16 @@ public class RobotContainer {
         SmartDashboard.putData("Hood to 0 degrees", new InstantCommand(() -> turret.turnToHoodAngle(0)));
         SmartDashboard.putData("Reset hood encoder", new InstantCommand(() -> turret.resetHoodEncoder()));
 
-        oCircle.whenPressed(new InstantCommand(() -> intake.toggleIntake()));
+        // oCircle.whenPressed(new InstantCommand(() -> intake.toggleIntake()));
         oTriangle.whenPressed(new InstantCommand(() -> roller.toggleRoller(RollerConstants.kRollerPercent)));
         oSquare.whenPressed(new InstantCommand(() -> indexer.toggleIndexer()));
         oCross.whenPressed(new InstantCommand(() -> flywheel.toggleFlywheel()));
         
         dTriangle.whenPressed(new InstantCommand(() -> drivetrain.shiftHigh()));
         dSquare.whenPressed(new InstantCommand(() -> drivetrain.shiftLow()));
+
+        oCross.whenPressed(new InstantCommand(() -> passiveClimber.setPowerZero()));
+        
         // passiveClimber.setPowerRight(ps4Controller2.getRightY());
         // oCircle.whenPressed(new InstantCommand(() -> passiveClimber.setPowerRight(0.0)));
     }
@@ -103,8 +106,11 @@ public class RobotContainer {
     }
 
     public void configurePeriodic() {
+        // intake.setIntakePercent(ps4Controller2.getRightY() * 0.2);
         drivetrain.tankDrive(ps4Controller.getLeftY(), ps4Controller.getRightY());
         drivetrain.setNeutralCoast();
+        passiveClimber.move(ps4Controller2.getRightY());
+        // intake.setIntakePercent(ps4Controller2.getLeftY());
     }
 
     public void initSmartDashboard() {
@@ -142,7 +148,7 @@ public class RobotContainer {
         roller.reportToSmartDashboard();
         flywheel.reportToSmartDashboard();
         intake.reportToSmartDashboard();
-        passiveClimber.reportToSmartDashboard();
+        // passiveClimber.reportToSmartDashboard();
 
         SmartDashboard.putBoolean(" Triangle Button Held ", ps4Controller2.getTriangleButton());
         SmartDashboard.putNumber(" Left Operator Y Axis ", ps4Controller2.getLeftY());

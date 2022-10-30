@@ -102,8 +102,8 @@ public final class Constants {
         public static final double kIntakeReadyPosition = 325; // When ready to intake
         // public static final double kIntakeOffset = 0;
         public static final double kIntakeStowPosition = -1942; // When ready to intake
-        public static final double kIntakeHorizontal = -135; // MEASURE
-        public static final double kIntakeGravityFF = 0.15; // Negative goes up, should invert 175
+        public static final double kIntakeHorizontal = 165; // MEASURE
+        public static final double kIntakeGravityFF = 0.12; // Negative goes up, should invert 175
         public static final double kIntakeMotionAcceleration = 100; // 125
         public static final double kIntakeCruiseVelocity = 100; // 250
         public static final double kIntakeDeadband = 0.004;

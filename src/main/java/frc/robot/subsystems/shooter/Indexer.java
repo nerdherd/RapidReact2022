@@ -48,7 +48,7 @@ public class Indexer {
             setPercentZero();
             isRunning = false;
         } else {
-            setPercent(0.9, 0.45);
+            setPercent(-0.9, 0.45);
             isRunning = true;
         }
     }

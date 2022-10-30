@@ -19,7 +19,7 @@ public class Intake{
     public Intake(){
         intake = new TalonSRX(IntakeConstants.kIntakeID);
         roller = new TalonSRX(RollerConstants.kRollerID);
-        intake.setInverted(false);
+        intake.setInverted(true);
         roller.setInverted(true);
         intake.configMotionAcceleration(IntakeConstants.kIntakeMotionAcceleration);
         intake.configMotionCruiseVelocity(IntakeConstants.kIntakeCruiseVelocity);
@@ -27,6 +27,14 @@ public class Intake{
         intake.config_kP(0, IntakeConstants.kIntakeP);
         intake.config_kD(0, IntakeConstants.kIntakeD);
         intake.config_kF(0, IntakeConstants.kIntakeF);
+    }
+
+    public void setIntakePercent(double percent) {
+        if (FF() < 0) {
+            intake.set(ControlMode.PercentOutput, percent);
+        } else {
+            intake.set(ControlMode.PercentOutput, percent + FF());
+        }
     }
 
     public void setRollerPercent(double power) {
@@ -75,12 +83,12 @@ public class Intake{
         return deg * Math.PI/180;
     }
 
-    // public double FF() {
-    //     return IntakeConstants.kIntakeGravityFF * Math.cos(degreesToRadians(ticksToAngle()));
-    // }
+    public double FF() {
+        return IntakeConstants.kIntakeGravityFF * Math.cos(degreesToRadians(ticksToAngle()));
+    }
 
     public void reportToSmartDashboard() {
-        // SmartDashboard.putNumber("FF", FF());
+        SmartDashboard.putNumber("FF", FF());
 
         SmartDashboard.putBoolean("Intake reached position", false);
 
