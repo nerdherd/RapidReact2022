@@ -73,6 +73,7 @@ public class Intake{
     }
 
     public double ticksToAngle() {
+        // TODO: Remove abs here and instead take abs of FF()
         double tickDifference = Math.abs(intake.getSelectedSensorPosition() - IntakeConstants.kIntakeHorizontal);
         double angleDifference = tickDifference * 360 / 4096;
         return angleDifference;
