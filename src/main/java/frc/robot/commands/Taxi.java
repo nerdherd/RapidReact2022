@@ -25,9 +25,9 @@ public class Taxi extends SequentialCommandGroup {
         this.indexer = indexer;
  
         addCommands(
-            new InstantCommand(() -> flywheel.setPercent(0.375, -0.3)),
+            new InstantCommand(() -> flywheel.setPercent(0.6, -0.4)),
             new WaitCommand(2),
-            new InstantCommand(() -> indexer.setPercent(-0.9, 0.45)),
+            new InstantCommand(() -> indexer.setPercent(0.9, 0.45)),
             new WaitCommand(5),
             new InstantCommand(() -> flywheel.setPercentZero()),
             new InstantCommand(() -> indexer.setPercentZero()),
