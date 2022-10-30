@@ -106,7 +106,7 @@ public class RobotContainer {
     }
 
     public void configurePeriodic() {
-        // intake.setIntakePercent(ps4Controller2.getRightY() * 0.2);
+        intake.setIntakePercent(ps4Controller2.getLeftY() * 0.2);
         drivetrain.tankDrive(ps4Controller.getLeftY(), ps4Controller.getRightY());
         drivetrain.setNeutralCoast();
         passiveClimber.move(ps4Controller2.getRightY());
