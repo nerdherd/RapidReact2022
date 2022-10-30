@@ -26,7 +26,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.DriveConstants;
-import frc.robot.commands.Rumble;
+// import frc.robot.commands.Rumble;
 import frc.robot.commands.TankDrive;
 
 public class Drivetrain extends SubsystemBase {
@@ -109,19 +109,19 @@ public class Drivetrain extends SubsystemBase {
     tankDrive.schedule();
   }
 
-  public void startRumble(PS4Controller controller) {
-    Rumble rumbleCommand = new Rumble(
-      () -> rightMaster.getSupplyCurrent(), 
-      () -> rightMaster.getSelectedSensorVelocity(), 
-      controller, 0);
+  // public void startRumble(PS4Controller controller) {
+  //   Rumble rumbleCommand = new Rumble(
+  //     () -> rightMaster.getSupplyCurrent(), 
+  //     () -> rightMaster.getSelectedSensorVelocity(), 
+  //     controller, 0);
     
-    SequentialCommandGroup initRumble = new SequentialCommandGroup(
-      new WaitCommand(1),
-      new InstantCommand(() -> rumbleCommand.schedule())
-    );
+  //   SequentialCommandGroup initRumble = new SequentialCommandGroup(
+  //     new WaitCommand(1),
+  //     new InstantCommand(() -> rumbleCommand.schedule())
+  //   );
 
-    initRumble.schedule();
-  }
+  //   initRumble.schedule();
+  // }
 
   // ========================= SHIFTING ========================= //
 

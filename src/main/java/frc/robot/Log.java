@@ -34,7 +34,11 @@ public class Log {
     createTopic("Time", () -> Timer.getFPGATimestamp());
 
     // TODO: Log roller current (keeps overheating)
-    // createTopic("FlywheelMasterVelocity" + "/Velocity", () -> robotContainer.flywheel.leftMaster.getSelectedSensorVelocity());    // createTopic("RightMaster" + "/Voltage", () -> robotContainer.drivetrain.rightMaster.getMotorOutputVoltage());
+    createTopic("Flywheel" + "/Velocity", () -> robotContainer.flywheel.flywheel.getSelectedSensorVelocity());    // createTopic("RightMaster" + "/Voltage", () -> robotContainer.drivetrain.rightMaster.getMotorOutputVoltage());
+    createTopic("Feeder" + "/Velocity", () -> robotContainer.flywheel.feeder.getSelectedSensorVelocity());
+
+
+
     createTopic("LeftMaster" + "/Voltage", () -> robotContainer.drivetrain.leftMaster.getMotorOutputVoltage());
     createTopic("RightMaster" + "/Voltage", () -> robotContainer.drivetrain.leftMaster.getMotorOutputVoltage());
     createTopic("RightFollower" + "/Voltage", () -> robotContainer.drivetrain.rightSlave.getMotorOutputVoltage());
@@ -49,7 +53,8 @@ public class Log {
     createTopic("Indexer Bottom" + "/Current", () -> robotContainer.indexer.IndexerBottom.getStatorCurrent());
     createTopic("Indexer Top" + "/Velocity", () -> robotContainer.indexer.IndexerTop.getSelectedSensorVelocity());
     createTopic("Indexer Bottom" + "/Velocity", () -> robotContainer.indexer.IndexerBottom.getSelectedSensorVelocity());
-    createTopic("Hood Current" + "/Current", () -> robotContainer.turret.getHoodCurrent());
+    // createTopic("Hood Current" + "/Current", () -> robotContainer.turret.getHoodCurrent());
+    // createTopic("Intake " + "/Current", () -> robotContainer.turret.getHoodCurrent());
     log.finishInitialization();
   }
 

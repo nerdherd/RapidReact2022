@@ -42,8 +42,8 @@ public class RobotContainer {
     public Indexer indexer = new Indexer();  
     public Roller roller = new Roller();
     public Intake intake = new Intake();
-    public Limelight limelight = new Limelight();
-    public Turret turret = new Turret(limelight);
+    // public Limelight limelight = new Limelight();
+    // public Turret turret = new Turret(limelight);
     public PassiveClimber passiveClimber = new PassiveClimber();    
 
     public RobotContainer() {
@@ -60,7 +60,7 @@ public class RobotContainer {
         intake.init();
         passiveClimber.init();
         // drivetrain.startTankDrive(ps4Controller::getLeftY, ps4Controller::getRightY);
-        drivetrain.startRumble(ps4Controller);
+        // drivetrain.startRumble(ps4Controller);
     }
 
     public void configureButtonBindings() {
@@ -69,11 +69,10 @@ public class RobotContainer {
         // dTriangle.debounce(0.1).whenActive(new InstantCommand(() -> turret.toggleHood()));
 
         // Turret hood testing code
-        SmartDashboard.putData("Hood to 15 degrees", new InstantCommand(() -> turret.turnToHoodAngle(15)));
-        SmartDashboard.putData("Hood to 0 degrees", new InstantCommand(() -> turret.turnToHoodAngle(0)));
-        SmartDashboard.putData("Reset hood encoder", new InstantCommand(() -> turret.resetHoodEncoder()));
+        // SmartDashboard.putData("Hood to 15 degrees", new InstantCommand(() -> turret.turnToHoodAngle(15)));
+        // SmartDashboard.putData("Hood to 0 degrees", new InstantCommand(() -> turret.turnToHoodAngle(0)));
+        // SmartDashboard.putData("Reset hood encoder", new InstantCommand(() -> turret.resetHoodEncoder()));
 
-        // oCircle.whenPressed(new InstantCommand(() -> intake.toggleIntake()));
         oTriangle.whenPressed(new InstantCommand(() -> roller.toggleRoller(RollerConstants.kRollerPercent)));
         oSquare.whenPressed(new InstantCommand(() -> indexer.toggleIndexer()));
         oCross.whenPressed(new InstantCommand(() -> flywheel.toggleFlywheel()));
@@ -81,7 +80,7 @@ public class RobotContainer {
         dTriangle.whenPressed(new InstantCommand(() -> drivetrain.shiftHigh()));
         dSquare.whenPressed(new InstantCommand(() -> drivetrain.shiftLow()));
 
-        oCross.whenPressed(new InstantCommand(() -> passiveClimber.setPowerZero()));
+        // oCircle.whenPressed(new InstantCommand(() -> passiveClimber.setPowerZero()));
         
         // passiveClimber.setPowerRight(ps4Controller2.getRightY());
         // oCircle.whenPressed(new InstantCommand(() -> passiveClimber.setPowerRight(0.0)));
@@ -106,11 +105,12 @@ public class RobotContainer {
     }
 
     public void configurePeriodic() {
+         
         intake.setIntakePercent(ps4Controller2.getLeftY() * 0.2);
+        passiveClimber.move(ps4Controller2.getRightY());
+        
         drivetrain.tankDrive(ps4Controller.getLeftY(), ps4Controller.getRightY());
         drivetrain.setNeutralCoast();
-        passiveClimber.move(ps4Controller2.getRightY());
-        // intake.setIntakePercent(ps4Controller2.getLeftY());
     }
 
     public void initSmartDashboard() {
@@ -143,8 +143,8 @@ public class RobotContainer {
     }
 
     public void reportToSmartDashboard() {
-        limelight.reportToSmartDashboard();
-        turret.reportToSmartDashboard();
+        // limelight.reportToSmartDashboard();
+        // turret.reportToSmartDashboard();
         roller.reportToSmartDashboard();
         flywheel.reportToSmartDashboard();
         intake.reportToSmartDashboard();

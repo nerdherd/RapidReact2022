@@ -12,38 +12,38 @@ import frc.robot.Constants.RollerConstants;
 public class Intake{
 
     public TalonSRX intake;
-    public TalonSRX roller;
+    // public TalonSRX roller;
     public boolean intakeIsUp;
     public int intakeTargetPosition;
 
     public Intake(){
         intake = new TalonSRX(IntakeConstants.kIntakeID);
-        roller = new TalonSRX(RollerConstants.kRollerID);
+        // roller = new TalonSRX(RollerConstants.kRollerID);
         intake.setInverted(true);
-        roller.setInverted(true);
-        intake.configMotionAcceleration(IntakeConstants.kIntakeMotionAcceleration);
-        intake.configMotionCruiseVelocity(IntakeConstants.kIntakeCruiseVelocity);
-        intake.configNeutralDeadband(IntakeConstants.kIntakeDeadband);
-        intake.config_kP(0, IntakeConstants.kIntakeP);
-        intake.config_kD(0, IntakeConstants.kIntakeD);
-        intake.config_kF(0, IntakeConstants.kIntakeF);
+        // roller.setInverted(true);
+        // intake.configMotionAcceleration(IntakeConstants.kIntakeMotionAcceleration);
+        // intake.configMotionCruiseVelocity(IntakeConstants.kIntakeCruiseVelocity);
+        // intake.configNeutralDeadband(IntakeConstants.kIntakeDeadband);
+        // intake.config_kP(0, IntakeConstants.kIntakeP);
+        // intake.config_kD(0, IntakeConstants.kIntakeD);
+        // intake.config_kF(0, IntakeConstants.kIntakeF);
     }
 
     public void setIntakePercent(double percent) {
         if (FF() < 0) {
-            intake.set(ControlMode.PercentOutput, percent);
+            intake.set(ControlMode.PercentOutput, percent + 0.03);
         } else {
             intake.set(ControlMode.PercentOutput, percent + FF());
         }
     }
 
-    public void setRollerPercent(double power) {
-        roller.set(ControlMode.PercentOutput, power);
-    }
+    // public void setRollerPercent(double power) {
+    //     roller.set(ControlMode.PercentOutput, power);
+    // }
 
-    public void setRollerPercentZero() {
-        setRollerPercent(0);
-    }
+    // public void setRollerPercentZero() {
+    //     setRollerPercent(0);
+    // }
 
     public void ReadyIntake(){
         intakeIsUp = true;
@@ -59,10 +59,10 @@ public class Intake{
         // setRollerPercentZero();
     }
 
-    public void DisableIntake(){
-        intake.set(ControlMode.PercentOutput,0);
-        setRollerPercentZero();
-    }
+    // public void DisableIntake(){
+    //     intake.set(ControlMode.PercentOutput,0);
+    //     setRollerPercentZero();
+    // }
 
     public void toggleIntake() {
         if (intakeIsUp) {
@@ -104,7 +104,7 @@ public class Intake{
     public void init() {
         // LowerIntake();
         intakeIsUp = false;
-        DisableIntake();
+        // DisableIntake();
     }
     
 }

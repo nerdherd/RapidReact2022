@@ -23,9 +23,9 @@ public class PassiveClimber extends SubsystemBase {
         SmartDashboard.putBoolean("controller", true);
 
         if (currentJoystickOutput > 0.05) {
-            climberRight.set(ControlMode.PercentOutput, (0.02 + (currentJoystickOutput / 3)));
+            climberRight.set(ControlMode.PercentOutput, (0.02 + (currentJoystickOutput / 1.5)));
         } else if (currentJoystickOutput < -0.05) {
-            climberRight.set(ControlMode.PercentOutput, (0.02 + (currentJoystickOutput / 3)));
+            climberRight.set(ControlMode.PercentOutput, (0.02 + (currentJoystickOutput / 1.5)));
         } else {
             climberRight.set(ControlMode.PercentOutput, 0.02);
         }
