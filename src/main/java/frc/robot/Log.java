@@ -103,17 +103,18 @@ public class Log {
       }
     }
 
-    int fileNumber = 0;
+    // int fileNumber = 0;
 
-    for (int i = 0; i < kMaxNumFiles; i++) {
-      File file = (new File(pathToUse + filename + String.valueOf(i) + ".csv"));
+    // for (int i = 0; i < kMaxNumFiles; i++) {
+    //   File file = (new File(pathToUse + filename + String.valueOf(i) + ".csv"));
 
-      if (!file.exists() && !file.isDirectory()) {
-        fileNumber = i;
-        break;
-      }
-    }
-    return pathToUse + filename + String.valueOf(fileNumber) + ".csv";
+    //   if (!file.exists() && !file.isDirectory()) {
+    //     fileNumber = i;
+    //     break;
+    //   }
+    // }
+    // return pathToUse + filename + String.valueOf(fileNumber) + ".csv";
+    return pathToUse + filename + ".csv";
   }
 
   public static void log() {
