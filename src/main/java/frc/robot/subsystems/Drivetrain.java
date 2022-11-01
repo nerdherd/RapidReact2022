@@ -34,8 +34,8 @@ public class Drivetrain extends SubsystemBase {
   public TalonFX leftMaster; 
   public TalonFX rightSlave;
   public TalonFX leftSlave; 
-  // public TalonFX rightSlaveT;
-  // public TalonFX leftSlaveT; 
+  public TalonFX rightSlaveT;
+  public TalonFX leftSlaveT; 
 
   public Compressor compressor; // Channel 3 on CAN
   public DoubleSolenoid driveShifter; // Channels 0 and 1 as of 10/28/2022
@@ -51,21 +51,21 @@ public class Drivetrain extends SubsystemBase {
     leftMaster = new TalonFX(DriveConstants.kLeftMasterTalonID);
     rightSlave = new TalonFX(DriveConstants.kRightSlaveTalonID); // Bottom
     leftSlave = new TalonFX(DriveConstants.kLeftSlaveTalonID);
-    // rightSlaveT = new TalonFX(DriveConstants.kRightSlaveTTalonID); // Top
-    // leftSlaveT = new TalonFX(DriveConstants.kLeftSlaveTTalonID);
+    rightSlaveT = new TalonFX(DriveConstants.kRightSlaveTTalonID); // Top
+    leftSlaveT = new TalonFX(DriveConstants.kLeftSlaveTTalonID);
 
     leftSlave.follow(leftMaster);
     rightSlave.follow(rightMaster);
-    // leftSlaveT.follow(leftMaster);
-    // rightSlaveT.follow(rightMaster);
+    leftSlaveT.follow(leftMaster);
+    rightSlaveT.follow(rightMaster);
 
     // Inverted the right side
     leftMaster.setInverted(false);
     rightMaster.setInverted(true);
     leftSlave.setInverted(InvertType.FollowMaster);
     rightSlave.setInverted(InvertType.FollowMaster);
-    // leftSlaveT.setInverted(InvertType.FollowMaster);
-    // rightSlaveT.setInverted(InvertType.FollowMaster);
+    leftSlaveT.setInverted(InvertType.FollowMaster);
+    rightSlaveT.setInverted(InvertType.FollowMaster);
 
     // Pneumatics setup
     compressor = new Compressor(3, PneumaticsModuleType.CTREPCM);
