@@ -33,11 +33,13 @@ public class Log {
     log = BadLog.init(getDesiredFile(directory, filename));
     createTopic("Time", () -> Timer.getFPGATimestamp());
 
-    // TODO: Log roller current (keeps overheating)
-    createTopic("Flywheel" + "/Velocity", () -> robotContainer.flywheel.flywheel.getSelectedSensorVelocity());    // createTopic("RightMaster" + "/Voltage", () -> robotContainer.drivetrain.rightMaster.getMotorOutputVoltage());
+    createTopic("Flywheel" + "/Velocity", () -> robotContainer.flywheel.flywheel.getSelectedSensorVelocity());
+    createTopic("Flywheel" + "/Position", () -> robotContainer.flywheel.flywheel.getSelectedSensorPosition());
+    createTopic("Flywheel" + "/Current", () -> robotContainer.flywheel.flywheel.getStatorCurrent());
+    
     createTopic("Feeder" + "/Velocity", () -> robotContainer.flywheel.feeder.getSelectedSensorVelocity());
-
-
+    createTopic("Feeder" + "/Velocity", () -> robotContainer.flywheel.feeder.getSelectedSensorPosition());
+    createTopic("Feeder" + "/Velocity", () -> robotContainer.flywheel.feeder.getStatorCurrent());
 
     createTopic("LeftMaster" + "/Voltage", () -> robotContainer.drivetrain.leftMaster.getMotorOutputVoltage());
     createTopic("RightMaster" + "/Voltage", () -> robotContainer.drivetrain.leftMaster.getMotorOutputVoltage());
@@ -49,12 +51,22 @@ public class Log {
     createTopic("RightFollower" + "/Current", () -> robotContainer.drivetrain.rightSlave.getMotorOutputVoltage());
     createTopic("LeftFollower" + "/Current", () -> robotContainer.drivetrain.leftSlave.getMotorOutputVoltage());
 
+    createTopic("LeftMaster" + "/Position", () -> robotContainer.drivetrain.leftMaster.getSelectedSensorPosition());
+    createTopic("RightMaster" + "/Position", () -> robotContainer.drivetrain.leftMaster.getSelectedSensorPosition());
+    createTopic("RightFollower" + "/Position", () -> robotContainer.drivetrain.rightSlave.getSelectedSensorPosition());
+    createTopic("LeftFollower" + "/Position", () -> robotContainer.drivetrain.leftSlave.getSelectedSensorPosition());
+
     createTopic("Indexer Top" + "/Current", () -> robotContainer.indexer.IndexerTop.getStatorCurrent());
     createTopic("Indexer Bottom" + "/Current", () -> robotContainer.indexer.IndexerBottom.getStatorCurrent());
     createTopic("Indexer Top" + "/Velocity", () -> robotContainer.indexer.IndexerTop.getSelectedSensorVelocity());
     createTopic("Indexer Bottom" + "/Velocity", () -> robotContainer.indexer.IndexerBottom.getSelectedSensorVelocity());
-    // createTopic("Hood Current" + "/Current", () -> robotContainer.turret.getHoodCurrent());
-    // createTopic("Intake " + "/Current", () -> robotContainer.turret.getHoodCurrent());
+    createTopic("Indexer Top" + "/Position", () -> robotContainer.indexer.IndexerTop.getSelectedSensorPosition());
+    createTopic("Indexer Bottom" + "/Position", () -> robotContainer.indexer.IndexerBottom.getSelectedSensorPosition());
+    
+    createTopic("Climber Right" + "/Current", robotContainer.passiveClimber.climberRight::getStatorCurrent);
+    createTopic("Climber Right" + "/Velocity", robotContainer.passiveClimber.climberRight::getSelectedSensorVelocity);
+    createTopic("Climber Right" + "/Position", robotContainer.passiveClimber.climberRight::getSelectedSensorPosition);
+
     log.finishInitialization();
   }
 

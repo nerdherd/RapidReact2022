@@ -149,9 +149,5 @@ public class RobotContainer {
         flywheel.reportToSmartDashboard();
         intake.reportToSmartDashboard();
         // passiveClimber.reportToSmartDashboard();
-
-        SmartDashboard.putBoolean(" Triangle Button Held ", ps4Controller2.getTriangleButton());
-        SmartDashboard.putNumber(" Left Operator Y Axis ", ps4Controller2.getLeftY());
-        SmartDashboard.putBoolean(" Manual Climb ", false);
     }
 }
