@@ -22,16 +22,30 @@ public class PassiveClimber extends SubsystemBase {
     public void move (double currentJoystickOutput) {
         double climberTicks = climberRight.getSelectedSensorPosition();
 
+        // Soft limit
+
+        // if (currentJoystickOutput > ClimberConstants.kClimberDeadband) {
+        //     if (climberTicks < ClimberConstants.kMaxTicks) {
+        //         climberRight.set(ControlMode.PercentOutput, 
+        //             (ClimberConstants.kF + (currentJoystickOutput * ClimberConstants.kJoystickMultiplier)));
+        //     }
+        // } else if (currentJoystickOutput < -ClimberConstants.kClimberDeadband) {
+        //     if (climberTicks > ClimberConstants.kMinTicks) {
+        //         climberRight.set(ControlMode.PercentOutput, 
+        //             (ClimberConstants.kF + (currentJoystickOutput * ClimberConstants.kJoystickMultiplier)));
+        //     }
+        // } else {
+        //     climberRight.set(ControlMode.PercentOutput, ClimberConstants.kF);
+        // }
+
+        // No soft limit
+
         if (currentJoystickOutput > ClimberConstants.kClimberDeadband) {
-            if (climberTicks < ClimberConstants.kMaxTicks) {
-                climberRight.set(ControlMode.PercentOutput, 
-                    (ClimberConstants.kF + (currentJoystickOutput * ClimberConstants.kJoystickMultiplier)));
-            }
+            climberRight.set(ControlMode.PercentOutput, 
+                (ClimberConstants.kF + (currentJoystickOutput * ClimberConstants.kJoystickMultiplier)));
         } else if (currentJoystickOutput < -ClimberConstants.kClimberDeadband) {
-            if (climberTicks > ClimberConstants.kMinTicks) {
-                climberRight.set(ControlMode.PercentOutput, 
-                    (ClimberConstants.kF + (currentJoystickOutput * ClimberConstants.kJoystickMultiplier)));
-            }
+            climberRight.set(ControlMode.PercentOutput, 
+                (ClimberConstants.kF + (currentJoystickOutput * ClimberConstants.kJoystickMultiplier)));
         } else {
             climberRight.set(ControlMode.PercentOutput, ClimberConstants.kF);
         }
