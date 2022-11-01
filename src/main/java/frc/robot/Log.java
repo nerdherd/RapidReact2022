@@ -38,8 +38,8 @@ public class Log {
     createTopic("Flywheel" + "/Current", () -> robotContainer.flywheel.flywheel.getStatorCurrent());
     
     createTopic("Feeder" + "/Velocity", () -> robotContainer.flywheel.feeder.getSelectedSensorVelocity());
-    createTopic("Feeder" + "/Velocity", () -> robotContainer.flywheel.feeder.getSelectedSensorPosition());
-    createTopic("Feeder" + "/Velocity", () -> robotContainer.flywheel.feeder.getStatorCurrent());
+    createTopic("Feeder" + "/Position", () -> robotContainer.flywheel.feeder.getSelectedSensorPosition());
+    createTopic("Feeder" + "/Current", () -> robotContainer.flywheel.feeder.getStatorCurrent());
 
     createTopic("LeftMaster" + "/Voltage", () -> robotContainer.drivetrain.leftMaster.getMotorOutputVoltage());
     createTopic("RightMaster" + "/Voltage", () -> robotContainer.drivetrain.leftMaster.getMotorOutputVoltage());
