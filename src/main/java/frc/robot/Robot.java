@@ -4,10 +4,7 @@
 
 package frc.robot;
 
-import java.util.Date;
-
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandGroupBase;
@@ -29,11 +26,8 @@ public class Robot extends TimedRobot {
     // Turret turret = new Turret(limelight);
     
     robotContainer = new RobotContainer();
-
-    long timestamp = (long) Timer.getFPGATimestamp()*1000;
-    Date date = new Date(timestamp);
     
-    Log.initAndLog("/home/lvuser/logs/", "Log " + date.toString(), 0.02, robotContainer); 
+    Log.initAndLog("/home/lvuser/logs/", "Test", 0.02, robotContainer); 
   }
   
   @Override
