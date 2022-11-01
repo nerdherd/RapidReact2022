@@ -20,14 +20,20 @@ public class PassiveClimber extends SubsystemBase {
     }
 
     public void move (double currentJoystickOutput) {
-        SmartDashboard.putBoolean("controller", true);
+        double climberTicks = climberRight.getSelectedSensorPosition();
 
-        if (currentJoystickOutput > 0.05) {
-            climberRight.set(ControlMode.PercentOutput, (0.02 + (currentJoystickOutput / 1.5)));
-        } else if (currentJoystickOutput < -0.05) {
-            climberRight.set(ControlMode.PercentOutput, (0.02 + (currentJoystickOutput / 1.5)));
+        if (currentJoystickOutput > ClimberConstants.kClimberDeadband) {
+            if (climberTicks < ClimberConstants.kMaxTicks) {
+                climberRight.set(ControlMode.PercentOutput, 
+                    (ClimberConstants.kF + (currentJoystickOutput * ClimberConstants.kJoystickMultiplier)));
+            }
+        } else if (currentJoystickOutput < -ClimberConstants.kClimberDeadband) {
+            if (climberTicks > ClimberConstants.kMinTicks) {
+                climberRight.set(ControlMode.PercentOutput, 
+                    (ClimberConstants.kF + (currentJoystickOutput * ClimberConstants.kJoystickMultiplier)));
+            }
         } else {
-            climberRight.set(ControlMode.PercentOutput, 0.02);
+            climberRight.set(ControlMode.PercentOutput, ClimberConstants.kF);
         }
     }
 

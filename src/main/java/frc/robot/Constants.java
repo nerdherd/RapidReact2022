@@ -61,6 +61,12 @@ public final class Constants {
         public static final double kCruiseVelocity = 250;
         public static final double kMotionAcceleration = 125;
 
+        public static final double kClimberDeadband = 0.05;
+        public static final double kF = 0.02;
+        public static final double kJoystickMultiplier = 1;
+        public static final double kMaxTicks = 0;
+        public static final double kMinTicks = 0;
+
         public static final double kLeftPos1 = 0;
         public static final double kLeftPos2 = 0;
         public static final double kRightPos1 = 0;
