@@ -110,6 +110,7 @@ public class Drivetrain extends SubsystemBase {
     
     // Curve output to quadratic
     leftOutput = Math.abs(leftOutput * leftOutput) * Math.signum(leftOutput);
+    rightOutput = Math.abs(rightOutput * rightOutput) * Math.signum(rightOutput);
 
     rightMaster.set(ControlMode.PercentOutput, rightOutput);
     leftMaster.set(ControlMode.PercentOutput, leftOutput);
