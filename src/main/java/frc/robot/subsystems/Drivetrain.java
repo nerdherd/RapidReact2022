@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import java.util.HashMap;
 import java.util.function.DoubleSupplier;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
@@ -20,6 +21,11 @@ import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.PneumaticsModuleType;
 import edu.wpi.first.wpilibj.SerialPort;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -196,6 +202,91 @@ public class Drivetrain extends SubsystemBase {
     SmartDashboard.putNumber(" Left Slave Current ", leftSlave.getSupplyCurrent());
     SmartDashboard.putNumber(" Drive Velocity ", rightMaster.getSelectedSensorVelocity());
     SmartDashboard.putNumber(" Drive Current ", rightMaster.getSupplyCurrent());
+  }
+
+  public void initShuffleboard() {
+    ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
+
+    // TODO: Switch to DifferentialDrive to use the Differential Drive widget
+    // ========== CURRENT LAYOUT ========== //
+
+    ShuffleboardLayout current = 
+      tab.getLayout("Current", BuiltInLayouts.kGrid)
+         .withSize(2, 2)
+         .withProperties(new HashMap<String, Object>() {{
+            put("Number of columns", 2);
+            put("Number of rows", 2);
+          }});
+    
+    HashMap<String, Object> falconCurrent = new HashMap<String, Object>() {{
+      put("Min", 0);
+      put("Max", DriveConstants.kFalconMaxCurrent);
+    }};
+    current.addNumber("Left Master", leftMaster::getSupplyCurrent)
+           .withWidget(BuiltInWidgets.kNumberBar)
+           .withProperties(falconCurrent);
+    current.addNumber("Left Slave", leftSlave::getSupplyCurrent)
+           .withWidget(BuiltInWidgets.kNumberBar)
+           .withProperties(falconCurrent);
+    current.addNumber("Right Master", rightMaster::getSupplyCurrent)
+           .withWidget(BuiltInWidgets.kNumberBar)
+           .withProperties(falconCurrent);
+    current.addNumber("Right Slave", rightSlave::getSupplyCurrent)
+           .withWidget(BuiltInWidgets.kNumberBar)
+           .withProperties(falconCurrent);
+    
+    // ========== VELOCITY LAYOUT ========== //
+    
+    ShuffleboardLayout velocity = 
+      tab.getLayout("Velocity", BuiltInLayouts.kGrid)
+        .withProperties(new HashMap<String, Object>() {{
+          put("Number of columns", 2);
+          put("Number of rows", 2);
+        }});
+    
+    HashMap<String, Object> falconVelocity = new HashMap<String, Object>() {{
+        put("Min", -DriveConstants.kFalconMaxTicksPer100ms);
+        put("Max", DriveConstants.kFalconMaxTicksPer100ms);
+    }};
+
+    velocity.addNumber("Left Master", leftMaster::getSelectedSensorVelocity)
+            .withWidget(BuiltInWidgets.kNumberBar)
+            .withProperties(falconVelocity);
+    velocity.addNumber("Left Slave", leftSlave::getSelectedSensorVelocity)
+            .withWidget(BuiltInWidgets.kNumberBar)
+            .withProperties(falconVelocity);
+    velocity.addNumber("Right Master", rightMaster::getSelectedSensorVelocity)
+            .withWidget(BuiltInWidgets.kNumberBar)
+            .withProperties(falconVelocity);
+    velocity.addNumber("Right Slave", rightSlave::getSelectedSensorVelocity)
+            .withWidget(BuiltInWidgets.kNumberBar)
+            .withProperties(falconVelocity);
+    
+    // ========== VOLTAGE LAYOUT ========== //
+    
+    ShuffleboardLayout voltage = 
+    tab.getLayout("Voltage", BuiltInLayouts.kGrid)
+      .withProperties(new HashMap<String, Object>() {{
+        put("Number of columns", 2);
+        put("Number of rows", 2);
+      }});
+    
+    HashMap<String, Object> falconVoltage = new HashMap<String, Object>() {{
+        put("Max", 14);
+    }};
+
+    voltage.addNumber("Left Master", leftMaster::getMotorOutputVoltage)
+           .withWidget(BuiltInWidgets.kVoltageView)
+           .withProperties(falconVoltage);
+    voltage.addNumber("Left Slave", leftSlave::getMotorOutputVoltage)
+           .withWidget(BuiltInWidgets.kNumberBar)
+           .withProperties(falconVoltage);
+    voltage.addNumber("Right Master", rightMaster::getMotorOutputVoltage)
+           .withWidget(BuiltInWidgets.kNumberBar)
+           .withProperties(falconVoltage);
+    voltage.addNumber("Right Slave", rightSlave::getMotorOutputVoltage)
+           .withWidget(BuiltInWidgets.kNumberBar)
+           .withProperties(falconVoltage);
   }
 
   public void setNeutralCoast() {

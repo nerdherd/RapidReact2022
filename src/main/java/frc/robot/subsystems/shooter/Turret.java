@@ -4,6 +4,8 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.TurretConstants;
@@ -189,6 +191,16 @@ public class Turret extends SubsystemBase {
         SmartDashboard.putNumber("Base current", getBaseCurrent());
         SmartDashboard.putNumber("Base ticks", baseMotor.getSelectedSensorPosition());
         SmartDashboard.putNumber("Base angle", getCurrentBaseAngle());
+    }
+
+    public void initShuffleboard() {
+        ShuffleboardTab tab = Shuffleboard.getTab("Turret");
+        tab.addNumber("Hood current", this::getHoodCurrent);
+        tab.addNumber("Hood ticks", hoodMotor::getSelectedSensorPosition);
+        tab.addNumber("Hood angle", this::getCurrentHoodAngle);
+        tab.addNumber("Base current", this::getBaseCurrent);
+        tab.addNumber("Base ticks", baseMotor::getSelectedSensorPosition);
+        tab.addNumber("Base angle", this::getCurrentBaseAngle);
     }
 
     public double getHoodCurrent() {

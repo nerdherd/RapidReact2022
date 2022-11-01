@@ -5,6 +5,8 @@ import com.ctre.phoenix.motorcontrol.InvertType;
 import com.ctre.phoenix.motorcontrol.TalonFXInvertType;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ClimberConstants;
@@ -115,4 +117,12 @@ public class PassiveClimber extends SubsystemBase {
     // public void reportToSmartDashboard() {
 
     // }
+
+    public void initShuffleboard() {
+        ShuffleboardTab tab = Shuffleboard.getTab("Climber");
+        tab.addNumber("Position", climberRight::getSelectedSensorPosition);
+        tab.addNumber("Percent", climberRight::getMotorOutputPercent);
+        tab.addNumber("Velocity", climberRight::getSelectedSensorVelocity);
+        tab.addNumber("Voltage", climberRight::getMotorOutputVoltage);
+    }
 }

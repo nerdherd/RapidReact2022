@@ -5,6 +5,8 @@ import frc.robot.Constants.VisionConstants;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Limelight extends SubsystemBase {  
@@ -95,6 +97,17 @@ public class Limelight extends SubsystemBase {
         SmartDashboard.putNumber("Limelight Distance Offset.", getDistanceWidth());
 
         SmartDashboard.putNumber("Limelight Target Width", getTargetWidth());
+    }
+
+    public void initShuffleboard() {
+        ShuffleboardTab tab = Shuffleboard.getTab("Limelight");
+
+        tab.addNumber("Limelight X", this::getXOffsetFromTarget);
+        tab.addNumber("Limelight Y", this::getYOffsetFromTarget);
+        tab.addNumber("Limelight Area", this::getTargetArea);
+        tab.addNumber("Limelight Distance Vert.", this::getDistance);
+        tab.addNumber("Limelight Distance Offset.", this::getDistanceWidth);
+        tab.addNumber("Limelight Target Width", this::getTargetWidth);
     }
     
     @Override

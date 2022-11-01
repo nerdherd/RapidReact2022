@@ -3,6 +3,8 @@ package frc.robot.subsystems.shooter;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.IndexerConstants;
 
@@ -67,5 +69,28 @@ public class Indexer {
 
     public void reportToSmartDashboard() {
         
+    }
+
+    public void initShuffleboard() {
+        ShuffleboardTab tab = Shuffleboard.getTab("Turret");
+
+        tab.addNumber("Top Position", IndexerTop::getSelectedSensorPosition)
+            .withPosition(1, 1);
+        tab.addNumber("Bottom Position", IndexerBottom::getSelectedSensorPosition)
+            .withPosition(1, 2);
+        tab.addNumber("Top Percent", IndexerTop::getMotorOutputPercent)
+            .withPosition(2, 1);
+        tab.addNumber("Bottom Percent", IndexerBottom::getMotorOutputPercent)
+            .withPosition(2, 2);
+        tab.addNumber("Top Velocity", IndexerTop::getSelectedSensorVelocity)
+            .withPosition(3, 1);
+        tab.addNumber("Bottom Velocity", IndexerBottom::getSelectedSensorVelocity)
+            .withPosition(3, 2);
+        tab.addNumber("Top Voltage", IndexerTop::getMotorOutputVoltage)
+            .withPosition(4, 1);
+        tab.addNumber("Bottom Voltage", IndexerBottom::getMotorOutputVoltage)
+            .withPosition(4, 2);
+
+        tab.addBoolean("Is Running", () -> isRunning);
     }
 }
