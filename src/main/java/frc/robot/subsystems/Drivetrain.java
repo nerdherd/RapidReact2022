@@ -107,6 +107,9 @@ public class Drivetrain extends SubsystemBase {
                       + (DriveConstants.kDriveOneMinusAlpha * prevLeftOutput);
     double rightOutput = (DriveConstants.kDriveAlpha * rightInput) 
                       + (DriveConstants.kDriveOneMinusAlpha * prevRightOutput);
+    
+    // Curve output to quadratic
+    leftOutput = Math.abs(leftOutput * leftOutput) * Math.signum(leftOutput);
 
     rightMaster.set(ControlMode.PercentOutput, rightOutput);
     leftMaster.set(ControlMode.PercentOutput, leftOutput);
