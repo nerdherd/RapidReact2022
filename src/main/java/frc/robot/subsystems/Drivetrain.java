@@ -102,16 +102,16 @@ public class Drivetrain extends SubsystemBase {
     double prevLeftOutput = leftMaster.getMotorOutputPercent();
     double prevRightOutput = rightMaster.getMotorOutputPercent();
 
-    // Low pass filter, output = (alpha * intended value) + (1-alpha) * previous value
-    double leftOutput = (DriveConstants.kDriveAlpha * leftInput) 
-                      + (DriveConstants.kDriveOneMinusAlpha * prevLeftOutput);
-    double rightOutput = (DriveConstants.kDriveAlpha * rightInput) 
-                      + (DriveConstants.kDriveOneMinusAlpha * prevRightOutput);
-    
     // Curve output to quadratic
-    leftOutput = Math.abs(leftOutput * leftOutput) * Math.signum(leftOutput);
-    rightOutput = Math.abs(rightOutput * rightOutput) * Math.signum(rightOutput);
+    double leftOutput = Math.abs(leftInput * leftInput) * Math.signum(leftInput);
+    double rightOutput = Math.abs(rightInput * rightInput) * Math.signum(rightInput);
 
+    // Low pass filter, output = (alpha * intended value) + (1-alpha) * previous value
+    leftOutput = (DriveConstants.kDriveAlpha * leftOutput) 
+                + (DriveConstants.kDriveOneMinusAlpha * prevLeftOutput);
+    rightOutput = (DriveConstants.kDriveAlpha * rightOutput) 
+                + (DriveConstants.kDriveOneMinusAlpha * prevRightOutput);
+    
     rightMaster.set(ControlMode.PercentOutput, rightOutput);
     leftMaster.set(ControlMode.PercentOutput, leftOutput);
   }
