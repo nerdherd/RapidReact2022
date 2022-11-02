@@ -28,37 +28,37 @@ import frc.robot.commands.TwoBallAuto;
 // import frc.robot.subsystems.climber.ArmMotionMagic;
 public class RobotContainer {
     public Drivetrain drivetrain = new Drivetrain();
-    public PassiveClimber everybotClimber = new PassiveClimber();
+    // public PassiveClimber everybotClimber = new PassiveClimber();
 
     public PS4Controller ps4Controller;
-    public PS4Controller ps4Controller2;
+    // public PS4Controller ps4Controller2;
 
     public JoystickButton dTriangle, dCross, dSquare, dCircle, dRBumper, dLBumper;
     public JoystickButton oTriangle, oCross, oSquare, oCircle, oRBumper, oLBumper;
 
     public SendableChooser<CommandGroupBase> autoChooser;
 
-    public Flywheel flywheel = new Flywheel();   
-    public Indexer indexer = new Indexer();  
-    public Roller roller = new Roller();
-    public Intake intake = new Intake();
+    // public Flywheel flywheel = new Flywheel();   
+    // public Indexer indexer = new Indexer();  
+    // public Roller roller = new Roller();
+    // public Intake intake = new Intake();
     // public Limelight limelight = new Limelight();
     // public Turret turret = new Turret(limelight);
-    public PassiveClimber passiveClimber = new PassiveClimber();    
+    // public PassiveClimber passiveClimber = new PassiveClimber();    
 
     public RobotContainer() {
         initSmartDashboard();
 
         ps4Controller = new BadPS4(0);
-        ps4Controller2 = new BadPS4(1);
+        // ps4Controller2 = new BadPS4(1);
     }
 
     public void initSubsystems() {
         // flywheel.init();
-        indexer.init();
-        roller.init();
-        intake.init();
-        passiveClimber.init();
+        // indexer.init();
+        // roller.init();
+        // intake.init();
+        // passiveClimber.init();
         // drivetrain.startTankDrive(ps4Controller::getLeftY, ps4Controller::getRightY);
         // drivetrain.startRumble(ps4Controller);
         initShuffleboard();
@@ -74,12 +74,12 @@ public class RobotContainer {
         // SmartDashboard.putData("Hood to 0 degrees", new InstantCommand(() -> turret.turnToHoodAngle(0)));
         // SmartDashboard.putData("Reset hood encoder", new InstantCommand(() -> turret.resetHoodEncoder()));
 
-        oTriangle.whenPressed(new InstantCommand(() -> roller.toggleRoller(RollerConstants.kRollerPercent)));
-        oSquare.whenPressed(new InstantCommand(() -> indexer.toggleIndexer()));
-        oCross.whenPressed(new InstantCommand(() -> flywheel.toggleFlywheel()));
+        // oTriangle.whenPressed(new InstantCommand(() -> roller.toggleRoller(RollerConstants.kRollerPercent)));
+        // oSquare.whenPressed(new InstantCommand(() -> indexer.toggleIndexer()));
+        // oCross.whenPressed(new InstantCommand(() -> flywheel.toggleFlywheel()));
         
-        dTriangle.whenPressed(new InstantCommand(() -> drivetrain.shiftHigh()));
-        dSquare.whenPressed(new InstantCommand(() -> drivetrain.shiftLow()));
+        // dTriangle.whenPressed(new InstantCommand(() -> drivetrain.shiftHigh()));
+        // dSquare.whenPressed(new InstantCommand(() -> drivetrain.shiftLow()));
 
         // oCircle.whenPressed(new InstantCommand(() -> passiveClimber.setPowerZero()));
         
@@ -96,10 +96,10 @@ public class RobotContainer {
         dRBumper = new JoystickButton(ps4Controller, Button.kR1.value);
         dLBumper = new JoystickButton(ps4Controller, Button.kL1.value);
 
-        oTriangle = new JoystickButton(ps4Controller2, Button.kTriangle.value);
-        oCross = new JoystickButton(ps4Controller2, Button.kCross.value);
-        oSquare = new JoystickButton(ps4Controller2, Button.kSquare.value);
-        oCircle = new JoystickButton(ps4Controller2, Button.kCircle.value);
+        // oTriangle = new JoystickButton(ps4Controller2, Button.kTriangle.value);
+        // oCross = new JoystickButton(ps4Controller2, Button.kCross.value);
+        // oSquare = new JoystickButton(ps4Controller2, Button.kSquare.value);
+        // oCircle = new JoystickButton(ps4Controller2, Button.kCircle.value);
 
         oRBumper = new JoystickButton(ps4Controller, Button.kR1.value);
         oLBumper = new JoystickButton(ps4Controller, Button.kL1.value);
@@ -107,8 +107,8 @@ public class RobotContainer {
 
     public void configurePeriodic() {
          
-        intake.setIntakePercent(ps4Controller2.getLeftY() * 0.2);
-        passiveClimber.move(ps4Controller2.getRightY());
+        // intake.setIntakePercent(ps4Controller2.getLeftY() * 0.2);
+        // passiveClimber.move(ps4Controller2.getRightY());
         
         drivetrain.tankDrive(ps4Controller.getLeftY(), ps4Controller.getRightY());
         drivetrain.setNeutralCoast();
@@ -117,7 +117,7 @@ public class RobotContainer {
     public void initSmartDashboard() {
         autoChooser = new SendableChooser<CommandGroupBase>();
 
-        autoChooser.setDefaultOption("Shoot then Taxi", new Taxi(drivetrain, flywheel, indexer));
+        // autoChooser.setDefaultOption("Shoot then Taxi", new Taxi(drivetrain, flywheel, indexer));
         // autoChooser.addOption("Two Ball Auto", new TwoBallAuto(drivetrain, turret, indexer, intake));
         // autoChooser.setDefaultOption("leave tarmac :)", 
         //     new SequentialCommandGroup(
@@ -146,19 +146,19 @@ public class RobotContainer {
     public void reportToSmartDashboard() {
         // limelight.reportToSmartDashboard();
         // turret.reportToSmartDashboard();
-        roller.reportToSmartDashboard();
-        flywheel.reportToSmartDashboard();
-        intake.reportToSmartDashboard();
+        // roller.reportToSmartDashboard();
+        // flywheel.reportToSmartDashboard();
+        // intake.reportToSmartDashboard();
         // passiveClimber.reportToSmartDashboard();
     }
 
     public void initShuffleboard() {
-        roller.initShuffleboard();
-        flywheel.initShuffleboard();
-        intake.initShuffleboard();
+        // roller.initShuffleboard();
+        // flywheel.initShuffleboard();
+        // intake.initShuffleboard();
         drivetrain.initShuffleboard();
         // limelight.initShuffleboard();
         // turret.initShuffleboard();
-        passiveClimber.initShuffleboard();
+        // passiveClimber.initShuffleboard();
     }
 }

@@ -7,10 +7,10 @@ public final class Constants {
         public static final double kDriveOneMinusAlpha = 0.88235;
 
         // New falcons = PDP 12 and 14
-        public static final int kRightMasterTalonID = 16;
-        public static final int kLeftMasterTalonID = 30;
-        public static final int kRightSlaveTalonID = 17;
-        public static final int kLeftSlaveTalonID = 31;
+        public static final int kRightMasterTalonID = 9;
+        public static final int kLeftMasterTalonID = 20;
+        public static final int kRightSlaveTalonID = 15;
+        public static final int kLeftSlaveTalonID = 19;
         public static final int kRightSlaveTTalonID = 18; // 28
         public static final int kLeftSlaveTTalonID = 32; // 
 
