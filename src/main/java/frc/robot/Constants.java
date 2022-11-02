@@ -81,6 +81,10 @@ public final class Constants {
         public static final double kFlywheelI = 0;
         public static final double kFlywheelD = 0;
         public static final double kFlywheelFF = 0;
+        public static final double kFeederP = 0;
+        public static final double kFeederI = 0;
+        public static final double kFeederD = 0;
+        public static final double kFeederFF = 0;
         public static final int kFlywheelID = 3;
         public static final int kFeederID = 36;
         // public static final int kRightFlywheelID = 35;

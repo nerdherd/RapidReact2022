@@ -16,12 +16,15 @@ public class Flywheel {
     private boolean isRunning;
 
     public Flywheel() {
-        // leftMaster = new TalonFX(FlywheelConstants.kLeftFlywheelID);
-        // rightFollower = new TalonFX(FlywheelConstants.kRightFlywheelID);
-
+        flywheel.config_kP(0, FlywheelConstants.kFlywheelP);
+        flywheel.config_kI(0, FlywheelConstants.kFlywheelI);
+        flywheel.config_kD(0, FlywheelConstants.kFlywheelD);
+        flywheel.config_kF(0, FlywheelConstants.kFlywheelFF);
         
-        // leftMaster.setInverted(false);
-        // rightFollower.setInverted(true);
+        flywheel.config_kP(0, FlywheelConstants.kFeederP);
+        flywheel.config_kI(0, FlywheelConstants.kFeederI);
+        flywheel.config_kD(0, FlywheelConstants.kFeederD);
+        flywheel.config_kF(0, FlywheelConstants.kFeederFF);
 
         // rightFollower.follow(leftMaster);
         flywheel = new TalonFX(FlywheelConstants.kFlywheelID);
