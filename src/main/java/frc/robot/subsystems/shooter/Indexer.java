@@ -1,20 +1,20 @@
 package frc.robot.subsystems.shooter;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.IndexerConstants;
 
 public class Indexer {
 
-    public TalonFX IndexerTop;
-    public TalonFX IndexerBottom;
+    public TalonSRX IndexerTop;
+    public TalonSRX IndexerBottom;
     private boolean isRunning;
 
     public Indexer() {
-        IndexerTop = new TalonFX(IndexerConstants.kIndexerTopID);
-        IndexerBottom = new TalonFX(IndexerConstants.kIndexerBottomID);
+        IndexerTop = new TalonSRX(IndexerConstants.kIndexerTopID);
+        IndexerBottom = new TalonSRX(IndexerConstants.kIndexerBottomID);
         IndexerTop.setInverted(true);
         IndexerBottom.setInverted(false);
         
