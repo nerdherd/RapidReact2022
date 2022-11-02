@@ -5,6 +5,8 @@ import com.ctre.phoenix.motorcontrol.DemandType;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.motorcontrol.Talon;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.RollerConstants; 
@@ -100,6 +102,26 @@ public class Intake{
         } else {
             SmartDashboard.putBoolean("Intake reached position", false);
         }
+    }
+
+    private boolean intakeReachedPosition() {
+        if (intake.getSelectedSensorPosition() < intakeTargetPosition + 10 || 
+            intake.getSelectedSensorPosition() > intakeTargetPosition - 10) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void initShuffleboard() {
+        ShuffleboardTab tab = Shuffleboard.getTab("Intake");
+        tab.addNumber("FF", this::FF);
+        tab.addBoolean("Reached Position", this::intakeReachedPosition);
+        tab.addNumber("Position", intake::getSelectedSensorPosition);
+        tab.addNumber("Percent", intake::getMotorOutputPercent);
+        tab.addNumber("Velocity", intake::getSelectedSensorVelocity);
+        tab.addNumber("Voltage", intake::getMotorOutputVoltage);
+        tab.addNumber("Angle", this::ticksToAngle);
     }
 
     public void init() {

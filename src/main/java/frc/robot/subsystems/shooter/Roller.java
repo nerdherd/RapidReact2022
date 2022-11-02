@@ -3,6 +3,8 @@ package frc.robot.subsystems.shooter;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.RollerConstants;
 
@@ -45,7 +47,15 @@ public class Roller {
 
     public void reportToSmartDashboard() {
         SmartDashboard.putBoolean("Roller Running", isRunning);
-        
+    }
+
+    public void initShuffleboard() {
+        ShuffleboardTab tab = Shuffleboard.getTab("Roller");
+        tab.addBoolean("Roller Running", () -> isRunning);
+        tab.addNumber("Position", roller::getSelectedSensorPosition);
+        tab.addNumber("Percent", roller::getMotorOutputPercent);
+        tab.addNumber("Velocity", roller::getSelectedSensorVelocity);
+        tab.addNumber("Voltage", roller::getMotorOutputVoltage);
     }
 
     public void init() {

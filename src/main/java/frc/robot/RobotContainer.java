@@ -60,6 +60,7 @@ public class RobotContainer {
         passiveClimber.init();
         // drivetrain.startTankDrive(ps4Controller::getLeftY, ps4Controller::getRightY);
         // drivetrain.startRumble(ps4Controller);
+        initShuffleboard();
     }
 
     public void configureButtonBindings() {
@@ -148,5 +149,15 @@ public class RobotContainer {
         flywheel.reportToSmartDashboard();
         intake.reportToSmartDashboard();
         // passiveClimber.reportToSmartDashboard();
+    }
+
+    public void initShuffleboard() {
+        roller.initShuffleboard();
+        flywheel.initShuffleboard();
+        intake.initShuffleboard();
+        drivetrain.initShuffleboard();
+        // limelight.initShuffleboard();
+        // turret.initShuffleboard();
+        passiveClimber.initShuffleboard();
     }
 }

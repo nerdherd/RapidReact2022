@@ -4,6 +4,8 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants.FlywheelConstants;
 
@@ -79,4 +81,10 @@ public class Flywheel {
     }
 
     public void reportToSmartDashboard() { }
+
+    public void initShuffleboard() {
+        ShuffleboardTab tab = Shuffleboard.getTab("Flywheel");
+        tab.addNumber("Velocity", flywheel::getSelectedSensorVelocity);
+        tab.addNumber("Voltage", flywheel::getMotorOutputVoltage);
+    }
 }

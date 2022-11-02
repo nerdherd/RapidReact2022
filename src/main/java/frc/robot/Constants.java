@@ -25,6 +25,11 @@ public final class Constants {
         public static final int kHookShifterForwardID = 1;
         public static final int kHookShifterReverseID = 6;
 
+        // ================ SHUFFLEBOARD ================
+
+        public static final double kFalconMaxTicksPer100ms = 6380 * 4096 / 600.0;
+        public static final double kFalconMaxCurrent = 257;
+
         // ================== AUTOS =====================
         public static final double kRamseteS = 0;
         public static final double kRamseteV = 0;
