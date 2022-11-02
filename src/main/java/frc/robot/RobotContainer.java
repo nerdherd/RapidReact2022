@@ -28,7 +28,6 @@ import frc.robot.commands.TwoBallAuto;
 // import frc.robot.subsystems.climber.ArmMotionMagic;
 public class RobotContainer {
     public Drivetrain drivetrain = new Drivetrain();
-    public PassiveClimber everybotClimber = new PassiveClimber();
 
     public PS4Controller ps4Controller;
     public PS4Controller ps4Controller2;
