@@ -121,7 +121,6 @@ public class PassiveClimber extends SubsystemBase {
     public void initShuffleboard() {
         ShuffleboardTab tab = Shuffleboard.getTab("Climber");
         tab.addNumber("Position", climberRight::getSelectedSensorPosition);
-        tab.addNumber("Percent", climberRight::getMotorOutputPercent);
         tab.addNumber("Velocity", climberRight::getSelectedSensorVelocity);
         tab.addNumber("Voltage", climberRight::getMotorOutputVoltage);
     }

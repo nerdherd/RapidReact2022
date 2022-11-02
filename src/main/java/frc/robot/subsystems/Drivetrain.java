@@ -239,6 +239,7 @@ public class Drivetrain extends SubsystemBase {
     
     ShuffleboardLayout velocity = 
       tab.getLayout("Velocity", BuiltInLayouts.kGrid)
+        .withSize(2, 2)
         .withProperties(new HashMap<String, Object>() {{
           put("Number of columns", 2);
           put("Number of rows", 2);
@@ -266,6 +267,7 @@ public class Drivetrain extends SubsystemBase {
     
     ShuffleboardLayout voltage = 
     tab.getLayout("Voltage", BuiltInLayouts.kGrid)
+      .withSize(2, 2)
       .withProperties(new HashMap<String, Object>() {{
         put("Number of columns", 2);
         put("Number of rows", 2);

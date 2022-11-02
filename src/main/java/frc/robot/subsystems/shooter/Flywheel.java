@@ -81,8 +81,6 @@ public class Flywheel {
 
     public void initShuffleboard() {
         ShuffleboardTab tab = Shuffleboard.getTab("Flywheel");
-        tab.addNumber("Position", flywheel::getSelectedSensorPosition);
-        tab.addNumber("Percent", flywheel::getMotorOutputPercent);
         tab.addNumber("Velocity", flywheel::getSelectedSensorVelocity);
         tab.addNumber("Voltage", flywheel::getMotorOutputVoltage);
     }
