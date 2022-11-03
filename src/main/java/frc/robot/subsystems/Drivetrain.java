@@ -212,7 +212,7 @@ public class Drivetrain extends SubsystemBase {
 
     ShuffleboardLayout current = 
       tab.getLayout("Current", BuiltInLayouts.kGrid)
-         .withSize(2, 2)
+         .withSize(3, 3)
          .withProperties(new HashMap<String, Object>() {{
             put("Number of columns", 2);
             put("Number of rows", 2);
@@ -239,7 +239,7 @@ public class Drivetrain extends SubsystemBase {
     
     ShuffleboardLayout velocity = 
       tab.getLayout("Velocity", BuiltInLayouts.kGrid)
-        .withSize(2, 2)
+        .withSize(3, 3)
         .withProperties(new HashMap<String, Object>() {{
           put("Number of columns", 2);
           put("Number of rows", 2);
@@ -267,7 +267,7 @@ public class Drivetrain extends SubsystemBase {
     
     ShuffleboardLayout voltage = 
     tab.getLayout("Voltage", BuiltInLayouts.kGrid)
-      .withSize(2, 2)
+      .withSize(3, 3)
       .withProperties(new HashMap<String, Object>() {{
         put("Number of columns", 2);
         put("Number of rows", 2);
@@ -275,6 +275,7 @@ public class Drivetrain extends SubsystemBase {
     
     HashMap<String, Object> falconVoltage = new HashMap<String, Object>() {{
         put("Max", 14);
+        put("Min", -14);
     }};
 
     voltage.addNumber("Left Master", leftMaster::getMotorOutputVoltage)

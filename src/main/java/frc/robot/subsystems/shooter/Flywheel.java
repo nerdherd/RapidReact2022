@@ -18,6 +18,15 @@ public class Flywheel {
     private boolean isRunning;
 
     public Flywheel() {
+
+        // rightFollower.follow(leftMaster);
+        flywheel = new TalonFX(FlywheelConstants.kFlywheelID);
+        feeder = new TalonSRX(FlywheelConstants.kFeederID);
+
+        flywheel.setInverted(false);
+        feeder.setInverted(true);
+
+        
         flywheel.config_kP(0, FlywheelConstants.kFlywheelP);
         flywheel.config_kI(0, FlywheelConstants.kFlywheelI);
         flywheel.config_kD(0, FlywheelConstants.kFlywheelD);
@@ -27,18 +36,11 @@ public class Flywheel {
         flywheel.config_kI(0, FlywheelConstants.kFeederI);
         flywheel.config_kD(0, FlywheelConstants.kFeederD);
         flywheel.config_kF(0, FlywheelConstants.kFeederFF);
-
-        // rightFollower.follow(leftMaster);
-        flywheel = new TalonFX(FlywheelConstants.kFlywheelID);
-        feeder = new TalonSRX(FlywheelConstants.kFeederID);
-
-        flywheel.setInverted(false);
-        feeder.setInverted(true);
     }
 
     public void setVelocity(double velocity, double feederVelocity) {
         flywheel.set(ControlMode.Velocity, velocity);
-        feeder.set(ControlMode.Velocity, feederVelocity);
+        feeder.set(ControlMode.PercentOutput, feederVelocity);
     }
 
     public void setVelocityZero() {

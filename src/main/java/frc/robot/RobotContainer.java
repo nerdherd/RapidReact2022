@@ -22,7 +22,8 @@ import frc.robot.Constants.FlywheelConstants;
 import frc.robot.Constants.RollerConstants;
 import frc.robot.Constants.TurretConstants;
 import frc.robot.commands.ManualTurretBase;
-import frc.robot.commands.Taxi;
+import frc.robot.commands.Shoot;
+import frc.robot.commands.TaxiShoot;
 import frc.robot.commands.TwoBallAuto;
 
 // import frc.robot.subsystems.climber.ArmMotionMagic;
@@ -116,21 +117,19 @@ public class RobotContainer {
     public void initSmartDashboard() {
         autoChooser = new SendableChooser<CommandGroupBase>();
 
+        // autoChooser.setDefaultOption("Tarmac Top Two Ball", 
+        //                             new Shoot(drivetrain, flywheel, indexer, 
+        //                                 SmartDashboard.getNumber("Flywheel Velocity", 0), 
+        //                                 SmartDashboard.getNumber("Feeder Velocity", 0))
+        //                             );
+
         autoChooser.setDefaultOption("Tarmac Top Two Ball", 
-                                    new Taxi(drivetrain, flywheel, indexer, 
+                                    new TaxiShoot(drivetrain, flywheel, indexer, 
                                         SmartDashboard.getNumber("Shoot Delay", 0), // sum of delays must be less than 6
                                         SmartDashboard.getNumber("Taxi Delay", 0), 
-                                        SmartDashboard.getNumber("Flywheel Velocity", 0), 
-                                        SmartDashboard.getNumber("Feeder Velocity", 0))
+                                        7400, 
+                                        FlywheelConstants.kFeederTarmacPercent)
                                     );
-
-        // autoChooser.setDefaultOption("Tarmac Top Two Ball", 
-        //                             new Taxi(drivetrain, flywheel, indexer, 
-        //                                 SmartDashboard.getNumber("Shoot Delay", 0), // sum of delays must be less than 6
-        //                                 SmartDashboard.getNumber("Taxi Delay", 0), 
-        //                                 FlywheelConstants.kFlywheelTarmacTopVelocity, 
-        //                                 FlywheelConstants.kFeederTarmacTopVelocity)
-        //                             );
 
         // autoChooser.addOption("Two Ball Auto", new TwoBallAuto(drivetrain, turret, indexer, intake));
         // autoChooser.setDefaultOption("leave tarmac :)", 

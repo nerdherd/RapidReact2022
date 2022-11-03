@@ -11,8 +11,8 @@ public final class Constants {
         public static final int kLeftMasterTalonID = 30;
         public static final int kRightSlaveTalonID = 17;
         public static final int kLeftSlaveTalonID = 31;
-        public static final int kRightSlaveTTalonID = 18; // 28
-        public static final int kLeftSlaveTTalonID = 32; // 
+        public static final int kRightSlaveTTalonID = 1; // 28
+        public static final int kLeftSlaveTTalonID = 18; // 
 
         // public static final int kHooksMasterTalonID = 20; //new
         // public static final int kHooksSlaveTalonID = 27; //new
@@ -85,7 +85,7 @@ public final class Constants {
         public static final double kFlywheelP = 0;
         public static final double kFlywheelI = 0;
         public static final double kFlywheelD = 0;
-        public static final double kFlywheelFF = 0;
+        public static final double kFlywheelFF = 0.05;
         public static final double kFeederP = 0;
         public static final double kFeederI = 0;
         public static final double kFeederD = 0;
@@ -101,8 +101,8 @@ public final class Constants {
         // public static final double kFlywheelInnerTarmacPercent = 0.26;
         // public static final double kFlywheelOuterTarmacPercent = 0.29;
 
-        // public static final double kFlywheelTarmacPercent = 0.375; // when 11 inches away from middle of hub
-        // public static final double kFeederTarmacPercent = 0.4; // when 11 inches away from middle of hub
+        public static final double kFlywheelTarmacPercent = 0.375; // when 11 inches away from middle of hub
+        public static final double kFeederTarmacPercent = 0.4; // when 11 inches away from middle of hub
 
         public static final double kFlywheelTarmacTopVelocity = 0; // top tarmac top
         public static final double kFeederTarmacTopVelocity = 0;
