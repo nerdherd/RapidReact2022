@@ -14,21 +14,21 @@ import frc.robot.subsystems.shooter.Turret;
  
 public class Shoot extends SequentialCommandGroup {
  
-    Drivetrain drive;
     Flywheel flywheel;
     Indexer indexer;
  
-    public Shoot(Flywheel flywheel, Indexer indexer, double shootVelocity, double feedVelocity) {
+    public Shoot(Flywheel flywheel, Indexer indexer, double shootVelocity, double feedPercent) {
  
         this.flywheel = flywheel;
         this.indexer = indexer;
  
         addCommands(
-            new InstantCommand(() -> flywheel.setVelocity(shootVelocity, feedVelocity)),
+            new InstantCommand(() -> flywheel.setFlywheelVelocity(shootVelocity)),
+            new InstantCommand(() -> flywheel.setFeederPercent(feedPercent)),
             new WaitCommand(2),
             new InstantCommand(() -> indexer.setPercent(-0.9, 0.45)),
             new WaitCommand(5),
-            new InstantCommand(() -> flywheel.setVelocityZero()),
+            new InstantCommand(() -> flywheel.setPercentZero()),
             new InstantCommand(() -> indexer.setPercentZero())
         );
     }

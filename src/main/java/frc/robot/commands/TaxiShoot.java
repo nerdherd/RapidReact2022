@@ -19,7 +19,7 @@ public class TaxiShoot extends SequentialCommandGroup {
     Indexer indexer;
  
     public TaxiShoot(Drivetrain drive, Flywheel flywheel, Indexer indexer, double waitShoot, 
-                    double waitTaxi, double shootVelocity, double feedVelocity) {
+                    double waitTaxi, double shootVelocity, double feedPercent) {
  
         this.drive = drive;
         this.flywheel = flywheel;
@@ -27,7 +27,8 @@ public class TaxiShoot extends SequentialCommandGroup {
  
         addCommands(
             new WaitCommand(waitShoot),
-            new InstantCommand(() -> flywheel.setVelocity(shootVelocity, feedVelocity)),
+            new InstantCommand(() -> flywheel.setFlywheelVelocity(shootVelocity)),
+            new InstantCommand(() -> flywheel.setFeederPercent(feedPercent)),
             new WaitCommand(2),
             new InstantCommand(() -> indexer.setPercent(-0.9, 0.45)),
             new WaitCommand(5),

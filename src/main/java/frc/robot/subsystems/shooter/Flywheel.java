@@ -32,19 +32,23 @@ public class Flywheel {
         flywheel.config_kD(0, FlywheelConstants.kFlywheelD);
         flywheel.config_kF(0, FlywheelConstants.kFlywheelFF);
         
-        flywheel.config_kP(0, FlywheelConstants.kFeederP);
-        flywheel.config_kI(0, FlywheelConstants.kFeederI);
-        flywheel.config_kD(0, FlywheelConstants.kFeederD);
-        flywheel.config_kF(0, FlywheelConstants.kFeederFF);
+        feeder.config_kP(0, FlywheelConstants.kFeederP);
+        feeder.config_kI(0, FlywheelConstants.kFeederI);
+        feeder.config_kD(0, FlywheelConstants.kFeederD);
+        feeder.config_kF(0, FlywheelConstants.kFeederFF);
     }
 
-    public void setVelocity(double velocity, double feederVelocity) {
+    public void setVelocity(double flywheelVelocity, double feederVelocity) {
+        flywheel.set(ControlMode.Velocity, flywheelVelocity);
+        feeder.set(ControlMode.Velocity, feederVelocity);
+    }
+    
+    public void setFlywheelVelocity(double velocity) {
         flywheel.set(ControlMode.Velocity, velocity);
-        feeder.set(ControlMode.PercentOutput, feederVelocity);
     }
 
-    public void setVelocityZero() {
-        setVelocity(0, 0);
+    public void setFeederPercent(double percent) {
+        feeder.set(ControlMode.PercentOutput, percent);
     }
 
     public void setPercent(double flywheelPercent, double feederPercent) {
