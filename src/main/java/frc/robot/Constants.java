@@ -98,8 +98,17 @@ public final class Constants {
         public static final double kFlywheelPercent = 0.55; 
 
         // Determined by trying various percentages with measured robot distance from hub
-        public static final double kFlywheelInnerTarmacPercent = 0.26;
-        public static final double kFlywheelOuterTarmacPercent = 0.29;
+        // public static final double kFlywheelInnerTarmacPercent = 0.26;
+        // public static final double kFlywheelOuterTarmacPercent = 0.29;
+
+        // public static final double kFlywheelTarmacPercent = 0.375; // when 11 inches away from middle of hub
+        // public static final double kFeederTarmacPercent = 0.4; // when 11 inches away from middle of hub
+
+        public static final double kFlywheelTarmacTopVelocity = 0; // top tarmac top
+        public static final double kFeederTarmacTopVelocity = 0;
+
+        public static final double kFlywheelTarmacBottomVelocity = 0; // top tarmac bottom
+        public static final double kFeederTarmacBottomVelocity = 0;
     }
 
     public static final class IndexerConstants {

@@ -116,7 +116,22 @@ public class RobotContainer {
     public void initSmartDashboard() {
         autoChooser = new SendableChooser<CommandGroupBase>();
 
-        autoChooser.setDefaultOption("Shoot then Taxi", new Taxi(drivetrain, flywheel, indexer));
+        autoChooser.setDefaultOption("Tarmac Top Two Ball", 
+                                    new Taxi(drivetrain, flywheel, indexer, 
+                                        SmartDashboard.getNumber("Shoot Delay", 0), // sum of delays must be less than 6
+                                        SmartDashboard.getNumber("Taxi Delay", 0), 
+                                        SmartDashboard.getNumber("Flywheel Velocity", 0), 
+                                        SmartDashboard.getNumber("Feeder Velocity", 0))
+                                    );
+
+        // autoChooser.setDefaultOption("Tarmac Top Two Ball", 
+        //                             new Taxi(drivetrain, flywheel, indexer, 
+        //                                 SmartDashboard.getNumber("Shoot Delay", 0), // sum of delays must be less than 6
+        //                                 SmartDashboard.getNumber("Taxi Delay", 0), 
+        //                                 FlywheelConstants.kFlywheelTarmacTopVelocity, 
+        //                                 FlywheelConstants.kFeederTarmacTopVelocity)
+        //                             );
+
         // autoChooser.addOption("Two Ball Auto", new TwoBallAuto(drivetrain, turret, indexer, intake));
         // autoChooser.setDefaultOption("leave tarmac :)", 
         //     new SequentialCommandGroup(

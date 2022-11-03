@@ -36,12 +36,13 @@ public class Flywheel {
         feeder.setInverted(true);
     }
 
-    public void setVelocity(double velocity) {
+    public void setVelocity(double velocity, double feederVelocity) {
         flywheel.set(ControlMode.Velocity, velocity);
+        feeder.set(ControlMode.Velocity, feederVelocity);
     }
 
     public void setVelocityZero() {
-        flywheel.set(ControlMode.Velocity, 0);
+        setVelocity(0, 0);
     }
 
     public void setPercent(double flywheelPercent, double feederPercent) {
