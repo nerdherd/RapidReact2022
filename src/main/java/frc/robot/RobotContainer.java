@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
 import edu.wpi.first.wpilibj.PS4Controller;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import frc.robot.subsystems.Drivetrain;
 import frc.robot.subsystems.PassiveClimber;
 import frc.robot.subsystems.Limelight;
@@ -54,7 +55,7 @@ public class RobotContainer {
     }
 
     public void initSubsystems() {
-        // flywheel.init();
+        flywheel.init();
         indexer.init();
         roller.init();
         intake.init();
@@ -108,28 +109,27 @@ public class RobotContainer {
     public void configurePeriodic() {
          
         intake.setIntakePercent(ps4Controller2.getLeftY() * 0.2);
-        passiveClimber.move(ps4Controller2.getRightY());
+        passiveClimber.move(-ps4Controller2.getRightY());
         
         drivetrain.tankDrive(ps4Controller.getLeftY(), ps4Controller.getRightY());
         drivetrain.setNeutralCoast();
+
+
     }
 
     public void initSmartDashboard() {
+        SmartDashboard.setDefaultNumber("Flywheel Velocity", 0);
         autoChooser = new SendableChooser<CommandGroupBase>();
 
 
-        // autoChooser.setDefaultOption("Tarmac Top Two Ball", 
-        //                             new TaxiShoot(drivetrain, flywheel, indexer, 
-        //                                 SmartDashboard.getNumber("Shoot Delay", 0), // sum of delays must be less than 6
-        //                                 SmartDashboard.getNumber("Taxi Delay", 0), 
-        //                                 FlywheelConstants.kFlywheelTarmacTopVelocity, 
-        //                                 FlywheelConstants.kFeederTarmacPercent)
-        //                             );
+        autoChooser.setDefaultOption("Tarmac Top Two Ball", 
+                                    new TaxiShoot(drivetrain, flywheel, indexer,
+                                        8200, 
+                                        FlywheelConstants.kFeederTarmacPercent)
+                                    );
 
-        autoChooser.setDefaultOption("Shoot", new Shoot(flywheel, indexer, 
-                                            SmartDashboard.getNumber("Flywheel Velocity", 0), 
-                                            SmartDashboard.getNumber("Feeder Percent", 0.4))
-                                        );
+        // autoChooser.setDefaultOption("Shoot", new Shoot(flywheel, indexer)
+        //                                 );
 
         // autoChooser.addOption("Two Ball Auto", new TwoBallAuto(drivetrain, turret, indexer, intake));
         // autoChooser.setDefaultOption("leave tarmac :)", 

@@ -4,6 +4,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonFX;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -67,7 +68,8 @@ public class Flywheel {
 
     public void toggleFlywheel() {
         if (!isRunning) {
-            setPercent(0.6, -0.4); // flywheel, feeder
+            setFlywheelVelocity(8200); // flywheel, feeder
+            setFeederPercent(-0.4);
             isRunning = true;
         } else {
             setPercentZero();
@@ -82,16 +84,19 @@ public class Flywheel {
     }
 
     public void init() {
-        SmartDashboard.putNumber("flywheelVelocity", FlywheelConstants.kFlywheelPercent);
         isRunning = false;
         flywheel.set(ControlMode.PercentOutput, 0);
+        feeder.set(ControlMode.PercentOutput, 0);
     }
 
-    public void reportToSmartDashboard() { }
+    public void reportToSmartDashboard() { 
+    }
 
     public void initShuffleboard() {
         ShuffleboardTab tab = Shuffleboard.getTab("Flywheel");
         tab.addNumber("Velocity", flywheel::getSelectedSensorVelocity);
-        tab.addNumber("Voltage", flywheel::getMotorOutputVoltage);
+        tab.addNumber("Voltage", flywheel::getMotorOutputVoltage);  
+        // Shuffleboard.getTab("Flywheel").add("Velocity", 0)
+        //         .withWidget(BuiltInWidgets.kGraph).getEntry();
     }
 }

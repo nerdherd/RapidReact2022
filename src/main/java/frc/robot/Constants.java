@@ -82,9 +82,9 @@ public final class Constants {
     public static final class FlywheelConstants {
         public static final double kMotionMagicCruiseVelocity = 10888.53;
         public static final double kMotionMagicAcceleration = 10888.53;
-        public static final double kFlywheelP = 0;
+        public static final double kFlywheelP = 0.2;
         public static final double kFlywheelI = 0;
-        public static final double kFlywheelD = 0;
+        public static final double kFlywheelD = 0.05;
         public static final double kFlywheelFF = 0.05;
         public static final double kFeederP = 0;
         public static final double kFeederI = 0;
