@@ -49,12 +49,12 @@ public class Log {
     createTopic("RightFollower2" + "/Voltage", () -> robotContainer.drivetrain.rightSlaveT.getMotorOutputVoltage());
     createTopic("LeftFollower2" + "/Voltage", () -> robotContainer.drivetrain.leftSlaveT.getMotorOutputVoltage());
 
-    createTopic("LeftMaster" + "/Current", () -> robotContainer.drivetrain.leftMaster.getMotorOutputVoltage());
-    createTopic("RightMaster" + "/Current", () -> robotContainer.drivetrain.leftMaster.getMotorOutputVoltage());
-    createTopic("RightFollower" + "/Current", () -> robotContainer.drivetrain.rightSlave.getMotorOutputVoltage());
-    createTopic("LeftFollower" + "/Current", () -> robotContainer.drivetrain.leftSlave.getMotorOutputVoltage());
-    createTopic("RightFollower2" + "/Current", () -> robotContainer.drivetrain.rightSlaveT.getMotorOutputVoltage());
-    createTopic("LeftFollower2" + "/Current", () -> robotContainer.drivetrain.leftSlaveT.getMotorOutputVoltage());
+    createTopic("LeftMaster" + "/Current", () -> robotContainer.drivetrain.leftMaster.getStatorCurrent());
+    createTopic("RightMaster" + "/Current", () -> robotContainer.drivetrain.leftMaster.getStatorCurrent());
+    createTopic("RightFollower" + "/Current", () -> robotContainer.drivetrain.rightSlave.getStatorCurrent());
+    createTopic("LeftFollower" + "/Current", () -> robotContainer.drivetrain.leftSlave.getStatorCurrent());
+    createTopic("RightFollower2" + "/Current", () -> robotContainer.drivetrain.rightSlaveT.getStatorCurrent());
+    createTopic("LeftFollower2" + "/Current", () -> robotContainer.drivetrain.leftSlaveT.getStatorCurrent());
 
     createTopic("LeftMaster" + "/Position", () -> robotContainer.drivetrain.leftMaster.getSelectedSensorPosition());
     createTopic("RightMaster" + "/Position", () -> robotContainer.drivetrain.leftMaster.getSelectedSensorPosition());
