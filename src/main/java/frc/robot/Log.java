@@ -34,6 +34,7 @@ public class Log {
     createTopic("Time", () -> Timer.getFPGATimestamp());
 
     createTopic("Flywheel" + "/Velocity", () -> robotContainer.flywheel.flywheel.getSelectedSensorVelocity());
+    createTopic("Flywheel" + "/RPM", () -> robotContainer.flywheel.getRPM());
     createTopic("Flywheel" + "/Position", () -> robotContainer.flywheel.flywheel.getSelectedSensorPosition());
     createTopic("Flywheel" + "/Current", () -> robotContainer.flywheel.flywheel.getStatorCurrent());
     
@@ -45,16 +46,22 @@ public class Log {
     createTopic("RightMaster" + "/Voltage", () -> robotContainer.drivetrain.leftMaster.getMotorOutputVoltage());
     createTopic("RightFollower" + "/Voltage", () -> robotContainer.drivetrain.rightSlave.getMotorOutputVoltage());
     createTopic("LeftFollower" + "/Voltage", () -> robotContainer.drivetrain.leftSlave.getMotorOutputVoltage());
+    createTopic("RightFollower2" + "/Voltage", () -> robotContainer.drivetrain.rightSlaveT.getMotorOutputVoltage());
+    createTopic("LeftFollower2" + "/Voltage", () -> robotContainer.drivetrain.leftSlaveT.getMotorOutputVoltage());
 
     createTopic("LeftMaster" + "/Current", () -> robotContainer.drivetrain.leftMaster.getMotorOutputVoltage());
     createTopic("RightMaster" + "/Current", () -> robotContainer.drivetrain.leftMaster.getMotorOutputVoltage());
     createTopic("RightFollower" + "/Current", () -> robotContainer.drivetrain.rightSlave.getMotorOutputVoltage());
     createTopic("LeftFollower" + "/Current", () -> robotContainer.drivetrain.leftSlave.getMotorOutputVoltage());
+    createTopic("RightFollower2" + "/Current", () -> robotContainer.drivetrain.rightSlaveT.getMotorOutputVoltage());
+    createTopic("LeftFollower2" + "/Current", () -> robotContainer.drivetrain.leftSlaveT.getMotorOutputVoltage());
 
     createTopic("LeftMaster" + "/Position", () -> robotContainer.drivetrain.leftMaster.getSelectedSensorPosition());
     createTopic("RightMaster" + "/Position", () -> robotContainer.drivetrain.leftMaster.getSelectedSensorPosition());
     createTopic("RightFollower" + "/Position", () -> robotContainer.drivetrain.rightSlave.getSelectedSensorPosition());
     createTopic("LeftFollower" + "/Position", () -> robotContainer.drivetrain.leftSlave.getSelectedSensorPosition());
+    createTopic("RightFollower2" + "/Position", () -> robotContainer.drivetrain.rightSlaveT.getSelectedSensorPosition());
+    createTopic("LeftFollower2" + "/Position", () -> robotContainer.drivetrain.leftSlaveT.getSelectedSensorPosition());
 
     createTopic("Indexer Top" + "/Current", () -> robotContainer.indexer.IndexerTop.getStatorCurrent());
     createTopic("Indexer Bottom" + "/Current", () -> robotContainer.indexer.IndexerBottom.getStatorCurrent());

@@ -62,6 +62,17 @@ public class Flywheel {
         feeder.set(ControlMode.PercentOutput, 0);
     }
 
+    public double convertToRPM(double velocity) {
+        return velocity * 10 * 60 / 2048; 
+        // multiply 10 to convert to ticks/seconds
+        // multiply 60 to convert to ticks/minutes
+        // divide by 2048 to convert to revolutions/minute
+    }
+
+    public double getRPM() {
+        return convertToRPM(flywheel.getSelectedSensorVelocity());
+    }
+
     // public void flywheelInnerTarmac() {
     //     flywheelVelocity
     // }

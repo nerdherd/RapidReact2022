@@ -44,12 +44,12 @@ public class PassiveClimber extends SubsystemBase {
 
         if (currentJoystickOutput > ClimberConstants.kClimberDeadband) {
             climberRight.set(ControlMode.PercentOutput, 
-                (ClimberConstants.kF + (currentJoystickOutput * ClimberConstants.kJoystickMultiplier)));
+                ((currentJoystickOutput * ClimberConstants.kJoystickMultiplier)));
         } else if (currentJoystickOutput < -ClimberConstants.kClimberDeadband) {
             climberRight.set(ControlMode.PercentOutput, 
-                (ClimberConstants.kF + (currentJoystickOutput * ClimberConstants.kJoystickMultiplier)));
+                ((currentJoystickOutput * ClimberConstants.kJoystickMultiplier)));
         } else {
-            climberRight.set(ControlMode.PercentOutput, ClimberConstants.kF);
+            climberRight.set(ControlMode.PercentOutput, 0);
         }
     }
 
